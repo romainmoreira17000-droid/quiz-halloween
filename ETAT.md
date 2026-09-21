@@ -1,12 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 19:35
+Dernière mise à jour : 2026-09-21 19:50
 
 ## Sprint en cours
 - **Objectif :** Sprint 2 — validateur du YAML du quiz
 - **Issue :** #2
 - **Branche :** `feat/yaml-validator` (créée depuis `main` à jour)
-- **PR :** pas encore ouverte
+- **PR :** #8 ouverte, CI verte, en attente du feu vert de Romain pour le merge
 
 ## Où on en est
 - [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
@@ -14,13 +14,14 @@ Dernière mise à jour : 2026-09-21 19:35
 - [x] Sprint 2, Tasks 1 à 5 : validateur, CLI `npm run valider` (prebuild), `quiz.yaml` d'exemple
   (6 étapes fictives), écran d'erreurs de config. Vérifié : typecheck, 48 tests unitaires, build, e2e verts.
 - [x] Task 6 : docs (README « Modifier le quiz », CLAUDE.md) mises à jour.
-- [ ] Task 6 : relecture `relecteur-code`, corrections, PR `Closes #2`, CI verte ← reprendre ici
+- [x] Task 6 : relecture `relecteur-code` (rien de bloquant, suggestions traitées : 50 tests), PR #8, CI verte.
+- [ ] Merge de la PR #8 par Romain ← reprendre ici
 - [ ] Sprint 3 : maquettes design (issue #3)
 
 ## Prochaine action concrète
-Traiter les retours de `relecteur-code`, puis `gh pr create` vers `main` (description en français,
-`Closes #2`) et attendre la CI verte. Merge seulement avec le feu vert de Romain.
-Ensuite : sprint 3, maquettes design (issue #3).
+Attendre le feu vert de Romain pour fusionner la PR #8 (https://github.com/romainmoreira17000-droid/quiz-halloween/pull/8).
+Après merge : `git checkout main && git pull && git branch -d feat/yaml-validator`, vérifier le site
+en ligne (titre « Le manoir hanté »), puis ouvrir le sprint 3 : maquettes design (issue #3).
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.

@@ -1,0 +1,67 @@
+# ============================================================
+#  Paramètres du quiz d'Halloween
+# ============================================================
+# Ce fichier est vérifié automatiquement : si une règle n'est pas
+# respectée, le site n'est pas publié et la liste des erreurs s'affiche.
+# Pour vérifier soi-même : npm run valider
+#
+# Règles générales :
+#  - une ligne = « clé: valeur » ; l'indentation (les espaces) compte ;
+#  - mettre les textes entre guillemets s'ils contiennent « : » ou « # » ;
+#  - toute clé inconnue (faute de frappe) est signalée.
+
+# Titre affiché sur l'écran d'accueil. Obligatoire, texte non vide.
+titre: "Le manoir hanté"
+
+# Texte d'introduction sous le titre. Facultatif.
+intro: "Des fantômes ont verrouillé le coffre aux bonbons. Résolvez les énigmes pour trouver le code !"
+
+# Durée de la partie en minutes. Obligatoire, nombre entier supérieur à 0.
+# Quand le temps est écoulé, le jeu continue (le compteur passe en rouge).
+duree_minutes: 90
+
+# Nombre d'étapes. Obligatoire, entier supérieur ou égal à 1.
+# Doit être égal au nombre d'étapes listées sous « etapes ».
+nombre_etapes: 6
+
+# Liste des étapes, dans l'ordre où les enfants les jouent.
+# Chaque étape commence par « - » et contient :
+#   titre     obligatoire, texte non vide
+#   consigne  obligatoire, texte non vide (l'énigme à résoudre)
+#   image     facultatif, nom d'un fichier placé dans public/images/
+#   solution  obligatoire, un seul chiffre entier de 0 à 9
+etapes:
+  - titre: "La crypte"
+    consigne: "Comptez les chauves-souris accrochées au plafond de la crypte."
+    solution: 4
+
+  - titre: "Le chaudron"
+    consigne: "Combien d'yeux de crapaud flottent dans la potion de la sorcière ?"
+    solution: 7
+
+  - titre: "La bibliothèque"
+    consigne: "Trouvez le livre rouge : le chiffre est écrit sur sa tranche."
+    solution: 2
+
+  - titre: "Le cimetière"
+    consigne: "Combien de pierres tombales portent une citrouille ?"
+    solution: 9
+
+  - titre: "Le grenier"
+    consigne: "Le fantôme a caché des bougies dans le grenier. Combien sont allumées ?"
+    solution: 0
+
+  - titre: "La porte du coffre"
+    consigne: "Additionnez les pattes de l'araignée et retirez 3."
+    solution: 5
+
+# Cadenas final. Section entière facultative.
+cadenas:
+  # Ordre dans lequel les chiffres des étapes forment le code.
+  # Facultatif (par défaut : 1, 2, 3...). S'il est donné, il doit contenir
+  # chaque numéro d'étape de 1 à nombre_etapes, une seule fois.
+  # Ici : chiffre de l'étape 3, puis de l'étape 1, puis 6, 2, 5 et 4.
+  ordre: [3, 1, 6, 2, 5, 4]
+
+  # Indice affiché près du cadenas. Facultatif, texte.
+  indice: "Commencez par les livres, finissez sous les tombes."

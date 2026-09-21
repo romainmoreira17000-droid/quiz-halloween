@@ -5,12 +5,15 @@ const steps = [
   { title: 'A', instruction: 'a', solution: 4 },
   { title: 'B', instruction: 'b', solution: 0 },
 ]
-const reduce = createGameReducer(steps)
+const reduce = createGameReducer(steps, [0, 4])
 const playing: GameState = { ...initialGameState, status: 'playing', startedAt: 1000 }
+const atPadlock: GameState = { ...playing, status: 'padlock', stepIndex: 1, foundDigits: [4, 0] }
 
 describe('game reducer', () => {
   it('starts on the home screen', () => {
-    expect(initialGameState).toEqual({ status: 'home', stepIndex: 0, foundDigits: [], startedAt: null, wrongAttempts: 0 })
+    expect(initialGameState).toEqual({
+      status: 'home', stepIndex: 0, foundDigits: [], startedAt: null, finishedAt: null, wrongAttempts: 0,
+    })
   })
   it('records the start time', () => {
     expect(reduce(initialGameState, { type: 'start', now: 1000 })).toEqual(playing)
@@ -42,14 +45,28 @@ describe('game reducer', () => {
     expect(next).toEqual({ ...playing, stepIndex: 1, foundDigits: [4] })
     expect(isCurrentStepSolved(next)).toBe(false)
   })
-  it('accepts 0 as a solution and ends after the last step', () => {
+  it('accepts 0 as a solution and goes to the padlock after the last step', () => {
     let state = reduce(playing, { type: 'answer', digit: 4 })
     state = reduce(state, { type: 'next' })
     state = reduce(state, { type: 'answer', digit: 0 })
     state = reduce(state, { type: 'next' })
-    expect(state).toEqual({ ...playing, status: 'solved', stepIndex: 1, foundDigits: [4, 0] })
+    expect(state).toEqual(atPadlock)
   })
   it('ignores answers outside of the playing status', () => {
     expect(reduce(initialGameState, { type: 'answer', digit: 4 })).toBe(initialGameState)
+  })
+  it('counts wrong codes without other penalty', () => {
+    const once = reduce(atPadlock, { type: 'unlock', code: [4, 0], now: 5000 })
+    expect(once).toEqual({ ...atPadlock, wrongAttempts: 1 })
+  })
+  it('opens with the right code and freezes the time', () => {
+    const wrong = reduce(atPadlock, { type: 'unlock', code: [4, 0], now: 5000 })
+    expect(reduce(wrong, { type: 'unlock', code: [0, 4], now: 9000 }))
+      .toEqual({ ...atPadlock, status: 'won', finishedAt: 9000, wrongAttempts: 0 })
+  })
+  it('ignores unlock outside of the padlock', () => {
+    expect(reduce(playing, { type: 'unlock', code: [0, 4], now: 9000 })).toBe(playing)
+    const won = reduce(atPadlock, { type: 'unlock', code: [0, 4], now: 9000 })
+    expect(reduce(won, { type: 'unlock', code: [0, 4], now: 12000 })).toBe(won)
   })
 })

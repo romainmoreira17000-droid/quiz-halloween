@@ -9,16 +9,18 @@ const TICK_MS = 500
  * Seconds left in the game, refreshed twice a second.
  * @param startedAt Start timestamp in ms, or null before the game starts.
  * @param durationMinutes Game duration from quiz.yaml.
+ * @param finishedAt Timestamp when the padlock opened: the value stops there.
  * @returns Seconds left; negative once time is up (the game keeps going).
  */
-export function useCountdown(startedAt: number | null, durationMinutes: number): number {
+export function useCountdown(startedAt: number | null, durationMinutes: number, finishedAt: number | null = null): number {
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => {
-    if (startedAt === null) return
+    if (startedAt === null || finishedAt !== null) return
     const id = setInterval(() => setNow(Date.now()), TICK_MS)
     return () => clearInterval(id)
-  }, [startedAt])
+  }, [startedAt, finishedAt])
   if (startedAt === null) return durationMinutes * 60
+  if (finishedAt !== null) return remainingSeconds(startedAt, finishedAt, durationMinutes)
   // `now` may predate the start if this hook mounted before "Commencer".
   return remainingSeconds(startedAt, Math.max(now, startedAt), durationMinutes)
 }

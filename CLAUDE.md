@@ -25,10 +25,11 @@ public/images/             images des étapes (référencées par `image:`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
-src/game/                  logique pure : time, answer, messages, progress (réducteur de partie)
+src/game/                  logique pure : time, answer, messages, padlock, progress (réducteur de partie)
 src/hooks/                 useCountdown, useGameProgress
-src/components/            Game (seul assembleur d'écrans) + un composant par écran + Keypad, Clock, ...
-src/styles/                thème « Manoir à la bougie » : base, controls, screens
+src/components/            Game (seul assembleur d'écrans) + un composant par écran + Keypad, Dial, HauntedDoor, ...
+src/services/              sound (son de victoire synthétisé en Web Audio)
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, victory
 src/test/setup.ts          setup Vitest (matchers jest-dom)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -70,5 +71,11 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Tests** : Vitest sert depuis `/`, donc `import.meta.env.BASE_URL` vaut `/` ; utiliser
   `vi.stubEnv('BASE_URL', ...)` pour tester une URL. `tsconfig.node.json` inclut la lib DOM pour
   le code de `page.evaluate` en e2e. `page.clock.fastForward` : format `hh:mm:ss` au-delà de 59 min.
+- **e2e en local** : `reuseExistingServer` réutilise un `vite preview` déjà lancé sur le port 4173 **sans
+  reconstruire** : les tests tournent alors sur un vieux build. Arrêter ce serveur avant `npm run test:e2e`.
+- **Animations de victoire** : styles de base = état final, keyframes = état de départ (`both`), pour que
+  `prefers-reduced-motion` montre directement la fin. Timings alignés avec `sound.ts`.
+- **Son** : lancé dans le gestionnaire du tap « Ouvrir » (sinon bloqué par la tablette) ; muet si l'iPad est
+  en mode silencieux. Jamais d'exception si Web Audio manque (jsdom).
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.

@@ -3,15 +3,18 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Game } from './Game'
 import type { QuizConfig } from '../config/types'
+import { playVictorySound } from '../services/sound'
+
+vi.mock('../services/sound', () => ({ playVictorySound: vi.fn() }))
 
 const config: QuizConfig = {
   title: 'Le manoir hanté', durationMinutes: 90, stepCount: 2,
   steps: [{ title: 'La crypte', instruction: 'a', solution: 4 }, { title: 'Le grenier', instruction: 'b', solution: 0 }],
-  padlock: { order: [1, 2] },
+  padlock: { order: [2, 1] },
 }
 
 describe('Game', () => {
-  it('plays from home to the end, with a wrong answer', async () => {
+  it('plays from home to the victory, with a wrong answer and a wrong code', async () => {
     const user = userEvent.setup()
     render(<Game config={config} />)
     await user.click(screen.getByRole('button', { name: 'Commencer' }))
@@ -29,7 +32,16 @@ describe('Game', () => {
     await user.click(screen.getByRole('button', { name: '0' }))
     await user.click(screen.getByRole('button', { name: 'Continuer' }))
 
-    expect(screen.getByRole('heading', { name: 'Toutes les énigmes sont résolues !' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Le cadenas' })).toBeInTheDocument()
     expect(screen.getByRole('list', { name: 'Toutes les étapes terminées' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Ouvrir' }))
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+    expect(playVictorySound).not.toHaveBeenCalled()
+
+    for (let i = 0; i < 4; i++) await user.click(screen.getByRole('button', { name: 'Chiffre 2 : augmenter' }))
+    await user.click(screen.getByRole('button', { name: 'Ouvrir' }))
+    expect(playVictorySound).toHaveBeenCalledOnce()
+    expect(screen.getByRole('heading', { name: 'Le cadenas est ouvert !' })).toBeInTheDocument()
+    expect(screen.getByText(/^Temps : \d+ min \d{2} s$/)).toBeInTheDocument()
   })
 })

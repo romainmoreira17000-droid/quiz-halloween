@@ -1,4 +1,4 @@
-/** @file Screen-specific styles: home candle, step, answer feedback, all-solved recap. */
+/** @file Screen-specific styles: home candle, step, answer feedback. */
 
 /* Home */
 .home { justify-content: center; gap: 36px; }
@@ -46,24 +46,7 @@
   80% { transform: translateX(9px); }
 }
 
-/* All solved (provisional until the padlock, sprint 5) */
-.solved { gap: 26px; }
-.solved h2 { margin-top: 12px; }
-.solved p { font-size: 28px; color: var(--bronze); }
-.recap {
-  width: 100%; max-width: 690px;
-  list-style: none; padding: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px;
-}
-.recap li {
-  display: flex; align-items: baseline; justify-content: space-between;
-  padding: 8px 12px; border-bottom: 1px dashed rgb(241 220 176 / .25);
-  font-size: 22px; text-align: left;
-}
-.recap b { font-size: 42px; font-weight: 700; color: var(--amber); font-variant-numeric: lining-nums; }
-
 @media (max-width: 600px) {
   .intro { font-size: 24px; }
   .instruction { font-size: 26px; }
-  .recap { grid-template-columns: 1fr; }
 }

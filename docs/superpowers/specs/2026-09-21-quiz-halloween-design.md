@@ -43,6 +43,8 @@ etapes:                           # obligatoire, exactement nombre_etapes élém
 cadenas:                          # facultatif
   ordre: [3, 1, 6, 2, 5, 4]       # facultatif, permutation des numéros d'étape (1..N)
   indice: "Commencez par..."      # facultatif, texte
+  titre: "La porte du restaurant hanté"   # facultatif, texte non vide (défaut « Le cadenas »)
+  message_victoire: "La salle est ouverte !"  # facultatif, texte non vide (défaut « Le cadenas est ouvert ! »)
 ```
 
 Le code du cadenas est la suite des solutions des étapes prises dans `cadenas.ordre`
@@ -60,7 +62,7 @@ solution doit être un chiffre entier entre 0 et 9 ») :
 5. `etapes` : liste de **exactement** `nombre_etapes` éléments.
 6. Chaque étape : `titre` et `consigne` textes non vides ; `solution` entier 0–9 ; `image` texte si présent.
 7. `cadenas.ordre` si présent : liste de longueur `nombre_etapes`, contenant chaque entier de 1 à N une seule fois.
-8. `cadenas.indice` : texte si présent.
+8. `cadenas.indice` : texte si présent ; `cadenas.titre` et `cadenas.message_victoire` : texte non vide si présents.
 9. Chaque `image` citée existe dans `public/images/` (vérifié par le script Node uniquement).
 10. Clés inconnues signalées (faute de frappe probable, ex. `solutions`).
 
@@ -78,7 +80,8 @@ config typée, soit la liste d'erreurs. Il est exécuté :
    « Étape suivante ». Mauvaise → secousse + message.
 3. **Cadenas** : rappel des chiffres trouvés avec le titre de leur étape, indice éventuel, N molettes
    (flèches haut/bas), bouton « Ouvrir ». Code faux → secousse.
-4. **Victoire** : ouverture du cadenas puis animation Halloween, temps final affiché.
+4. **Victoire** : ouverture du cadenas puis de la porte du restaurant hanté (grincement synthétisé), fantômes et
+   chauves-souris, message de victoire et temps mis.
 5. **Remise à zéro** : icône discrète présente sur tous les écrans, appui long 3 s puis confirmation.
 
 Le compteur continue après zéro (affichage « -mm:ss » en rouge). Le temps est calculé à partir

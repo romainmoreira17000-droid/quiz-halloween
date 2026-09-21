@@ -34,6 +34,7 @@ export function useGameProgress(steps: readonly QuizStep[], order: readonly numb
     next: () => dispatch({ type: 'next' }),
     unlock: (entered) => {
       dispatch({ type: 'unlock', code: entered, now: Date.now() })
+      // Same check as the reducer (same helper, same code): the caller needs the answer now, inside the tap.
       return isPadlockCode(code, entered)
     },
   }

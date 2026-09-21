@@ -10,6 +10,8 @@ retenue sera réécrite proprement dans les composants React au sprint 4.
 | 2. Potion de sorcière | `maquettes/potion.*` | violet et vert phosphorescent, chaudron qui bouillonne, touches en fioles |
 | 3. Citrouilles sous la lune | `maquettes/lune.*` | bleu nuit, titre écrit sur la lune, touches en citrouilles |
 
+**Direction retenue par Romain : 1. Manoir à la bougie.**
+
 Contraintes communes : salle dans le noir, donc fond sombre et pas de blanc pur ; public de 7 à 10 ans ;
 touches du pavé de 120 px et plus.
 

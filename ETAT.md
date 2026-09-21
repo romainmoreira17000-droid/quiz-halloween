@@ -22,11 +22,13 @@ Dernière mise à jour : 2026-09-21 21:00
 - [x] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`.
   Vérifié : typecheck, lint, 50 tests, build verts.
 - [ ] Relecture `relecteur-code` en cours ← reprendre ici
-- [ ] PR avec captures, choix de Romain noté ici
+- [x] Choix de Romain : **direction 1, Manoir à la bougie** (2026-09-21).
+- [ ] PR avec captures
 
 ## Prochaine action concrète
 Traiter les retours du `relecteur-code`, pousser `feat/design-mockups`, ouvrir la PR (captures en images
-dans la description), puis demander à Romain de choisir sa direction (bougie, potion ou lune) et la noter ici.
+dans la description), en indiquant le choix de Romain (Manoir à la bougie). Après merge : sprint 4 (déroulé des étapes +
+compteur) avec le design bougie, polices embarquées (jeu hors ligne).
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -48,6 +50,9 @@ dans la description), puis demander à Romain de choisir sa direction (bougie, p
 - Maquettes : `commun.css` (squelette + bascule d'écran par `#accueil`/`#etape`/`#cadenas`, sans JS) +
   un .html/.css par direction. Chiffres toujours en police à chiffres alignés (le 0 ne doit pas
   ressembler à un o). Captures en `reducedMotion` pour qu'elles soient identiques d'un lancement à l'autre.
+
+- Design retenu : **Manoir à la bougie** (`docs/design/maquettes/bougie.*`) : fond suie, texte crème,
+  touches en sceaux de cire rouge, bougies pour la progression, IM Fell English SC (titres) + Alegreya.
 
 ## Points en suspens / questions pour Romain
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse

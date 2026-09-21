@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 23:40
+Dernière mise à jour : 2026-09-21 23:55
 
 ## Sprint en cours
 - **Objectif :** Sprint 4 — déroulé des étapes + compteur, au design Manoir à la bougie
@@ -12,20 +12,20 @@ Dernière mise à jour : 2026-09-21 23:40
 ## Où on en est
 - [x] Sprints 1 à 3 terminés (PR #7, #8, #9 fusionnées ; site en ligne).
 - [x] Sprint 4 : cadrage validé par Romain, plan écrit.
-- [ ] Task 1 : logique pure (temps, réponse, messages) ← reprendre ici
-- [ ] Task 2 : réducteur de partie + `useGameProgress`
-- [ ] Task 3 : `useCountdown`
-- [ ] Task 4 : styles bougie + polices @fontsource (woff2 en précache)
-- [ ] Task 5 : Clock, CandleProgress, Keypad, GameHeader
-- [ ] Task 6 : HomeScreen, StepScreen, AllSolvedScreen
-- [ ] Task 7 : Game + branchement dans App
-- [ ] Task 8 : e2e (partie complète, fin du temps, polices hors ligne) + vérif visuelle
-- [ ] Task 9 : docs, relecture, PR
+- [x] Tasks 1 à 8 : logique, hooks, thème + polices, composants, écrans, Game, e2e, vérif visuelle
+  (tablette 810×1080 sans défilement ; téléphone 390 px sans débordement horizontal).
+  96 tests unitaires + 4 e2e verts, typecheck/lint/build OK.
+- [x] Task 9 : docs (CLAUDE.md, README) commitées.
+- [ ] Task 9 : relecture `relecteur-code` ← en cours, puis corrections éventuelles
+- [ ] Task 9 : push + PR (`Closes #4`)
 
 ## Prochaine action concrète
-Exécuter le plan en inline, à partir de la Task 1 (TDD : tests rouges, code, tests verts, commit `(#4)`).
+Traiter les retours de la relecture, relancer la vérification complète, puis push et `gh pr create`.
+Le merge revient à Romain.
 
 ## Décisions prises (et pourquoi)
+- Sprint 4 : `tsconfig.node.json` inclut `DOM` pour le code de `page.evaluate` en e2e ; test d'image
+  via `vi.stubEnv('BASE_URL')` car Vitest sert depuis `/`.
 - Sprint 4 : progression en **bougies** (design choisi), pas en citrouilles comme écrit dans l'issue.
 - Sprint 4 : après la dernière étape, **écran provisoire** « Toutes les énigmes sont résolues ! » avec les
   chiffres trouvés ; remplacé par le cadenas au sprint 5.

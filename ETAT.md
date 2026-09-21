@@ -1,12 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 (sprint 5 : relu, PR en cours d'ouverture)
+Dernière mise à jour : 2026-09-21 (sprint 5 : PR #11 ouverte)
 
 ## Sprint en cours
 - **Objectif :** Sprint 5 — cadenas final + victoire (porte du restaurant hanté, animation, son)
 - **Issue :** #5 (critères mis à jour)
 - **Branche :** `feat/padlock-victory` (créée depuis `main` à jour)
-- **PR :** pas encore
+- **PR :** #11 (ouverte, en attente de la CI et de la fusion par Romain)
 - **Plan :** `docs/superpowers/plans/2026-09-21-sprint5-cadenas-victoire.md` (9 tâches)
 
 ## Où on en est
@@ -22,11 +22,12 @@ Dernière mise à jour : 2026-09-21 (sprint 5 : relu, PR en cours d'ouverture)
 - [x] Task 8 : e2e + vérif visuelle (tablette, téléphone, animations réduites)
 - [x] Task 9 : docs (CLAUDE.md, README) + vérif complète (135 unitaires, 4 e2e, typecheck, lint, build)
 - [x] Task 9 : relecture `relecteur-code` (rien de bloquant), branche poussée
-- [ ] PR à ouvrir, puis Romain : écouter le son sur la tablette (site Pages, mode silencieux coupé), fusionner
+- [x] PR #11 ouverte
+- [ ] Romain : fusionner la PR #11, puis écouter le son sur la tablette (site Pages, mode silencieux coupé)
 
 ## Prochaine action concrète
-Ouvrir la PR (`gh pr create`, description FR, `Closes #5`), noter son numéro ici. Après la fusion par
-Romain : revenir sur la branche principale à jour, supprimer la branche, ouvrir le sprint 6.
+Après la fusion de la PR #11 par Romain : revenir sur la branche principale à jour, supprimer
+`feat/padlock-victory`, puis ouvrir le sprint 6 (progression sauvegardée + remise à zéro par appui long).
 
 ## Décisions prises (et pourquoi)
 - Sprint 5 : le cadenas ouvre **la salle du restaurant hanté** (pas un coffre à bonbons) → intro du YAML

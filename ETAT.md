@@ -1,30 +1,40 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 23:55
+Dernière mise à jour : 2026-09-21 (sprint 5 cadré)
 
 ## Sprint en cours
-- **Objectif :** Sprint 4 — déroulé des étapes + compteur, au design Manoir à la bougie
-- **Issue :** #4
-- **Branche :** `feat/steps-and-countdown` (créée depuis `main` à jour)
-- **PR :** #10
-- **Plan :** `docs/superpowers/plans/2026-09-21-sprint4-etapes-compteur.md` (9 tâches)
+- **Objectif :** Sprint 5 — cadenas final + victoire (porte du restaurant hanté, animation, son)
+- **Issue :** #5 (critères mis à jour)
+- **Branche :** `feat/padlock-victory` (créée depuis `main` à jour)
+- **PR :** pas encore
+- **Plan :** `docs/superpowers/plans/2026-09-21-sprint5-cadenas-victoire.md` (9 tâches)
 
 ## Où on en est
-- [x] Sprints 1 à 3 terminés (PR #7, #8, #9 fusionnées ; site en ligne).
-- [x] Sprint 4 : cadrage validé par Romain, plan écrit.
-- [x] Tasks 1 à 8 : logique, hooks, thème + polices, composants, écrans, Game, e2e, vérif visuelle
-  (tablette 810×1080 sans défilement ; téléphone 390 px sans débordement horizontal).
-  96 tests unitaires + 4 e2e verts, typecheck/lint/build OK.
-- [x] Task 9 : docs (CLAUDE.md, README) commitées.
-- [x] Task 9 : relecture `relecteur-code` : prêt pour la PR, rien de bloquant (4 suggestions mineures,
-  dont le `header-spacer` à retirer au sprint 6 quand le bouton de remise à zéro arrive).
-- [x] Task 9 : push + PR (`Closes #4`) ← attend la CI et le merge par Romain
+- [x] Sprints 1 à 4 terminés (PR #7 à #10 fusionnées ; site en ligne).
+- [x] Sprint 5 : cadrage validé par Romain, issue #5 mise à jour, plan écrit.
+- [ ] Task 1 : clés YAML `cadenas.titre` / `cadenas.message_victoire` + histoire du restaurant
+- [ ] Task 2 : logique pure (code, molettes, durée, messages de code faux)
+- [ ] Task 3 : états `padlock`/`won`, action `unlock`, compteur figé
+- [ ] Task 4 : `Dial` + `PadlockScreen` + padlock.css
+- [ ] Task 5 : son synthétisé (`services/sound.ts`)
+- [ ] Task 6 : `HauntedDoor` + `VictoryScreen` + victory.css
+- [ ] Task 7 : branchement dans `Game`, suppression d'`AllSolvedScreen`
+- [ ] Task 8 : e2e + vérif visuelle (tablette, téléphone, animations réduites)
+- [ ] Task 9 : docs, relecture, PR
 
 ## Prochaine action concrète
-Romain relit et fusionne la PR du sprint 4 (après CI verte). Ensuite : `git checkout main && git pull
-&& git branch -d feat/steps-and-countdown`, puis ouvrir le sprint 5 (cadenas final).
+Task 1 du plan : tests rouges dans `src/config/validatePadlock.test.ts` pour `titre` et `message_victoire`.
 
 ## Décisions prises (et pourquoi)
+- Sprint 5 : le cadenas ouvre **la salle du restaurant hanté** (pas un coffre à bonbons) → intro du YAML
+  corrigée. Titre de l'écran et message de victoire dans le YAML (`cadenas.titre`,
+  `cadenas.message_victoire`, facultatifs) pour réutiliser le jeu avec une autre histoire.
+- Sprint 5 : animation = anse qui se soulève, double porte qui s'ouvre, lueur, fantômes et chauves-souris,
+  puis message + temps mis. CSS pur ; styles de base = état final pour `prefers-reduced-motion`.
+- Sprint 5 : son **synthétisé en Web Audio** (clac, grincement, gémissement) : pas de fichier, pas de
+  droits, hors ligne. Lancé dans le tap « Ouvrir » (sinon bloqué par la tablette).
+- Sprint 5 : molettes à 0 au départ, 9 ↔ 0 en boucle ; code faux = secousse + message, sans pénalité.
+  Le compteur se fige à l'ouverture (`finishedAt`).
 - Sprint 4 : `tsconfig.node.json` inclut `DOM` pour le code de `page.evaluate` en e2e ; test d'image
   via `vi.stubEnv('BASE_URL')` car Vitest sert depuis `/`.
 - Sprint 4 : progression en **bougies** (design choisi), pas en citrouilles comme écrit dans l'issue.

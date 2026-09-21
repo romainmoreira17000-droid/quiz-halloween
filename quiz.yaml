@@ -14,7 +14,7 @@
 titre: "Le manoir hanté"
 
 # Texte d'introduction sous le titre. Facultatif.
-intro: "Des fantômes ont verrouillé le coffre aux bonbons. Résolvez les énigmes pour trouver le code !"
+intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Résolvez les énigmes pour trouver le code du cadenas !"
 
 # Durée de la partie en minutes. Obligatoire, nombre entier supérieur à 0.
 # Quand le temps est écoulé, le jeu continue (le compteur passe en rouge).
@@ -51,7 +51,7 @@ etapes:
     consigne: "Le fantôme a caché des bougies dans le grenier. Combien sont allumées ?"
     solution: 0
 
-  - titre: "La porte du coffre"
+  - titre: "La porte de la cuisine"
     consigne: "Additionnez les pattes de l'araignée et retirez 3."
     solution: 5
 
@@ -65,3 +65,11 @@ cadenas:
 
   # Indice affiché près du cadenas. Facultatif, texte.
   indice: "Commencez par les livres, finissez sous les tombes."
+
+  # Titre de l'écran du cadenas. Facultatif, texte non vide
+  # (par défaut : « Le cadenas »).
+  titre: "La porte du restaurant hanté"
+
+  # Message affiché quand le cadenas s'ouvre. Facultatif, texte non vide
+  # (par défaut : « Le cadenas est ouvert ! »).
+  message_victoire: "La salle du restaurant hanté est ouverte !"

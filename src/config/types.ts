@@ -3,8 +3,8 @@
 /** One riddle: an instruction whose answer is a single digit. */
 export interface QuizStep { title: string; instruction: string; image?: string; solution: number }
 
-/** Final padlock: order in which step digits are entered (always filled, default 1..N). */
-export interface PadlockConfig { order: number[]; hint?: string }
+/** Final padlock: order in which step digits are entered (always filled, default 1..N) and optional texts. */
+export interface PadlockConfig { order: number[]; hint?: string; title?: string; victoryMessage?: string }
 
 /** Whole quiz, with English keys mapped from the French YAML. */
 export interface QuizConfig {

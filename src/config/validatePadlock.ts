@@ -1,8 +1,8 @@
-/** @file Validates the optional `cadenas` section and fills in the default order. */
-import { isIntInRange, isObject, unknownKeyErrors } from './checks'
+/** @file Validates the optional `cadenas` section (order, hint, title, victory message) and fills in the default order. */
+import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './checks'
 import type { PadlockConfig } from './types'
 
-const PADLOCK_KEYS = ['ordre', 'indice'] as const
+const PADLOCK_KEYS = ['ordre', 'indice', 'titre', 'message_victoire'] as const
 
 /** @returns [1, 2, ..., stepCount]. */
 function defaultOrder(stepCount: number): number[] {
@@ -26,7 +26,7 @@ function isPermutation(order: unknown, stepCount: number): order is number[] {
 export function validatePadlock(raw: unknown, stepCount: number, errors: string[]): PadlockConfig | null {
   if (raw === undefined) return { order: defaultOrder(stepCount) }
   if (!isObject(raw)) {
-    errors.push('« cadenas » doit contenir « ordre » et/ou « indice ».')
+    errors.push('« cadenas » doit contenir des paramètres : « ordre », « indice », « titre » ou « message_victoire ».')
     return null
   }
   const before = errors.length
@@ -35,10 +35,15 @@ export function validatePadlock(raw: unknown, stepCount: number, errors: string[
     errors.push(`${prefix}« ordre » doit contenir chaque numéro d'étape de 1 à ${stepCount}, une seule fois.`)
   }
   if (raw.indice !== undefined && typeof raw.indice !== 'string') errors.push(`${prefix}« indice » doit être un texte.`)
+  for (const key of ['titre', 'message_victoire'] as const) {
+    if (raw[key] !== undefined && !isNonEmptyString(raw[key])) errors.push(`${prefix}« ${key} » doit être un texte non vide.`)
+  }
   errors.push(...unknownKeyErrors(raw, PADLOCK_KEYS, prefix))
   if (errors.length > before) return null
   return {
     order: (raw.ordre as number[] | undefined) ?? defaultOrder(stepCount),
     ...(raw.indice !== undefined && { hint: raw.indice as string }),
+    ...(raw.titre !== undefined && { title: raw.titre as string }),
+    ...(raw.message_victoire !== undefined && { victoryMessage: raw.message_victoire as string }),
   }
 }

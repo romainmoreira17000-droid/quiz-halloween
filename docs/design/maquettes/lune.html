@@ -1,0 +1,73 @@
+<!doctype html>
+<!-- Mockup, direction 3 "Citrouilles sous la lune" (issue #3). Static and throwaway: not part of the app. -->
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maquette 3 — Citrouilles sous la lune</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="commun.css">
+  <link rel="stylesheet" href="lune.css">
+</head>
+<body>
+  <section class="ecran" id="accueil">
+    <button class="raz" aria-label="Remettre à zéro (appui long)">↺</button>
+    <div class="lune"><h1>Le manoir hanté</h1></div>
+    <p class="intro">Des fantômes ont verrouillé le coffre aux bonbons. Résolvez les énigmes pour trouver le code !</p>
+    <button class="citrouille-longue">Commencer</button>
+    <p class="duree">Vous avez 90 minutes.</p>
+    <div class="collines" aria-hidden="true"></div>
+  </section>
+
+  <section class="ecran" id="etape">
+    <header class="bandeau">
+      <span class="chrono">84:17</span>
+      <ol class="progression" aria-label="Étape 2 sur 6">
+        <li class="allumee"></li><li class="en-cours"></li><li></li><li></li><li></li><li></li>
+      </ol>
+      <button class="raz" aria-label="Remettre à zéro (appui long)">↺</button>
+    </header>
+    <p class="numero">Étape 2 sur 6</p>
+    <h2>Le chaudron</h2>
+    <p class="consigne">Combien d'yeux de crapaud flottent dans la potion de la sorcière ?</p>
+    <div class="pave">
+      <button>1</button><button>2</button><button>3</button>
+      <button>4</button><button>5</button><button>6</button>
+      <button>7</button><button>8</button><button>9</button>
+      <button>0</button>
+    </div>
+  </section>
+
+  <section class="ecran" id="cadenas">
+    <header class="bandeau">
+      <span class="chrono">31:02</span>
+      <ol class="progression" aria-label="Toutes les étapes terminées">
+        <li class="allumee"></li><li class="allumee"></li><li class="allumee"></li>
+        <li class="allumee"></li><li class="allumee"></li><li class="allumee"></li>
+      </ol>
+      <button class="raz" aria-label="Remettre à zéro (appui long)">↺</button>
+    </header>
+    <h2>Le coffre aux bonbons</h2>
+    <ul class="rappel">
+      <li><span>La crypte</span><b>4</b></li>
+      <li><span>Le chaudron</span><b>7</b></li>
+      <li><span>La bibliothèque</span><b>2</b></li>
+      <li><span>Le cimetière</span><b>9</b></li>
+      <li><span>Le grenier</span><b>0</b></li>
+      <li><span>La porte du coffre</span><b>5</b></li>
+    </ul>
+    <p class="indice">Commencez par les livres, finissez sous les tombes.</p>
+    <div class="molettes">
+      <div class="molette"><button aria-label="Plus">▲</button><output>2</output><button aria-label="Moins">▼</button></div>
+      <div class="molette"><button aria-label="Plus">▲</button><output>4</output><button aria-label="Moins">▼</button></div>
+      <div class="molette"><button aria-label="Plus">▲</button><output>5</output><button aria-label="Moins">▼</button></div>
+      <div class="molette"><button aria-label="Plus">▲</button><output>7</output><button aria-label="Moins">▼</button></div>
+      <div class="molette"><button aria-label="Plus">▲</button><output>0</output><button aria-label="Moins">▼</button></div>
+      <div class="molette"><button aria-label="Plus">▲</button><output>0</output><button aria-label="Moins">▼</button></div>
+    </div>
+    <button class="citrouille-longue">Ouvrir</button>
+  </section>
+</body>
+</html>

@@ -1,0 +1,112 @@
+/*
+ * Direction 3 "Citrouilles sous la lune": a cartoon Halloween night, the most playful direction.
+ * Navy sky, the title written in ink on a huge pale moon, keypad keys shaped like pumpkins.
+ * The single animated element is the moon's slow glow.
+ */
+:root {
+  --ciel: #14213d;
+  --ardoise: #22345c;
+  --lune: #f4ecc2;
+  --creme: #fff3d6;
+  --citrouille: #ff8a1f;
+  --encre: #3a1a00;
+  --tige: #5b8c3a;
+}
+
+body {
+  background: radial-gradient(ellipse 100% 60% at 50% 0%, #1f3160, transparent 70%), var(--ciel);
+  color: var(--creme);
+  font-family: "Baloo 2", "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
+
+h1, h2, .citrouille-longue, .pave button, .rappel b, .molette output {
+  font-family: "Luckiest Guy", Impact, sans-serif; font-weight: 400;
+}
+h2 { font-size: 66px; line-height: 1; color: var(--citrouille); text-shadow: 0 5px 0 #0b1426; }
+
+/* Home */
+#accueil { justify-content: center; gap: 34px; overflow: hidden; }
+.lune {
+  display: grid; place-items: center;
+  width: 520px; height: 520px; border-radius: 50%;
+  background:
+    radial-gradient(circle at 70% 30%, rgb(20 33 61 / .09) 0 9%, transparent 10%),
+    radial-gradient(circle at 24% 66%, rgb(20 33 61 / .08) 0 7%, transparent 8%),
+    radial-gradient(circle at 78% 76%, rgb(20 33 61 / .07) 0 5%, transparent 6%),
+    radial-gradient(circle at 40% 35%, #f3ecd0, #e2d7a6 60%, #c9bb82);
+  box-shadow: 0 0 80px 20px rgb(244 236 194 / .16);
+  animation: luit 5s ease-in-out infinite alternate;
+}
+@keyframes luit { to { box-shadow: 0 0 110px 34px rgb(244 236 194 / .24); } }
+h1 { font-size: 92px; line-height: 1; max-width: 5.2em; color: var(--ciel); text-wrap: balance; padding-top: 16px; }
+.intro { font-size: 30px; line-height: 1.35; max-width: 20em; }
+.duree { font-size: 24px; color: var(--lune); opacity: .8; }
+.collines {
+  position: absolute; left: -10%; right: -10%; bottom: 0; height: 110px; z-index: -1;
+  background:
+    radial-gradient(ellipse 40% 100% at 20% 100%, #0b1426 99%, transparent 100%),
+    radial-gradient(ellipse 45% 80% at 80% 100%, #0b1426 99%, transparent 100%);
+}
+
+/* Pumpkin buttons */
+.citrouille-longue, .pave button {
+  position: relative; color: var(--encre);
+  background: radial-gradient(ellipse at 50% 35%, #ffb25c, var(--citrouille) 55%, #c85a08);
+  box-shadow: 0 8px 0 #8f3f05, 0 12px 20px rgb(0 0 0 / .45);
+}
+.citrouille-longue:active, .pave button:active { transform: translateY(6px); box-shadow: 0 2px 0 #8f3f05; }
+.citrouille-longue { min-height: 104px; padding: 12px 72px 0; border-radius: 52px; font-size: 52px; }
+
+.pave button { border-radius: 50% / 46%; font-size: 64px; padding-top: 10px; }
+/* Two darker ribs, then the green stem sticking out of the top. */
+.pave button::before {
+  content: ""; position: absolute; top: 4px; bottom: 4px; left: 28%; right: 28%;
+  border-left: 3px solid rgb(58 26 0 / .16); border-right: 3px solid rgb(58 26 0 / .16);
+  border-radius: 50%;
+}
+.pave button::after {
+  content: ""; position: absolute; top: -16px; left: 50%; width: 16px; height: 26px; margin-left: -8px;
+  border-radius: 6px 6px 3px 3px; background: var(--tige); transform: rotate(10deg);
+}
+
+/* Header */
+.chrono { font-size: 44px; font-weight: 700; color: var(--lune); }
+.progression li {
+  position: relative; width: 36px; height: 30px; border-radius: 50% / 46%;
+  border: 3px solid rgb(255 138 31 / .45);
+}
+.progression li.allumee { border-color: transparent; background: var(--citrouille); box-shadow: 0 0 14px rgb(255 138 31 / .55); }
+.progression li.en-cours { border-color: var(--citrouille); }
+.progression li::after {
+  content: ""; position: absolute; top: -9px; left: 50%; width: 6px; height: 9px; margin-left: -3px;
+  border-radius: 2px; background: var(--tige);
+}
+
+/* Step */
+.numero { margin-top: 26px; font-size: 24px; color: var(--lune); opacity: .8; }
+#etape h2 { margin: 6px 0 18px; }
+.consigne { font-size: 36px; line-height: 1.35; max-width: 19em; }
+#etape .pave { margin-top: auto; --touche: 132px; --pave-ecart: 34px 30px; }
+#etape .pave button { height: 116px; }
+
+/* Padlock */
+#cadenas { gap: 26px; }
+#cadenas h2 { margin-top: 14px; font-size: 58px; }
+.rappel { width: 100%; max-width: 714px; }
+.rappel li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 16px; border-radius: 18px; background: var(--ardoise);
+  font-size: 21px; text-align: left;
+}
+.rappel b { font-size: 38px; padding-top: 6px; color: var(--citrouille); }
+.indice { font-size: 26px; color: var(--lune); max-width: 24em; text-wrap: balance; }
+.indice::before { content: "« "; }
+.indice::after { content: " »"; }
+.molette { padding: 4px; border-radius: 22px; background: var(--ardoise); border: 3px solid rgb(244 236 194 / .35); }
+.molette button { color: var(--citrouille); }
+.molette output {
+  width: 90px; height: 104px; line-height: 116px; font-size: 70px;
+  color: var(--lune); background: #0b1426; border-radius: 14px;
+}
+#cadenas .citrouille-longue { margin-top: auto; }

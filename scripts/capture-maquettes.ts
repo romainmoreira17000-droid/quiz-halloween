@@ -31,7 +31,8 @@ for (const direction of directions) {
   const url = pathToFileURL(resolve(MOCKUPS_DIR, `${direction}.html`)).href
   for (const screen of SCREENS) {
     await page.goto(`${url}#${screen}`)
-    await page.evaluate(() => document.fonts.ready)
+    // Passed as a string: it runs in the browser, and the scripts tsconfig has no DOM types.
+    await page.evaluate('document.fonts.ready')
     const file = resolve(OUTPUT_DIR, `${direction}-${screen}.png`)
     await page.screenshot({ path: file })
     console.log(`📸 ${direction}-${screen}.png`)

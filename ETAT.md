@@ -1,30 +1,22 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 18:30
+Dernière mise à jour : 2026-09-21 18:45
 
 ## Sprint en cours
-- **Objectif :** Sprint 1 — squelette Vite + React + TS + PWA, CI, déploiement GitHub Pages
-- **Issue :** #1 (issues #2 à #6 créées pour les sprints suivants)
-- **Branche :** `chore/scaffold` (squelette commité en local)
-- **PR :** #7 — https://github.com/romainmoreira17000-droid/quiz-halloween/pull/7 (CI verte)
+- **Objectif :** Sprint 2 — validateur du YAML du quiz
+- **Issue :** #2
+- **Branche :** `feat/yaml-validator` (créée depuis `main` à jour)
+- **PR :** pas encore ouverte
 
 ## Où on en est
-- [x] Cadrage, conception, plans des sprints 1–2 (commités)
-- [x] Tâche 1 : squelette Vite + PWA + Vitest (test rouge puis vert, typecheck, build OK)
-- [x] Tâche 2 : Playwright, smoke test tablette (1 passed)
-- [x] Tâche 3 : `ci.yml`, `deploy.yml`, modèle de PR
-- [x] Tâche 4 : CLAUDE.md, README.md, ETAT.md
-- [x] Tâche 5 : dépôt public, issues #1–#6, ramdam17 invité, Pages activé, `main` protégée
-- [x] Relecture `relecteur-code` : 2 corrections appliquées (en-tête `main.tsx`, typecheck de `e2e/`)
-- [x] PR #7 ouverte, CI verte (après correctif glibc)
-- [ ] Fusion à valider par Romain, puis vérification du site en ligne ← reprendre ici
-- [ ] Sprint 2 : validateur YAML
+- [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
+  manifest et service worker OK) — https://romainmoreira17000-droid.github.io/quiz-halloween/
+- [ ] Sprint 2 : suivre le plan `docs/superpowers/plans/2026-09-21-sprint2-validateur.md` ← reprendre ici
+- [ ] Sprint 3 : maquettes design (issue #3)
 
 ## Prochaine action concrète
-CI de la PR #7 verte. Après le feu vert de Romain :
-fusion de la PR, puis `gh run watch` sur le déploiement et vérification Playwright du site en ligne
-(810×1080, titre visible, manifest servi). Ensuite sprint 2 : branche `feat/yaml-validator`,
-plan `docs/superpowers/plans/2026-09-21-sprint2-validateur.md`, issue #2.
+Sur la branche `feat/yaml-validator`, suivre `docs/superpowers/plans/2026-09-21-sprint2-validateur.md`
+à partir de la Task 1 Step 1, en TDD. Commits référencés `(#2)`, PR `Closes #2`.
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -37,7 +29,8 @@ plan `docs/superpowers/plans/2026-09-21-sprint2-validateur.md`, issue #2.
 - Exécution du plan en inline (pas de sous-agents) : tâches petites et enchaînées.
 
 ## Points en suspens / questions pour Romain
-- Fusion de la PR du sprint 1 : à valider par Romain (elle déclenche la mise en ligne).
+- Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse
+  pas être fusionnée pendant que la CI tourne (c'est arrivé sur la PR #7, sans conséquence).
 - Réglages GitHub sensibles (création du dépôt, push de `main`, invitations, protection) : Claude
   n'a pas la permission, Romain les lance avec `!`.
 

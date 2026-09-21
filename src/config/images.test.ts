@@ -15,4 +15,7 @@ describe('findMissingImages', () => {
     expect(findMissingImages(config, new Set(['crypte.png'])))
       .toEqual(["étape 2 : l'image « absent.png » est introuvable dans public/images/."])
   })
+  it('returns nothing when every image is present', () => {
+    expect(findMissingImages(config, new Set(['crypte.png', 'absent.png']))).toEqual([])
+  })
 })

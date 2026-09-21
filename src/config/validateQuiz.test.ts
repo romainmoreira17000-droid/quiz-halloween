@@ -40,6 +40,15 @@ describe('validateQuiz', () => {
     expect(errorsOf({ ...validRaw(), nombre_etapes }))
       .toContain('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
   })
+  it('rejects missing duree_minutes and nombre_etapes', () => {
+    const raw = validRaw()
+    delete raw.duree_minutes
+    delete raw.nombre_etapes
+    expect(errorsOf(raw)).toEqual([
+      '« duree_minutes » doit être un nombre entier supérieur à 0.',
+      '« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.',
+    ])
+  })
   it('accepts a single-step quiz', () => {
     expect(errorsOf(validRaw(1))).toEqual([])
   })

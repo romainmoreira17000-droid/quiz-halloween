@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 (sprint 5 cadré)
+Dernière mise à jour : 2026-09-21 (sprint 5 : tasks 1 à 8 faites, relecture en cours)
 
 ## Sprint en cours
 - **Objectif :** Sprint 5 — cadenas final + victoire (porte du restaurant hanté, animation, son)
@@ -12,18 +12,20 @@ Dernière mise à jour : 2026-09-21 (sprint 5 cadré)
 ## Où on en est
 - [x] Sprints 1 à 4 terminés (PR #7 à #10 fusionnées ; site en ligne).
 - [x] Sprint 5 : cadrage validé par Romain, issue #5 mise à jour, plan écrit.
-- [ ] Task 1 : clés YAML `cadenas.titre` / `cadenas.message_victoire` + histoire du restaurant
-- [ ] Task 2 : logique pure (code, molettes, durée, messages de code faux)
-- [ ] Task 3 : états `padlock`/`won`, action `unlock`, compteur figé
-- [ ] Task 4 : `Dial` + `PadlockScreen` + padlock.css
-- [ ] Task 5 : son synthétisé (`services/sound.ts`)
-- [ ] Task 6 : `HauntedDoor` + `VictoryScreen` + victory.css
-- [ ] Task 7 : branchement dans `Game`, suppression d'`AllSolvedScreen`
-- [ ] Task 8 : e2e + vérif visuelle (tablette, téléphone, animations réduites)
-- [ ] Task 9 : docs, relecture, PR
+- [x] Task 1 : clés YAML `cadenas.titre` / `cadenas.message_victoire` + histoire du restaurant
+- [x] Task 2 : logique pure (code, molettes, durée, messages de code faux)
+- [x] Task 3 : états `padlock`/`won`, action `unlock`, compteur figé
+- [x] Task 4 : `Dial` + `PadlockScreen` + padlock.css
+- [x] Task 5 : son synthétisé (`services/sound.ts`)
+- [x] Task 6 : `HauntedDoor` + `VictoryScreen` + victory.css
+- [x] Task 7 : branchement dans `Game`, suppression d'`AllSolvedScreen`
+- [x] Task 8 : e2e + vérif visuelle (tablette, téléphone, animations réduites)
+- [x] Task 9 : docs (CLAUDE.md, README) + vérif complète (135 unitaires, 4 e2e, typecheck, lint, build)
+- [ ] Task 9 : relecture `relecteur-code`, puis PR
 
 ## Prochaine action concrète
-Task 1 du plan : tests rouges dans `src/config/validatePadlock.test.ts` pour `titre` et `message_victoire`.
+Lancer l'agent `relecteur-code` sur la branche, appliquer les corrections utiles, puis
+`git push -u origin feat/padlock-victory` et `gh pr create` (description FR, `Closes #5`).
 
 ## Décisions prises (et pourquoi)
 - Sprint 5 : le cadenas ouvre **la salle du restaurant hanté** (pas un coffre à bonbons) → intro du YAML
@@ -35,6 +37,9 @@ Task 1 du plan : tests rouges dans `src/config/validatePadlock.test.ts` pour `ti
   droits, hors ligne. Lancé dans le tap « Ouvrir » (sinon bloqué par la tablette).
 - Sprint 5 : molettes à 0 au départ, 9 ↔ 0 en boucle ; code faux = secousse + message, sans pénalité.
   Le compteur se fige à l'ouverture (`finishedAt`).
+- Sprint 5 : sur téléphone, molettes resserrées (6 × 50 px) pour tenir sur une ligne à 360 px.
+- Sprint 5 : un vieux `vite preview` sur le port 4173 faisait tourner l'e2e sur un ancien build
+  (`reuseExistingServer`) ; noté dans les pièges du CLAUDE.md.
 - Sprint 4 : `tsconfig.node.json` inclut `DOM` pour le code de `page.evaluate` en e2e ; test d'image
   via `vi.stubEnv('BASE_URL')` car Vitest sert depuis `/`.
 - Sprint 4 : progression en **bougies** (design choisi), pas en citrouilles comme écrit dans l'issue.

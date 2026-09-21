@@ -1,5 +1,6 @@
 /** @file Root component: shows the game, or the config errors if quiz.yaml is invalid. */
 import { ConfigErrorScreen } from './components/ConfigErrorScreen'
+import { Game } from './components/Game'
 import { quizResult } from './config/loadQuiz'
 import type { ValidationResult } from './config/types'
 
@@ -13,9 +14,5 @@ export interface AppProps { quiz?: ValidationResult }
  */
 export default function App({ quiz = quizResult }: AppProps) {
   if (!quiz.ok) return <ConfigErrorScreen errors={quiz.errors} />
-  return (
-    <main>
-      <h1>{quiz.config.title}</h1>
-    </main>
-  )
+  return <Game config={quiz.config} />
 }

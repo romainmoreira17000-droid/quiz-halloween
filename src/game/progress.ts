@@ -1,4 +1,4 @@
-/** @file Game state machine: home → playing (step by step) → padlock → won. Pure, so sprint 6 can persist it. */
+/** @file Game state machine: home → playing (step by step) → padlock → won. Pure, so it can be saved and restored. */
 import type { QuizStep } from '../config/types'
 import { isCorrectAnswer } from './answer'
 import { isPadlockCode } from './padlock'
@@ -24,7 +24,7 @@ export interface GameState {
 /** Player actions. `now` is passed in so the reducer stays pure. */
 export type GameAction =
   | { type: 'start'; now: number } | { type: 'answer'; digit: number } | { type: 'next' }
-  | { type: 'unlock'; code: number[]; now: number }
+  | { type: 'unlock'; code: number[]; now: number } | { type: 'reset' }
 
 /** State before the game starts. */
 export const initialGameState: GameState = {
@@ -66,6 +66,8 @@ export function createGameReducer(steps: readonly QuizStep[], code: readonly num
         return isPadlockCode(code, action.code)
           ? { ...state, status: 'won', finishedAt: action.now, wrongAttempts: 0 }
           : { ...state, wrongAttempts: state.wrongAttempts + 1 }
+      case 'reset':
+        return initialGameState
     }
   }
 }

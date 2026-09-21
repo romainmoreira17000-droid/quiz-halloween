@@ -18,7 +18,7 @@ export interface GameProps { config: QuizConfig }
  * @returns The current screen.
  */
 export function Game({ config }: GameProps) {
-  const { state, start, answer, next, unlock } = useGameProgress(config.steps, config.padlock.order)
+  const { state, start, answer, next, unlock } = useGameProgress(config)
   const { status, startedAt, finishedAt } = state
   if (status === 'home' || startedAt === null) {
     return <HomeScreen title={config.title} intro={config.intro} durationMinutes={config.durationMinutes} onStart={start} />

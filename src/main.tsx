@@ -8,6 +8,7 @@ import '@fontsource/im-fell-english-sc/latin-400.css'
 import './styles/base.css'
 import './styles/controls.css'
 import './styles/screens.css'
+import './styles/padlock.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(

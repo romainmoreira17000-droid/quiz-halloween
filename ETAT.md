@@ -1,12 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 19:50
+Dernière mise à jour : 2026-09-21 20:20
 
 ## Sprint en cours
-- **Objectif :** Sprint 2 — validateur du YAML du quiz
-- **Issue :** #2
-- **Branche :** `feat/yaml-validator` (créée depuis `main` à jour)
-- **PR :** #8 ouverte, CI verte, en attente du feu vert de Romain pour le merge
+- **Objectif :** Sprint 3 — maquettes design (3 directions, captures 810×1080, choix de Romain)
+- **Issue :** #3
+- **Branche :** `feat/design-mockups` (créée depuis `main` à jour)
+- **PR :** —
 
 ## Où on en est
 - [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
@@ -15,13 +15,18 @@ Dernière mise à jour : 2026-09-21 19:50
   (6 étapes fictives), écran d'erreurs de config. Vérifié : typecheck, 48 tests unitaires, build, e2e verts.
 - [x] Task 6 : docs (README « Modifier le quiz », CLAUDE.md) mises à jour.
 - [x] Task 6 : relecture `relecteur-code` (rien de bloquant, suggestions traitées : 50 tests), PR #8, CI verte.
-- [ ] Merge de la PR #8 par Romain ← reprendre ici
-- [ ] Sprint 3 : maquettes design (issue #3)
+- [x] Sprint 2 terminé : PR #8 fusionnée, issue #2 fermée, site en ligne vérifié (Playwright 810×1080 :
+  titre « Le manoir hanté »).
+- [x] Sprint 3 : cadrage fait (7-10 ans, salle noire éclairée aux bougies → fond sombre, pas de blanc pur).
+- [ ] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/` ← reprendre ici
+- [ ] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`
+- [ ] Relecture, PR avec captures, choix de Romain noté ici
 
 ## Prochaine action concrète
-Attendre le feu vert de Romain pour fusionner la PR #8 (https://github.com/romainmoreira17000-droid/quiz-halloween/pull/8).
-Après merge : `git checkout main && git pull && git branch -d feat/yaml-validator`, vérifier le site
-en ligne (titre « Le manoir hanté »), puis ouvrir le sprint 3 : maquettes design (issue #3).
+Écrire les maquettes HTML statiques (une page par direction, 3 écrans chacune, contenu de `quiz.yaml`) :
+1. Manoir à la bougie (noir/brun, ambre vacillant, lettres anciennes)
+2. Potion de sorcière (violet, vert phosphorescent, boutons-fioles)
+3. Citrouilles sous la lune (bleu nuit, lune, orange, typo cartoon)
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -35,6 +40,11 @@ en ligne (titre « Le manoir hanté »), puis ouvrir le sprint 3 : maquettes des
 - `scripts/` a son propre `tsconfig.scripts.json` (résolution `bundler`) : `tsconfig.node.json` en
   `nodenext` refuse les imports sans extension de `src/config/`.
 - Écran d'erreurs : clé React = index, pour ne pas perdre de ligne si deux messages sont identiques.
+
+- Sprint 3 : maquettes = HTML statique jetable hors de `src/` (pas de TDD : aucune logique). Polices
+  Google Fonts pour les maquettes ; la version finale les embarquera (jeu hors ligne).
+- Public 7-10 ans, salle dans le noir : fond sombre, textes crème/ambre, pas d'aplats éblouissants,
+  boutons du pavé ≥ 88 px.
 
 ## Points en suspens / questions pour Romain
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse
@@ -66,3 +76,5 @@ npm run build        # build de production
 - Pare-feu Windows (pas de droits admin) : `node.exe` ne peut pas écouter sur le réseau. Localhost
   marche (tests OK) ; tester sur tablette via le site Pages, pas via le serveur de dev.
 - Le modèle create-vite actuel n'a plus `vite.svg` mais `favicon.svg`/`icons.svg` (supprimés).
+- Service worker : un appareil qui a déjà ouvert le site voit l'ancienne version au premier
+  chargement après un déploiement ; un rechargement suffit (vu en vérifiant le sprint 2).

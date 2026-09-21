@@ -40,7 +40,9 @@
 @media (max-width: 600px) {
   .recap { grid-template-columns: 1fr; }
   .hint { font-size: 20px; }
-  .dials { gap: 8px; }
+  /* Six dials must fit one row on a 360 px phone: 6 × 50 px + 5 × 6 px. */
+  .dials { gap: 6px; flex-wrap: nowrap; }
+  .dial { padding: 3px; }
   .dial button { min-height: 52px; font-size: 24px; }
-  .dial output { width: 44px; height: 64px; line-height: 64px; font-size: 40px; }
+  .dial output { width: 40px; height: 64px; line-height: 64px; font-size: 40px; }
 }

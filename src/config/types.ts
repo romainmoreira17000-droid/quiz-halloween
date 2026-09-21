@@ -1,0 +1,20 @@
+/** @file Typed shape of the quiz configuration, once validated from quiz.yaml. */
+
+/** One riddle: an instruction whose answer is a single digit. */
+export interface QuizStep { title: string; instruction: string; image?: string; solution: number }
+
+/** Final padlock: order in which step digits are entered (always filled, default 1..N). */
+export interface PadlockConfig { order: number[]; hint?: string }
+
+/** Whole quiz, with English keys mapped from the French YAML. */
+export interface QuizConfig {
+  title: string
+  intro?: string
+  durationMinutes: number
+  stepCount: number
+  steps: QuizStep[]
+  padlock: PadlockConfig
+}
+
+/** Outcome of validation: the typed config, or every French error message. */
+export type ValidationResult = { ok: true; config: QuizConfig } | { ok: false; errors: string[] }

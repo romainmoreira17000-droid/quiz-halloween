@@ -1,39 +1,37 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 21:00
+Dernière mise à jour : 2026-09-21 23:40
 
 ## Sprint en cours
-- **Objectif :** Sprint 3 — maquettes design (3 directions, captures 810×1080, choix de Romain)
-- **Issue :** #3
-- **Branche :** `feat/design-mockups` (créée depuis `main` à jour)
+- **Objectif :** Sprint 4 — déroulé des étapes + compteur, au design Manoir à la bougie
+- **Issue :** #4
+- **Branche :** `feat/steps-and-countdown` (créée depuis `main` à jour)
 - **PR :** —
+- **Plan :** `docs/superpowers/plans/2026-09-21-sprint4-etapes-compteur.md` (9 tâches)
 
 ## Où on en est
-- [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
-  manifest et service worker OK) — https://romainmoreira17000-droid.github.io/quiz-halloween/
-- [x] Sprint 2, Tasks 1 à 5 : validateur, CLI `npm run valider` (prebuild), `quiz.yaml` d'exemple
-  (6 étapes fictives), écran d'erreurs de config. Vérifié : typecheck, 48 tests unitaires, build, e2e verts.
-- [x] Task 6 : docs (README « Modifier le quiz », CLAUDE.md) mises à jour.
-- [x] Task 6 : relecture `relecteur-code` (rien de bloquant, suggestions traitées : 50 tests), PR #8, CI verte.
-- [x] Sprint 2 terminé : PR #8 fusionnée, issue #2 fermée, site en ligne vérifié (Playwright 810×1080 :
-  titre « Le manoir hanté »).
-- [x] Sprint 3 : cadrage fait (7-10 ans, salle noire éclairée aux bougies → fond sombre, pas de blanc pur).
-- [x] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/`
-- [x] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`.
-  Vérifié : typecheck, lint, 50 tests, build verts.
-- [x] Relecture `relecteur-code` : rien de bloquant ; corrigés : zéro du récapitulatif (chiffres alignés),
-  fermeture du navigateur en cas d'erreur dans le script de capture.
-- [x] Choix de Romain : **direction 1, Manoir à la bougie** (2026-09-21).
-- [x] PR #9 ouverte avec les captures
-- [ ] Merge de la PR #9 par Romain ← reprendre ici
+- [x] Sprints 1 à 3 terminés (PR #7, #8, #9 fusionnées ; site en ligne).
+- [x] Sprint 4 : cadrage validé par Romain, plan écrit.
+- [ ] Task 1 : logique pure (temps, réponse, messages) ← reprendre ici
+- [ ] Task 2 : réducteur de partie + `useGameProgress`
+- [ ] Task 3 : `useCountdown`
+- [ ] Task 4 : styles bougie + polices @fontsource (woff2 en précache)
+- [ ] Task 5 : Clock, CandleProgress, Keypad, GameHeader
+- [ ] Task 6 : HomeScreen, StepScreen, AllSolvedScreen
+- [ ] Task 7 : Game + branchement dans App
+- [ ] Task 8 : e2e (partie complète, fin du temps, polices hors ligne) + vérif visuelle
+- [ ] Task 9 : docs, relecture, PR
 
 ## Prochaine action concrète
-Attendre le feu vert de Romain pour fusionner la PR #9 (https://github.com/romainmoreira17000-droid/quiz-halloween/pull/9).
-Après merge : `git checkout main && git pull && git branch -d feat/design-mockups`, puis ouvrir le sprint 4
-(déroulé des étapes + compteur) avec le design bougie et les polices embarquées (jeu hors ligne).
-Au sprint 4 : `--touche` doit piloter largeur et hauteur ; vérifier le 0 dans chaque police de chiffres.
+Exécuter le plan en inline, à partir de la Task 1 (TDD : tests rouges, code, tests verts, commit `(#4)`).
 
 ## Décisions prises (et pourquoi)
+- Sprint 4 : progression en **bougies** (design choisi), pas en citrouilles comme écrit dans l'issue.
+- Sprint 4 : après la dernière étape, **écran provisoire** « Toutes les énigmes sont résolues ! » avec les
+  chiffres trouvés ; remplacé par le cadenas au sprint 5.
+- Mauvaise réponse : **messages qui tournent** (4 phrases), jamais deux fois le même de suite.
+- Progression en mémoire seulement (réducteur pur) ; localStorage et remise à zéro au sprint 6.
+- Polices @fontsource en sous-ensemble latin seulement (accents français couverts, cache hors ligne léger).
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
 - Pas de Supabase : aucune donnée à stocker, zéro donnée personnelle.
 - YAML validé à la construction : un YAML faux bloque la publication.

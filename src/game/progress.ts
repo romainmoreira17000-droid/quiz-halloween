@@ -1,9 +1,10 @@
-/** @file Game state machine: home → playing (step by step) → solved. Pure, so sprint 6 can persist it. */
+/** @file Game state machine: home → playing (step by step) → padlock → won. Pure, so sprint 6 can persist it. */
 import type { QuizStep } from '../config/types'
 import { isCorrectAnswer } from './answer'
+import { isPadlockCode } from './padlock'
 
 /** Which part of the game is shown. */
-export type GameStatus = 'home' | 'playing' | 'solved'
+export type GameStatus = 'home' | 'playing' | 'padlock' | 'won'
 
 /** Whole game progress. */
 export interface GameState {
@@ -14,15 +15,21 @@ export interface GameState {
   foundDigits: number[]
   /** Start timestamp in ms, null before "Commencer". */
   startedAt: number | null
-  /** Wrong tries on the current step (drives the message and the shake). */
+  /** Timestamp in ms when the padlock opened (freezes the clock), null before. */
+  finishedAt: number | null
+  /** Wrong tries on the current step, or wrong codes on the padlock (drives the message and the shake). */
   wrongAttempts: number
 }
 
 /** Player actions. `now` is passed in so the reducer stays pure. */
-export type GameAction = { type: 'start'; now: number } | { type: 'answer'; digit: number } | { type: 'next' }
+export type GameAction =
+  | { type: 'start'; now: number } | { type: 'answer'; digit: number } | { type: 'next' }
+  | { type: 'unlock'; code: number[]; now: number }
 
 /** State before the game starts. */
-export const initialGameState: GameState = { status: 'home', stepIndex: 0, foundDigits: [], startedAt: null, wrongAttempts: 0 }
+export const initialGameState: GameState = {
+  status: 'home', stepIndex: 0, foundDigits: [], startedAt: null, finishedAt: null, wrongAttempts: 0,
+}
 
 /**
  * Tells whether the current step already has its digit.
@@ -36,9 +43,10 @@ export function isCurrentStepSolved(state: GameState): boolean {
 /**
  * Builds the reducer for a given quiz. Invalid actions return the same state object.
  * @param steps Steps of the quiz, in play order.
+ * @param code Code that opens the padlock (see padlockCode).
  * @returns A reducer usable with useReducer.
  */
-export function createGameReducer(steps: readonly QuizStep[]) {
+export function createGameReducer(steps: readonly QuizStep[], code: readonly number[]) {
   return (state: GameState, action: GameAction): GameState => {
     switch (action.type) {
       case 'start':
@@ -51,8 +59,13 @@ export function createGameReducer(steps: readonly QuizStep[]) {
       case 'next':
         if (state.status !== 'playing' || !isCurrentStepSolved(state)) return state
         return state.stepIndex + 1 >= steps.length
-          ? { ...state, status: 'solved' }
+          ? { ...state, status: 'padlock' }
           : { ...state, stepIndex: state.stepIndex + 1, wrongAttempts: 0 }
+      case 'unlock':
+        if (state.status !== 'padlock') return state
+        return isPadlockCode(code, action.code)
+          ? { ...state, status: 'won', finishedAt: action.now, wrongAttempts: 0 }
+          : { ...state, wrongAttempts: state.wrongAttempts + 1 }
     }
   }
 }

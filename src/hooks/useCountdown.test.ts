@@ -32,4 +32,10 @@ describe('useCountdown', () => {
     act(() => { vi.advanceTimersByTime(500) })
     expect(result.current).toBe(3600)
   })
+  it('freezes once the game is finished', () => {
+    const { result } = renderHook(() => useCountdown(start, 90, start + 125_000))
+    expect(result.current).toBe(5275)
+    act(() => { vi.advanceTimersByTime(60_000) })
+    expect(result.current).toBe(5275)
+  })
 })

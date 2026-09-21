@@ -6,6 +6,8 @@ import { Clock } from './Clock'
 /** Props of GameHeader. */
 export interface GameHeaderProps {
   startedAt: number
+  /** Set once the padlock opened: freezes the clock. */
+  finishedAt?: number | null
   durationMinutes: number
   total: number
   solved: number
@@ -17,8 +19,8 @@ export interface GameHeaderProps {
  * @param props See GameHeaderProps.
  * @returns The header.
  */
-export function GameHeader({ startedAt, durationMinutes, total, solved, current }: GameHeaderProps) {
-  const seconds = useCountdown(startedAt, durationMinutes)
+export function GameHeader({ startedAt, finishedAt, durationMinutes, total, solved, current }: GameHeaderProps) {
+  const seconds = useCountdown(startedAt, durationMinutes, finishedAt ?? null)
   return (
     <header className="game-header">
       <Clock seconds={seconds} />

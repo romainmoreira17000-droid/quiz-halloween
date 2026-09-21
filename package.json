@@ -17,6 +17,8 @@
     "prebuild": "npm run valider"
   },
   "dependencies": {
+    "@fontsource/alegreya": "^5.3.0",
+    "@fontsource/im-fell-english-sc": "^5.3.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "yaml": "^2.9.1"

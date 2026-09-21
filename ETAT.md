@@ -6,7 +6,7 @@ Dernière mise à jour : 2026-09-21 23:55
 - **Objectif :** Sprint 4 — déroulé des étapes + compteur, au design Manoir à la bougie
 - **Issue :** #4
 - **Branche :** `feat/steps-and-countdown` (créée depuis `main` à jour)
-- **PR :** —
+- **PR :** #10
 - **Plan :** `docs/superpowers/plans/2026-09-21-sprint4-etapes-compteur.md` (9 tâches)
 
 ## Où on en est

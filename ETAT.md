@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 18:45
+Dernière mise à jour : 2026-09-21 19:35
 
 ## Sprint en cours
 - **Objectif :** Sprint 2 — validateur du YAML du quiz
@@ -11,12 +11,16 @@ Dernière mise à jour : 2026-09-21 18:45
 ## Où on en est
 - [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
   manifest et service worker OK) — https://romainmoreira17000-droid.github.io/quiz-halloween/
-- [ ] Sprint 2 : suivre le plan `docs/superpowers/plans/2026-09-21-sprint2-validateur.md` ← reprendre ici
+- [x] Sprint 2, Tasks 1 à 5 : validateur, CLI `npm run valider` (prebuild), `quiz.yaml` d'exemple
+  (6 étapes fictives), écran d'erreurs de config. Vérifié : typecheck, 48 tests unitaires, build, e2e verts.
+- [x] Task 6 : docs (README « Modifier le quiz », CLAUDE.md) mises à jour.
+- [ ] Task 6 : relecture `relecteur-code`, corrections, PR `Closes #2`, CI verte ← reprendre ici
 - [ ] Sprint 3 : maquettes design (issue #3)
 
 ## Prochaine action concrète
-Sur la branche `feat/yaml-validator`, suivre `docs/superpowers/plans/2026-09-21-sprint2-validateur.md`
-à partir de la Task 1 Step 1, en TDD. Commits référencés `(#2)`, PR `Closes #2`.
+Traiter les retours de `relecteur-code`, puis `gh pr create` vers `main` (description en français,
+`Closes #2`) et attendre la CI verte. Merge seulement avec le feu vert de Romain.
+Ensuite : sprint 3, maquettes design (issue #3).
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -27,6 +31,9 @@ Sur la branche `feat/yaml-validator`, suivre `docs/superpowers/plans/2026-09-21-
 - Cadenas : ordre + indice facultatifs dans le YAML.
 - Actions GitHub en dernières versions (checkout/setup-node v7, pages v5) : les v4 tournent sur Node 20, déprécié.
 - Exécution du plan en inline (pas de sous-agents) : tâches petites et enchaînées.
+- `scripts/` a son propre `tsconfig.scripts.json` (résolution `bundler`) : `tsconfig.node.json` en
+  `nodenext` refuse les imports sans extension de `src/config/`.
+- Écran d'erreurs : clé React = index, pour ne pas perdre de ligne si deux messages sont identiques.
 
 ## Points en suspens / questions pour Romain
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse
@@ -40,6 +47,7 @@ npm run dev          # lancer en local
 npm run test:run     # tests unitaires
 npm run test:e2e     # tests de parcours (build + preview)
 npm run typecheck    # vérification des types
+npm run valider      # vérifie quiz.yaml et ses images
 npm run build        # build de production
 ```
 

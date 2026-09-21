@@ -13,7 +13,8 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    message d'encouragement s'affiche (essais illimités). Bonne réponse : le chiffre trouvé et
    « Étape suivante ». Les bougies en haut montrent la progression.
 3. Quand le temps est écoulé, le compteur passe en rouge et devient négatif ; le jeu continue.
-4. Après la dernière étape, un écran récapitule les chiffres trouvés (le cadenas arrive ensuite).
+4. Après la dernière étape, le cadenas : N molettes à régler dans l'ordre de `cadenas.ordre`. Le bon code ouvre la
+   porte du restaurant hanté (animation + son) et affiche le temps mis.
 
 Le jeu fonctionne sans connexion une fois le site ouvert une première fois (polices embarquées).
 
@@ -53,6 +54,8 @@ Les images vont dans `public/images/`.
 | `etapes` | oui | liste ; chaque étape a `titre`, `consigne` (textes non vides), `solution` (chiffre de 0 à 9) et éventuellement `image` (fichier présent dans `public/images/`) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
+| `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |
+| `cadenas.message_victoire` | non | texte non vide (par défaut « Le cadenas est ouvert ! ») |
 
 Toute clé inconnue (faute de frappe) est refusée. Après une modification, lancer `npm run valider`.
 Toutes les erreurs sont listées d'un coup, par exemple :

@@ -1,35 +1,41 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 (sprint 5 : PR #11 ouverte)
+Dernière mise à jour : 2026-09-22 (sprint 6 : cadrage et plan faits)
 
 ## Sprint en cours
-- **Objectif :** Sprint 5 — cadenas final + victoire (porte du restaurant hanté, animation, son)
-- **Issue :** #5 (critères mis à jour)
-- **Branche :** `feat/padlock-victory` (créée depuis `main` à jour)
-- **PR :** #11 (ouverte, en attente de la CI et de la fusion par Romain)
-- **Plan :** `docs/superpowers/plans/2026-09-21-sprint5-cadenas-victoire.md` (9 tâches)
+- **Objectif :** Sprint 6 — sauvegarde de la partie sur la tablette + remise à zéro par appui long
+- **Issue :** #6 (critères mis à jour)
+- **Branche :** `feat/save-and-reset` (créée depuis `main` à jour, après fusion de la PR #11)
+- **PR :** pas encore ouverte
+- **Plan :** `docs/superpowers/plans/2026-09-22-sprint6-sauvegarde-remise-a-zero.md` (9 tâches)
+- **Conception :** spec, section « Sauvegarde et remise à zéro (sprint 6) »
 
 ## Où on en est
-- [x] Sprints 1 à 4 terminés (PR #7 à #10 fusionnées ; site en ligne).
-- [x] Sprint 5 : cadrage validé par Romain, issue #5 mise à jour, plan écrit.
-- [x] Task 1 : clés YAML `cadenas.titre` / `cadenas.message_victoire` + histoire du restaurant
-- [x] Task 2 : logique pure (code, molettes, durée, messages de code faux)
-- [x] Task 3 : états `padlock`/`won`, action `unlock`, compteur figé
-- [x] Task 4 : `Dial` + `PadlockScreen` + padlock.css
-- [x] Task 5 : son synthétisé (`services/sound.ts`)
-- [x] Task 6 : `HauntedDoor` + `VictoryScreen` + victory.css
-- [x] Task 7 : branchement dans `Game`, suppression d'`AllSolvedScreen`
-- [x] Task 8 : e2e + vérif visuelle (tablette, téléphone, animations réduites)
-- [x] Task 9 : docs (CLAUDE.md, README) + vérif complète (135 unitaires, 4 e2e, typecheck, lint, build)
-- [x] Task 9 : relecture `relecteur-code` (rien de bloquant), branche poussée
-- [x] PR #11 ouverte
-- [ ] Romain : fusionner la PR #11, puis écouter le son sur la tablette (site Pages, mode silencieux coupé)
+- [x] Sprints 1 à 5 terminés (PR #7 à #11 fusionnées ; site en ligne).
+- [x] Sprint 6 : cadrage validé par Romain, spec complétée, issue #6 mise à jour, plan écrit.
+- [ ] Task 1 : empreinte du quiz (`src/game/fingerprint.ts`) ← reprendre ici
+- [ ] Task 2 : vérification d'un état relu (`src/game/restore.ts`)
+- [ ] Task 3 : service `src/services/savedGame.ts` + nettoyage du localStorage dans `setup.ts`
+- [ ] Task 4 : action `reset` + `useGameProgress(config)` qui charge et enregistre
+- [ ] Task 5 : `ResetButton` (appui long 3 s + anneau) + `reset.css`
+- [ ] Task 6 : `ResetDialog` + `ResetControl`
+- [ ] Task 7 : branchement dans `Game`
+- [ ] Task 8 : e2e (reprise, remise à zéro) + vérif visuelle tablette/téléphone
+- [ ] Task 9 : docs, vérif complète, relecture, PR
+- [ ] Romain : écouter le son de victoire sur la tablette (site Pages, mode silencieux coupé)
 
 ## Prochaine action concrète
-Après la fusion de la PR #11 par Romain : revenir sur la branche principale à jour, supprimer
-`feat/padlock-victory`, puis ouvrir le sprint 6 (progression sauvegardée + remise à zéro par appui long).
+Exécuter le plan en inline (skill `superpowers:executing-plans`), à partir de la Task 1 :
+écrire `src/game/fingerprint.test.ts` (test rouge), puis `src/game/fingerprint.ts`.
 
 ## Décisions prises (et pourquoi)
+- Sprint 6 : icône ↺ pâle **en bas à gauche** (loin du pavé, peu tentante pour les enfants), anneau qui
+  se remplit pendant l'appui de 3 s, puis **fenêtre du jeu** « Recommencer la partie ? » (Annuler /
+  Recommencer), Annuler par défaut. Choix de Romain.
+- Sprint 6 : empreinte calculée sur la **config validée**, pas sur le texte du YAML : modifier un
+  commentaire ne fait pas perdre une partie en cours.
+- Sprint 6 : essais ratés non restaurés ; son de victoire non rejoué après rechargement ; sauvegarde
+  abîmée ou localStorage refusé → accueil, sans message.
 - Sprint 5 : le cadenas ouvre **la salle du restaurant hanté** (pas un coffre à bonbons) → intro du YAML
   corrigée. Titre de l'écran et message de victoire dans le YAML (`cadenas.titre`,
   `cadenas.message_victoire`, facultatifs) pour réutiliser le jeu avec une autre histoire.

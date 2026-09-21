@@ -1,0 +1,61 @@
+/**
+ * @file Base of the "Manoir à la bougie" theme: palette, fonts, page frame, screen layout.
+ * The tablet is the only light in a dark room: cream text on soot, never pure white.
+ */
+:root {
+  --soot: #1a120c;
+  --wall: #2a1c12;
+  --wax: #f1dcb0;
+  --amber: #f2a541;
+  --bronze: #c9a26b;
+  --seal: #8b2a20;
+  --seal-light: #b8483a;
+  --ember: #e0562f;
+  --title-font: "IM Fell English SC", Georgia, serif;
+  --text-font: Alegreya, Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html, body { min-height: 100%; }
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 8%, rgb(242 165 65 / .2), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% 110%, var(--wall), transparent 70%),
+    var(--soot);
+  color: var(--wax);
+  font-family: var(--text-font);
+  font-weight: 500;
+}
+p { text-wrap: pretty; }
+/* touch-action: fast repeated taps on the keypad must not zoom the page. */
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; touch-action: manipulation; }
+
+h1, h2 { font-family: var(--title-font); font-weight: 400; }
+h1 { font-size: 104px; line-height: .95; text-wrap: balance; text-shadow: 0 0 28px rgb(242 165 65 / .45); }
+h2 { font-size: 68px; line-height: 1; text-shadow: 0 0 20px rgb(242 165 65 / .3); }
+
+.screen {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 48px 48px;
+  text-align: center;
+}
+
+:focus-visible { outline: 4px solid currentColor; outline-offset: 4px; }
+
+/* Phones: animators may test on their own phone. */
+@media (max-width: 600px) {
+  .screen { padding: 16px 16px 32px; }
+  h1 { font-size: 64px; }
+  h2 { font-size: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,45 +1,44 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 21:00
+Dernière mise à jour : 2026-09-21 23:55
 
 ## Sprint en cours
-- **Objectif :** Sprint 3 — maquettes design (3 directions, captures 810×1080, choix de Romain)
-- **Issue :** #3
-- **Branche :** `feat/design-mockups` (créée depuis `main` à jour)
-- **PR :** —
+- **Objectif :** Sprint 4 — déroulé des étapes + compteur, au design Manoir à la bougie
+- **Issue :** #4
+- **Branche :** `feat/steps-and-countdown` (créée depuis `main` à jour)
+- **PR :** #10
+- **Plan :** `docs/superpowers/plans/2026-09-21-sprint4-etapes-compteur.md` (9 tâches)
 
 ## Où on en est
-- [x] Sprint 1 terminé : PR #7 fusionnée, site en ligne et vérifié (Playwright 810×1080 : titre,
-  manifest et service worker OK) — https://romainmoreira17000-droid.github.io/quiz-halloween/
-- [x] Sprint 2, Tasks 1 à 5 : validateur, CLI `npm run valider` (prebuild), `quiz.yaml` d'exemple
-  (6 étapes fictives), écran d'erreurs de config. Vérifié : typecheck, 48 tests unitaires, build, e2e verts.
-- [x] Task 6 : docs (README « Modifier le quiz », CLAUDE.md) mises à jour.
-- [x] Task 6 : relecture `relecteur-code` (rien de bloquant, suggestions traitées : 50 tests), PR #8, CI verte.
-- [x] Sprint 2 terminé : PR #8 fusionnée, issue #2 fermée, site en ligne vérifié (Playwright 810×1080 :
-  titre « Le manoir hanté »).
-- [x] Sprint 3 : cadrage fait (7-10 ans, salle noire éclairée aux bougies → fond sombre, pas de blanc pur).
-- [x] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/`
-- [x] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`.
-  Vérifié : typecheck, lint, 50 tests, build verts.
-- [x] Relecture `relecteur-code` : rien de bloquant ; corrigés : zéro du récapitulatif (chiffres alignés),
-  fermeture du navigateur en cas d'erreur dans le script de capture.
-- [x] Choix de Romain : **direction 1, Manoir à la bougie** (2026-09-21).
-- [x] PR #9 ouverte avec les captures
-- [ ] Merge de la PR #9 par Romain ← reprendre ici
+- [x] Sprints 1 à 3 terminés (PR #7, #8, #9 fusionnées ; site en ligne).
+- [x] Sprint 4 : cadrage validé par Romain, plan écrit.
+- [x] Tasks 1 à 8 : logique, hooks, thème + polices, composants, écrans, Game, e2e, vérif visuelle
+  (tablette 810×1080 sans défilement ; téléphone 390 px sans débordement horizontal).
+  96 tests unitaires + 4 e2e verts, typecheck/lint/build OK.
+- [x] Task 9 : docs (CLAUDE.md, README) commitées.
+- [x] Task 9 : relecture `relecteur-code` : prêt pour la PR, rien de bloquant (4 suggestions mineures,
+  dont le `header-spacer` à retirer au sprint 6 quand le bouton de remise à zéro arrive).
+- [x] Task 9 : push + PR (`Closes #4`) ← attend la CI et le merge par Romain
 
 ## Prochaine action concrète
-Attendre le feu vert de Romain pour fusionner la PR #9 (https://github.com/romainmoreira17000-droid/quiz-halloween/pull/9).
-Après merge : `git checkout main && git pull && git branch -d feat/design-mockups`, puis ouvrir le sprint 4
-(déroulé des étapes + compteur) avec le design bougie et les polices embarquées (jeu hors ligne).
-Au sprint 4 : `--touche` doit piloter largeur et hauteur ; vérifier le 0 dans chaque police de chiffres.
+Romain relit et fusionne la PR du sprint 4 (après CI verte). Ensuite : `git checkout main && git pull
+&& git branch -d feat/steps-and-countdown`, puis ouvrir le sprint 5 (cadenas final).
 
 ## Décisions prises (et pourquoi)
+- Sprint 4 : `tsconfig.node.json` inclut `DOM` pour le code de `page.evaluate` en e2e ; test d'image
+  via `vi.stubEnv('BASE_URL')` car Vitest sert depuis `/`.
+- Sprint 4 : progression en **bougies** (design choisi), pas en citrouilles comme écrit dans l'issue.
+- Sprint 4 : après la dernière étape, **écran provisoire** « Toutes les énigmes sont résolues ! » avec les
+  chiffres trouvés ; remplacé par le cadenas au sprint 5.
+- Mauvaise réponse : **messages qui tournent** (4 phrases), jamais deux fois le même de suite.
+- Progression en mémoire seulement (réducteur pur) ; localStorage et remise à zéro au sprint 6.
+- Polices @fontsource en sous-ensemble latin seulement (accents français couverts, cache hors ligne léger).
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
 - Pas de Supabase : aucune donnée à stocker, zéro donnée personnelle.
 - YAML validé à la construction : un YAML faux bloque la publication.
 - Temps écoulé : le jeu continue (compteur rouge négatif).
-- Progression sauvegardée sur la tablette ; remise à zéro par appui long 3 s.
-- Cadenas : ordre + indice facultatifs dans le YAML.
+- Sprint 6 (prévu) : progression sauvegardée sur la tablette ; remise à zéro par appui long 3 s.
+- Sprint 5 (prévu) : cadenas, ordre + indice facultatifs dans le YAML.
 - Actions GitHub en dernières versions (checkout/setup-node v7, pages v5) : les v4 tournent sur Node 20, déprécié.
 - Exécution du plan en inline (pas de sous-agents) : tâches petites et enchaînées.
 - `scripts/` a son propre `tsconfig.scripts.json` (résolution `bundler`) : `tsconfig.node.json` en

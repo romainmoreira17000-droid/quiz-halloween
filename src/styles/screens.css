@@ -1,0 +1,69 @@
+/** @file Screen-specific styles: home candle, step, answer feedback, all-solved recap. */
+
+/* Home */
+.home { justify-content: center; gap: 36px; }
+.intro { font-size: 32px; line-height: 1.45; max-width: 19em; }
+.duration { font-size: 24px; color: var(--bronze); }
+
+.candle { display: flex; flex-direction: column; align-items: center; }
+.flame {
+  width: 34px; height: 62px;
+  border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 72%, #fff3c4 0 18%, #ffc75a 40%, var(--amber) 70%, transparent 72%);
+  box-shadow: 0 0 60px 26px rgb(242 165 65 / .28);
+  transform-origin: 50% 90%;
+  animation: flicker 2.6s ease-in-out infinite;
+}
+.wick { width: 3px; height: 10px; background: #2b1a0c; }
+.wax {
+  width: 52px; height: 150px;
+  border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(90deg, #d9bf8e, var(--wax) 40%, #cdb07c);
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1) rotate(-1deg); }
+  25% { transform: scale(1.04, .95) rotate(2deg); }
+  55% { transform: scale(.96, 1.06) rotate(-2deg); }
+  80% { transform: scale(1.02, .98) rotate(1deg); }
+}
+
+/* Step */
+.step-number { margin-top: 28px; font-size: 26px; color: var(--bronze); }
+.step h2 { margin: 6px 0 20px; }
+.instruction { font-size: 36px; line-height: 1.45; max-width: 19em; }
+.step-image { max-width: 100%; max-height: 280px; margin-top: 20px; border-radius: 12px; }
+.answer-zone { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.wrong-answer { font-size: 30px; color: var(--amber); }
+.found { font-size: 40px; }
+.found b { font-size: 72px; color: var(--amber); font-variant-numeric: lining-nums; }
+
+.shake { animation: shake .45s ease-in-out; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-14px); }
+  40% { transform: translateX(14px); }
+  60% { transform: translateX(-9px); }
+  80% { transform: translateX(9px); }
+}
+
+/* All solved (provisional until the padlock, sprint 5) */
+.solved { gap: 26px; }
+.solved h2 { margin-top: 12px; }
+.solved p { font-size: 28px; color: var(--bronze); }
+.recap {
+  width: 100%; max-width: 690px;
+  list-style: none; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px;
+}
+.recap li {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 8px 12px; border-bottom: 1px dashed rgb(241 220 176 / .25);
+  font-size: 22px; text-align: left;
+}
+.recap b { font-size: 42px; font-weight: 700; color: var(--amber); font-variant-numeric: lining-nums; }
+
+@media (max-width: 600px) {
+  .intro { font-size: 24px; }
+  .instruction { font-size: 26px; }
+  .recap { grid-template-columns: 1fr; }
+}

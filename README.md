@@ -6,6 +6,17 @@ cadenas final.
 
 En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 
+## Déroulé d'une partie
+
+1. Écran d'accueil : titre, introduction, durée. « Commencer » lance le compteur.
+2. Chaque étape affiche son énigme et un pavé de 0 à 9. Mauvaise réponse : l'écran tremble et un
+   message d'encouragement s'affiche (essais illimités). Bonne réponse : le chiffre trouvé et
+   « Étape suivante ». Les bougies en haut montrent la progression.
+3. Quand le temps est écoulé, le compteur passe en rouge et devient négatif ; le jeu continue.
+4. Après la dernière étape, un écran récapitule les chiffres trouvés (le cadenas arrive ensuite).
+
+Le jeu fonctionne sans connexion une fois le site ouvert une première fois (polices embarquées).
+
 ## Installation
 
 Prérequis : Node 24.

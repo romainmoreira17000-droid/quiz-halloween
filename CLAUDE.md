@@ -25,9 +25,10 @@ public/images/             images des étapes (référencées par `image:`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
-src/game/                  logique pure (réponse, code du cadenas, temps)
+src/game/                  logique pure : time, answer, messages, progress (réducteur de partie)
 src/hooks/                 useCountdown, useGameProgress
-src/components/            un composant par écran + Keypad, Padlock, ...
+src/components/            Game (seul assembleur d'écrans) + un composant par écran + Keypad, Clock, ...
+src/styles/                thème « Manoir à la bougie » : base, controls, screens
 src/test/setup.ts          setup Vitest (matchers jest-dom)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -62,5 +63,12 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   Le validateur ne s'arrête jamais à la première erreur ; messages en français préfixés par
   l'emplacement (`étape 3 : `, `cadenas : `). L'existence des images n'est vérifiée que par la CLI
   (Node), pas dans le navigateur.
+- **Polices hors ligne** : `@fontsource` (sous-ensembles latin) importées dans `main.tsx`, mises en
+  précache grâce à `woff2` dans `workbox.globPatterns`. Ne pas repasser par Google Fonts.
+- **Chiffres** : toujours `font-variant-numeric: lining-nums`, sinon le 0 ressemble à un o.
+- **Compteur** : toujours recalculé depuis `startedAt` (`Date.now()`), jamais décrémenté en mémoire.
+- **Tests** : Vitest sert depuis `/`, donc `import.meta.env.BASE_URL` vaut `/` ; utiliser
+  `vi.stubEnv('BASE_URL', ...)` pour tester une URL. `tsconfig.node.json` inclut la lib DOM pour
+  le code de `page.evaluate` en e2e. `page.clock.fastForward` : format `hh:mm:ss` au-delà de 59 min.
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.

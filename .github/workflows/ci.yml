@@ -1,0 +1,21 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: npm }
+      # npm sometimes fails to detect glibc on the runner and then skips the
+      # native Linux binaries of rollup (used by workbox via vite-plugin-pwa).
+      - run: node -p "'glibc=' + process.report.getReport().header.glibcVersionRuntime"
+      - run: npm ci
+        env: { npm_config_libc: glibc }
+      - run: npm run typecheck
+      - run: npm run test:run
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

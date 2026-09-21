@@ -3,5 +3,5 @@ import { test, expect } from '@playwright/test'
 
 test('home page shows the quiz title', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('heading', { name: 'Quiz Halloween' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Le manoir hanté' })).toBeVisible()
 })

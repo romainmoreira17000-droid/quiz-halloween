@@ -3,7 +3,7 @@
 ## But
 Jeu d'énigmes d'Halloween joué en groupe sur tablette par les enfants du Centre de Loisirs.
 Chaque étape donne une consigne dont la réponse est un chiffre (0–9) ; les chiffres ouvrent un
-cadenas final qui déclenche une animation. Tout le contenu vient de `quiz.yaml` (sprint 2).
+cadenas final qui déclenche une animation. Tout le contenu vient de `quiz.yaml`.
 
 Conception complète : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md`.
 
@@ -20,9 +20,11 @@ Conception complète : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.
 
 ## Structure
 ```
-quiz.yaml                  paramètres du quiz (sprint 2)
-scripts/valider.ts         CLI du validateur (sprint 2)
-src/config/                schéma, validateur, chargement du YAML
+quiz.yaml                  paramètres du quiz (clés en français, commentées)
+public/images/             images des étapes (référencées par `image:`)
+scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
+src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
+                           validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure (réponse, code du cadenas, temps)
 src/hooks/                 useCountdown, useGameProgress
 src/components/            un composant par écran + Keypad, Padlock, ...
@@ -38,6 +40,7 @@ npm run dev          # serveur local (http://localhost:5173/quiz-halloween/)
 npm run test:run     # tests unitaires
 npm run test:e2e     # build + preview + Playwright
 npm run typecheck    # vérification des types
+npm run valider      # vérifie quiz.yaml + images (aussi en prebuild)
 npm run build        # build de production dans dist/
 ```
 
@@ -55,3 +58,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - Pare-feu Windows sans droits admin : le serveur Vite n'est joignable qu'en localhost.
   Pour tester sur une vraie tablette, passer par le site GitHub Pages.
 - Le modèle create-vite inclut `oxlint` (`npm run lint`), gardé tel quel.
+- **Config du quiz** : clés YAML en français, mappées vers des identifiants anglais dans `QuizConfig`.
+  Le validateur ne s'arrête jamais à la première erreur ; messages en français préfixés par
+  l'emplacement (`étape 3 : `, `cadenas : `). L'existence des images n'est vérifiée que par la CLI
+  (Node), pas dans le navigateur.
+- **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
+  `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.

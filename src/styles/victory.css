@@ -1,0 +1,73 @@
+/**
+ * @file Victory animation (≈ 5 s). Base styles are the END state and keyframes only describe the
+ * start (fill `both`): with reduced motion, base.css removes animations and the end state shows at once.
+ * Timeline: lock 0–1.4 s, doors 1–3 s, glow 1.4–3 s, flyers 2–5.8 s, text from 4.2 s (sound.ts matches).
+ */
+.victory { gap: 24px; overflow: hidden; }
+
+.haunted-door { position: relative; width: 380px; height: 480px; margin-top: 24px; flex-shrink: 0; }
+.doorway {
+  position: absolute; inset: 0; overflow: hidden;
+  border-radius: 190px 190px 8px 8px;
+  border: 10px solid #3b2817;
+  box-shadow: 0 0 0 4px #6b4a28, 0 20px 40px rgb(0 0 0 / .6);
+  background: #0d0805;
+  perspective: 900px;
+}
+.door-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 60%, #fff3c4, var(--amber) 35%, rgb(242 165 65 / .2) 70%, transparent);
+  animation: fade-in 1.6s ease-out 1.4s both;
+}
+.door {
+  position: absolute; top: 0; bottom: 0; width: 50%;
+  background: repeating-linear-gradient(90deg, #4a2e18 0 34px, #34200f 34px 38px);
+  box-shadow: inset 0 0 30px rgb(0 0 0 / .6);
+}
+/* Doors swing inwards, into the room (away from the children). */
+.door--left { left: 0; transform-origin: left center; transform: rotateY(80deg); animation: door-closed 2s ease-in-out 1s both; }
+.door--right { right: 0; transform-origin: right center; transform: rotateY(-80deg); animation: door-closed 2s ease-in-out 1s both; }
+
+.lock {
+  position: absolute; left: 50%; top: 52%; width: 72px; margin-left: -36px;
+  opacity: 0; transform: translateY(80px) rotate(25deg);
+  animation: lock-fall 1.4s ease-in both;
+}
+.lock-shackle {
+  display: block; width: 44px; height: 44px; margin: 0 auto -12px;
+  border: 9px solid var(--bronze); border-bottom: 0; border-radius: 22px 22px 0 0;
+  transform: translateY(-22px);
+  animation: shackle-closed .5s ease-out .2s both;
+}
+.lock-body {
+  display: block; height: 58px; border-radius: 10px;
+  background: linear-gradient(#d9b57a, var(--bronze) 50%, #8a6a3c);
+  box-shadow: 0 6px 14px rgb(0 0 0 / .5);
+}
+
+.ghost, .bat { position: absolute; left: 50%; top: 50%; opacity: 0; animation: fly-out 2.6s ease-out both; }
+.ghost { width: 90px; margin: -56px 0 0 -45px; fill: var(--wax); filter: drop-shadow(0 0 12px rgb(241 220 176 / .6)); }
+.ghost-eye { fill: var(--soot); }
+.bat { width: 80px; margin: -15px 0 0 -40px; fill: #3a2312; filter: drop-shadow(0 0 6px rgb(242 165 65 / .7)); animation-duration: 1.8s; }
+
+.victory-text { display: flex; flex-direction: column; align-items: center; gap: 12px; animation: rise-in .8s ease-out 4.2s both; }
+.victory h2 { font-size: 56px; max-width: 12em; text-wrap: balance; }
+.final-time { font-size: 34px; color: var(--amber); font-variant-numeric: lining-nums; }
+
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes door-closed { from { transform: rotateY(0); } }
+@keyframes shackle-closed { from { transform: none; } }
+@keyframes lock-fall { 0%, 55% { opacity: 1; transform: none; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(20px); } }
+@keyframes fly-out {
+  from { opacity: 0; transform: translate(0, 0) scale(.2); }
+  15%, 80% { opacity: 1; }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.1); }
+}
+
+@media (max-width: 600px) {
+  .haunted-door { width: 260px; height: 330px; }
+  .doorway { border-radius: 130px 130px 6px 6px; }
+  .victory h2 { font-size: 36px; }
+  .final-time { font-size: 26px; }
+}

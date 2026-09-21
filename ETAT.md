@@ -14,14 +14,16 @@ Dernière mise à jour : 2026-09-21 18:30
 - [x] Tâche 2 : Playwright, smoke test tablette (1 passed)
 - [x] Tâche 3 : `ci.yml`, `deploy.yml`, modèle de PR
 - [x] Tâche 4 : CLAUDE.md, README.md, ETAT.md
-- [ ] Tâche 5 : dépôt GitHub, issues, commit, Pages, PR ← reprendre ici
+- [x] Tâche 5 : dépôt public, issues #1–#6, ramdam17 invité, Pages activé, `main` protégée
+- [x] Relecture `relecteur-code` : 2 corrections appliquées (en-tête `main.tsx`, typecheck de `e2e/`)
+- [ ] PR ouverte, CI à surveiller, fusion à valider par Romain ← reprendre ici
 - [ ] Sprint 2 : validateur YAML
 
 ## Prochaine action concrète
-Tâche 5 du plan `docs/superpowers/plans/2026-09-21-sprint1-squelette.md`. Bloquée : Claude ne peut
-pas pousser `main` (hook garde-fous). Dépôt créé par Romain, issues #1–#6 créées.
-Reste : Romain fait le premier push de `main` ; puis Claude pousse `chore/scaffold`, invite
-ramdam17, active Pages, protège `main`, relecture, PR `Closes #1`.
+Vérifier que la CI de la PR du sprint 1 est verte (`gh pr checks`). Après le feu vert de Romain :
+fusion de la PR, puis `gh run watch` sur le déploiement et vérification Playwright du site en ligne
+(810×1080, titre visible, manifest servi). Ensuite sprint 2 : branche `feat/yaml-validator`,
+plan `docs/superpowers/plans/2026-09-21-sprint2-validateur.md`, issue #2.
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -34,7 +36,9 @@ ramdam17, active Pages, protège `main`, relecture, PR `Closes #1`.
 - Exécution du plan en inline (pas de sous-agents) : tâches petites et enchaînées.
 
 ## Points en suspens / questions pour Romain
-- Premier push de `main` : à faire par Romain (voir prochaine action).
+- Fusion de la PR du sprint 1 : à valider par Romain (elle déclenche la mise en ligne).
+- Réglages GitHub sensibles (création du dépôt, push de `main`, invitations, protection) : Claude
+  n'a pas la permission, Romain les lance avec `!`.
 
 ## Commandes du projet
 ```bash

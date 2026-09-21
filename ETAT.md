@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-21 20:20
+Dernière mise à jour : 2026-09-21 21:00
 
 ## Sprint en cours
 - **Objectif :** Sprint 3 — maquettes design (3 directions, captures 810×1080, choix de Romain)
@@ -18,15 +18,15 @@ Dernière mise à jour : 2026-09-21 20:20
 - [x] Sprint 2 terminé : PR #8 fusionnée, issue #2 fermée, site en ligne vérifié (Playwright 810×1080 :
   titre « Le manoir hanté »).
 - [x] Sprint 3 : cadrage fait (7-10 ans, salle noire éclairée aux bougies → fond sombre, pas de blanc pur).
-- [ ] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/` ← reprendre ici
-- [ ] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`
-- [ ] Relecture, PR avec captures, choix de Romain noté ici
+- [x] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/`
+- [x] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`.
+  Vérifié : typecheck, lint, 50 tests, build verts.
+- [ ] Relecture `relecteur-code` en cours ← reprendre ici
+- [ ] PR avec captures, choix de Romain noté ici
 
 ## Prochaine action concrète
-Écrire les maquettes HTML statiques (une page par direction, 3 écrans chacune, contenu de `quiz.yaml`) :
-1. Manoir à la bougie (noir/brun, ambre vacillant, lettres anciennes)
-2. Potion de sorcière (violet, vert phosphorescent, boutons-fioles)
-3. Citrouilles sous la lune (bleu nuit, lune, orange, typo cartoon)
+Traiter les retours du `relecteur-code`, pousser `feat/design-mockups`, ouvrir la PR (captures en images
+dans la description), puis demander à Romain de choisir sa direction (bougie, potion ou lune) et la noter ici.
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.
@@ -45,6 +45,9 @@ Dernière mise à jour : 2026-09-21 20:20
   Google Fonts pour les maquettes ; la version finale les embarquera (jeu hors ligne).
 - Public 7-10 ans, salle dans le noir : fond sombre, textes crème/ambre, pas d'aplats éblouissants,
   boutons du pavé ≥ 88 px.
+- Maquettes : `commun.css` (squelette + bascule d'écran par `#accueil`/`#etape`/`#cadenas`, sans JS) +
+  un .html/.css par direction. Chiffres toujours en police à chiffres alignés (le 0 ne doit pas
+  ressembler à un o). Captures en `reducedMotion` pour qu'elles soient identiques d'un lancement à l'autre.
 
 ## Points en suspens / questions pour Romain
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse

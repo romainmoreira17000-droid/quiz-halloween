@@ -16,12 +16,13 @@ Dernière mise à jour : 2026-09-21 23:55
   (tablette 810×1080 sans défilement ; téléphone 390 px sans débordement horizontal).
   96 tests unitaires + 4 e2e verts, typecheck/lint/build OK.
 - [x] Task 9 : docs (CLAUDE.md, README) commitées.
-- [ ] Task 9 : relecture `relecteur-code` ← en cours, puis corrections éventuelles
-- [ ] Task 9 : push + PR (`Closes #4`)
+- [x] Task 9 : relecture `relecteur-code` : prêt pour la PR, rien de bloquant (4 suggestions mineures,
+  dont le `header-spacer` à retirer au sprint 6 quand le bouton de remise à zéro arrive).
+- [x] Task 9 : push + PR (`Closes #4`) ← attend la CI et le merge par Romain
 
 ## Prochaine action concrète
-Traiter les retours de la relecture, relancer la vérification complète, puis push et `gh pr create`.
-Le merge revient à Romain.
+Romain relit et fusionne la PR du sprint 4 (après CI verte). Ensuite : `git checkout main && git pull
+&& git branch -d feat/steps-and-countdown`, puis ouvrir le sprint 5 (cadenas final).
 
 ## Décisions prises (et pourquoi)
 - Sprint 4 : `tsconfig.node.json` inclut `DOM` pour le code de `page.evaluate` en e2e ; test d'image
@@ -36,8 +37,8 @@ Le merge revient à Romain.
 - Pas de Supabase : aucune donnée à stocker, zéro donnée personnelle.
 - YAML validé à la construction : un YAML faux bloque la publication.
 - Temps écoulé : le jeu continue (compteur rouge négatif).
-- Progression sauvegardée sur la tablette ; remise à zéro par appui long 3 s.
-- Cadenas : ordre + indice facultatifs dans le YAML.
+- Sprint 6 (prévu) : progression sauvegardée sur la tablette ; remise à zéro par appui long 3 s.
+- Sprint 5 (prévu) : cadenas, ordre + indice facultatifs dans le YAML.
 - Actions GitHub en dernières versions (checkout/setup-node v7, pages v5) : les v4 tournent sur Node 20, déprécié.
 - Exécution du plan en inline (pas de sous-agents) : tâches petites et enchaînées.
 - `scripts/` a son propre `tsconfig.scripts.json` (résolution `bundler`) : `tsconfig.node.json` en

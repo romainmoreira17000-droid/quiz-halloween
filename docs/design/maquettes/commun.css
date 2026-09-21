@@ -1,0 +1,61 @@
+/*
+ * Shared frame for the three design mockups (sprint 3, issue #3).
+ * Only layout skeleton lives here; every visual choice belongs to a direction's own stylesheet.
+ * Screens are switched with the URL hash (#accueil, #etape, #cadenas) so no script is needed.
+ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html, body { min-height: 100%; }
+body { min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+p { text-wrap: pretty; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+
+.ecran {
+  display: none;
+  position: relative;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 48px 48px;
+  text-align: center;
+}
+/* Show the targeted screen, or the first one when the URL has no hash. */
+.ecran:target,
+body:not(:has(.ecran:target)) .ecran:first-of-type { display: flex; }
+
+.bandeau {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 72px;
+}
+.chrono { font-variant-numeric: lining-nums tabular-nums; min-width: 150px; text-align: left; }
+.progression { display: flex; gap: 14px; list-style: none; padding: 0; }
+
+/* Reset control is deliberately small and faded: animators long-press it, children should ignore it. */
+.raz { width: 48px; height: 48px; border-radius: 50%; font-size: 26px; opacity: .4; }
+.ecran > .raz { position: absolute; top: 28px; right: 32px; }
+
+.pave {
+  display: grid;
+  grid-template-columns: repeat(var(--pave-colonnes, 3), var(--touche, 120px));
+  gap: var(--pave-ecart, 22px);
+  justify-content: center;
+}
+.pave button { height: var(--touche, 120px); font-variant-numeric: lining-nums; }
+/* Phone-style layout: 0 sits alone under the middle column. */
+.pave button:last-child:nth-child(10) { grid-column: 2; }
+
+.molettes { display: flex; gap: 14px; justify-content: center; }
+.molette { display: flex; flex-direction: column; align-items: center; }
+.molette button { width: 96px; height: 72px; font-size: 32px; }
+.molette output { font-variant-numeric: lining-nums; }
+
+.rappel { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px; }
+
+:focus-visible { outline: 4px solid currentColor; outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

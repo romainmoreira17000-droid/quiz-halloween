@@ -1,0 +1,131 @@
+/*
+ * Direction 1 "Manoir à la bougie": the tablet is the only candle in a dark room.
+ * Warm soot background, cream text (never pure white, to avoid glare in the dark),
+ * keypad keys shaped like red wax seals. The single animated element is the candle flame.
+ */
+:root {
+  --suie: #1a120c;
+  --mur: #2a1c12;
+  --cire: #f1dcb0;
+  --ambre: #f2a541;
+  --bronze: #c9a26b;
+  --sceau: #8b2a20;
+  --sceau-clair: #b8483a;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 8%, rgb(242 165 65 / .2), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% 110%, var(--mur), transparent 70%),
+    var(--suie);
+  color: var(--cire);
+  font-family: Alegreya, Georgia, serif;
+  font-weight: 500;
+}
+
+h1, h2 { font-family: "IM Fell English SC", Georgia, serif; font-weight: 400; }
+h1 { font-size: 104px; line-height: .95; text-wrap: balance; text-shadow: 0 0 28px rgb(242 165 65 / .45); }
+h2 { font-size: 68px; line-height: 1; text-shadow: 0 0 20px rgb(242 165 65 / .3); }
+
+/* Digits stay in Alegreya: the old-style figures of IM Fell make 0 look like the letter o. */
+.rappel b, .molette output { font-weight: 700; font-variant-numeric: lining-nums; }
+
+/* Home */
+#accueil { justify-content: center; gap: 36px; }
+.intro { font-size: 32px; line-height: 1.45; max-width: 19em; }
+.duree { font-size: 24px; color: var(--bronze); }
+
+.chandelle { display: flex; flex-direction: column; align-items: center; }
+.flamme {
+  width: 34px; height: 62px;
+  border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 72%, #fff3c4 0 18%, #ffc75a 40%, var(--ambre) 70%, transparent 72%);
+  box-shadow: 0 0 60px 26px rgb(242 165 65 / .28);
+  transform-origin: 50% 90%;
+  animation: vacille 2.6s ease-in-out infinite;
+}
+.meche { width: 3px; height: 10px; background: #2b1a0c; }
+.cire {
+  width: 52px; height: 150px;
+  border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(90deg, #d9bf8e, var(--cire) 40%, #cdb07c);
+}
+@keyframes vacille {
+  0%, 100% { transform: scale(1, 1) rotate(-1deg); }
+  25% { transform: scale(1.04, .95) rotate(2deg); }
+  55% { transform: scale(.96, 1.06) rotate(-2deg); }
+  80% { transform: scale(1.02, .98) rotate(1deg); }
+}
+
+/* Wax-seal buttons */
+.pave button, .sceau-long {
+  position: relative;
+  color: var(--cire);
+  background: radial-gradient(circle at 35% 30%, var(--sceau-clair), var(--sceau) 55%, #5a150f);
+  box-shadow: inset 0 -6px 0 rgb(0 0 0 / .25), 0 8px 18px rgb(0 0 0 / .55);
+  text-shadow: 0 2px 0 rgb(0 0 0 / .35);
+}
+.pave button:active, .sceau-long:active { transform: translateY(3px); box-shadow: inset 0 -2px 0 rgb(0 0 0 / .25), 0 3px 8px rgb(0 0 0 / .5); }
+.pave button::before, .sceau-long::before {
+  content: ""; position: absolute; inset: 12px;
+  border: 2px dashed rgb(241 220 176 / .25);
+  border-radius: inherit;
+}
+.sceau-long {
+  min-height: 104px; padding: 0 72px;
+  border-radius: 56px 60px 54px 58px;
+  font-family: "IM Fell English SC", Georgia, serif; font-size: 48px;
+}
+
+/* Header */
+.chrono { font-size: 44px; font-weight: 700; color: var(--ambre); }
+.progression li {
+  position: relative; width: 18px; height: 46px; margin-top: 22px;
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(90deg, #cdb07c, var(--cire) 45%, #bfa06c);
+  opacity: .4;
+}
+.progression li.allumee, .progression li.en-cours { opacity: 1; }
+.progression li::before {
+  content: ""; position: absolute; left: 50%; bottom: 100%;
+  width: 12px; height: 20px; margin-left: -6px;
+}
+.progression li.allumee::before {
+  border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 70%, #fff3c4 0 20%, var(--ambre) 65%, transparent 70%);
+  box-shadow: 0 0 16px 6px rgb(242 165 65 / .35);
+}
+.progression li.en-cours::before { width: 4px; height: 8px; margin-left: -2px; background: #e0562f; border-radius: 2px; box-shadow: 0 0 8px 2px rgb(224 86 47 / .6); }
+
+/* Step */
+.numero { margin-top: 28px; font-size: 26px; color: var(--bronze); }
+#etape h2 { margin: 6px 0 20px; }
+.consigne { font-size: 36px; line-height: 1.45; max-width: 19em; }
+#etape .pave { margin-top: auto; --touche: 124px; --pave-ecart: 22px; }
+.pave button { border-radius: 48% 52% 50% 50% / 52% 47% 53% 48%; font-size: 60px; font-weight: 700; }
+
+/* Padlock */
+#cadenas { gap: 26px; }
+#cadenas h2 { margin-top: 12px; }
+.rappel { width: 100%; max-width: 690px; }
+.rappel li {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 8px 12px; border-bottom: 1px dashed rgb(241 220 176 / .25);
+  font-size: 22px; text-align: left;
+}
+.rappel b { font-size: 42px; color: var(--ambre); }
+.indice { font-size: 26px; color: var(--bronze); max-width: 24em; }
+.indice::before { content: "« "; }
+.indice::after { content: " »"; }
+.molette {
+  padding: 4px; border-radius: 18px;
+  background: linear-gradient(#3b2817, #20150c);
+  border: 2px solid #6b4a28;
+}
+.molette button { color: var(--ambre); }
+.molette output {
+  width: 92px; height: 104px; line-height: 104px; font-size: 68px;
+  background: #110b06; border-radius: 10px;
+  box-shadow: inset 0 10px 14px rgb(0 0 0 / .6), inset 0 -10px 14px rgb(0 0 0 / .6);
+}
+#cadenas .sceau-long { margin-top: auto; }

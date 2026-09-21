@@ -28,7 +28,7 @@ h1 { font-size: 104px; line-height: .95; text-wrap: balance; text-shadow: 0 0 28
 h2 { font-size: 68px; line-height: 1; text-shadow: 0 0 20px rgb(242 165 65 / .3); }
 
 /* Digits stay in Alegreya: the old-style figures of IM Fell make 0 look like the letter o. */
-.rappel b, .molette output { font-weight: 700; }
+.rappel b, .molette output { font-weight: 700; font-variant-numeric: lining-nums; }
 
 /* Home */
 #accueil { justify-content: center; gap: 36px; }

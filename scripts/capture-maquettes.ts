@@ -27,15 +27,19 @@ const browser = await chromium.launch()
 // Reduced motion freezes the flame/bubbles so screenshots are stable from one run to the next.
 const page = await browser.newPage({ viewport: { width: 810, height: 1080 }, reducedMotion: 'reduce' })
 
-for (const direction of directions) {
-  const url = pathToFileURL(resolve(MOCKUPS_DIR, `${direction}.html`)).href
-  for (const screen of SCREENS) {
-    await page.goto(`${url}#${screen}`)
-    // Passed as a string: it runs in the browser, and the scripts tsconfig has no DOM types.
-    await page.evaluate('document.fonts.ready')
-    const file = resolve(OUTPUT_DIR, `${direction}-${screen}.png`)
-    await page.screenshot({ path: file })
-    console.log(`📸 ${direction}-${screen}.png`)
+try {
+  for (const direction of directions) {
+    const url = pathToFileURL(resolve(MOCKUPS_DIR, `${direction}.html`)).href
+    for (const screen of SCREENS) {
+      await page.goto(`${url}#${screen}`)
+      // Passed as a string: it runs in the browser, and the scripts tsconfig has no DOM types.
+      await page.evaluate('document.fonts.ready')
+      const file = resolve(OUTPUT_DIR, `${direction}-${screen}.png`)
+      await page.screenshot({ path: file })
+      console.log(`📸 ${direction}-${screen}.png`)
+    }
   }
+} finally {
+  // Always release Chromium, even when a page or Google Fonts fails to load.
+  await browser.close()
 }
-await browser.close()

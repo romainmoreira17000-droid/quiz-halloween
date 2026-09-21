@@ -21,14 +21,17 @@ Dernière mise à jour : 2026-09-21 21:00
 - [x] Maquettes HTML des 3 directions (accueil, étape, cadenas) dans `docs/design/maquettes/`
 - [x] Script `scripts/capture-maquettes.ts` + 9 captures dans `docs/design/captures/`.
   Vérifié : typecheck, lint, 50 tests, build verts.
-- [ ] Relecture `relecteur-code` en cours ← reprendre ici
+- [x] Relecture `relecteur-code` : rien de bloquant ; corrigés : zéro du récapitulatif (chiffres alignés),
+  fermeture du navigateur en cas d'erreur dans le script de capture.
 - [x] Choix de Romain : **direction 1, Manoir à la bougie** (2026-09-21).
-- [ ] PR avec captures
+- [x] PR #9 ouverte avec les captures
+- [ ] Merge de la PR #9 par Romain ← reprendre ici
 
 ## Prochaine action concrète
-Traiter les retours du `relecteur-code`, pousser `feat/design-mockups`, ouvrir la PR (captures en images
-dans la description), en indiquant le choix de Romain (Manoir à la bougie). Après merge : sprint 4 (déroulé des étapes +
-compteur) avec le design bougie, polices embarquées (jeu hors ligne).
+Attendre le feu vert de Romain pour fusionner la PR #9 (https://github.com/romainmoreira17000-droid/quiz-halloween/pull/9).
+Après merge : `git checkout main && git pull && git branch -d feat/design-mockups`, puis ouvrir le sprint 4
+(déroulé des étapes + compteur) avec le design bougie et les polices embarquées (jeu hors ligne).
+Au sprint 4 : `--touche` doit piloter largeur et hauteur ; vérifier le 0 dans chaque police de chiffres.
 
 ## Décisions prises (et pourquoi)
 - Dépôt **public** : Pages sur dépôt privé exige un compte GitHub payant.

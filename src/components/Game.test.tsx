@@ -1,7 +1,8 @@
-/** @file Integration test: a full game in memory. */
-import { render, screen } from '@testing-library/react'
+/** @file Integration tests: a full game, and the animator's reset. */
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Game } from './Game'
+import { RESET_HOLD_MS } from './ResetButton'
 import type { QuizConfig } from '../config/types'
 import { playVictorySound } from '../services/sound'
 
@@ -14,6 +15,8 @@ const config: QuizConfig = {
 }
 
 describe('Game', () => {
+  afterEach(() => vi.useRealTimers())
+
   it('plays from home to the victory, with a wrong answer and a wrong code', async () => {
     const user = userEvent.setup()
     render(<Game config={config} />)
@@ -43,5 +46,18 @@ describe('Game', () => {
     expect(playVictorySound).toHaveBeenCalledOnce()
     expect(screen.getByRole('heading', { name: 'Le cadenas est ouvert !' })).toBeInTheDocument()
     expect(screen.getByText(/^Temps : \d+ min \d{2} s$/)).toBeInTheDocument()
+  })
+
+  it('shows the reset icon on every screen and restarts after a long press + confirmation', () => {
+    vi.useFakeTimers()
+    render(<Game config={config} />)
+    const icon = () => screen.getByRole('button', { name: 'Recommencer la partie (appui long)' })
+    expect(icon()).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Commencer' }))
+    fireEvent.click(screen.getByRole('button', { name: '4' }))
+    fireEvent.pointerDown(icon())
+    act(() => vi.advanceTimersByTime(RESET_HOLD_MS))
+    fireEvent.click(screen.getByRole('button', { name: 'Recommencer' }))
+    expect(screen.getByRole('button', { name: 'Commencer' })).toBeInTheDocument()
   })
 })

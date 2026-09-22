@@ -30,7 +30,7 @@ Dernière mise à jour : 2026-09-22 (sprint 6 : PR #12 ouverte)
 ## Prochaine action concrète
 Attendre la décision de Romain sur la PR #12 (CI : `gh pr checks 12`). Après fusion : nettoyer la
 branche (voir ci-dessus), vérifier le site Pages sur la tablette (reprise après rechargement, appui long).
-Sprint 6 = dernier sprint prévu par la spec.
+L'issue #6 est la dernière ouverte : aucun sprint suivant n'est planifié.
 
 ## Décisions prises (et pourquoi)
 - Sprint 6 : icône en `position: absolute` en bas de page (pas `fixed` comme prévu au plan) : sur

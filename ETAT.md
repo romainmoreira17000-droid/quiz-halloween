@@ -1,13 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 7 codé, testé et relu ; PR à ouvrir)
+Dernière mise à jour : 2026-09-22 (sprint 7 fusionné et en ligne ; sprint 8 à démarrer)
 
 ## Sprint en cours
-- **Sprint 7** : message d'entrée + réponses en chiffres ou en mots (issue #14).
-- Branche `feat/entrance-and-text-answers`. **PR #16** ouverte, en attente de Romain.
-- Spec : `docs/superpowers/specs/2026-09-22-entree-et-reponses-design.md` (validée par Romain).
-- Plan : `docs/superpowers/plans/2026-09-22-sprint7-entree-et-reponses.md` (7 tâches).
-- Sprint suivant déjà ouvert : **sprint 8**, décor de la grande salle + cadenas en coupe (issue #15).
+- **Aucun.** Sprint 7 (message d'entrée + réponses chiffres/mots, issue #14) fusionné via la PR #16,
+  déployé et vérifié en ligne (navigateur neuf : lettre sans compteur, FANTOME → crypte à 90:00,
+  reprise après rechargement).
+- Prochain : **sprint 8**, décor de la grande salle + cadenas en coupe (issue #15, déjà ouverte).
 
 ## Où on en est
 - [x] Sprints 1 à 6 terminés et en ligne. Romain a testé sur tablette : tout marche.
@@ -16,11 +15,13 @@ Dernière mise à jour : 2026-09-22 (sprint 7 codé, testé et relu ; PR à ouvr
 - [x] 242 tests unitaires, 7 e2e, typecheck, lint, valider, build : tout vert
 - [x] Vérif navigateur (810×1080 et 360 px, navigateur neuf) : entrée, étape chiffres, étape mots
 - [x] Relecture `relecteur-code` (prête pour la PR), PR #16 ouverte
-- [ ] Romain : relire la PR et décider du merge ; puis sprint 8 (décor, issue #15)
+- [x] PR #16 fusionnée, déployée, vérifiée en ligne
+- [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
 
 ## Prochaine action concrète
-Attendre que la CI de la PR #16 soit verte et que Romain décide du merge. Après merge :
-`git checkout main && git pull && git branch -d feat/entrance-and-text-answers`, puis sprint 8 (issue #15).
+Démarrer le sprint 8 (issue #15) : branche `feat/haunted-hall`, plan du décor (grande salle SVG, cadenas en
+coupe avec goupilles, parchemin, porte d'entrée) à partir de la maquette validée (spec, section « Décor »).
+Corriger au passage : écran à pavé 15 px trop haut sur 810×1080, queue du « Q » qui déborde.
 
 ## Décisions prises (et pourquoi)
 - Sprint 7 (exécution) : `reponse: 0472` sans guillemets garde son 0 (le parseur relit le texte

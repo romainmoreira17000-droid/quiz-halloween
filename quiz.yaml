@@ -47,8 +47,8 @@ entree:
 #   image         facultatif, nom d'un fichier placé dans public/images/
 #   type_reponse  obligatoire : chiffres ou mots
 #   reponse       obligatoire, la bonne réponse de l'épreuve :
-#                   - chiffres : uniquement des chiffres, 12 au plus ; mettre des guillemets
-#                     pour garder un 0 au début ("0472")
+#                   - chiffres : uniquement des chiffres, 12 au plus ; les guillemets sont
+#                     facultatifs, un 0 au début est gardé avec ou sans eux (0472 ou "0472")
 #                   - mots : lettres, espaces, apostrophes ou tirets, 24 caractères au plus ;
 #                     majuscules et accents ne comptent pas
 #   chiffre       obligatoire, le chiffre (0 à 9) gagné pour le cadenas final

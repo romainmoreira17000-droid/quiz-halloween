@@ -1,7 +1,26 @@
 /** @file Parses the quiz YAML text, then validates it. */
-import { parse } from 'yaml'
+import { isPair, isScalar, parseDocument, visit, type Document } from 'yaml'
 import { validateQuiz } from './validateQuiz'
 import type { ValidationResult } from './types'
+
+/**
+ * Restores the exact YAML source text of every `reponse` value that `yaml` read as a number.
+ * `yaml` reads an unquoted `reponse: 0472` as the number 472, silently dropping the leading
+ * zero the digits keyboard needs; the source text ("0472") is what was actually typed in the
+ * file, so it is what should reach the validator and the game.
+ * @param doc Parsed document, mutated in place.
+ */
+function keepNumericAnswersAsWritten(doc: Document): void {
+  visit(doc, {
+    Pair(_, pair) {
+      if (!isPair(pair) || !isScalar(pair.key) || pair.key.value !== 'reponse') return
+      const value = pair.value
+      if (isScalar(value) && typeof value.value === 'number' && value.source !== undefined) {
+        value.value = value.source
+      }
+    },
+  })
+}
 
 /**
  * Parses YAML text and validates the result.
@@ -9,12 +28,11 @@ import type { ValidationResult } from './types'
  * @returns The typed config, or French error messages (syntax errors included).
  */
 export function parseQuizYaml(text: string): ValidationResult {
-  let raw: unknown
-  try {
-    raw = parse(text)
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error)
-    return { ok: false, errors: [`Le fichier YAML est illisible : ${detail}`] }
+  const doc = parseDocument(text)
+  // parseDocument never throws: syntax errors land in doc.errors instead.
+  if (doc.errors.length > 0) {
+    return { ok: false, errors: [`Le fichier YAML est illisible : ${doc.errors[0].message}`] }
   }
-  return validateQuiz(raw)
+  keepNumericAnswersAsWritten(doc)
+  return validateQuiz(doc.toJS())
 }

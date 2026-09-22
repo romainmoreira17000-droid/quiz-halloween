@@ -99,8 +99,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Vérif visuelle après rebuild** : le service worker de la PWA peut resservir l'ancien build ;
   repartir d'un navigateur neuf (fermer le contexte Playwright).
 - **Réponses** : en `mots`, majuscules/accents/espaces autour ignorés et les espaces répétés à
-  l'intérieur comptent pour un seul (`normalizeAnswer`) ; en `chiffres`, les zéros de tête comptent
-  et YAML lit `reponse: 0472` comme le nombre 472 → guillemets obligatoires pour un 0 initial.
+  l'intérieur comptent pour un seul (`normalizeAnswer`) ; en `chiffres`, les zéros de tête comptent.
+  YAML lirait `reponse: 0472` sans guillemets comme le nombre 472 : `parseQuizYaml` restaure le
+  texte source de tout `reponse` numérique (via `visit` sur le document parsé) avant validation,
+  donc les guillemets sont facultatifs pour garder un 0 initial.
 - **Saisie** : `AnswerInput` est un `<output>` (rôle `status`) : il n'est jamais affiché en même temps
   que « Chiffre trouvé », sinon `getByRole('status')` deviendrait ambigu. Le texte tapé s'efface après
   une mauvaise réponse (remontage par `key`).

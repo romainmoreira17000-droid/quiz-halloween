@@ -88,7 +88,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
 - **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
-  changer une solution si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
+  changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
   remonte (retour à l'accueil). Statut `home` = pas de sauvegarde (c'est ainsi que `reset` l'efface).
 - **Remise à zéro** : durée de l'appui = `RESET_HOLD_MS` (ResetButton.tsx), à garder égale à l'animation
   `reset-fill` (3s) de `reset.css`. L'icône est en `position: absolute` en bas de `#root`, pas `fixed` :
@@ -98,9 +98,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   « Recommencer la partie » contient « Commencer » → toujours `exact: true` sur « Commencer ».
 - **Vérif visuelle après rebuild** : le service worker de la PWA peut resservir l'ancien build ;
   repartir d'un navigateur neuf (fermer le contexte Playwright).
-- **Réponses** : en `mots`, majuscules/accents/espaces autour ignorés (`normalizeAnswer`) ; en `chiffres`,
-  les zéros de tête comptent et YAML lit `reponse: 0472` comme le nombre 472 → guillemets obligatoires
-  pour un 0 initial.
+- **Réponses** : en `mots`, majuscules/accents/espaces autour ignorés et les espaces répétés à
+  l'intérieur comptent pour un seul (`normalizeAnswer`) ; en `chiffres`, les zéros de tête comptent
+  et YAML lit `reponse: 0472` comme le nombre 472 → guillemets obligatoires pour un 0 initial.
 - **Saisie** : `AnswerInput` est un `<output>` (rôle `status`) : il n'est jamais affiché en même temps
   que « Chiffre trouvé », sinon `getByRole('status')` deviendrait ambigu. Le texte tapé s'efface après
   une mauvaise réponse (remontage par `key`).

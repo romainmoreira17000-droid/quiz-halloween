@@ -1,8 +1,9 @@
 # Quiz Halloween
 
 Jeu d'énigmes d'Halloween pour les enfants du Centre de Loisirs, joué en groupe sur tablette.
-Chaque étape donne une consigne dont la réponse est un chiffre ; les chiffres trouvés ouvrent un
-cadenas final.
+Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (code en chiffres ou mot)
+et gagnent un chiffre. Un message d'entrée facultatif fait entrer dans le restaurant et démarre le
+compteur ; les chiffres trouvés ouvrent le cadenas final.
 
 En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 

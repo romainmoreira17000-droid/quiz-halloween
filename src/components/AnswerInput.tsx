@@ -30,7 +30,7 @@ export function AnswerInput({ kind, onSubmit }: AnswerInputProps) {
   return (
     <div className="answer-input">
       {/* A no-break space keeps the line height while nothing is typed. */}
-      <output className={`typed typed--${kind}`} aria-label="Réponse tapée">{text || ' '}</output>
+      <output className={`typed typed--${kind}`} aria-label="Réponse tapée">{text || ' '}</output>
       {kind === 'digits' ? <Keypad {...keys} /> : <LetterKeyboard {...keys} />}
     </div>
   )

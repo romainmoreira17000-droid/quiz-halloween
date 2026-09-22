@@ -9,9 +9,12 @@
 .typed--digits { font-family: var(--text-font); font-weight: 700; }
 
 .letter-keyboard { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.key-row { display: flex; gap: 8px; }
+/* Row width must fit inside the screen: the widest row has 10 keys (e.g. AZERTYUIOP).
+   Tablet: 10 * 62px + 9 * 7px gap = 683px, fits under 810 - 2*48px padding = 714px available.
+   Bottom row (Espace/Effacer/Valider) already fits at 586px, so it keeps its own widths below. */
+.key-row { display: flex; gap: 7px; }
 .letter-keyboard button {
-  width: 66px; height: 70px; border-radius: 10px;
+  width: 62px; height: 70px; border-radius: 10px;
   font-family: var(--title-font); font-size: 34px;
   background: linear-gradient(#4a3526, #2e2016);
   border: 1px solid #6b5138;
@@ -27,8 +30,11 @@
 
 @media (max-width: 600px) {
   .typed { font-size: 36px; }
+  /* Phone: 10 * 28px + 9 * 4px gap = 316px, fits under 360 - 2*16px padding = 328px available
+     (body clips overflow-x, so going over this would cut keys off screen).
+     Bottom row already fits at 294px, so it keeps its own widths below. */
   .key-row { gap: 4px; }
-  .letter-keyboard button { width: 32px; height: 52px; font-size: 22px; border-radius: 6px; }
+  .letter-keyboard button { width: 28px; height: 52px; font-size: 22px; border-radius: 6px; }
   .letter-keyboard .key-space { width: 130px; font-size: 18px; }
   .letter-keyboard .key-erase { width: 56px; }
   .letter-keyboard .key-submit { width: 100px; font-size: 18px; }

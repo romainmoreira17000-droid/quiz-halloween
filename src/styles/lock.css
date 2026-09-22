@@ -13,7 +13,8 @@
 .lock-slot-glow:has(+ .lock-pin--falling) { animation: slot-light .6s .4s both; }
 @keyframes slot-light { from { opacity: 0; } }
 
-.lock-digit { fill: #6b5a4a; font-family: var(--title-font); font-variant-numeric: lining-nums; }
+/* Text font: the title font only has old-style digits. */
+.lock-digit { fill: #6b5a4a; font-family: var(--text-font); font-weight: 700; font-variant-numeric: lining-nums; }
 .lock-digit--found { fill: #f5c46b; }
 
 /* The shackle rises out of the body, then swings on its left leg. */

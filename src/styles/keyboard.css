@@ -20,6 +20,9 @@
   border: 1px solid #6b5138;
   box-shadow: 0 4px 8px rgb(0 0 0 / .6);
 }
+/* Keeps glyph tails (Q) inside the key; key-q moves its glyph left so the tail is not cut off. */
+.letter-keyboard button { overflow: hidden; }
+.letter-keyboard .key-q { padding-right: 14px; }
 .letter-keyboard button:active { transform: translateY(3px); box-shadow: 0 1px 3px rgb(0 0 0 / .6); }
 .letter-keyboard .key-space { width: 280px; font-size: 26px; }
 .letter-keyboard .key-erase { width: 110px; }
@@ -35,6 +38,7 @@
      Bottom row already fits at 294px, so it keeps its own widths below. */
   .key-row { gap: 4px; }
   .letter-keyboard button { width: 28px; height: 52px; font-size: 22px; border-radius: 6px; }
+  .letter-keyboard .key-q { padding-right: 6px; }
   .letter-keyboard .key-space { width: 130px; font-size: 18px; }
   .letter-keyboard .key-erase { width: 56px; }
   .letter-keyboard .key-submit { width: 100px; font-size: 18px; }

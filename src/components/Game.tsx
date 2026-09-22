@@ -58,7 +58,7 @@ function currentScreen(config: QuizConfig, { state, start, enter, answer, next, 
   const submit = (text: string) => { if (answer(text)) playPinSound() }
   return (
     <StepScreen header={header} step={config.steps[state.stepIndex]} stepNumber={state.stepIndex + 1}
-      total={config.stepCount} foundDigit={state.foundDigits[state.stepIndex]} wrongAttempts={state.wrongAttempts}
+      total={config.stepCount} foundDigits={state.foundDigits} wrongAttempts={state.wrongAttempts}
       isLast={state.stepIndex === config.stepCount - 1} onSubmit={submit} onNext={next} />
   )
 }

@@ -7,7 +7,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 const base: StepScreenProps = {
   header: <header>entête</header>,
   step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
-  stepNumber: 2, total: 6, foundDigit: undefined, wrongAttempts: 0, isLast: false,
+  stepNumber: 2, total: 6, foundDigits: [4], wrongAttempts: 0, isLast: false,
   onSubmit: () => {}, onNext: () => {},
 }
 
@@ -23,13 +23,14 @@ describe('StepScreen', () => {
     expect(screen.getAllByRole('button')).toHaveLength(12)
     expect(screen.getByLabelText('Réponse tapée')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Cadenas : 1 goupille tombée sur 6' })).toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: /Image de l’étape/ })).not.toBeInTheDocument()
   })
   it('shows the step image under the site base path', () => {
     // Vitest serves from "/", so set the production base explicitly.
     vi.stubEnv('BASE_URL', '/quiz-halloween/')
     render(<StepScreen {...base} step={{ ...base.step, image: 'chaudron.png' }} />)
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/quiz-halloween/images/chaudron.png')
+    expect(screen.getByRole('img', { name: 'Image de l’étape : Le chaudron' })).toHaveAttribute('src', '/quiz-halloween/images/chaudron.png')
   })
   it('submits the typed code', async () => {
     const onSubmit = vi.fn()
@@ -48,16 +49,19 @@ describe('StepScreen', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(WRONG_ANSWER_MESSAGES[1])
     expect(container.querySelector('.shake')).not.toBeNull()
   })
-  it('replaces the keypad with the found digit and a next button', async () => {
+  it('drops the pin, shows the found digit and a next button instead of the keypad', async () => {
     const onNext = vi.fn()
-    render(<StepScreen {...base} foundDigit={7} onNext={onNext} />)
+    const { container } = render(<StepScreen {...base} foundDigits={[4, 7]} onNext={onNext} />)
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 7')
+    expect(screen.getByRole('img', { name: 'Cadenas : 2 goupilles tombées sur 6' })).toBeInTheDocument()
+    expect(container.querySelectorAll('.lock-pin')[1]).toHaveClass('lock-pin--falling')
     expect(screen.queryByRole('button', { name: '1' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Étape suivante' }))
     expect(onNext).toHaveBeenCalledOnce()
   })
   it('says "Continuer" after the last step', () => {
-    render(<StepScreen {...base} foundDigit={7} isLast />)
+    render(<StepScreen {...base} stepNumber={6} foundDigits={[4, 7, 1, 2, 0, 9]} isLast />)
+    expect(screen.getByRole('img', { name: /Cadenas ouvert/ })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continuer' })).toBeInTheDocument()
   })
 })

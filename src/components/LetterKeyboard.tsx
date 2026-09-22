@@ -2,6 +2,8 @@
 import type { AnswerKeysProps } from './Keypad'
 
 const ROWS = ['AZERTYUIOP', 'QSDFGHJKLM', "WXCVBN'-"]
+/** The title font draws a long tail on Q: its key shifts the glyph left to keep it inside. */
+const keyClass = (c: string) => (c === 'Q' ? 'key-q' : undefined)
 /** Spoken names for the two keys whose glyph alone is unclear. */
 const LABELS: Readonly<Record<string, string>> = { "'": 'Apostrophe', '-': 'Tiret' }
 
@@ -15,7 +17,7 @@ export function LetterKeyboard({ onKey, onErase, onSubmit, canSubmit }: AnswerKe
     <div className="letter-keyboard">
       {ROWS.map((row) => (
         <div key={row} className="key-row">
-          {[...row].map((c) => <button key={c} type="button" aria-label={LABELS[c]} onClick={() => onKey(c)}>{c}</button>)}
+          {[...row].map((c) => <button key={c} type="button" className={keyClass(c)} aria-label={LABELS[c]} onClick={() => onKey(c)}>{c}</button>)}
         </div>
       ))}
       <div className="key-row">

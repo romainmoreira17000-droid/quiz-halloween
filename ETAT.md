@@ -1,28 +1,40 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 7 codé, testé et relu ; PR à ouvrir)
+Dernière mise à jour : 2026-09-22 (sprint 8 : plan écrit, code pas commencé)
 
 ## Sprint en cours
-- **Sprint 7** : message d'entrée + réponses en chiffres ou en mots (issue #14).
-- Branche `feat/entrance-and-text-answers`. **PR #16** ouverte, en attente de Romain.
-- Spec : `docs/superpowers/specs/2026-09-22-entree-et-reponses-design.md` (validée par Romain).
-- Plan : `docs/superpowers/plans/2026-09-22-sprint7-entree-et-reponses.md` (7 tâches).
-- Sprint suivant déjà ouvert : **sprint 8**, décor de la grande salle + cadenas en coupe (issue #15).
+- **Objectif :** décor de la grande salle du restaurant hanté, consigne sur parchemin, gros cadenas
+  en coupe (une goupille tombe par bonne réponse), entrée devant la porte du restaurant.
+- **Issue :** #15
+- **Branche :** `feat/haunted-hall` (partie de `main` à bc1357d)
+- **PR :** pas encore ouverte. La PR #17 (docs, état après sprint 7) est encore ouverte : la fermer
+  sans fusionner, ce fichier la remplace.
+- **Plan :** `docs/superpowers/plans/2026-09-22-sprint8-grande-salle.md` (6 tâches)
 
 ## Où on en est
-- [x] Sprints 1 à 6 terminés et en ligne. Romain a testé sur tablette : tout marche.
-- [x] Sprint 7 : brainstorming, spec, plan
-- [x] Tâches 1 à 7 (sous-agents Sonnet, relecture par tâche) + relecture globale Opus + corrections
-- [x] 242 tests unitaires, 7 e2e, typecheck, lint, valider, build : tout vert
-- [x] Vérif navigateur (810×1080 et 360 px, navigateur neuf) : entrée, étape chiffres, étape mots
-- [x] Relecture `relecteur-code` (prête pour la PR), PR #16 ouverte
-- [ ] Romain : relire la PR et décider du merge ; puis sprint 8 (décor, issue #15)
+- [x] Sprints 1 à 7 terminés et en ligne.
+- [x] Sprint 8 : cadrage (maquette validée au brainstorming du sprint 7), plan écrit
+- [ ] Tâche 1 : « clac » quand une goupille tombe (`playPinSound`, `answer()` renvoie un booléen) ← reprendre ici
+- [ ] Tâche 2 : composant `CutawayLock`
+- [ ] Tâche 3 : écran d'étape sur parchemin avec le cadenas (+ pavé 15 px trop haut, queue du « Q »)
+- [ ] Tâche 4 : décor de la grande salle (`src/components/decor/`)
+- [ ] Tâche 5 : entrée devant la porte du restaurant
+- [ ] Tâche 6 : vérifications, doc, relecture, PR
+- [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
 
 ## Prochaine action concrète
-Attendre que la CI de la PR #16 soit verte et que Romain décide du merge. Après merge :
-`git checkout main && git pull && git branch -d feat/entrance-and-text-answers`, puis sprint 8 (issue #15).
+Tâche 1 du plan : écrire les tests rouges de `playPinSound` dans `src/services/sound.test.ts`, puis le
+test « clac sur bonne réponse seulement » dans `src/components/Game.test.tsx`.
 
 ## Décisions prises (et pourquoi)
+- Sprint 8 : l'entête (compteur + bougies) reste tel quel ; l'accueil garde sa bougie, sans décor
+  (le spec ne parle que des écrans de jeu).
+- Sprint 8 : décor en composants SVG React (pas une image) : animations des flammes coupées par la règle
+  `prefers-reduced-motion` existante, et fichiers testables.
+- Sprint 8 : le « clac » est joué dans le tap « Valider » (sinon bloqué par la tablette), d'où
+  `answer()` qui renvoie un booléen, comme `unlock()`.
+- Sprint 8 : sur tablette, l'écran d'étape garde 40 px en bas au lieu de 96 (l'icône ↺ est à gauche, loin
+  des claviers centrés) pour que tout tienne en 1080 px.
 - Sprint 7 (exécution) : `reponse: 0472` sans guillemets garde son 0 (le parseur relit le texte
   source du YAML) : un oubli de guillemets aurait bloqué les enfants sans aucune erreur.
 - Sprint 7 : clavier de lettres resserré (touches 62 px sur tablette, 28 px sur téléphone) : les tailles

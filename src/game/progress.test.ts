@@ -47,7 +47,7 @@ describe('game reducer', () => {
     expect(next).toEqual({ ...playing, stepIndex: 1, foundDigits: [4] })
     expect(isCurrentStepSolved(next)).toBe(false)
   })
-  it('accepts 0 as a solution and goes to the padlock after the last step', () => {
+  it('accepts 0 as an earned digit and goes to the padlock after the last step', () => {
     let state = reduce(playing, { type: 'answer', text: '14' })
     state = reduce(state, { type: 'next' })
     state = reduce(state, { type: 'answer', text: 'fantome' })

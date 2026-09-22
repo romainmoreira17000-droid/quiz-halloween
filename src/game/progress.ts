@@ -35,7 +35,7 @@ export const initialGameState: GameState = {
 /**
  * Tells whether the current step already has its digit.
  * @param state Game state.
- * @returns True once the right digit was pressed on the current step.
+ * @returns True once the current step's answer was found.
  */
 export function isCurrentStepSolved(state: GameState): boolean {
   return state.foundDigits.length > state.stepIndex

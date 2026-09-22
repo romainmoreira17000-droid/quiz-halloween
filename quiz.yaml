@@ -14,7 +14,7 @@
 titre: "Le manoir hanté"
 
 # Texte d'introduction sous le titre. Facultatif.
-intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Résolvez les énigmes pour trouver le code du cadenas !"
+intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Réussissez les épreuves pour trouver le code du cadenas !"
 
 # Durée de la partie en minutes. Obligatoire, nombre entier supérieur à 0.
 # Quand le temps est écoulé, le jeu continue (le compteur passe en rouge).

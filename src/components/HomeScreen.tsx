@@ -1,4 +1,5 @@
-/** @file Home screen: candle, title, intro and the "Commencer" button that starts the clock. */
+/** @file Home screen: candle, title, intro and the "Commencer" button that leaves home (the clock
+ * starts at the entrance answer when there is one, otherwise right away). */
 
 /** Props of HomeScreen. */
 export interface HomeScreenProps {

@@ -22,7 +22,7 @@ export interface StepScreenProps {
 }
 
 /**
- * One riddle of the quiz.
+ * One challenge of the quiz.
  * @param props See StepScreenProps.
  * @returns The step screen.
  */

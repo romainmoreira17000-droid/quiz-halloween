@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 6 : cadrage et plan faits)
+Dernière mise à jour : 2026-09-22 (sprint 6 : Tasks 1 à 8 faites, docs à jour)
 
 ## Sprint en cours
 - **Objectif :** Sprint 6 — sauvegarde de la partie sur la tablette + remise à zéro par appui long
@@ -13,22 +13,27 @@ Dernière mise à jour : 2026-09-22 (sprint 6 : cadrage et plan faits)
 ## Où on en est
 - [x] Sprints 1 à 5 terminés (PR #7 à #11 fusionnées ; site en ligne).
 - [x] Sprint 6 : cadrage validé par Romain, spec complétée, issue #6 mise à jour, plan écrit.
-- [ ] Task 1 : empreinte du quiz (`src/game/fingerprint.ts`) ← reprendre ici
-- [ ] Task 2 : vérification d'un état relu (`src/game/restore.ts`)
-- [ ] Task 3 : service `src/services/savedGame.ts` + nettoyage du localStorage dans `setup.ts`
-- [ ] Task 4 : action `reset` + `useGameProgress(config)` qui charge et enregistre
-- [ ] Task 5 : `ResetButton` (appui long 3 s + anneau) + `reset.css`
-- [ ] Task 6 : `ResetDialog` + `ResetControl`
-- [ ] Task 7 : branchement dans `Game`
-- [ ] Task 8 : e2e (reprise, remise à zéro) + vérif visuelle tablette/téléphone
-- [ ] Task 9 : docs, vérif complète, relecture, PR
+- [x] Task 1 à 7 : empreinte, contrôle de l'état relu, service `savedGame`, action `reset` + hook qui
+  charge/enregistre, `ResetButton`, `ResetDialog` + `ResetControl`, branchement dans `Game`.
+- [x] Task 8 : e2e (6 passent) + vérif visuelle tablette 810×1080 et téléphone 360×740 → correctif :
+  icône ancrée en bas de page (elle passait sur les molettes du cadenas en défilant sur téléphone).
+- [x] Task 9 (1/4) : README, CLAUDE.md, ETAT.md à jour.
+- [ ] Task 9 (2/4) : vérif complète (test:run, typecheck, lint, build, test:e2e, 200 lignes max) ← reprendre ici
+- [ ] Task 9 (3/4) : agent `relecteur-code` (Sonnet), corriger ce qui compte
+- [ ] Task 9 (4/4) : push, PR (description en français, `Closes #6`), numéro de PR dans ETAT.md
 - [ ] Romain : écouter le son de victoire sur la tablette (site Pages, mode silencieux coupé)
+- [ ] Romain : essayer l'appui long sur la vraie tablette une fois la PR fusionnée
 
 ## Prochaine action concrète
-Exécuter le plan en inline (skill `superpowers:executing-plans`), à partir de la Task 1 :
-écrire `src/game/fingerprint.test.ts` (test rouge), puis `src/game/fingerprint.ts`.
+Lancer la vérif complète : `npm run test:run`, `npm run typecheck`, `npm run lint`, `npm run build`,
+`npm run test:e2e` (aucun `vite preview` ne doit tourner sur 4173), puis l'agent `relecteur-code`.
 
 ## Décisions prises (et pourquoi)
+- Sprint 6 : icône en `position: absolute` en bas de page (pas `fixed` comme prévu au plan) : sur
+  téléphone, l'écran du cadenas défile et une icône fixe couvrait la 1re molette. `.screen` garde 96 px
+  libres en bas. Sur tablette, rien ne change à l'œil.
+- Sprint 6 : e2e avec `exact: true` sur « Commencer » : Playwright compare en sous-chaîne et
+  « Recommencer la partie » contient « Commencer » (4 e2e cassés sinon).
 - Sprint 6 : icône ↺ pâle **en bas à gauche** (loin du pavé, peu tentante pour les enfants), anneau qui
   se remplit pendant l'appui de 3 s, puis **fenêtre du jeu** « Recommencer la partie ? » (Annuler /
   Recommencer), Annuler par défaut. Choix de Romain.

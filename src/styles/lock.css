@@ -1,0 +1,32 @@
+/**
+ * @file Cutaway padlock: pins that drop below the shear line, lit slots, shackle that frees itself.
+ * Base styles = final state, keyframes = starting state, so reduced motion shows the end at once.
+ */
+.cutaway-lock { width: 300px; height: auto; overflow: visible; }
+.lock-pin { transform-box: view-box; }
+.lock-pin--down { transform: translateY(34px); }
+/* 0.45 s: the clack of playPinSound (sound.ts) lands at the end of this fall. */
+.lock-pin--falling { animation: pin-fall .45s cubic-bezier(.55, 0, 1, .45) both; }
+@keyframes pin-fall { from { transform: translateY(0); } }
+
+.lock-slot-glow { opacity: .3; }
+.lock-slot-glow:has(+ .lock-pin--falling) { animation: slot-light .6s .4s both; }
+@keyframes slot-light { from { opacity: 0; } }
+
+.lock-digit { fill: #6b5a4a; font-family: var(--title-font); font-variant-numeric: lining-nums; }
+.lock-digit--found { fill: #f5c46b; }
+
+/* The shackle rises out of the body, then swings on its left leg. */
+.cutaway-lock--open .lock-shackle {
+  transform: translateY(-24px) rotate(-16deg);
+  transform-box: view-box; transform-origin: 78px 116px;
+  animation: shackle-release .9s .5s both;
+}
+@keyframes shackle-release {
+  from { transform: none; }
+  50% { transform: translateY(-24px); }
+}
+
+@media (max-width: 600px) {
+  .cutaway-lock { width: 240px; }
+}

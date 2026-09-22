@@ -7,7 +7,7 @@
 export const WRONG_ANSWER_MESSAGES: readonly string[] = [
   'Presque ! Cherchez encore.',
   'Les fantômes rigolent… Réessayez !',
-  'Pas tout à fait. Relisez bien l’énigme !',
+  'Pas tout à fait. Vérifiez votre réponse !',
   'Courage, vous allez trouver !',
 ]
 

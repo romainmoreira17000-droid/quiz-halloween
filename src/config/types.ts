@@ -6,6 +6,9 @@ export type AnswerKind = 'digits' | 'letters'
 /** Answer expected from the children, as written in quiz.yaml (compared after normalization). */
 export interface ExpectedAnswer { kind: AnswerKind; value: string }
 
+/** Optional message read before entering the restaurant; its answer starts the clock. */
+export interface EntranceConfig { title?: string; message: string; answer: ExpectedAnswer }
+
 /** One riddle: an instruction whose answer is a single digit. */
 export interface QuizStep { title: string; instruction: string; image?: string; solution: number }
 

@@ -1,6 +1,7 @@
 /** @file Tests for the game progress hook, saved in localStorage. */
 import { act, renderHook } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
+import { quizFingerprint } from '../game/fingerprint'
 import { STORAGE_KEY } from '../services/savedGame'
 import { useGameProgress } from './useGameProgress'
 
@@ -68,5 +69,17 @@ describe('useGameProgress', () => {
     vi.setSystemTime(new Date('2026-10-31T14:05:00Z'))
     act(() => result.current.enter('bouh'))
     expect(result.current.state).toMatchObject({ status: 'playing', startedAt: Date.parse('2026-10-31T14:05:00Z') })
+  })
+
+  it('ignores a stuck entrance save when the quiz no longer has an entrance', () => {
+    // Same shape saveGame would write, but the quiz was edited afterwards to drop its entrance section.
+    const stuck = {
+      status: 'entrance', stepIndex: 0, foundDigits: [], startedAt: null, finishedAt: null, wrongAttempts: 0,
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ fingerprint: quizFingerprint(config), state: stuck }))
+    const { result } = renderHook(() => useGameProgress(config))
+    expect(result.current.state.status).toBe('home')
+    act(() => result.current.start())
+    expect(result.current.state.status).toBe('playing')
   })
 })

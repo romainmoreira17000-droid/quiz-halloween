@@ -33,7 +33,13 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   const fingerprint = useMemo(() => quizFingerprint(config), [config])
   const code = useMemo(() => padlockCode(steps, config.padlock.order), [steps, config.padlock.order])
   const reducer = useMemo(() => createGameReducer(steps, code, config.entrance?.answer), [steps, code, config.entrance])
-  const [state, dispatch] = useReducer(reducer, null, () => loadGame(fingerprint, stepCount) ?? initialGameState)
+  const [state, dispatch] = useReducer(reducer, null, () => {
+    const loaded = loadGame(fingerprint, stepCount)
+    // A quiz edited to remove its entrance must not resume stuck on 'entrance': the reducer no
+    // longer has an action that leaves that status, so "Commencer" would silently do nothing.
+    if (loaded?.status === 'entrance' && !config.entrance) return initialGameState
+    return loaded ?? initialGameState
+  })
   useEffect(() => {
     // Home means "no game": nothing worth keeping, and it is how reset deletes the save.
     if (state.status === 'home') clearGame()

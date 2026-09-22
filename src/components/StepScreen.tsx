@@ -1,8 +1,7 @@
 /** @file Step screen: challenge instruction, typed answer, then the earned digit and a button to go on. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
-import { wrongAnswerMessage } from '../game/messages'
-import { AnswerInput } from './AnswerInput'
+import { AnswerZone } from './AnswerZone'
 
 /** Props of StepScreen. */
 export interface StepScreenProps {
@@ -39,11 +38,7 @@ export function StepScreen(props: StepScreenProps) {
         <img className="step-image" src={`${import.meta.env.BASE_URL}images/${step.image}`} alt={`Image de l’étape : ${step.title}`} />
       )}
       {foundDigit === undefined ? (
-        // Changing key on each wrong try remounts the zone: replays the shake and clears the typed answer.
-        <div key={wrongAttempts} className={wrongAttempts > 0 ? 'answer-zone shake' : 'answer-zone'}>
-          {wrongAttempts > 0 && <p className="wrong-answer" role="alert">{wrongAnswerMessage(wrongAttempts)}</p>}
-          <AnswerInput kind={step.answer.kind} onSubmit={onSubmit} />
-        </div>
+        <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} onSubmit={onSubmit} />
       ) : (
         <div className="answer-zone">
           <p className="found" role="status">Chiffre trouvé : <b>{foundDigit}</b></p>

@@ -1,12 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 6 : Tasks 1 à 8 faites, docs à jour)
+Dernière mise à jour : 2026-09-22 (sprint 6 : PR #12 ouverte)
 
 ## Sprint en cours
 - **Objectif :** Sprint 6 — sauvegarde de la partie sur la tablette + remise à zéro par appui long
 - **Issue :** #6 (critères mis à jour)
 - **Branche :** `feat/save-and-reset` (créée depuis `main` à jour, après fusion de la PR #11)
-- **PR :** pas encore ouverte
+- **PR :** #12 — https://github.com/romainmoreira17000-droid/quiz-halloween/pull/12 (CI en cours à l'ouverture)
 - **Plan :** `docs/superpowers/plans/2026-09-22-sprint6-sauvegarde-remise-a-zero.md` (9 tâches)
 - **Conception :** spec, section « Sauvegarde et remise à zéro (sprint 6) »
 
@@ -18,20 +18,27 @@ Dernière mise à jour : 2026-09-22 (sprint 6 : Tasks 1 à 8 faites, docs à jou
 - [x] Task 8 : e2e (6 passent) + vérif visuelle tablette 810×1080 et téléphone 360×740 → correctif :
   icône ancrée en bas de page (elle passait sur les molettes du cadenas en défilant sur téléphone).
 - [x] Task 9 (1/4) : README, CLAUDE.md, ETAT.md à jour.
-- [ ] Task 9 (2/4) : vérif complète (test:run, typecheck, lint, build, test:e2e, 200 lignes max) ← reprendre ici
-- [ ] Task 9 (3/4) : agent `relecteur-code` (Sonnet), corriger ce qui compte
-- [ ] Task 9 (4/4) : push, PR (description en français, `Closes #6`), numéro de PR dans ETAT.md
+- [x] Task 9 (2/4) : vérif complète verte (175 tests, typecheck, lint, build, 6 e2e, fichiers ≤ 200 lignes).
+- [x] Task 9 (3/4) : relecture `relecteur-code` : prêt pour la PR ; corrigé : arrêt de l'appui sur perte du
+  focus, clic droit ignoré, Échap = Annuler.
+- [x] Task 9 (4/4) : branche poussée, PR #12 ouverte.
+- [ ] Romain : ajouter les captures dans la PR (interface web), relire, fusionner si CI verte ← reprendre ici
+- [ ] Après fusion : `git checkout main && git pull && git branch -d feat/save-and-reset`
 - [ ] Romain : écouter le son de victoire sur la tablette (site Pages, mode silencieux coupé)
 - [ ] Romain : essayer l'appui long sur la vraie tablette une fois la PR fusionnée
 
 ## Prochaine action concrète
-Lancer la vérif complète : `npm run test:run`, `npm run typecheck`, `npm run lint`, `npm run build`,
-`npm run test:e2e` (aucun `vite preview` ne doit tourner sur 4173), puis l'agent `relecteur-code`.
+Attendre la décision de Romain sur la PR #12 (CI : `gh pr checks 12`). Après fusion : nettoyer la
+branche (voir ci-dessus), vérifier le site Pages sur la tablette (reprise après rechargement, appui long).
+Sprint 6 = dernier sprint prévu par la spec.
 
 ## Décisions prises (et pourquoi)
 - Sprint 6 : icône en `position: absolute` en bas de page (pas `fixed` comme prévu au plan) : sur
   téléphone, l'écran du cadenas défile et une icône fixe couvrait la 1re molette. `.screen` garde 96 px
   libres en bas. Sur tablette, rien ne change à l'œil.
+- Sprint 6 : relecture, point « une sauvegarde d'un autre quiz est effacée à l'ouverture » non retenu :
+  elle ne pourrait jamais être reprise (empreinte différente), l'effacer ne perd rien. Pas de piège du
+  Tab dans la fenêtre (2 boutons, usage tactile).
 - Sprint 6 : e2e avec `exact: true` sur « Commencer » : Playwright compare en sous-chaîne et
   « Recommencer la partie » contient « Commencer » (4 e2e cassés sinon).
 - Sprint 6 : icône ↺ pâle **en bas à gauche** (loin du pavé, peu tentante pour les enfants), anneau qui

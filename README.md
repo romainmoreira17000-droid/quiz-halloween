@@ -8,10 +8,13 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 
 ## Déroulé d'une partie
 
-1. Écran d'accueil : titre, introduction, durée. « Commencer » lance le compteur.
-2. Chaque étape affiche son énigme et un pavé de 0 à 9. Mauvaise réponse : l'écran tremble et un
-   message d'encouragement s'affiche (essais illimités). Bonne réponse : le chiffre trouvé et
-   « Étape suivante ». Les bougies en haut montrent la progression.
+1. Accueil, puis message d'entrée (facultatif) : la bonne réponse fait entrer dans le restaurant et
+   démarre le compteur.
+2. Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (code en chiffres ou
+   mot, sur un pavé ou un clavier de lettres dessinés dans l'appli) et gagnent le chiffre de
+   l'étape. Mauvaise réponse : l'écran tremble et un message d'encouragement s'affiche (essais
+   illimités). Bonne réponse : le chiffre trouvé et « Étape suivante ». Les bougies en haut
+   montrent la progression.
 3. Quand le temps est écoulé, le compteur passe en rouge et devient négatif ; le jeu continue.
 4. Après la dernière étape, le cadenas : N molettes à régler dans l'ordre de `cadenas.ordre`. Le bon code ouvre la
    porte du restaurant hanté (animation + son) et affiche le temps mis.
@@ -59,7 +62,8 @@ Les images vont dans `public/images/`.
 | `intro` | non | texte |
 | `duree_minutes` | oui | nombre entier supérieur à 0 |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
-| `etapes` | oui | liste ; chaque étape a `titre`, `consigne` (textes non vides), `solution` (chiffre de 0 à 9) et éventuellement `image` (fichier présent dans `public/images/`) |
+| `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
+| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
 | `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |
@@ -70,7 +74,7 @@ Toutes les erreurs sont listées d'un coup, par exemple :
 
 ```
 ❌ quiz.yaml contient 2 erreur(s) :
-  - étape 1 : « solution » doit être un chiffre entier entre 0 et 9.
+  - étape 1 : « chiffre » doit être un chiffre entier entre 0 et 9.
   - cadenas : « ordre » doit contenir chaque numéro d'étape de 1 à 6, une seule fois.
 ```
 

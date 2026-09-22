@@ -2,8 +2,10 @@
 
 ## But
 Jeu d'énigmes d'Halloween joué en groupe sur tablette par les enfants du Centre de Loisirs.
-Chaque étape donne une consigne dont la réponse est un chiffre (0–9) ; les chiffres ouvrent un
-cadenas final qui déclenche une animation. Tout le contenu vient de `quiz.yaml`.
+Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (chiffres ou mots), ce
+qui donne un chiffre (0–9) ; les chiffres ouvrent un cadenas final qui déclenche une animation. Un
+message d'entrée facultatif précède les étapes, dont la bonne réponse démarre le compteur. Tout le
+contenu vient de `quiz.yaml`.
 
 Conception complète : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md`.
 
@@ -25,10 +27,13 @@ public/images/             images des étapes (référencées par `image:`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
-src/game/                  logique pure : time, answer, messages, padlock, progress (réducteur de partie),
-                           fingerprint (empreinte du quiz), restore (contrôle d'un état relu)
+src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
+                           progress (réducteur de partie), fingerprint (empreinte du quiz),
+                           restore (contrôle d'un état relu)
 src/hooks/                 useCountdown, useGameProgress
-src/components/            Game (seul assembleur d'écrans) + un composant par écran + Keypad, Dial, HauntedDoor,
+src/components/            Game (seul assembleur d'écrans) + un composant par écran + EntranceScreen,
+                           AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
+                           réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            ResetControl (ResetButton appui long + ResetDialog), ...
 src/services/              sound (son de victoire synthétisé en Web Audio), savedGame (seul accès au localStorage)
 src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, victory, reset
@@ -93,3 +98,11 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   « Recommencer la partie » contient « Commencer » → toujours `exact: true` sur « Commencer ».
 - **Vérif visuelle après rebuild** : le service worker de la PWA peut resservir l'ancien build ;
   repartir d'un navigateur neuf (fermer le contexte Playwright).
+- **Réponses** : en `mots`, majuscules/accents/espaces autour ignorés (`normalizeAnswer`) ; en `chiffres`,
+  les zéros de tête comptent et YAML lit `reponse: 0472` comme le nombre 472 → guillemets obligatoires
+  pour un 0 initial.
+- **Saisie** : `AnswerInput` est un `<output>` (rôle `status`) : il n'est jamais affiché en même temps
+  que « Chiffre trouvé », sinon `getByRole('status')` deviendrait ambigu. Le texte tapé s'efface après
+  une mauvaise réponse (remontage par `key`).
+- **Entrée** : statut `entrance` avant `playing`, `startedAt` à null ; le compteur démarre à la bonne
+  réponse.

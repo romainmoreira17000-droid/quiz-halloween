@@ -11,8 +11,8 @@ export interface GameProgress {
   state: GameState
   /** Starts the game and the countdown now. */
   start(): void
-  /** Submits a keypad digit for the current step. */
-  answer(digit: number): void
+  /** Submits the typed answer of the current step. */
+  answer(text: string): void
   /** Goes to the next step (or to the padlock) once the current one is solved. */
   next(): void
   /** Tries a padlock code; returns true when it opens (so the caller can play the sound in the tap handler). */
@@ -40,7 +40,7 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   return {
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
-    answer: (digit) => dispatch({ type: 'answer', digit }),
+    answer: (text) => dispatch({ type: 'answer', text }),
     next: () => dispatch({ type: 'next' }),
     unlock: (entered) => {
       dispatch({ type: 'unlock', code: entered, now: Date.now() })

@@ -5,8 +5,8 @@ import type { QuizConfig } from './types'
 const config: QuizConfig = {
   title: 'T', durationMinutes: 10, stepCount: 2, padlock: { order: [1, 2] },
   steps: [
-    { title: 'A', instruction: 'a', solution: 1, image: 'crypte.png' },
-    { title: 'B', instruction: 'b', solution: 2, image: 'absent.png' },
+    { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '1' }, digit: 1, image: 'crypte.png' },
+    { title: 'B', instruction: 'b', answer: { kind: 'digits', value: '2' }, digit: 2, image: 'absent.png' },
   ],
 }
 

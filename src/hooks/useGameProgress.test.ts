@@ -6,7 +6,7 @@ import { useGameProgress } from './useGameProgress'
 
 const config: QuizConfig = {
   title: 'T', durationMinutes: 90, stepCount: 1,
-  steps: [{ title: 'A', instruction: 'a', solution: 3 }], padlock: { order: [1] },
+  steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '3' }, digit: 3 }], padlock: { order: [1] },
 }
 
 describe('useGameProgress', () => {
@@ -18,7 +18,7 @@ describe('useGameProgress', () => {
     const { result } = renderHook(() => useGameProgress(config))
     act(() => result.current.start())
     expect(result.current.state.startedAt).toBe(Date.parse('2026-10-31T14:00:00Z'))
-    act(() => result.current.answer(3))
+    act(() => result.current.answer('3'))
     act(() => result.current.next())
     expect(result.current.state.status).toBe('padlock')
     let opened = true
@@ -33,7 +33,7 @@ describe('useGameProgress', () => {
   it('resumes the saved game after a reload', () => {
     const first = renderHook(() => useGameProgress(config))
     act(() => first.result.current.start())
-    act(() => first.result.current.answer(3))
+    act(() => first.result.current.answer('3'))
     const saved = first.result.current.state
     first.unmount()
     const { result } = renderHook(() => useGameProgress(config))
@@ -44,7 +44,7 @@ describe('useGameProgress', () => {
     const first = renderHook(() => useGameProgress(config))
     act(() => first.result.current.start())
     first.unmount()
-    const changed = { ...config, steps: [{ ...config.steps[0], solution: 7 }] }
+    const changed = { ...config, steps: [{ ...config.steps[0], digit: 7 }] }
     const { result } = renderHook(() => useGameProgress(changed))
     expect(result.current.state.status).toBe('home')
   })

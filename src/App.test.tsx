@@ -5,7 +5,7 @@ import type { ValidationResult } from './config/types'
 
 const ok: ValidationResult = { ok: true, config: {
   title: 'Le manoir hanté', durationMinutes: 90, stepCount: 1,
-  steps: [{ title: 'A', instruction: 'a', solution: 1 }], padlock: { order: [1] } } }
+  steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '1' }, digit: 1 }], padlock: { order: [1] } } }
 
 describe('App', () => {
   it('shows the quiz title from the config', () => {

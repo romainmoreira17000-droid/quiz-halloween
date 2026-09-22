@@ -6,7 +6,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 
 const base: StepScreenProps = {
   header: <header>entête</header>,
-  step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', solution: 7 },
+  step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
   stepNumber: 2, total: 6, foundDigit: undefined, wrongAttempts: 0, isLast: false,
   onDigit: () => {}, onNext: () => {},
 }

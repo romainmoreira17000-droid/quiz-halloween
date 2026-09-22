@@ -3,7 +3,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PadlockScreen, type PadlockScreenProps } from './PadlockScreen'
 
-const steps = [{ title: 'La crypte', instruction: 'a', solution: 4 }, { title: 'Le grenier', instruction: 'b', solution: 0 }]
+const steps = [
+  { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
+  { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },
+] as const
 const props: PadlockScreenProps = {
   header: <header>entête</header>, steps, foundDigits: [4, 0], wrongAttempts: 0, onOpen: vi.fn(),
 }

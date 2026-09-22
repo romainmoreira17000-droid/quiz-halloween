@@ -2,14 +2,14 @@
 import type { QuizStep } from '../config/types'
 
 /**
- * Code that opens the padlock: the step solutions taken in the configured order.
+ * Code that opens the padlock: the step digits taken in the configured order.
  * @param steps Steps of the quiz, in play order.
  * @param order 1-based step numbers (validated `cadenas.ordre`, default 1..N).
  * @returns One digit per dial.
- * @example padlockCode(steps, [3, 1, 2]) // [solution of step 3, of step 1, of step 2]
+ * @example padlockCode(steps, [3, 1, 2]) // [digit of step 3, of step 1, of step 2]
  */
 export function padlockCode(steps: readonly QuizStep[], order: readonly number[]): number[] {
-  return order.map((stepNumber) => steps[stepNumber - 1].solution)
+  return order.map((stepNumber) => steps[stepNumber - 1].digit)
 }
 
 /**

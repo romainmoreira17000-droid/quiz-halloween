@@ -2,9 +2,9 @@
 import { createGameReducer, initialGameState, isCurrentStepSolved, type GameState } from './progress'
 
 const steps = [
-  { title: 'A', instruction: 'a', solution: 4 },
-  { title: 'B', instruction: 'b', solution: 0 },
-]
+  { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '14' }, digit: 4 },
+  { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0 },
+] as const
 const reduce = createGameReducer(steps, [0, 4])
 const playing: GameState = { ...initialGameState, status: 'playing', startedAt: 1000 }
 const atPadlock: GameState = { ...playing, status: 'padlock', stepIndex: 1, foundDigits: [4, 0] }
@@ -22,38 +22,38 @@ describe('game reducer', () => {
     expect(reduce(playing, { type: 'start', now: 9999 })).toBe(playing)
   })
   it('counts wrong answers without other penalty', () => {
-    const once = reduce(playing, { type: 'answer', digit: 1 })
-    const twice = reduce(once, { type: 'answer', digit: 2 })
+    const once = reduce(playing, { type: 'answer', text: '1' })
+    const twice = reduce(once, { type: 'answer', text: '2' })
     expect(twice).toEqual({ ...playing, wrongAttempts: 2 })
   })
   it('stores the digit of a solved step and clears wrong tries', () => {
-    const wrong = reduce(playing, { type: 'answer', digit: 1 })
-    const right = reduce(wrong, { type: 'answer', digit: 4 })
+    const wrong = reduce(playing, { type: 'answer', text: '1' })
+    const right = reduce(wrong, { type: 'answer', text: '14' })
     expect(right).toEqual({ ...playing, foundDigits: [4], wrongAttempts: 0 })
     expect(isCurrentStepSolved(right)).toBe(true)
   })
   it('ignores keypad presses once the step is solved', () => {
-    const right = reduce(playing, { type: 'answer', digit: 4 })
-    expect(reduce(right, { type: 'answer', digit: 7 })).toBe(right)
+    const right = reduce(playing, { type: 'answer', text: '14' })
+    expect(reduce(right, { type: 'answer', text: '14' })).toBe(right)
   })
   it('does not move on before the step is solved', () => {
     expect(reduce(playing, { type: 'next' })).toBe(playing)
   })
   it('moves to the next step', () => {
-    const right = reduce(playing, { type: 'answer', digit: 4 })
+    const right = reduce(playing, { type: 'answer', text: '14' })
     const next = reduce(right, { type: 'next' })
     expect(next).toEqual({ ...playing, stepIndex: 1, foundDigits: [4] })
     expect(isCurrentStepSolved(next)).toBe(false)
   })
   it('accepts 0 as a solution and goes to the padlock after the last step', () => {
-    let state = reduce(playing, { type: 'answer', digit: 4 })
+    let state = reduce(playing, { type: 'answer', text: '14' })
     state = reduce(state, { type: 'next' })
-    state = reduce(state, { type: 'answer', digit: 0 })
+    state = reduce(state, { type: 'answer', text: 'fantome' })
     state = reduce(state, { type: 'next' })
     expect(state).toEqual(atPadlock)
   })
   it('ignores answers outside of the playing status', () => {
-    expect(reduce(initialGameState, { type: 'answer', digit: 4 })).toBe(initialGameState)
+    expect(reduce(initialGameState, { type: 'answer', text: '14' })).toBe(initialGameState)
   })
   it('counts wrong codes without other penalty', () => {
     const once = reduce(atPadlock, { type: 'unlock', code: [4, 0], now: 5000 })

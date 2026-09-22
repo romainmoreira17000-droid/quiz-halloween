@@ -1,6 +1,6 @@
 /** @file Game state machine: home → playing (step by step) → padlock → won. Pure, so it can be saved and restored. */
 import type { QuizStep } from '../config/types'
-import { isCorrectAnswer } from './answer'
+import { isRightAnswer } from './answer'
 import { isPadlockCode } from './padlock'
 
 /** Which part of the game is shown. */
@@ -11,7 +11,7 @@ export interface GameState {
   status: GameStatus
   /** 0-based index of the current step. */
   stepIndex: number
-  /** Digits of solved steps, in step order. */
+  /** Digits earned on solved steps, in step order. */
   foundDigits: number[]
   /** Start timestamp in ms, null before "Commencer". */
   startedAt: number | null
@@ -23,7 +23,7 @@ export interface GameState {
 
 /** Player actions. `now` is passed in so the reducer stays pure. */
 export type GameAction =
-  | { type: 'start'; now: number } | { type: 'answer'; digit: number } | { type: 'next' }
+  | { type: 'start'; now: number } | { type: 'answer'; text: string } | { type: 'next' }
   | { type: 'unlock'; code: number[]; now: number } | { type: 'reset' }
 
 /** State before the game starts. */
@@ -51,11 +51,13 @@ export function createGameReducer(steps: readonly QuizStep[], code: readonly num
     switch (action.type) {
       case 'start':
         return state.status === 'home' ? { ...state, status: 'playing', startedAt: action.now } : state
-      case 'answer':
+      case 'answer': {
         if (state.status !== 'playing' || isCurrentStepSolved(state)) return state
-        return isCorrectAnswer(steps[state.stepIndex], action.digit)
-          ? { ...state, foundDigits: [...state.foundDigits, action.digit], wrongAttempts: 0 }
+        const step = steps[state.stepIndex]
+        return isRightAnswer(action.text, step.answer)
+          ? { ...state, foundDigits: [...state.foundDigits, step.digit], wrongAttempts: 0 }
           : { ...state, wrongAttempts: state.wrongAttempts + 1 }
+      }
       case 'next':
         if (state.status !== 'playing' || !isCurrentStepSolved(state)) return state
         return state.stepIndex + 1 >= steps.length

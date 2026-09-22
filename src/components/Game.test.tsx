@@ -10,7 +10,10 @@ vi.mock('../services/sound', () => ({ playVictorySound: vi.fn() }))
 
 const config: QuizConfig = {
   title: 'Le manoir hanté', durationMinutes: 90, stepCount: 2,
-  steps: [{ title: 'La crypte', instruction: 'a', solution: 4 }, { title: 'Le grenier', instruction: 'b', solution: 0 }],
+  steps: [
+    { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
+    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },
+  ],
   padlock: { order: [2, 1] },
 }
 

@@ -24,36 +24,70 @@ duree_minutes: 90
 # Doit être égal au nombre d'étapes listées sous « etapes ».
 nombre_etapes: 6
 
-# Liste des étapes, dans l'ordre où les enfants les jouent.
+# Message d'entrée, lu devant la porte du restaurant. Section facultative.
+# Sa bonne réponse fait entrer les enfants dans la salle et démarre le compteur.
+# Sans cette section, le compteur démarre dès « Commencer ».
+#   titre         facultatif, texte non vide (par défaut : « Le message d'entrée »)
+#   message       obligatoire, texte non vide ; « | » permet d'écrire sur plusieurs lignes
+#   type_reponse  obligatoire : chiffres (pavé numérique) ou mots (clavier de lettres)
+#   reponse       obligatoire, ce que les enfants doivent taper (voir les règles plus bas)
+entree:
+  titre: "Une lettre sous la porte"
+  message: |
+    Chers visiteurs,
+    le fantôme du chef a verrouillé son restaurant.
+    Qui suis-je ? Je traverse les murs et je fais « Bouh ! ».
+  type_reponse: mots
+  reponse: "Fantôme"
+
+# Liste des étapes (une étape = une épreuve), dans l'ordre où les enfants les jouent.
 # Chaque étape commence par « - » et contient :
-#   titre     obligatoire, texte non vide
-#   consigne  obligatoire, texte non vide (l'énigme à résoudre)
-#   image     facultatif, nom d'un fichier placé dans public/images/
-#   solution  obligatoire, un seul chiffre entier de 0 à 9
+#   titre         obligatoire, texte non vide
+#   consigne      obligatoire, texte non vide (ce que les enfants doivent faire)
+#   image         facultatif, nom d'un fichier placé dans public/images/
+#   type_reponse  obligatoire : chiffres ou mots
+#   reponse       obligatoire, la bonne réponse de l'épreuve :
+#                   - chiffres : uniquement des chiffres, 12 au plus ; mettre des guillemets
+#                     pour garder un 0 au début ("0472")
+#                   - mots : lettres, espaces, apostrophes ou tirets, 24 caractères au plus ;
+#                     majuscules et accents ne comptent pas
+#   chiffre       obligatoire, le chiffre (0 à 9) gagné pour le cadenas final
 etapes:
   - titre: "La crypte"
-    consigne: "Comptez les chauves-souris accrochées au plafond de la crypte."
-    solution: 4
+    consigne: "Comptez toutes les chauves-souris en papier cachées dans la salle."
+    type_reponse: chiffres
+    reponse: "13"
+    chiffre: 4
 
   - titre: "Le chaudron"
-    consigne: "Combien d'yeux de crapaud flottent dans la potion de la sorcière ?"
-    solution: 7
+    consigne: "Goûtez la potion les yeux bandés. Quel animal la sorcière a-t-elle mis dedans ?"
+    type_reponse: mots
+    reponse: "Crapaud"
+    chiffre: 7
 
   - titre: "La bibliothèque"
-    consigne: "Trouvez le livre rouge : le chiffre est écrit sur sa tranche."
-    solution: 2
+    consigne: "Le code du coffre à livres est écrit à l'envers sur le miroir."
+    type_reponse: chiffres
+    reponse: "0472"
+    chiffre: 2
 
   - titre: "Le cimetière"
-    consigne: "Combien de pierres tombales portent une citrouille ?"
-    solution: 9
+    consigne: "Additionnez les années gravées sur les trois tombes à citrouille."
+    type_reponse: chiffres
+    reponse: "1832"
+    chiffre: 9
 
   - titre: "Le grenier"
-    consigne: "Le fantôme a caché des bougies dans le grenier. Combien sont allumées ?"
-    solution: 0
+    consigne: "Qu'a tissé l'araignée géante au-dessus de la malle ?"
+    type_reponse: mots
+    reponse: "Toile d'araignée"
+    chiffre: 0
 
   - titre: "La porte de la cuisine"
-    consigne: "Additionnez les pattes de l'araignée et retirez 3."
-    solution: 5
+    consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
+    type_reponse: mots
+    reponse: "Citrouille"
+    chiffre: 5
 
 # Cadenas final. Section entière facultative.
 cadenas:

@@ -57,4 +57,16 @@ describe('useGameProgress', () => {
     expect(result.current.state.status).toBe('home')
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull()
   })
+
+  it('starts the clock only once the entrance is solved', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-10-31T14:00:00Z'))
+    const withEntrance: QuizConfig = { ...config, entrance: { message: 'm', answer: { kind: 'letters', value: 'Bouh' } } }
+    const { result } = renderHook(() => useGameProgress(withEntrance))
+    act(() => result.current.start())
+    expect(result.current.state).toMatchObject({ status: 'entrance', startedAt: null })
+    vi.setSystemTime(new Date('2026-10-31T14:05:00Z'))
+    act(() => result.current.enter('bouh'))
+    expect(result.current.state).toMatchObject({ status: 'playing', startedAt: Date.parse('2026-10-31T14:05:00Z') })
+  })
 })

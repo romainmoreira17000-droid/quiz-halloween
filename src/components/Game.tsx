@@ -4,6 +4,7 @@ import type { QuizConfig } from '../config/types'
 import { elapsedSeconds } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { playVictorySound } from '../services/sound'
+import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
 import { PadlockScreen } from './PadlockScreen'
@@ -30,8 +31,11 @@ export function Game({ config }: GameProps) {
 }
 
 /** Screen matching the current game status. */
-function currentScreen(config: QuizConfig, { state, start, answer, next, unlock }: GameProgress): ReactNode {
+function currentScreen(config: QuizConfig, { state, start, enter, answer, next, unlock }: GameProgress): ReactNode {
   const { status, startedAt, finishedAt } = state
+  if (status === 'entrance' && config.entrance) {
+    return <EntranceScreen entrance={config.entrance} wrongAttempts={state.wrongAttempts} onSubmit={enter} />
+  }
   if (status === 'home' || startedAt === null) {
     return <HomeScreen title={config.title} intro={config.intro} durationMinutes={config.durationMinutes} onStart={start} />
   }

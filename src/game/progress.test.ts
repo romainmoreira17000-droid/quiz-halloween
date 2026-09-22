@@ -6,8 +6,10 @@ const steps = [
   { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0 },
 ] as const
 const reduce = createGameReducer(steps, [0, 4])
+const withEntrance = createGameReducer(steps, [0, 4], { kind: 'letters', value: 'Fantôme' })
 const playing: GameState = { ...initialGameState, status: 'playing', startedAt: 1000 }
 const atPadlock: GameState = { ...playing, status: 'padlock', stepIndex: 1, foundDigits: [4, 0] }
+const atEntrance: GameState = { ...initialGameState, status: 'entrance' }
 
 describe('game reducer', () => {
   it('starts on the home screen', () => {
@@ -72,5 +74,22 @@ describe('game reducer', () => {
   it('goes back to the home screen from anywhere on reset', () => {
     expect(reduce(atPadlock, { type: 'reset' })).toEqual(initialGameState)
     expect(reduce(playing, { type: 'reset' })).toEqual(initialGameState)
+  })
+  it('goes to the entrance first when there is one, without starting the clock', () => {
+    expect(withEntrance(initialGameState, { type: 'start', now: 1000 })).toEqual(atEntrance)
+  })
+  it('counts wrong entrance answers', () => {
+    expect(withEntrance(atEntrance, { type: 'enter', text: 'chat', now: 2000 })).toEqual({ ...atEntrance, wrongAttempts: 1 })
+  })
+  it('starts the clock when the entrance is solved', () => {
+    const wrong = withEntrance(atEntrance, { type: 'enter', text: 'chat', now: 2000 })
+    expect(withEntrance(wrong, { type: 'enter', text: 'fantome', now: 3000 })).toEqual({ ...playing, startedAt: 3000 })
+  })
+  it('ignores enter outside of the entrance', () => {
+    expect(withEntrance(playing, { type: 'enter', text: 'fantome', now: 3000 })).toBe(playing)
+    expect(reduce(atEntrance, { type: 'enter', text: 'fantome', now: 3000 })).toBe(atEntrance)
+  })
+  it('ignores step answers at the entrance', () => {
+    expect(withEntrance(atEntrance, { type: 'answer', text: '14' })).toBe(atEntrance)
   })
 })

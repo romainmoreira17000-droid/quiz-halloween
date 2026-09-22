@@ -9,8 +9,10 @@ import { clearGame, loadGame, saveGame } from '../services/savedGame'
 /** Game state and the actions the screens can trigger. */
 export interface GameProgress {
   state: GameState
-  /** Starts the game and the countdown now. */
+  /** Leaves the home screen: to the entrance message, or straight to step 1 with the clock. */
   start(): void
+  /** Submits the answer of the entrance message; the right one starts the clock. */
+  enter(text: string): void
   /** Submits the typed answer of the current step. */
   answer(text: string): void
   /** Goes to the next step (or to the padlock) once the current one is solved. */
@@ -30,7 +32,7 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   const { steps, stepCount } = config
   const fingerprint = useMemo(() => quizFingerprint(config), [config])
   const code = useMemo(() => padlockCode(steps, config.padlock.order), [steps, config.padlock.order])
-  const reducer = useMemo(() => createGameReducer(steps, code), [steps, code])
+  const reducer = useMemo(() => createGameReducer(steps, code, config.entrance?.answer), [steps, code, config.entrance])
   const [state, dispatch] = useReducer(reducer, null, () => loadGame(fingerprint, stepCount) ?? initialGameState)
   useEffect(() => {
     // Home means "no game": nothing worth keeping, and it is how reset deletes the save.
@@ -40,6 +42,7 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   return {
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
+    enter: (text) => dispatch({ type: 'enter', text, now: Date.now() }),
     answer: (text) => dispatch({ type: 'answer', text }),
     next: () => dispatch({ type: 'next' }),
     unlock: (entered) => {

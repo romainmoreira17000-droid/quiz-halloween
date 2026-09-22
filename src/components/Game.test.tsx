@@ -67,4 +67,16 @@ describe('Game', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Recommencer' }))
     expect(screen.getByRole('button', { name: 'Commencer' })).toBeInTheDocument()
   })
+
+  it('shows the entrance message before the first step and starts the clock on the right answer', async () => {
+    const user = userEvent.setup()
+    render(<Game config={{ ...config, entrance: { message: 'Qui suis-je ?', answer: { kind: 'letters', value: 'Bouh' } } }} />)
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    expect(screen.getByText('Qui suis-je ?')).toBeInTheDocument()
+    expect(screen.queryByRole('timer')).not.toBeInTheDocument()
+    for (const k of ['B', 'O', 'U', 'H']) await user.click(screen.getByRole('button', { name: k }))
+    await user.click(screen.getByRole('button', { name: 'Valider' }))
+    expect(screen.getByRole('heading', { name: 'La crypte' })).toBeInTheDocument()
+    expect(screen.getByRole('timer')).toHaveTextContent('90:00')
+  })
 })

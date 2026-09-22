@@ -1,36 +1,22 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 6 : PR #12 ouverte)
+Dernière mise à jour : 2026-09-22 (sprint 6 fusionné, aucun sprint en cours)
 
 ## Sprint en cours
-- **Objectif :** Sprint 6 — sauvegarde de la partie sur la tablette + remise à zéro par appui long
-- **Issue :** #6 (critères mis à jour)
-- **Branche :** `feat/save-and-reset` (créée depuis `main` à jour, après fusion de la PR #11)
-- **PR :** #12 — https://github.com/romainmoreira17000-droid/quiz-halloween/pull/12 (CI en cours à l'ouverture)
-- **Plan :** `docs/superpowers/plans/2026-09-22-sprint6-sauvegarde-remise-a-zero.md` (9 tâches)
-- **Conception :** spec, section « Sauvegarde et remise à zéro (sprint 6) »
+- **Aucun.** Sprint 6 (sauvegarde + remise à zéro, issue #6) fusionné via la PR #12, issue fermée.
+- Plus aucune issue ouverte : aucun sprint suivant n'est planifié.
 
 ## Où on en est
-- [x] Sprints 1 à 5 terminés (PR #7 à #11 fusionnées ; site en ligne).
-- [x] Sprint 6 : cadrage validé par Romain, spec complétée, issue #6 mise à jour, plan écrit.
-- [x] Task 1 à 7 : empreinte, contrôle de l'état relu, service `savedGame`, action `reset` + hook qui
-  charge/enregistre, `ResetButton`, `ResetDialog` + `ResetControl`, branchement dans `Game`.
-- [x] Task 8 : e2e (6 passent) + vérif visuelle tablette 810×1080 et téléphone 360×740 → correctif :
-  icône ancrée en bas de page (elle passait sur les molettes du cadenas en défilant sur téléphone).
-- [x] Task 9 (1/4) : README, CLAUDE.md, ETAT.md à jour.
-- [x] Task 9 (2/4) : vérif complète verte (175 tests, typecheck, lint, build, 6 e2e, fichiers ≤ 200 lignes).
-- [x] Task 9 (3/4) : relecture `relecteur-code` : prêt pour la PR ; corrigé : arrêt de l'appui sur perte du
-  focus, clic droit ignoré, Échap = Annuler.
-- [x] Task 9 (4/4) : branche poussée, PR #12 ouverte.
-- [ ] Romain : ajouter les captures dans la PR (interface web), relire, fusionner si CI verte ← reprendre ici
-- [ ] Après fusion : `git checkout main && git pull && git branch -d feat/save-and-reset`
+- [x] Sprints 1 à 6 terminés (PR #7 à #12 fusionnées ; site en ligne).
+- [x] Sprint 6 déployé sur Pages et vérifié en ligne (Playwright, 810×1080, navigateur neuf) : la partie
+  reprend à la même étape après rechargement ; appui long 3 s + « Recommencer » → accueil, qui le reste
+  après rechargement.
 - [ ] Romain : écouter le son de victoire sur la tablette (site Pages, mode silencieux coupé)
-- [ ] Romain : essayer l'appui long sur la vraie tablette une fois la PR fusionnée
+- [ ] Romain : essayer l'appui long sur la vraie tablette
 
 ## Prochaine action concrète
-Attendre la décision de Romain sur la PR #12 (CI : `gh pr checks 12`). Après fusion : nettoyer la
-branche (voir ci-dessus), vérifier le site Pages sur la tablette (reprise après rechargement, appui long).
-L'issue #6 est la dernière ouverte : aucun sprint suivant n'est planifié.
+Attendre les retours de Romain après ses essais sur la vraie tablette (son, appui long). S'il veut une
+nouvelle fonctionnalité ou un correctif : ouvrir un nouveau sprint (issue, branche, PR).
 
 ## Décisions prises (et pourquoi)
 - Sprint 6 : icône en `position: absolute` en bas de page (pas `fixed` comme prévu au plan) : sur

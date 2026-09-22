@@ -2,8 +2,12 @@
  * @file Reset: pale icon bottom left with a ring filling up while held, and the confirmation window.
  * The icon stays small and faint on purpose: it is for the animator, not for the children.
  */
+/* Anchored to the bottom of the page, not of the viewport: on a phone the padlock screen scrolls,
+   and a fixed icon would slide over the dials. The screens keep a free strip at the bottom for it. */
+#root { position: relative; }
+.screen { padding-bottom: 96px; }
 .reset-button {
-  position: fixed; left: 12px; bottom: 12px; z-index: 20;
+  position: absolute; left: 12px; bottom: 12px; z-index: 20;
   width: 64px; height: 64px;
   color: var(--wax); opacity: .3;
   /* No scroll, selection or callout menu during the long press. */

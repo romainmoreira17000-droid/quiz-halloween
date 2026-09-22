@@ -1,9 +1,10 @@
 /** @file Game progress, saved in the tablet's localStorage so a reload loses nothing. */
 import { useEffect, useMemo, useReducer } from 'react'
 import type { QuizConfig } from '../config/types'
+import { isRightAnswer } from '../game/answer'
 import { quizFingerprint } from '../game/fingerprint'
 import { isPadlockCode, padlockCode } from '../game/padlock'
-import { createGameReducer, initialGameState, type GameState } from '../game/progress'
+import { createGameReducer, initialGameState, isCurrentStepSolved, type GameState } from '../game/progress'
 import { clearGame, loadGame, saveGame } from '../services/savedGame'
 
 /** Game state and the actions the screens can trigger. */
@@ -13,8 +14,8 @@ export interface GameProgress {
   start(): void
   /** Submits the answer of the entrance message; the right one starts the clock. */
   enter(text: string): void
-  /** Submits the typed answer of the current step. */
-  answer(text: string): void
+  /** Submits the typed answer of the current step; returns true when it earns the step's digit (so the caller can play the clack in the tap handler). */
+  answer(text: string): boolean
   /** Goes to the next step (or to the padlock) once the current one is solved. */
   next(): void
   /** Tries a padlock code; returns true when it opens (so the caller can play the sound in the tap handler). */
@@ -49,7 +50,11 @@ export function useGameProgress(config: QuizConfig): GameProgress {
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
     enter: (text) => dispatch({ type: 'enter', text, now: Date.now() }),
-    answer: (text) => dispatch({ type: 'answer', text }),
+    answer: (text) => {
+      dispatch({ type: 'answer', text })
+      // Same check as the reducer, needed now: the sound must start inside the tap.
+      return state.status === 'playing' && !isCurrentStepSolved(state) && isRightAnswer(text, steps[state.stepIndex].answer)
+    },
     next: () => dispatch({ type: 'next' }),
     unlock: (entered) => {
       dispatch({ type: 'unlock', code: entered, now: Date.now() })

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { elapsedSeconds } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
-import { playVictorySound } from '../services/sound'
+import { playPinSound, playVictorySound } from '../services/sound'
 import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
@@ -54,9 +54,11 @@ function currentScreen(config: QuizConfig, { state, start, enter, answer, next, 
         hint={config.padlock.hint} wrongAttempts={state.wrongAttempts} onOpen={open} />
     )
   }
+  // Same reason as the padlock: the clack must start inside the tap on Valider.
+  const submit = (text: string) => { if (answer(text)) playPinSound() }
   return (
     <StepScreen header={header} step={config.steps[state.stepIndex]} stepNumber={state.stepIndex + 1}
       total={config.stepCount} foundDigit={state.foundDigits[state.stepIndex]} wrongAttempts={state.wrongAttempts}
-      isLast={state.stepIndex === config.stepCount - 1} onSubmit={answer} onNext={next} />
+      isLast={state.stepIndex === config.stepCount - 1} onSubmit={submit} onNext={next} />
   )
 }

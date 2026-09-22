@@ -1,5 +1,5 @@
-/** @file Tests for the synthesised victory sound (fake Web Audio context). */
-import { playVictorySound } from './sound'
+/** @file Tests for the synthesised sounds: victory and pin clack (fake Web Audio context). */
+import { playPinSound, playVictorySound } from './sound'
 
 function fakeParam() {
   return { value: 0, setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() }
@@ -38,5 +38,18 @@ describe('playVictorySound', () => {
   })
   it('stays silent in jsdom with the default context', () => {
     expect(() => playVictorySound()).not.toThrow()
+  })
+})
+
+describe('playPinSound', () => {
+  it('does nothing without Web Audio', () => {
+    expect(() => playPinSound(() => null)).not.toThrow()
+  })
+  it('plays one short square clack, then releases the audio context', () => {
+    const { ctx, close, oscillators } = fakeContext()
+    playPinSound(() => ctx)
+    expect(oscillators.map((o) => o.type)).toEqual(['square'])
+    oscillators[0].onended?.()
+    expect(close).toHaveBeenCalledOnce()
   })
 })

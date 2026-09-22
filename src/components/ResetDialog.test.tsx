@@ -15,4 +15,10 @@ describe('ResetDialog', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Recommencer' }))
     expect(onConfirm).toHaveBeenCalledOnce()
   })
+  it('cancels with the Escape key', async () => {
+    const onCancel = vi.fn()
+    render(<ResetDialog onCancel={onCancel} onConfirm={vi.fn()} />)
+    await userEvent.keyboard('{Escape}')
+    expect(onCancel).toHaveBeenCalledOnce()
+  })
 })

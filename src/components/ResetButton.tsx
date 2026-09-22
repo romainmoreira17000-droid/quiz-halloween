@@ -40,7 +40,11 @@ export function ResetButton({ onLongPress }: ResetButtonProps) {
   return (
     <button type="button" className={holding ? 'reset-button reset-button--holding' : 'reset-button'}
       aria-label="Recommencer la partie (appui long)"
-      onPointerDown={begin} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop}
+      // Main button only: a held right click must not restart the game.
+      onPointerDown={(event) => { if (event.button === 0) begin() }}
+      onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop}
+      // A key released elsewhere (focus moved away) never sends keyup here.
+      onBlur={stop}
       onKeyDown={(event) => { if (isPressKey(event) && !event.repeat) begin() }}
       onKeyUp={(event) => { if (isPressKey(event)) stop() }}
       // A long press on a tablet would otherwise open the copy/share menu.

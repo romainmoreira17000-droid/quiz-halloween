@@ -41,7 +41,7 @@ export function StepScreen(props: StepScreenProps) {
         // Changing key on each wrong try remounts the zone, which replays the shake animation.
         <div key={wrongAttempts} className={wrongAttempts > 0 ? 'answer-zone shake' : 'answer-zone'}>
           {wrongAttempts > 0 && <p className="wrong-answer" role="alert">{wrongAnswerMessage(wrongAttempts)}</p>}
-          <Keypad onDigit={onDigit} />
+          <Keypad onKey={(c) => onDigit(Number(c))} onErase={() => {}} onSubmit={() => {}} canSubmit={false} />
         </div>
       ) : (
         <div className="answer-zone">

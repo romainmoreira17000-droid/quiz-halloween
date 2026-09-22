@@ -25,7 +25,7 @@
 
 /* Keypad: --key drives both width and height (never below 88px). */
 .keypad {
-  --key: 124px;
+  --key: 112px;
   --key-gap: 22px;
   display: grid;
   grid-template-columns: repeat(3, var(--key));
@@ -38,8 +38,9 @@
   font-size: 60px; font-weight: 700;
   font-variant-numeric: lining-nums;
 }
-/* Phone-style layout: 0 sits alone under the middle column. */
-.keypad button:last-child { grid-column: 2; }
+.keypad .key-submit { font-family: var(--title-font); font-size: 26px; font-weight: 400; }
+.keypad .key-erase, .letter-keyboard .key-erase { background: #3a2a1e; }
+button:disabled { opacity: .4; }
 
 /* Header */
 .game-header {

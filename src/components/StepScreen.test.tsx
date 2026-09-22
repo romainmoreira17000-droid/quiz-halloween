@@ -20,7 +20,7 @@ describe('StepScreen', () => {
     expect(screen.getByText('Étape 2 sur 6')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Le chaudron' })).toBeInTheDocument()
     expect(screen.getByText('Combien d’yeux ?')).toBeInTheDocument()
-    expect(screen.getAllByRole('button')).toHaveLength(10)
+    expect(screen.getAllByRole('button')).toHaveLength(12)
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })

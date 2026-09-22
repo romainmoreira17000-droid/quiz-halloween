@@ -1,0 +1,28 @@
+/** @file AZERTY letter keyboard drawn in the app: the system keyboard would hide half the screen. */
+import type { AnswerKeysProps } from './Keypad'
+
+const ROWS = ['AZERTYUIOP', 'QSDFGHJKLM', "WXCVBN'-"]
+/** Spoken names for the two keys whose glyph alone is unclear. */
+const LABELS: Readonly<Record<string, string>> = { "'": 'Apostrophe', '-': 'Tiret' }
+
+/**
+ * Keyboard for answers made of words.
+ * @param props See AnswerKeysProps.
+ * @returns The keyboard.
+ */
+export function LetterKeyboard({ onKey, onErase, onSubmit, canSubmit }: AnswerKeysProps) {
+  return (
+    <div className="letter-keyboard">
+      {ROWS.map((row) => (
+        <div key={row} className="key-row">
+          {[...row].map((c) => <button key={c} type="button" aria-label={LABELS[c]} onClick={() => onKey(c)}>{c}</button>)}
+        </div>
+      ))}
+      <div className="key-row">
+        <button type="button" className="key-space" onClick={() => onKey(' ')}>Espace</button>
+        <button type="button" className="key-erase" aria-label="Effacer" onClick={onErase}>⌫</button>
+        <button type="button" className="key-submit" disabled={!canSubmit} onClick={onSubmit}>Valider</button>
+      </div>
+    </div>
+  )
+}

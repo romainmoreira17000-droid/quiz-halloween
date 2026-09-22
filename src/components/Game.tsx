@@ -1,11 +1,13 @@
-/** @file Picks the screen to show from the game progress. */
+/** @file Picks the screen to show from the game progress, with the reset icon on top. */
+import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { elapsedSeconds } from '../game/time'
-import { useGameProgress } from '../hooks/useGameProgress'
+import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { playVictorySound } from '../services/sound'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
 import { PadlockScreen } from './PadlockScreen'
+import { ResetControl } from './ResetControl'
 import { StepScreen } from './StepScreen'
 import { VictoryScreen } from './VictoryScreen'
 
@@ -15,10 +17,20 @@ export interface GameProps { config: QuizConfig }
 /**
  * The whole game for a valid quiz.
  * @param props.config Validated quiz configuration.
- * @returns The current screen.
+ * @returns The current screen, with the reset icon.
  */
 export function Game({ config }: GameProps) {
-  const { state, start, answer, next, unlock } = useGameProgress(config.steps, config.padlock.order)
+  const progress = useGameProgress(config)
+  return (
+    <>
+      {currentScreen(config, progress)}
+      <ResetControl onReset={progress.reset} />
+    </>
+  )
+}
+
+/** Screen matching the current game status. */
+function currentScreen(config: QuizConfig, { state, start, answer, next, unlock }: GameProgress): ReactNode {
   const { status, startedAt, finishedAt } = state
   if (status === 'home' || startedAt === null) {
     return <HomeScreen title={config.title} intro={config.intro} durationMinutes={config.durationMinutes} onStart={start} />

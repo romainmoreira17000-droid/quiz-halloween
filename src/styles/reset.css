@@ -1,0 +1,51 @@
+/**
+ * @file Reset: pale icon bottom left with a ring filling up while held, and the confirmation window.
+ * The icon stays small and faint on purpose: it is for the animator, not for the children.
+ */
+/* Anchored to the bottom of the page, not of the viewport: on a phone the padlock screen scrolls,
+   and a fixed icon would slide over the dials. The screens keep a free strip at the bottom for it. */
+#root { position: relative; }
+.screen { padding-bottom: 96px; }
+.reset-button {
+  position: absolute; left: 12px; bottom: 12px; z-index: 20;
+  width: 64px; height: 64px;
+  color: var(--wax); opacity: .3;
+  /* No scroll, selection or callout menu during the long press. */
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+}
+.reset-button svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.reset-ring {
+  stroke: var(--amber); stroke-width: 4;
+  stroke-dasharray: 100; stroke-dashoffset: 100;
+  transform: rotate(-90deg); transform-box: fill-box; transform-origin: center;
+}
+.reset-button--holding { opacity: 1; }
+/* Base = full ring (final state); 3s = RESET_HOLD_MS in ResetButton.tsx. */
+.reset-button--holding .reset-ring { stroke-dashoffset: 0; animation: reset-fill 3s linear both; }
+@keyframes reset-fill { from { stroke-dashoffset: 100; } }
+
+/* Confirmation window */
+.reset-overlay {
+  position: fixed; inset: 0; z-index: 30;
+  display: grid; place-items: center; padding: 16px;
+  background: rgb(10 6 4 / .82);
+}
+.reset-dialog {
+  width: 100%; max-width: 600px;
+  display: grid; gap: 28px; padding: 40px 32px;
+  border-radius: 24px; background: var(--wall);
+  box-shadow: 0 20px 60px rgb(0 0 0 / .6);
+  text-align: center; font-size: 28px;
+}
+.reset-dialog h2 { font-size: 56px; }
+.reset-actions { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.reset-actions .seal-button { padding: 0 40px; }
+.ghost-button {
+  min-height: 104px; padding: 0 40px;
+  border: 3px solid var(--bronze); border-radius: 56px 60px 54px 58px;
+  font-family: var(--title-font); font-size: 48px;
+}
+@media (max-width: 600px) {
+  .reset-dialog { padding: 28px 16px; font-size: 22px; }
+  .reset-dialog h2 { font-size: 40px; }
+}

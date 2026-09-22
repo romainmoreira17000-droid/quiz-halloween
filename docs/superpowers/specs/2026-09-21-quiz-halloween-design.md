@@ -84,6 +84,24 @@ config typée, soit la liste d'erreurs. Il est exécuté :
    chauves-souris, message de victoire et temps mis.
 5. **Remise à zéro** : icône discrète présente sur tous les écrans, appui long 3 s puis confirmation.
 
+### Sauvegarde et remise à zéro (sprint 6)
+
+- **Sauvegarde** : à chaque changement, l'état de la partie (statut, étape, chiffres trouvés, heure de
+  départ, heure d'ouverture) est écrit dans le localStorage. Au rechargement, on reprend au même
+  écran ; le compteur est recalculé depuis l'heure de départ. Les essais ratés repartent à zéro ; le
+  son de victoire ne rejoue pas.
+- **Empreinte** : la sauvegarde porte une empreinte du quiz, calculée sur la config validée (pas sur
+  le texte brut : un commentaire modifié ne compte pas). Empreinte différente → sauvegarde ignorée.
+- **Robustesse** : sauvegarde illisible, incohérente ou localStorage indisponible → retour à
+  l'accueil, sans message.
+- **Remise à zéro** : icône ↺ très pâle **en bas à gauche**, sur tous les écrans (accueil compris).
+  Pendant l'appui, un anneau se remplit en 3 s ; lâcher avant annule. Au bout de 3 s, fenêtre du jeu
+  « Recommencer la partie ? » avec deux gros boutons **Annuler** / **Recommencer**. « Recommencer »
+  efface la sauvegarde et revient à l'accueil.
+- **Code** : `src/game/fingerprint.ts` (empreinte), `src/services/savedGame.ts` (lecture/écriture
+  localStorage), action `reset` du réducteur, `useGameProgress` charge et enregistre,
+  composants `ResetButton` (appui long + anneau) et `ResetDialog` (confirmation).
+
 Le compteur continue après zéro (affichage « -mm:ss » en rouge). Le temps est calculé à partir
 de l'heure de départ enregistrée (pas d'un décompte en mémoire), pour rester juste après une mise en
 veille ou un rechargement.

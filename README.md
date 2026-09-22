@@ -16,6 +16,14 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 4. Après la dernière étape, le cadenas : N molettes à régler dans l'ordre de `cadenas.ordre`. Le bon code ouvre la
    porte du restaurant hanté (animation + son) et affiche le temps mis.
 
+La partie est gardée sur la tablette : si la page se recharge (ou si la tablette redémarre), le
+groupe reprend à la même étape, avec le compteur toujours juste. Les essais ratés ne sont pas gardés.
+
+**Remettre à zéro entre deux groupes (animateur) :** rester appuyé 3 secondes sur la petite icône ↺
+en bas à gauche (un anneau se remplit), puis toucher « Recommencer » dans la fenêtre qui s'ouvre.
+« Annuler » garde la partie en cours. Si `quiz.yaml` a été modifié entre-temps, la partie
+sauvegardée est ignorée et le jeu revient à l'accueil.
+
 Le jeu fonctionne sans connexion une fois le site ouvert une première fois (polices embarquées).
 
 ## Installation

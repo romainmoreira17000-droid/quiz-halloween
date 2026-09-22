@@ -6,7 +6,7 @@ const SOLUTIONS = [4, 7, 2, 9, 0, 5]
 
 test('a group plays every step, then opens the padlock after one wrong code', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('button', { name: 'Commencer' }).click()
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
 
   await expect(page.getByRole('heading', { name: 'La crypte' })).toBeVisible()
   await page.getByRole('button', { name: '1', exact: true }).click()
@@ -37,7 +37,7 @@ test('a group plays every step, then opens the padlock after one wrong code', as
 test('the clock goes red and negative once time is up, and the game goes on', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
-  await page.getByRole('button', { name: 'Commencer' }).click()
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
 
   const clock = page.getByRole('timer')
   await expect(clock).toHaveText('90:00')

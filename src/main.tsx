@@ -10,6 +10,7 @@ import './styles/controls.css'
 import './styles/screens.css'
 import './styles/padlock.css'
 import './styles/victory.css'
+import './styles/reset.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(

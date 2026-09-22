@@ -69,4 +69,8 @@ describe('game reducer', () => {
     const won = reduce(atPadlock, { type: 'unlock', code: [0, 4], now: 9000 })
     expect(reduce(won, { type: 'unlock', code: [0, 4], now: 12000 })).toBe(won)
   })
+  it('goes back to the home screen from anywhere on reset', () => {
+    expect(reduce(atPadlock, { type: 'reset' })).toEqual(initialGameState)
+    expect(reduce(playing, { type: 'reset' })).toEqual(initialGameState)
+  })
 })

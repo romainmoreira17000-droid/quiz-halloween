@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 7 : conception et plan écrits, code pas commencé)
+Dernière mise à jour : 2026-09-22 (sprint 7 codé, testé et relu ; PR à ouvrir)
 
 ## Sprint en cours
 - **Sprint 7** : message d'entrée + réponses en chiffres ou en mots (issue #14).
@@ -12,19 +12,25 @@ Dernière mise à jour : 2026-09-22 (sprint 7 : conception et plan écrits, code
 ## Où on en est
 - [x] Sprints 1 à 6 terminés et en ligne. Romain a testé sur tablette : tout marche.
 - [x] Sprint 7 : brainstorming, spec, plan
-- [ ] Tâche 1 : types + comparaison des réponses (`normalizeAnswer`, `isRightAnswer`, `appendToAnswer`)
-- [ ] Tâche 2 : `validateAnswer` + `validateEntrance`
-- [ ] Tâche 3 : `solution` → `reponse` + `chiffre` partout, nouveau `quiz.yaml` fictif
-- [ ] Tâche 4 : pavé avec Effacer/Valider, clavier AZERTY, `AnswerInput`
-- [ ] Tâche 5 : les étapes utilisent la réponse tapée
-- [ ] Tâche 6 : statut `entrance`, sauvegarde, `EntranceScreen`
-- [ ] Tâche 7 : e2e + README + CLAUDE.md
-- [ ] Vérif navigateur, relecture `relecteur-code`, PR `Closes #14`
+- [x] Tâches 1 à 7 (sous-agents Sonnet, relecture par tâche) + relecture globale Opus + corrections
+- [x] 242 tests unitaires, 7 e2e, typecheck, lint, valider, build : tout vert
+- [x] Vérif navigateur (810×1080 et 360 px, navigateur neuf) : entrée, étape chiffres, étape mots
+- [ ] Relecture `relecteur-code`, puis PR `Closes #14`
+- [ ] Romain : relire la PR et décider du merge ; puis sprint 8 (décor, issue #15)
 
 ## Prochaine action concrète
-Exécuter la tâche 1 du plan (`docs/superpowers/plans/2026-09-22-sprint7-entree-et-reponses.md`).
+Traiter le retour de `relecteur-code`, pousser la branche et ouvrir la PR (`Closes #14`), puis attendre
+la décision de Romain pour le merge.
 
 ## Décisions prises (et pourquoi)
+- Sprint 7 (exécution) : `reponse: 0472` sans guillemets garde son 0 (le parseur relit le texte
+  source du YAML) : un oubli de guillemets aurait bloqué les enfants sans aucune erreur.
+- Sprint 7 : clavier de lettres resserré (touches 62 px sur tablette, 28 px sur téléphone) : les tailles
+  du plan débordaient de l'écran. Hauteur des touches inchangée (70 px / 52 px).
+- Sprint 7 : zone de réponse commune `AnswerZone` (entrée + étapes) ; une sauvegarde « entrée » sur un
+  quiz sans entrée repart de l'accueil.
+- À reprendre au sprint 8 : l'écran à pavé dépasse de 15 px en hauteur sur 810×1080 ; la queue du « Q »
+  de la police déborde de sa touche.
 - Sprint 7 : les enfants font des **épreuves réelles** ; la tablette sert à taper la bonne réponse
   (chiffres ou mots, choisi par épreuve dans le YAML), qui **donne** un chiffre (`reponse` + `chiffre`
   remplacent `solution`). 1 étape = 1 épreuve.

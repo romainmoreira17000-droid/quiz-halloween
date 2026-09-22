@@ -1,12 +1,13 @@
 /** @file Tests for the game progress hook, saved in localStorage. */
 import { act, renderHook } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
+import { quizFingerprint } from '../game/fingerprint'
 import { STORAGE_KEY } from '../services/savedGame'
 import { useGameProgress } from './useGameProgress'
 
 const config: QuizConfig = {
   title: 'T', durationMinutes: 90, stepCount: 1,
-  steps: [{ title: 'A', instruction: 'a', solution: 3 }], padlock: { order: [1] },
+  steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '3' }, digit: 3 }], padlock: { order: [1] },
 }
 
 describe('useGameProgress', () => {
@@ -18,7 +19,7 @@ describe('useGameProgress', () => {
     const { result } = renderHook(() => useGameProgress(config))
     act(() => result.current.start())
     expect(result.current.state.startedAt).toBe(Date.parse('2026-10-31T14:00:00Z'))
-    act(() => result.current.answer(3))
+    act(() => result.current.answer('3'))
     act(() => result.current.next())
     expect(result.current.state.status).toBe('padlock')
     let opened = true
@@ -33,7 +34,7 @@ describe('useGameProgress', () => {
   it('resumes the saved game after a reload', () => {
     const first = renderHook(() => useGameProgress(config))
     act(() => first.result.current.start())
-    act(() => first.result.current.answer(3))
+    act(() => first.result.current.answer('3'))
     const saved = first.result.current.state
     first.unmount()
     const { result } = renderHook(() => useGameProgress(config))
@@ -44,7 +45,7 @@ describe('useGameProgress', () => {
     const first = renderHook(() => useGameProgress(config))
     act(() => first.result.current.start())
     first.unmount()
-    const changed = { ...config, steps: [{ ...config.steps[0], solution: 7 }] }
+    const changed = { ...config, steps: [{ ...config.steps[0], digit: 7 }] }
     const { result } = renderHook(() => useGameProgress(changed))
     expect(result.current.state.status).toBe('home')
   })
@@ -56,5 +57,29 @@ describe('useGameProgress', () => {
     act(() => result.current.reset())
     expect(result.current.state.status).toBe('home')
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull()
+  })
+
+  it('starts the clock only once the entrance is solved', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-10-31T14:00:00Z'))
+    const withEntrance: QuizConfig = { ...config, entrance: { message: 'm', answer: { kind: 'letters', value: 'Bouh' } } }
+    const { result } = renderHook(() => useGameProgress(withEntrance))
+    act(() => result.current.start())
+    expect(result.current.state).toMatchObject({ status: 'entrance', startedAt: null })
+    vi.setSystemTime(new Date('2026-10-31T14:05:00Z'))
+    act(() => result.current.enter('bouh'))
+    expect(result.current.state).toMatchObject({ status: 'playing', startedAt: Date.parse('2026-10-31T14:05:00Z') })
+  })
+
+  it('ignores a stuck entrance save when the quiz no longer has an entrance', () => {
+    // Same shape saveGame would write, but the quiz was edited afterwards to drop its entrance section.
+    const stuck = {
+      status: 'entrance', stepIndex: 0, foundDigits: [], startedAt: null, finishedAt: null, wrongAttempts: 0,
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ fingerprint: quizFingerprint(config), state: stuck }))
+    const { result } = renderHook(() => useGameProgress(config))
+    expect(result.current.state.status).toBe('home')
+    act(() => result.current.start())
+    expect(result.current.state.status).toBe('playing')
   })
 })

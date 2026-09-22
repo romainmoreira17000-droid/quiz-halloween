@@ -1,7 +1,7 @@
 /** @file Checks a game state read back from storage, so a damaged or tampered save can never break the game. */
-import type { GameState, GameStatus } from './progress'
+import { initialGameState, type GameState, type GameStatus } from './progress'
 
-const RESUMABLE: readonly string[] = ['playing', 'padlock', 'won']
+const RESUMABLE: readonly string[] = ['entrance', 'playing', 'padlock', 'won']
 
 const isTime = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
 const isDigit = (value: unknown): value is number =>
@@ -17,6 +17,12 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
   if (typeof value !== 'object' || value === null) return null
   const { status, stepIndex, foundDigits, startedAt, finishedAt } = value as Record<string, unknown>
   if (typeof status !== 'string' || !RESUMABLE.includes(status)) return null
+  // The entrance comes before any progress: nothing else may be set.
+  if (status === 'entrance') {
+    const fresh = stepIndex === 0 && Array.isArray(foundDigits) && foundDigits.length === 0
+      && startedAt === null && finishedAt === null
+    return fresh ? { ...initialGameState, status: 'entrance' } : null
+  }
   if (typeof stepIndex !== 'number' || !Number.isInteger(stepIndex) || stepIndex < 0 || stepIndex >= stepCount) return null
   if (!Array.isArray(foundDigits) || !foundDigits.every(isDigit) || !isTime(startedAt)) return null
   const digits = foundDigits.filter(isDigit)

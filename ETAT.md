@@ -1,24 +1,46 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 6 fusionné, aucun sprint en cours)
+Dernière mise à jour : 2026-09-22 (sprint 7 codé, testé et relu ; PR à ouvrir)
 
 ## Sprint en cours
-- **Aucun.** Sprint 6 (sauvegarde + remise à zéro, issue #6) fusionné via la PR #12, issue fermée.
-- Plus aucune issue ouverte : aucun sprint suivant n'est planifié.
+- **Sprint 7** : message d'entrée + réponses en chiffres ou en mots (issue #14).
+- Branche `feat/entrance-and-text-answers`. **PR #16** ouverte, en attente de Romain.
+- Spec : `docs/superpowers/specs/2026-09-22-entree-et-reponses-design.md` (validée par Romain).
+- Plan : `docs/superpowers/plans/2026-09-22-sprint7-entree-et-reponses.md` (7 tâches).
+- Sprint suivant déjà ouvert : **sprint 8**, décor de la grande salle + cadenas en coupe (issue #15).
 
 ## Où on en est
-- [x] Sprints 1 à 6 terminés (PR #7 à #12 fusionnées ; site en ligne).
-- [x] Sprint 6 déployé sur Pages et vérifié en ligne (Playwright, 810×1080, navigateur neuf) : la partie
-  reprend à la même étape après rechargement ; appui long 3 s + « Recommencer » → accueil, qui le reste
-  après rechargement.
-- [ ] Romain : écouter le son de victoire sur la tablette (site Pages, mode silencieux coupé)
-- [ ] Romain : essayer l'appui long sur la vraie tablette
+- [x] Sprints 1 à 6 terminés et en ligne. Romain a testé sur tablette : tout marche.
+- [x] Sprint 7 : brainstorming, spec, plan
+- [x] Tâches 1 à 7 (sous-agents Sonnet, relecture par tâche) + relecture globale Opus + corrections
+- [x] 242 tests unitaires, 7 e2e, typecheck, lint, valider, build : tout vert
+- [x] Vérif navigateur (810×1080 et 360 px, navigateur neuf) : entrée, étape chiffres, étape mots
+- [x] Relecture `relecteur-code` (prête pour la PR), PR #16 ouverte
+- [ ] Romain : relire la PR et décider du merge ; puis sprint 8 (décor, issue #15)
 
 ## Prochaine action concrète
-Attendre les retours de Romain après ses essais sur la vraie tablette (son, appui long). S'il veut une
-nouvelle fonctionnalité ou un correctif : ouvrir un nouveau sprint (issue, branche, PR).
+Attendre que la CI de la PR #16 soit verte et que Romain décide du merge. Après merge :
+`git checkout main && git pull && git branch -d feat/entrance-and-text-answers`, puis sprint 8 (issue #15).
 
 ## Décisions prises (et pourquoi)
+- Sprint 7 (exécution) : `reponse: 0472` sans guillemets garde son 0 (le parseur relit le texte
+  source du YAML) : un oubli de guillemets aurait bloqué les enfants sans aucune erreur.
+- Sprint 7 : clavier de lettres resserré (touches 62 px sur tablette, 28 px sur téléphone) : les tailles
+  du plan débordaient de l'écran. Hauteur des touches inchangée (70 px / 52 px).
+- Sprint 7 : zone de réponse commune `AnswerZone` (entrée + étapes) ; une sauvegarde « entrée » sur un
+  quiz sans entrée repart de l'accueil.
+- À reprendre au sprint 8 : l'écran à pavé dépasse de 15 px en hauteur sur 810×1080 ; la queue du « Q »
+  de la police déborde de sa touche.
+- Sprint 7 : les enfants font des **épreuves réelles** ; la tablette sert à taper la bonne réponse
+  (chiffres ou mots, choisi par épreuve dans le YAML), qui **donne** un chiffre (`reponse` + `chiffre`
+  remplacent `solution`). 1 étape = 1 épreuve.
+- Sprint 7 : message d'entrée facultatif (`entree`), sans chiffre ; le **compteur démarre à sa bonne
+  réponse**. Mots : majuscules, accents, espaces autour ignorés ; chiffres : zéros de tête comptés.
+  Une seule réponse acceptée par épreuve. Clavier AZERTY dessiné (celui du système cache l'écran).
+- Sprint 7 : épreuves **fictives** dans le YAML ; Romain fournira les vraies (consigne, réponse, chiffre).
+- Sprint 8 (décor, validé en maquette) : grande salle dessinée en SVG « belle comme une image IA »,
+  consigne sur parchemin, **gros cadenas vu en coupe** dont une goupille tombe à chaque bonne réponse,
+  anse qui se décroche à la fin (option A choisie). Maquette : `.superpowers/brainstorm/` (non versionné).
 - Sprint 6 : icône en `position: absolute` en bas de page (pas `fixed` comme prévu au plan) : sur
   téléphone, l'écran du cadenas défile et une icône fixe couvrait la 1re molette. `.screen` garde 96 px
   libres en bas. Sur tablette, rien ne change à l'œil.

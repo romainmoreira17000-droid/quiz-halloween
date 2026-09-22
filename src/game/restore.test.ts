@@ -18,6 +18,10 @@ describe('restoreGameState', () => {
     expect(restoreGameState(padlock, 2)).toEqual(padlock)
     expect(restoreGameState(won, 2)).toEqual(won)
   })
+  it('restores the entrance screen', () => {
+    const entrance = { status: 'entrance', stepIndex: 0, foundDigits: [], startedAt: null, finishedAt: null, wrongAttempts: 2 }
+    expect(restoreGameState(entrance, 2)).toEqual({ ...entrance, wrongAttempts: 0 })
+  })
   it.each([
     ['nothing', null],
     ['text', 'playing'],
@@ -34,6 +38,9 @@ describe('restoreGameState', () => {
     ['playing with an end time', { ...playing, finishedAt: 5000 }],
     ['padlock before all steps', { ...padlock, foundDigits: [4] }],
     ['victory without end time', { ...won, finishedAt: null }],
+    ['entrance with a start time', { status: 'entrance', stepIndex: 0, foundDigits: [], startedAt: 1000, finishedAt: null }],
+    ['entrance with digits', { status: 'entrance', stepIndex: 0, foundDigits: [4], startedAt: null, finishedAt: null }],
+    ['entrance on step 2', { status: 'entrance', stepIndex: 1, foundDigits: [], startedAt: null, finishedAt: null }],
   ])('rejects %s', (_label, value) => {
     expect(restoreGameState(value, 2)).toBeNull()
   })

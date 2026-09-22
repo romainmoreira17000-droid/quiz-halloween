@@ -2,8 +2,10 @@
 
 ## But
 Jeu d'énigmes d'Halloween joué en groupe sur tablette par les enfants du Centre de Loisirs.
-Chaque étape donne une consigne dont la réponse est un chiffre (0–9) ; les chiffres ouvrent un
-cadenas final qui déclenche une animation. Tout le contenu vient de `quiz.yaml`.
+Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (chiffres ou mots), ce
+qui donne un chiffre (0–9) ; les chiffres ouvrent un cadenas final qui déclenche une animation. Un
+message d'entrée facultatif précède les étapes, dont la bonne réponse démarre le compteur. Tout le
+contenu vient de `quiz.yaml`.
 
 Conception complète : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md`.
 
@@ -25,10 +27,13 @@ public/images/             images des étapes (référencées par `image:`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
-src/game/                  logique pure : time, answer, messages, padlock, progress (réducteur de partie),
-                           fingerprint (empreinte du quiz), restore (contrôle d'un état relu)
+src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
+                           progress (réducteur de partie), fingerprint (empreinte du quiz),
+                           restore (contrôle d'un état relu)
 src/hooks/                 useCountdown, useGameProgress
-src/components/            Game (seul assembleur d'écrans) + un composant par écran + Keypad, Dial, HauntedDoor,
+src/components/            Game (seul assembleur d'écrans) + un composant par écran + EntranceScreen,
+                           AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
+                           réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            ResetControl (ResetButton appui long + ResetDialog), ...
 src/services/              sound (son de victoire synthétisé en Web Audio), savedGame (seul accès au localStorage)
 src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, victory, reset
@@ -83,7 +88,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
 - **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
-  changer une solution si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
+  changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
   remonte (retour à l'accueil). Statut `home` = pas de sauvegarde (c'est ainsi que `reset` l'efface).
 - **Remise à zéro** : durée de l'appui = `RESET_HOLD_MS` (ResetButton.tsx), à garder égale à l'animation
   `reset-fill` (3s) de `reset.css`. L'icône est en `position: absolute` en bas de `#root`, pas `fixed` :
@@ -93,3 +98,13 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   « Recommencer la partie » contient « Commencer » → toujours `exact: true` sur « Commencer ».
 - **Vérif visuelle après rebuild** : le service worker de la PWA peut resservir l'ancien build ;
   repartir d'un navigateur neuf (fermer le contexte Playwright).
+- **Réponses** : en `mots`, majuscules/accents/espaces autour ignorés et les espaces répétés à
+  l'intérieur comptent pour un seul (`normalizeAnswer`) ; en `chiffres`, les zéros de tête comptent.
+  YAML lirait `reponse: 0472` sans guillemets comme le nombre 472 : `parseQuizYaml` restaure le
+  texte source de tout `reponse` numérique (via `visit` sur le document parsé) avant validation,
+  donc les guillemets sont facultatifs pour garder un 0 initial.
+- **Saisie** : `AnswerInput` est un `<output>` (rôle `status`) : il n'est jamais affiché en même temps
+  que « Chiffre trouvé », sinon `getByRole('status')` deviendrait ambigu. Le texte tapé s'efface après
+  une mauvaise réponse (remontage par `key`).
+- **Entrée** : statut `entrance` avant `playing`, `startedAt` à null ; le compteur démarre à la bonne
+  réponse.

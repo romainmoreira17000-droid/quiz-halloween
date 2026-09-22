@@ -6,9 +6,9 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 
 const base: StepScreenProps = {
   header: <header>entête</header>,
-  step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', solution: 7 },
+  step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
   stepNumber: 2, total: 6, foundDigit: undefined, wrongAttempts: 0, isLast: false,
-  onDigit: () => {}, onNext: () => {},
+  onSubmit: () => {}, onNext: () => {},
 }
 
 describe('StepScreen', () => {
@@ -20,7 +20,8 @@ describe('StepScreen', () => {
     expect(screen.getByText('Étape 2 sur 6')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Le chaudron' })).toBeInTheDocument()
     expect(screen.getByText('Combien d’yeux ?')).toBeInTheDocument()
-    expect(screen.getAllByRole('button')).toHaveLength(10)
+    expect(screen.getAllByRole('button')).toHaveLength(12)
+    expect(screen.getByLabelText('Réponse tapée')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
@@ -30,11 +31,17 @@ describe('StepScreen', () => {
     render(<StepScreen {...base} step={{ ...base.step, image: 'chaudron.png' }} />)
     expect(screen.getByRole('img')).toHaveAttribute('src', '/quiz-halloween/images/chaudron.png')
   })
-  it('sends keypad digits', async () => {
-    const onDigit = vi.fn()
-    render(<StepScreen {...base} onDigit={onDigit} />)
+  it('submits the typed code', async () => {
+    const onSubmit = vi.fn()
+    render(<StepScreen {...base} onSubmit={onSubmit} />)
+    await userEvent.click(screen.getByRole('button', { name: '1' }))
     await userEvent.click(screen.getByRole('button', { name: '3' }))
-    expect(onDigit).toHaveBeenCalledWith(3)
+    await userEvent.click(screen.getByRole('button', { name: 'Valider' }))
+    expect(onSubmit).toHaveBeenCalledWith('13')
+  })
+  it('shows the letter keyboard for a words answer', () => {
+    render(<StepScreen {...base} step={{ ...base.step, answer: { kind: 'letters', value: 'Crapaud' } }} />)
+    expect(screen.getByRole('button', { name: 'Espace' })).toBeInTheDocument()
   })
   it('shakes and shows a kind message after a wrong answer', () => {
     const { container } = render(<StepScreen {...base} wrongAttempts={2} />)

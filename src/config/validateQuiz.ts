@@ -1,10 +1,11 @@
 /** @file Validates the whole quiz document and builds the typed QuizConfig. */
 import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './checks'
+import { validateEntrance } from './validateEntrance'
 import { validatePadlock } from './validatePadlock'
 import { validateStep } from './validateStep'
 import type { QuizStep, ValidationResult } from './types'
 
-const ROOT_KEYS = ['titre', 'intro', 'duree_minutes', 'nombre_etapes', 'etapes', 'cadenas'] as const
+const ROOT_KEYS = ['titre', 'intro', 'duree_minutes', 'nombre_etapes', 'entree', 'etapes', 'cadenas'] as const
 
 /**
  * Validates a parsed YAML document against every rule of the spec.
@@ -17,6 +18,7 @@ export function validateQuiz(raw: unknown): ValidationResult {
   const errors: string[] = []
   if (!isNonEmptyString(raw.titre)) errors.push('« titre » est obligatoire et doit être un texte non vide.')
   if (raw.intro !== undefined && typeof raw.intro !== 'string') errors.push('« intro » doit être un texte.')
+  const entrance = validateEntrance(raw.entree, errors)
   if (!isIntInRange(raw.duree_minutes, 1, Number.MAX_SAFE_INTEGER)) {
     errors.push('« duree_minutes » doit être un nombre entier supérieur à 0.')
   }
@@ -37,7 +39,7 @@ export function validateQuiz(raw: unknown): ValidationResult {
   const padlock = validatePadlock(raw.cadenas, stepCount, errors)
   errors.push(...unknownKeyErrors(raw, ROOT_KEYS, ''))
 
-  if (errors.length > 0 || padlock === null) return { ok: false, errors }
+  if (errors.length > 0 || padlock === null || entrance === null) return { ok: false, errors }
   return { ok: true, config: {
     title: raw.titre as string,
     ...(raw.intro !== undefined && { intro: raw.intro as string }),
@@ -45,5 +47,6 @@ export function validateQuiz(raw: unknown): ValidationResult {
     stepCount,
     steps: steps as QuizStep[],
     padlock,
+    ...(entrance && { entrance }),
   } }
 }

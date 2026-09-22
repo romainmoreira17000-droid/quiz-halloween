@@ -46,7 +46,12 @@
   80% { transform: translateX(9px); }
 }
 
+/* Entrance: the message keeps the line breaks written in quiz.yaml. */
+.entrance h2 { margin: 40px 0 24px; }
+.entrance-message { font-size: 34px; line-height: 1.45; max-width: 19em; white-space: pre-line; font-style: italic; }
+
 @media (max-width: 600px) {
   .intro { font-size: 24px; }
   .instruction { font-size: 26px; }
+  .entrance-message { font-size: 24px; }
 }

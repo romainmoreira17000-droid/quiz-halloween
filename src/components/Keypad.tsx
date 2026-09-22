@@ -1,19 +1,29 @@
-/** @file 0–9 keypad of wax-seal buttons, laid out like a phone (0 under 8). */
+/** @file Digit keypad of wax-seal buttons, phone layout: 1–9, then Effacer, 0, Valider. */
 
-const DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+/** Props shared by both answer keyboards. */
+export interface AnswerKeysProps {
+  /** Called with the pressed character. */
+  onKey(char: string): void
+  onErase(): void
+  onSubmit(): void
+  /** False while the typed answer is empty (Valider is then disabled). */
+  canSubmit: boolean
+}
 
-/** Props of Keypad. */
-export interface KeypadProps { onDigit(digit: number): void }
+const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 /**
- * Ten big digit buttons.
- * @param props.onDigit Called with the pressed digit.
+ * Keypad for answers made of digits.
+ * @param props See AnswerKeysProps.
  * @returns The keypad.
  */
-export function Keypad({ onDigit }: KeypadProps) {
+export function Keypad({ onKey, onErase, onSubmit, canSubmit }: AnswerKeysProps) {
   return (
     <div className="keypad">
-      {DIGITS.map((d) => <button key={d} type="button" onClick={() => onDigit(d)}>{d}</button>)}
+      {DIGITS.map((d) => <button key={d} type="button" onClick={() => onKey(d)}>{d}</button>)}
+      <button type="button" className="key-erase" aria-label="Effacer" onClick={onErase}>⌫</button>
+      <button type="button" onClick={() => onKey('0')}>0</button>
+      <button type="button" className="key-submit" disabled={!canSubmit} onClick={onSubmit}>Valider</button>
     </div>
   )
 }

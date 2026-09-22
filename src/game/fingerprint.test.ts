@@ -4,7 +4,7 @@ import { quizFingerprint } from './fingerprint'
 
 const config: QuizConfig = {
   title: 'Le manoir', durationMinutes: 90, stepCount: 1,
-  steps: [{ title: 'A', instruction: 'a', solution: 4 }], padlock: { order: [1] },
+  steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 }], padlock: { order: [1] },
 }
 
 describe('quizFingerprint', () => {
@@ -14,8 +14,8 @@ describe('quizFingerprint', () => {
   it('is the same for the same quiz', () => {
     expect(quizFingerprint(structuredClone(config))).toBe(quizFingerprint(config))
   })
-  it('changes when a solution changes', () => {
-    const changed = { ...config, steps: [{ ...config.steps[0], solution: 5 }] }
+  it('changes when a digit changes', () => {
+    const changed = { ...config, steps: [{ ...config.steps[0], digit: 5 }] }
     expect(quizFingerprint(changed)).not.toBe(quizFingerprint(config))
   })
 })

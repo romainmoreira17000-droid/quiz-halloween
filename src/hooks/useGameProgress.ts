@@ -9,10 +9,12 @@ import { clearGame, loadGame, saveGame } from '../services/savedGame'
 /** Game state and the actions the screens can trigger. */
 export interface GameProgress {
   state: GameState
-  /** Starts the game and the countdown now. */
+  /** Leaves the home screen: to the entrance message, or straight to step 1 with the clock. */
   start(): void
-  /** Submits a keypad digit for the current step. */
-  answer(digit: number): void
+  /** Submits the answer of the entrance message; the right one starts the clock. */
+  enter(text: string): void
+  /** Submits the typed answer of the current step. */
+  answer(text: string): void
   /** Goes to the next step (or to the padlock) once the current one is solved. */
   next(): void
   /** Tries a padlock code; returns true when it opens (so the caller can play the sound in the tap handler). */
@@ -30,8 +32,14 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   const { steps, stepCount } = config
   const fingerprint = useMemo(() => quizFingerprint(config), [config])
   const code = useMemo(() => padlockCode(steps, config.padlock.order), [steps, config.padlock.order])
-  const reducer = useMemo(() => createGameReducer(steps, code), [steps, code])
-  const [state, dispatch] = useReducer(reducer, null, () => loadGame(fingerprint, stepCount) ?? initialGameState)
+  const reducer = useMemo(() => createGameReducer(steps, code, config.entrance?.answer), [steps, code, config.entrance])
+  const [state, dispatch] = useReducer(reducer, null, () => {
+    const loaded = loadGame(fingerprint, stepCount)
+    // A quiz edited to remove its entrance must not resume stuck on 'entrance': the reducer no
+    // longer has an action that leaves that status, so "Commencer" would silently do nothing.
+    if (loaded?.status === 'entrance' && !config.entrance) return initialGameState
+    return loaded ?? initialGameState
+  })
   useEffect(() => {
     // Home means "no game": nothing worth keeping, and it is how reset deletes the save.
     if (state.status === 'home') clearGame()
@@ -40,7 +48,8 @@ export function useGameProgress(config: QuizConfig): GameProgress {
   return {
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
-    answer: (digit) => dispatch({ type: 'answer', digit }),
+    enter: (text) => dispatch({ type: 'enter', text, now: Date.now() }),
+    answer: (text) => dispatch({ type: 'answer', text }),
     next: () => dispatch({ type: 'next' }),
     unlock: (entered) => {
       dispatch({ type: 'unlock', code: entered, now: Date.now() })

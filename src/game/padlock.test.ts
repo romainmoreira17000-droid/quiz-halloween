@@ -2,13 +2,13 @@
 import { isPadlockCode, padlockCode, turnDial } from './padlock'
 
 const steps = [
-  { title: 'A', instruction: 'a', solution: 4 },
-  { title: 'B', instruction: 'b', solution: 7 },
-  { title: 'C', instruction: 'c', solution: 0 },
-]
+  { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
+  { title: 'B', instruction: 'b', answer: { kind: 'digits', value: '7' }, digit: 7 },
+  { title: 'C', instruction: 'c', answer: { kind: 'digits', value: '0' }, digit: 0 },
+] as const
 
 describe('padlockCode', () => {
-  it('takes the solutions in step order by default', () => {
+  it('takes the step digits in step order by default', () => {
     expect(padlockCode(steps, [1, 2, 3])).toEqual([4, 7, 0])
   })
   it('follows the configured order', () => {

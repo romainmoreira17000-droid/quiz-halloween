@@ -22,4 +22,13 @@ describe('AnswerZone', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Valider' }))
     expect(onSubmit).toHaveBeenCalledWith('CHAT')
   })
+  it('clears the typed text after a wrong answer', async () => {
+    const { rerender } = render(<AnswerZone kind="digits" wrongAttempts={0} onSubmit={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: '1' }))
+    await userEvent.click(screen.getByRole('button', { name: '2' }))
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('12')
+    // A new wrongAttempts remounts the zone (key change), which should drop the typed text.
+    rerender(<AnswerZone kind="digits" wrongAttempts={1} onSubmit={vi.fn()} />)
+    expect(screen.getByLabelText('Réponse tapée')).not.toHaveTextContent('12')
+  })
 })

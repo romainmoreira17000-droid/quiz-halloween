@@ -114,7 +114,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Décors** : SVG en `position: fixed` z-index 0 (`.backdrop`), sous `.screen` (z-index 1). `Game` choisit le
   décor selon le statut : aucun à l'accueil, `RestaurantFront` à l'entrée, `HallBackdrop` ensuite. Les
   dégradés partagés sont dans `DecorGradients` (ids `hall-*`, jamais `lock-*`). Sur téléphone, le décor est
-  rogné sur les côtés (`slice`) : ne rien d'important au-delà de x 162–648 du viewBox. Tout texte posé sur le
+  rogné sur les côtés (`slice`) : ne rien mettre d'important hors de x 162–648 du viewBox. Tout texte posé sur le
   décor a besoin d'un fond ou d'un voile (la nappe claire rend l'ambre illisible).
 - **Clac de goupille** : joué dans le tap « Valider », d'où `answer()` qui renvoie un booléen (comme `unlock()`).
   La chute `pin-fall` (0,45 s, `lock.css`) est calée avec le son de `playPinSound` (`sound.ts`).

@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 4 faites, reste l'entrée et la PR)
+Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 5 faites, reste vérifications, doc et PR)
 
 ## Sprint en cours
 - **Objectif :** décor de la grande salle du restaurant hanté, consigne sur parchemin, gros cadenas
@@ -18,15 +18,20 @@ Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 4 faites, reste l'e
 - [x] Tâche 2 : composant `CutawayLock`
 - [x] Tâche 3 : écran d'étape sur parchemin avec le cadenas
 - [x] Tâche 4 : décor de la grande salle (`src/components/decor/`), vérifié à 810×1080 et 360×800
-- [ ] Tâche 5 : entrée devant la porte du restaurant ← reprendre ici
-- [ ] Tâche 6 : vérifications, doc, relecture, PR
+- [x] Tâche 5 : entrée devant la porte du restaurant (lettre sur parchemin avec sceau), vérifiée à 810×1080 et 360×800
+- [ ] Tâche 6 : vérifications, doc, relecture, PR ← reprendre ici
+  (reste aussi : la queue du « Q » dépasse toujours de sa touche sur le clavier de lettres)
 - [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
 
 ## Prochaine action concrète
-Tâche 5 du plan : tests rouges de `RestaurantFront` (`src/components/decor/RestaurantFront.test.tsx`)
-et, dans `Game.test.tsx`, « `.restaurant-front` sur l'écran d'entrée, pas `.hall-backdrop` ».
+Tâche 6 du plan : arrêter tout `vite preview` sur le port 4173, puis lancer `npm run test:run`, `typecheck`,
+`lint`, `valider`, `build` et `test:e2e` ; corriger la queue du « Q » ; passe visuelle complète dans un navigateur neuf.
 
 ## Décisions prises (et pourquoi)
+- Sprint 8 (tâche 5) : la lettre et le clavier cachent le milieu de la façade ; la lanterne (à gauche), l'enseigne
+  (à droite) et les citrouilles sont placées dans les bandes visibles (entre lettre et clavier, sous le clavier).
+  Une seule lanterne au lieu de deux (l'enseigne prend la place de droite). Sur téléphone, les côtés sont coupés.
+- Sprint 8 (tâche 5) : sur téléphone, marge du titre d'entrée réduite (24/16 px) : la lettre faisait défiler de 9 px.
 - Sprint 8 (tâche 4) : sur tablette, cadenas d'étape à 260 px (au lieu de 300) et écart de saisie de 12 px :
   l'écran à pavé dépassait de 34 px. Il tient maintenant pile en 1080 px (pavé et clavier de lettres).
 - Sprint 8 : l'entête (compteur + bougies) reste tel quel ; l'accueil garde sa bougie, sans décor

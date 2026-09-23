@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-22 (sprint 8 : plan écrit, code pas commencé)
+Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 4 faites, reste l'entrée et la PR)
 
 ## Sprint en cours
 - **Objectif :** décor de la grande salle du restaurant hanté, consigne sur parchemin, gros cadenas
@@ -14,19 +14,21 @@ Dernière mise à jour : 2026-09-22 (sprint 8 : plan écrit, code pas commencé)
 ## Où on en est
 - [x] Sprints 1 à 7 terminés et en ligne.
 - [x] Sprint 8 : cadrage (maquette validée au brainstorming du sprint 7), plan écrit
-- [ ] Tâche 1 : « clac » quand une goupille tombe (`playPinSound`, `answer()` renvoie un booléen) ← reprendre ici
-- [ ] Tâche 2 : composant `CutawayLock`
-- [ ] Tâche 3 : écran d'étape sur parchemin avec le cadenas (+ pavé 15 px trop haut, queue du « Q »)
-- [ ] Tâche 4 : décor de la grande salle (`src/components/decor/`)
-- [ ] Tâche 5 : entrée devant la porte du restaurant
+- [x] Tâche 1 : « clac » quand une goupille tombe (`playPinSound`, `answer()` renvoie un booléen)
+- [x] Tâche 2 : composant `CutawayLock`
+- [x] Tâche 3 : écran d'étape sur parchemin avec le cadenas
+- [x] Tâche 4 : décor de la grande salle (`src/components/decor/`), vérifié à 810×1080 et 360×800
+- [ ] Tâche 5 : entrée devant la porte du restaurant ← reprendre ici
 - [ ] Tâche 6 : vérifications, doc, relecture, PR
 - [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
 
 ## Prochaine action concrète
-Tâche 1 du plan : écrire les tests rouges de `playPinSound` dans `src/services/sound.test.ts`, puis le
-test « clac sur bonne réponse seulement » dans `src/components/Game.test.tsx`.
+Tâche 5 du plan : tests rouges de `RestaurantFront` (`src/components/decor/RestaurantFront.test.tsx`)
+et, dans `Game.test.tsx`, « `.restaurant-front` sur l'écran d'entrée, pas `.hall-backdrop` ».
 
 ## Décisions prises (et pourquoi)
+- Sprint 8 (tâche 4) : sur tablette, cadenas d'étape à 260 px (au lieu de 300) et écart de saisie de 12 px :
+  l'écran à pavé dépassait de 34 px. Il tient maintenant pile en 1080 px (pavé et clavier de lettres).
 - Sprint 8 : l'entête (compteur + bougies) reste tel quel ; l'accueil garde sa bougie, sans décor
   (le spec ne parle que des écrans de jeu).
 - Sprint 8 : décor en composants SVG React (pas une image) : animations des flammes coupées par la règle

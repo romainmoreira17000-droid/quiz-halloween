@@ -80,6 +80,13 @@ describe('Game', () => {
     expect(screen.getByRole('timer')).toHaveTextContent('90:00')
   })
 
+  it('shows the great hall behind the game, not on the home screen', async () => {
+    const user = userEvent.setup()
+    const { container } = render(<Game config={config} />)
+    expect(container.querySelector('.hall-backdrop')).toBeNull()
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    expect(container.querySelector('.hall-backdrop')).not.toBeNull()
+  })
   it('plays the pin clack on a right answer only', async () => {
     const user = userEvent.setup()
     render(<Game config={config} />)

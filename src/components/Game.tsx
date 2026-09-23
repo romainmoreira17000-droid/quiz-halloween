@@ -1,9 +1,11 @@
-/** @file Picks the screen to show from the game progress, with the reset icon on top. */
+/** @file Picks the screen and its backdrop from the game progress, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { elapsedSeconds } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
+import type { GameStatus } from '../game/progress'
 import { playPinSound, playVictorySound } from '../services/sound'
+import { HallBackdrop } from './decor/HallBackdrop'
 import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
@@ -24,10 +26,16 @@ export function Game({ config }: GameProps) {
   const progress = useGameProgress(config)
   return (
     <>
+      {backdrop(progress.state.status)}
       {currentScreen(config, progress)}
       <ResetControl onReset={progress.reset} />
     </>
   )
+}
+
+/** Decor behind the screen: the great hall once the group is inside; the home screen keeps its plain candlelight. */
+function backdrop(status: GameStatus): ReactNode {
+  return status === 'playing' || status === 'padlock' || status === 'won' ? <HallBackdrop /> : null
 }
 
 /** Screen matching the current game status. */

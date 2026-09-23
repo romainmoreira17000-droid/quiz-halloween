@@ -50,7 +50,12 @@
 .ghost-eye { fill: var(--soot); }
 .bat { width: 80px; margin: -15px 0 0 -40px; fill: #3a2312; filter: drop-shadow(0 0 6px rgb(242 165 65 / .7)); animation-duration: 1.8s; }
 
-.victory-text { display: flex; flex-direction: column; align-items: center; gap: 12px; animation: rise-in .8s ease-out 4.2s both; }
+/* Dark veil behind the text: without it the amber time sits on the pale tablecloth of the hall. */
+.victory-text {
+  display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 32px 20px; border-radius: 24px;
+  background: radial-gradient(ellipse at 50% 50%, rgb(12 8 5 / .85) 55%, rgb(12 8 5 / 0));
+  animation: rise-in .8s ease-out 4.2s both;
+}
 .victory h2 { font-size: 56px; max-width: 12em; text-wrap: balance; }
 .final-time { font-size: 34px; color: var(--amber); font-variant-numeric: lining-nums; }
 
@@ -67,6 +72,7 @@
 
 @media (max-width: 600px) {
   .haunted-door { width: 260px; height: 330px; }
+  .victory-text { padding: 12px 4px 16px; }
   .doorway { border-radius: 130px 130px 6px 6px; }
   .victory h2 { font-size: 36px; }
   .final-time { font-size: 26px; }

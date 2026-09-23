@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 5 faites, reste vérifications, doc et PR)
+Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 5 faites, vérifs et doc faites, reste relecture et PR)
 
 ## Sprint en cours
 - **Objectif :** décor de la grande salle du restaurant hanté, consigne sur parchemin, gros cadenas
@@ -19,15 +19,17 @@ Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 5 faites, reste vé
 - [x] Tâche 3 : écran d'étape sur parchemin avec le cadenas
 - [x] Tâche 4 : décor de la grande salle (`src/components/decor/`), vérifié à 810×1080 et 360×800
 - [x] Tâche 5 : entrée devant la porte du restaurant (lettre sur parchemin avec sceau), vérifiée à 810×1080 et 360×800
-- [ ] Tâche 6 : vérifications, doc, relecture, PR ← reprendre ici
-  (reste aussi : la queue du « Q » dépasse toujours de sa touche sur le clavier de lettres)
+- [x] Tâche 6 : vérifications (256 tests, typecheck, lint, valider, build, 7 e2e), passe visuelle complète, doc
+- [ ] Tâche 6 : relecture `relecteur-code`, corrections, PR (Closes #15), fermer la PR #17 ← reprendre ici
 - [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
 
 ## Prochaine action concrète
-Tâche 6 du plan : arrêter tout `vite preview` sur le port 4173, puis lancer `npm run test:run`, `typecheck`,
-`lint`, `valider`, `build` et `test:e2e` ; corriger la queue du « Q » ; passe visuelle complète dans un navigateur neuf.
+Lancer l'agent `relecteur-code` sur `git diff main...feat/haunted-hall`, traiter ses remarques, puis
+`gh pr create` (description en français, captures dans le scratchpad, `Closes #15`) et fermer la PR #17.
 
 ## Décisions prises (et pourquoi)
+- Sprint 8 (tâche 6) : voile sombre derrière le texte de victoire : le temps en ambre était illisible sur la
+  nappe claire de la grande salle. La queue du « Q » était déjà corrigée à la tâche 3 (fausse alerte).
 - Sprint 8 (tâche 5) : la lettre et le clavier cachent le milieu de la façade ; la lanterne (à gauche), l'enseigne
   (à droite) et les citrouilles sont placées dans les bandes visibles (entre lettre et clavier, sous le clavier).
   Une seule lanterne au lieu de deux (l'enseigne prend la place de droite). Sur téléphone, les côtés sont coupés.

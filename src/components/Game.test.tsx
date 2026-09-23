@@ -87,6 +87,16 @@ describe('Game', () => {
     await user.click(screen.getByRole('button', { name: 'Commencer' }))
     expect(container.querySelector('.hall-backdrop')).not.toBeNull()
   })
+
+  it('shows the restaurant front behind the entrance message, not the great hall', async () => {
+    const user = userEvent.setup()
+    const entrance = { message: 'Qui suis-je ?', answer: { kind: 'letters', value: 'Bouh' } } as const
+    const { container } = render(<Game config={{ ...config, entrance }} />)
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    expect(container.querySelector('.restaurant-front')).not.toBeNull()
+    expect(container.querySelector('.hall-backdrop')).toBeNull()
+  })
+
   it('plays the pin clack on a right answer only', async () => {
     const user = userEvent.setup()
     render(<Game config={config} />)

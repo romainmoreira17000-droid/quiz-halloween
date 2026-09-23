@@ -14,6 +14,10 @@ describe('EntranceScreen', () => {
     expect(screen.getByRole('button', { name: 'Espace' })).toBeInTheDocument()
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
   })
+  it('writes the message on a letter slipped under the door', () => {
+    const { container } = render(<EntranceScreen entrance={entrance} wrongAttempts={0} onSubmit={vi.fn()} />)
+    expect(container.querySelector('.letter')).toContainElement(screen.getByText('Qui suis-je ?'))
+  })
   it('uses a default title', () => {
     const { title: _title, ...untitled } = entrance
     render(<EntranceScreen entrance={untitled} wrongAttempts={0} onSubmit={vi.fn()} />)

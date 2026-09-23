@@ -6,6 +6,7 @@ import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import type { GameStatus } from '../game/progress'
 import { playPinSound, playVictorySound } from '../services/sound'
 import { HallBackdrop } from './decor/HallBackdrop'
+import { RestaurantFront } from './decor/RestaurantFront'
 import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
@@ -33,8 +34,12 @@ export function Game({ config }: GameProps) {
   )
 }
 
-/** Decor behind the screen: the great hall once the group is inside; the home screen keeps its plain candlelight. */
+/**
+ * Decor behind the screen: the restaurant door for the entrance message, the great hall once the group is
+ * inside; the home screen keeps its plain candlelight.
+ */
 function backdrop(status: GameStatus): ReactNode {
+  if (status === 'entrance') return <RestaurantFront />
   return status === 'playing' || status === 'padlock' || status === 'won' ? <HallBackdrop /> : null
 }
 

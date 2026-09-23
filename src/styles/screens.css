@@ -27,9 +27,11 @@
   80% { transform: scale(1.02, .98) rotate(1deg); }
 }
 
-/* Step: the instruction is a restaurant menu card on old parchment, dark ink. */
+/* Step: the instruction is a restaurant menu card on old parchment, dark ink. The entrance letter shares the paper. */
 .parchment {
   width: 100%; max-width: 690px; margin-top: 8px; padding: 14px 32px 18px;
+}
+.parchment, .letter {
   color: #2b1d12; border-radius: 6px;
   background: radial-gradient(ellipse at 50% 40%, #efdcae, #d3b77f 75%, #a8854d);
   box-shadow: 0 8px 20px rgb(0 0 0 / .7), inset 0 0 22px rgb(90 55 20 / .55);
@@ -64,8 +66,15 @@
   80% { transform: translateX(9px); }
 }
 
-/* Entrance: the message keeps the line breaks written in quiz.yaml. */
-.entrance h2 { margin: 40px 0 24px; }
+/* Entrance: a letter slipped under the restaurant door; the message keeps the line breaks written in quiz.yaml. */
+.entrance h2 { margin: 40px 0 24px; text-shadow: 0 2px 8px #000, 0 0 24px rgb(242 165 65 / .45); }
+.letter { position: relative; max-width: 640px; padding: 22px 36px 30px; transform: rotate(-1.5deg); }
+/* Wax seal on the bottom right corner. */
+.letter::after {
+  content: ""; position: absolute; right: -14px; bottom: -14px; width: 54px; height: 54px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal) 55%, #5a150f);
+  box-shadow: 0 3px 6px rgb(0 0 0 / .6), inset 0 0 0 5px rgb(0 0 0 / .18);
+}
 .entrance-message { font-size: 34px; line-height: 1.45; max-width: 19em; white-space: pre-line; font-style: italic; }
 
 @media (max-width: 600px) {
@@ -74,4 +83,8 @@
   .parchment h2 { font-size: 34px; }
   .instruction { font-size: 22px; }
   .entrance-message { font-size: 24px; }
+  /* The letter's padding must not push the letter keyboard below an 800 px high phone screen. */
+  .entrance h2 { margin: 24px 0 16px; }
+  .letter { padding: 14px 18px 20px; }
+  .letter::after { right: -6px; bottom: -10px; width: 40px; height: 40px; }
 }

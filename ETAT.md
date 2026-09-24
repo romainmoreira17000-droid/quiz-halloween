@@ -7,8 +7,8 @@ Dernière mise à jour : 2026-09-24 (spec validée par Romain, PR docs ouverte, 
   blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
 - **Issue :** #19 (sprint 9)
 - **Branche :** `docs/escape-game-design` (spec + scénario + plan du sprint 9, pas de code)
-- **PR :** PR docs ouverte (voir `gh pr list`)
-- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (en cours d'écriture)
+- **PR :** #20 (docs : spec + scénario + plan), à fusionner par Romain
+- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (6 tâches, écrit)
 
 ## Où on en est
 - [x] Sprints 1 à 8 terminés et en ligne (PR #18 fusionnée).
@@ -16,13 +16,15 @@ Dernière mise à jour : 2026-09-24 (spec validée par Romain, PR docs ouverte, 
 - [x] Spec écrite et scénario animateurs en brouillon (`docs/scenario-soiree.md`)
 - [x] Romain a validé la spec (« go », 2026-09-24)
 - [x] PR docs ouverte
-- [ ] Plan du sprint 9 (skill writing-plans), ajouté à la PR docs ← en cours
-- [ ] Romain fusionne la PR docs, puis sprint 9 sur `feat/team-rotation` depuis `main`
+- [x] Plan du sprint 9 écrit et ajouté à la PR #20
+- [ ] Romain relit le plan, choisit le mode d'exécution et fusionne la PR #20 ← en attente
+- [ ] Sprint 9 sur `feat/team-rotation` depuis `main` (tâches 1 à 6 du plan)
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Finir le plan du sprint 9 (`docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md`), le pousser
-sur la PR docs, puis attendre la fusion par Romain avant de créer `feat/team-rotation`.
+Après fusion de la PR #20 : `git checkout main && git pull && git checkout -b feat/team-rotation`, puis
+exécuter le plan `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` à partir de la tâche 1.
+Décisions prises en écrivant le plan : voir sa section « Decisions taken while planning ».
 
 ## Décisions prises (et pourquoi)
 - Escape game (2026-09-24) : 6 équipes, 6 épreuves toutes en rotation (équipe e, créneau c → épreuve

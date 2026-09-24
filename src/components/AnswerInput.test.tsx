@@ -37,4 +37,13 @@ describe('AnswerInput', () => {
     for (let i = 0; i < 14; i++) await press('1')
     expect(typed()).toHaveTextContent('1'.repeat(12))
   })
+  it('shows dots instead of a secret code, and still submits the digits', async () => {
+    const onSubmit = vi.fn()
+    render(<AnswerInput kind="digits" secret onSubmit={onSubmit} />)
+    await press('2')
+    await press('7')
+    expect(typed()).toHaveTextContent('••')
+    await press('Valider')
+    expect(onSubmit).toHaveBeenCalledWith('27')
+  })
 })

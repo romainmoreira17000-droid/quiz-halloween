@@ -5,6 +5,8 @@ import { useEffect, useRef } from 'react'
 export interface ResetDialogProps {
   onCancel(): void
   onConfirm(): void
+  /** When given, a third button sets the tablet up for another team (the animator code is asked next). */
+  onChangeTeam?(): void
 }
 
 /**
@@ -13,7 +15,7 @@ export interface ResetDialogProps {
  * @param props See ResetDialogProps.
  * @returns The confirmation window over the current screen.
  */
-export function ResetDialog({ onCancel, onConfirm }: ResetDialogProps) {
+export function ResetDialog({ onCancel, onConfirm, onChangeTeam }: ResetDialogProps) {
   const cancel = useRef<HTMLButtonElement>(null)
   useEffect(() => { cancel.current?.focus() }, [])
   return (
@@ -26,6 +28,9 @@ export function ResetDialog({ onCancel, onConfirm }: ResetDialogProps) {
           <button type="button" className="ghost-button" ref={cancel} onClick={onCancel}>Annuler</button>
           <button type="button" className="seal-button" onClick={onConfirm}>Recommencer</button>
         </div>
+        {onChangeTeam && (
+          <button type="button" className="ghost-button change-team" onClick={onChangeTeam}>Changer d’équipe</button>
+        )}
       </div>
     </div>
   )

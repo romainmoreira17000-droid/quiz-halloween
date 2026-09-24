@@ -5,6 +5,18 @@
 .intro { font-size: 32px; line-height: 1.45; max-width: 19em; }
 .duration { font-size: 24px; color: var(--bronze); }
 
+/* Team of the tablet, above the title. */
+.team-name { font-family: var(--title-font); font-size: 36px; color: var(--amber); }
+
+/* Tablet setup (animators only): code, then one big button per team. */
+.team-setup { justify-content: center; gap: 28px; }
+.setup-question { font-size: 32px; }
+.team-list {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+  width: 100%; max-width: 640px; padding: 0; list-style: none;
+}
+.team-button { width: 100%; padding: 0 16px; }
+
 .candle { display: flex; flex-direction: column; align-items: center; }
 .flame {
   width: 34px; height: 62px;
@@ -78,6 +90,8 @@
 .entrance-message { font-size: 34px; line-height: 1.45; max-width: 19em; white-space: pre-line; font-style: italic; }
 
 @media (max-width: 600px) {
+  .team-list { grid-template-columns: 1fr; }
+  .team-name { font-size: 28px; }
   .intro { font-size: 24px; }
   .parchment { padding: 10px 16px 14px; }
   .parchment h2 { font-size: 34px; }

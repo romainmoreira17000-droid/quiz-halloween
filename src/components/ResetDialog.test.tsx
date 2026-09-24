@@ -21,4 +21,12 @@ describe('ResetDialog', () => {
     await userEvent.keyboard('{Escape}')
     expect(onCancel).toHaveBeenCalledOnce()
   })
+  it('offers to change the team only when asked to', async () => {
+    const { rerender } = render(<ResetDialog onCancel={vi.fn()} onConfirm={vi.fn()} />)
+    expect(screen.queryByRole('button', { name: 'Changer d’équipe' })).not.toBeInTheDocument()
+    const onChangeTeam = vi.fn()
+    rerender(<ResetDialog onCancel={vi.fn()} onConfirm={vi.fn()} onChangeTeam={onChangeTeam} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Changer d’équipe' }))
+    expect(onChangeTeam).toHaveBeenCalledOnce()
+  })
 })

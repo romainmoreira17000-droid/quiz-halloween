@@ -1,12 +1,13 @@
 /** @file Critical paths of a game on a tablet: entrance, every challenge, padlock, and time running out. */
 import { test, expect } from '@playwright/test'
-import { enterRestaurant, typeAnswer } from './typing.js'
+import { enterRestaurant, setUpTablet, typeAnswer } from './typing.js'
 
 // Sample quiz.yaml: what the children type on each step, and the digit it earns.
 const STEPS = [['13', 4], ['CRAPAUD', 7], ['0472', 2], ['1832', 9], ["TOILE D'ARAIGNEE", 0], ['CITROUILLE', 5]] as const
 
 test('a group enters the restaurant, solves every challenge, then opens the padlock', async ({ page }) => {
   await page.goto('./')
+  await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
 
   await expect(page.getByRole('heading', { name: 'Une lettre sous la porte' })).toBeVisible()
@@ -42,6 +43,7 @@ test('a group enters the restaurant, solves every challenge, then opens the padl
 test('the clock goes red and negative once time is up, and the game goes on', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
+  await setUpTablet(page, 'Sorcières')
   await enterRestaurant(page)
 
   const clock = page.getByRole('timer')

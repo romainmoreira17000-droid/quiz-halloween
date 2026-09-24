@@ -29,4 +29,12 @@ describe('ResetControl', () => {
     expect(onReset).toHaveBeenCalledOnce()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
+  it('changes the team from the window, which closes', () => {
+    const onChangeTeam = vi.fn()
+    render(<ResetControl onReset={vi.fn()} onChangeTeam={onChangeTeam} />)
+    holdResetIcon()
+    fireEvent.click(screen.getByRole('button', { name: 'Changer d’équipe' }))
+    expect(onChangeTeam).toHaveBeenCalledOnce()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
 })

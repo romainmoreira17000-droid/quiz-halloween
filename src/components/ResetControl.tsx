@@ -7,6 +7,8 @@ import { ResetDialog } from './ResetDialog'
 export interface ResetControlProps {
   /** Restarts the game (called only after the confirmation). */
   onReset(): void
+  /** When given, a third button sets the tablet up for another team (the animator code is asked next). */
+  onChangeTeam?(): void
 }
 
 /**
@@ -14,13 +16,14 @@ export interface ResetControlProps {
  * @param props See ResetControlProps.
  * @returns The icon, and the window while asking.
  */
-export function ResetControl({ onReset }: ResetControlProps) {
+export function ResetControl({ onReset, onChangeTeam }: ResetControlProps) {
   const [asking, setAsking] = useState(false)
   return (
     <>
       <ResetButton onLongPress={() => setAsking(true)} />
       {asking && (
-        <ResetDialog onCancel={() => setAsking(false)} onConfirm={() => { setAsking(false); onReset() }} />
+        <ResetDialog onCancel={() => setAsking(false)} onConfirm={() => { setAsking(false); onReset() }}
+          onChangeTeam={onChangeTeam && (() => { setAsking(false); onChangeTeam() })} />
       )}
     </>
   )

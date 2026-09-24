@@ -8,9 +8,9 @@ const ok: ValidationResult = { ok: true, config: {
   steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '1' }, digit: 1 }], padlock: { order: [1] } } }
 
 describe('App', () => {
-  it('shows the quiz title from the config', () => {
+  it('shows the tablet setup of the configured quiz', () => {
     render(<App quiz={ok} />)
-    expect(screen.getByRole('heading', { name: 'Le manoir hanté' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Réglage de la tablette' })).toBeInTheDocument()
   })
   it('lists config errors instead of the game', () => {
     render(<App quiz={{ ok: false, errors: ['étape 2 : oups', 'étape 4 : aïe'] }} />)

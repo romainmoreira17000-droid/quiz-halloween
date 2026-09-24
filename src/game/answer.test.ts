@@ -1,5 +1,5 @@
 /** @file Tests for the answer check. */
-import { appendToAnswer, isRightAnswer, MAX_ANSWER_LENGTH, normalizeAnswer } from './answer'
+import { appendToAnswer, isAnimatorCode, isRightAnswer, MAX_ANSWER_LENGTH, normalizeAnswer } from './answer'
 
 describe('normalizeAnswer', () => {
   it('ignores case, accents and outer spaces for letters, and squeezes inner spaces', () => {
@@ -43,5 +43,13 @@ describe('appendToAnswer', () => {
   it('refuses a leading space or two spaces in a row', () => {
     expect(appendToAnswer('', ' ', 'letters')).toBe('')
     expect(appendToAnswer('TARTE ', ' ', 'letters')).toBe('TARTE ')
+  })
+})
+
+describe('isAnimatorCode', () => {
+  it('accepts only the exact code, leading zero included', () => {
+    expect(isAnimatorCode('0427', '0427')).toBe(true)
+    expect(isAnimatorCode('427', '0427')).toBe(false)
+    expect(isAnimatorCode('', '0427')).toBe(false)
   })
 })

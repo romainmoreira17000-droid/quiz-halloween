@@ -40,3 +40,12 @@ export function appendToAnswer(current: string, char: string, kind: AnswerKind):
   if (char === ' ' && (current === '' || current.endsWith(' '))) return current
   return current + char
 }
+
+/**
+ * @param typed Code typed on the keypad.
+ * @param animatorCode `code_animateur` from quiz.yaml.
+ * @returns True when it is the animator code (same rule as a digits answer: leading zeros count).
+ */
+export function isAnimatorCode(typed: string, animatorCode: string): boolean {
+  return isRightAnswer(typed, { kind: 'digits', value: animatorCode })
+}

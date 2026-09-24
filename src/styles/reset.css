@@ -45,6 +45,8 @@
   border: 3px solid var(--bronze); border-radius: 56px 60px 54px 58px;
   font-family: var(--title-font); font-size: 48px;
 }
+.change-team { margin-top: 20px; min-height: 80px; font-size: 32px; }
+
 @media (max-width: 600px) {
   .reset-dialog { padding: 28px 16px; font-size: 22px; }
   .reset-dialog h2 { font-size: 40px; }

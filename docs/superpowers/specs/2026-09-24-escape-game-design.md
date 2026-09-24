@@ -1,6 +1,6 @@
 # Escape game en équipes — Conception
 
-Date : 2026-09-24 — Statut : validée par Romain en discussion, spec à relire — Issue : #19
+Date : 2026-09-24 — Statut : validée par Romain (2026-09-24) — Issue : #19
 
 ## But
 

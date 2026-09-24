@@ -1,26 +1,28 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-24 (escape game : conception validée, spec et scénario écrits, à relire par Romain)
+Dernière mise à jour : 2026-09-24 (spec validée par Romain, PR docs ouverte, plan du sprint 9 en cours)
 
 ## Sprint en cours
 - **Objectif :** transformer le quiz en escape game pour 6 équipes en rotation (sprint 9), puis indice et
   blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
 - **Issue :** #19 (sprint 9)
-- **Branche :** `docs/escape-game-design` (spec + scénario seulement, pas de code)
-- **PR :** pas encore ouverte
-- **Plan :** pas encore écrit (après relecture de la spec)
+- **Branche :** `docs/escape-game-design` (spec + scénario + plan du sprint 9, pas de code)
+- **PR :** PR docs ouverte (voir `gh pr list`)
+- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (en cours d'écriture)
 
 ## Où on en est
 - [x] Sprints 1 à 8 terminés et en ligne (PR #18 fusionnée).
 - [x] Brainstorming escape game : rotation, indice, blocage, code animateur, fin (voir décisions)
 - [x] Spec écrite et scénario animateurs en brouillon (`docs/scenario-soiree.md`)
-- [ ] Romain relit la spec et le scénario ← en attente
-- [ ] PR docs, puis plan du sprint 9 (skill writing-plans), puis sprint 9 sur `feat/team-rotation`
+- [x] Romain a validé la spec (« go », 2026-09-24)
+- [x] PR docs ouverte
+- [ ] Plan du sprint 9 (skill writing-plans), ajouté à la PR docs ← en cours
+- [ ] Romain fusionne la PR docs, puis sprint 9 sur `feat/team-rotation` depuis `main`
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Romain relit `docs/superpowers/specs/2026-09-24-escape-game-design.md` et `docs/scenario-soiree.md`.
-Après accord : ouvrir la PR docs, puis écrire le plan du sprint 9 avec writing-plans.
+Finir le plan du sprint 9 (`docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md`), le pousser
+sur la PR docs, puis attendre la fusion par Romain avant de créer `feat/team-rotation`.
 
 ## Décisions prises (et pourquoi)
 - Escape game (2026-09-24) : 6 équipes, 6 épreuves toutes en rotation (équipe e, créneau c → épreuve

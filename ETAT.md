@@ -1,35 +1,34 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-23 (sprint 8 : tâches 1 à 5 faites, vérifs et doc faites, reste relecture et PR)
+Dernière mise à jour : 2026-09-24 (escape game : conception validée, spec et scénario écrits, à relire par Romain)
 
 ## Sprint en cours
-- **Objectif :** décor de la grande salle du restaurant hanté, consigne sur parchemin, gros cadenas
-  en coupe (une goupille tombe par bonne réponse), entrée devant la porte du restaurant.
-- **Issue :** #15
-- **Branche :** `feat/haunted-hall` (partie de `main` à bc1357d)
-- **PR :** pas encore ouverte. La PR #17 (docs, état après sprint 7) est encore ouverte : la fermer
-  sans fusionner, ce fichier la remplace.
-- **Plan :** `docs/superpowers/plans/2026-09-22-sprint8-grande-salle.md` (6 tâches)
+- **Objectif :** transformer le quiz en escape game pour 6 équipes en rotation (sprint 9), puis indice et
+  blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
+- **Issue :** #19 (sprint 9)
+- **Branche :** `docs/escape-game-design` (spec + scénario seulement, pas de code)
+- **PR :** pas encore ouverte
+- **Plan :** pas encore écrit (après relecture de la spec)
 
 ## Où on en est
-- [x] Sprints 1 à 7 terminés et en ligne.
-- [x] Sprint 8 : cadrage (maquette validée au brainstorming du sprint 7), plan écrit
-- [x] Tâche 1 : « clac » quand une goupille tombe (`playPinSound`, `answer()` renvoie un booléen)
-- [x] Tâche 2 : composant `CutawayLock`
-- [x] Tâche 3 : écran d'étape sur parchemin avec le cadenas
-- [x] Tâche 4 : décor de la grande salle (`src/components/decor/`), vérifié à 810×1080 et 360×800
-- [x] Tâche 5 : entrée devant la porte du restaurant (lettre sur parchemin avec sceau), vérifiée à 810×1080 et 360×800
-- [x] Tâche 6 : vérifications (256 tests, typecheck, lint, valider, build, 7 e2e), passe visuelle complète, doc
-- [x] Tâche 6 : relecture `relecteur-code` (prêt pour la PR, 3 suggestions non bloquantes notées dans la PR)
-- [ ] PR du sprint 8 ouverte : relecture et merge par Romain ← en attente
-- [ ] Romain : fournir les vraies épreuves (consigne, réponse, chiffre) pour remplacer les fictives
+- [x] Sprints 1 à 8 terminés et en ligne (PR #18 fusionnée).
+- [x] Brainstorming escape game : rotation, indice, blocage, code animateur, fin (voir décisions)
+- [x] Spec écrite et scénario animateurs en brouillon (`docs/scenario-soiree.md`)
+- [ ] Romain relit la spec et le scénario ← en attente
+- [ ] PR docs, puis plan du sprint 9 (skill writing-plans), puis sprint 9 sur `feat/team-rotation`
+- [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Romain relit la PR du sprint 8 (captures : tester sur le site de prévisualisation ou en local) et décide du merge.
-Après merge : `git checkout main && git pull && git branch -d feat/haunted-hall`, puis sprint suivant
-(vraies épreuves de Romain dans quiz.yaml).
+Romain relit `docs/superpowers/specs/2026-09-24-escape-game-design.md` et `docs/scenario-soiree.md`.
+Après accord : ouvrir la PR docs, puis écrire le plan du sprint 9 avec writing-plans.
 
 ## Décisions prises (et pourquoi)
+- Escape game (2026-09-24) : 6 équipes, 6 épreuves toutes en rotation (équipe e, créneau c → épreuve
+  (e+c) mod 6) : avec l'épreuve 6 commune, une équipe restait sans épreuve. Le moment commun est le repas.
+- Escape game : créneaux de 15 min calculés depuis « Commencer » ; pas trouvé → « appelez un animateur » +
+  code animateur ; indice par bouton débloqué à 10 min, gratuit ; mauvaise réponse = saisie bloquée 1 min.
+- Escape game : équipe réglée sur la tablette par un animateur (image au dos) ; code d'entrée sur papier
+  (entrée retirée du YAML) ; chrono épreuve en gros + total en petit ; fin = cadenas virtuel puis vraie porte.
 - Sprint 8 (relecture) : suggestions reportées : helper commun pour la règle « bonne réponse » (dupliquée entre
   le réducteur et `answer()`/`unlock()`), pavé à 88 px = limite basse, pas de tests des sous-composants décoratifs.
 - Sprint 8 (tâche 6) : voile sombre derrière le texte de victoire : le temps en ambre était illisible sur la

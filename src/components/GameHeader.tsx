@@ -23,7 +23,8 @@ export function GameHeader({ startedAt, finishedAt, durationMinutes, total, solv
   const seconds = useCountdown(startedAt, durationMinutes, finishedAt ?? null)
   return (
     <header className="game-header">
-      <Clock seconds={seconds} />
+      {/* Replaced by the slot/total clocks in Task 5, once the rotation lands. */}
+      <Clock seconds={seconds} label="Temps restant" />
       <CandleProgress total={total} solved={solved} current={current} />
       <span className="header-spacer" aria-hidden="true" />
     </header>

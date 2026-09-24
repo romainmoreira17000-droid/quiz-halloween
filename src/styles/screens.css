@@ -69,6 +69,9 @@
 .found { font-size: 40px; }
 .found b { font-size: 72px; color: var(--amber); font-variant-numeric: lining-nums; }
 
+/* Time up: the title is long, so it gets its own size on tablet and phone. */
+.time-up .parchment h2 { font-size: 40px; }
+
 .shake { animation: shake .45s ease-in-out; }
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -95,6 +98,7 @@
   .intro { font-size: 24px; }
   .parchment { padding: 10px 16px 14px; }
   .parchment h2 { font-size: 34px; }
+  .time-up .parchment h2 { font-size: 30px; }
   .instruction { font-size: 22px; }
   .entrance-message { font-size: 24px; }
   /* The letter's padding must not push the letter keyboard below an 800 px high phone screen. */

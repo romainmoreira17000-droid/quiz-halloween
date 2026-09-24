@@ -15,8 +15,8 @@ export interface PadlockScreenProps {
   title?: string
   /** Steps of the quiz, in play order (their titles are recalled). */
   steps: readonly QuizStep[]
-  /** Digits found, in step order. */
-  foundDigits: number[]
+  /** Digit per step; all known once the padlock shows. */
+  foundDigits: readonly (number | null)[]
   /** `cadenas.indice`, if any. */
   hint?: string
   /** Wrong codes so far. */

@@ -19,7 +19,12 @@ export interface PadlockConfig { order: number[]; hint?: string; title?: string;
 export interface QuizConfig {
   title: string
   intro?: string
-  durationMinutes: number
+  /** Team names, in rotation order: team i starts on challenge i + 1. As many as steps. */
+  teams: string[]
+  /** Length of one slot in minutes: every team changes room at the same time. */
+  slotMinutes: number
+  /** Code animators type to set up a tablet or give the digit of a missed challenge (digits, kept as text). */
+  animatorCode: string
   stepCount: number
   steps: QuizStep[]
   padlock: PadlockConfig

@@ -12,4 +12,7 @@ if (errors.length > 0) {
   errors.forEach((message) => console.error(`  - ${message}`))
   process.exit(1)
 }
-if (result.ok) console.log(`✅ quiz.yaml est valide (${result.config.stepCount} étapes, ${result.config.durationMinutes} min).`)
+if (result.ok) {
+  const { stepCount, teams, slotMinutes } = result.config
+  console.log(`✅ quiz.yaml est valide (${stepCount} étapes, ${teams.length} équipes, ${slotMinutes} min par épreuve).`)
+}

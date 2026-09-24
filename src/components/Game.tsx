@@ -45,15 +45,17 @@ function backdrop(status: GameStatus): ReactNode {
 
 /** Screen matching the current game status. */
 function currentScreen(config: QuizConfig, { state, start, enter, answer, next, unlock }: GameProgress): ReactNode {
+  // Temporary bridge until the rotation lands (Task 5): the whole game still runs on one clock.
+  const durationMinutes = config.stepCount * config.slotMinutes
   const { status, startedAt, finishedAt } = state
   if (status === 'entrance' && config.entrance) {
     return <EntranceScreen entrance={config.entrance} wrongAttempts={state.wrongAttempts} onSubmit={enter} />
   }
   if (status === 'home' || startedAt === null) {
-    return <HomeScreen title={config.title} intro={config.intro} durationMinutes={config.durationMinutes} onStart={start} />
+    return <HomeScreen title={config.title} intro={config.intro} durationMinutes={durationMinutes} onStart={start} />
   }
   const header = (
-    <GameHeader startedAt={startedAt} finishedAt={finishedAt} durationMinutes={config.durationMinutes}
+    <GameHeader startedAt={startedAt} finishedAt={finishedAt} durationMinutes={durationMinutes}
       total={config.stepCount} solved={state.foundDigits.length} current={status === 'playing' ? state.stepIndex : null} />
   )
   if (status === 'won' && finishedAt !== null) {

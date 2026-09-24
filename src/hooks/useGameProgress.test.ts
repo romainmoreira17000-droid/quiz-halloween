@@ -6,7 +6,7 @@ import { STORAGE_KEY } from '../services/savedGame'
 import { useGameProgress } from './useGameProgress'
 
 const config: QuizConfig = {
-  title: 'T', durationMinutes: 90, stepCount: 1,
+  title: 'T', teams: ['Sorcières'], slotMinutes: 15, animatorCode: '2710', stepCount: 1,
   steps: [{ title: 'A', instruction: 'a', answer: { kind: 'digits', value: '3' }, digit: 3 }], padlock: { order: [1] },
 }
 

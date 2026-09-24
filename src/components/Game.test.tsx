@@ -9,7 +9,8 @@ import { playPinSound, playVictorySound } from '../services/sound'
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
 
 const config: QuizConfig = {
-  title: 'Le manoir hanté', durationMinutes: 90, stepCount: 2,
+  // 2 × 45 min: the clock still shows 90:00 until the rotation (Task 5).
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 45, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
     { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },

@@ -16,9 +16,22 @@ titre: "Le manoir hanté"
 # Texte d'introduction sous le titre. Facultatif.
 intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Réussissez les épreuves pour trouver le code du cadenas !"
 
-# Durée de la partie en minutes. Obligatoire, nombre entier supérieur à 0.
-# Quand le temps est écoulé, le jeu continue (le compteur passe en rouge).
-duree_minutes: 90
+# Noms des équipes, dans l'ordre de rotation. Obligatoire.
+# Il faut autant d'équipes que d'étapes (nombre_etapes) : chaque équipe fait toutes les
+# épreuves en commençant par une épreuve différente (la 1re équipe par l'épreuve 1, la 2e
+# par l'épreuve 2...). Noms non vides et tous différents.
+# Un animateur choisit l'équipe de chaque tablette avant la soirée.
+equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "Momies"]
+
+# Durée d'une épreuve, en minutes. Obligatoire, nombre entier supérieur à 0.
+# Toutes les équipes changent de salle en même temps. Durée totale de la partie :
+# nombre_etapes × duree_epreuve_minutes.
+duree_epreuve_minutes: 15
+
+# Code animateur : sert à régler l'équipe d'une tablette et à donner le chiffre d'une
+# épreuve pas trouvée à temps. Obligatoire, de 4 à 8 chiffres. Ne jamais le dire devant
+# les enfants. Attention : ce fichier est public, comme les réponses.
+code_animateur: "2710"
 
 # Nombre d'étapes. Obligatoire, entier supérieur ou égal à 1.
 # Doit être égal au nombre d'étapes listées sous « etapes ».
@@ -40,7 +53,8 @@ entree:
   type_reponse: mots
   reponse: "Fantôme"
 
-# Liste des étapes (une étape = une épreuve), dans l'ordre où les enfants les jouent.
+# Liste des étapes (une étape = une épreuve), numérotées dans l'ordre (la 1re est l'épreuve
+# 1) ; chaque équipe les joue dans son ordre de rotation.
 # Chaque étape commence par « - » et contient :
 #   titre         obligatoire, texte non vide
 #   consigne      obligatoire, texte non vide (ce que les enfants doivent faire)

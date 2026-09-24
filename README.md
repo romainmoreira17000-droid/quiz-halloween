@@ -61,7 +61,9 @@ Les images vont dans `public/images/`.
 |---|---|---|
 | `titre` | oui | texte non vide |
 | `intro` | non | texte |
-| `duree_minutes` | oui | nombre entier supérieur à 0 |
+| `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
+| `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
+| `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
 | `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) |

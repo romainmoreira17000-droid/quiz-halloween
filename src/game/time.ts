@@ -46,3 +46,25 @@ export function formatDuration(seconds: number): string {
   const rest = `min ${pad(seconds % 60)} s`
   return hours > 0 ? `${hours} h ${pad(minutes)} ${rest}` : `${minutes} ${rest}`
 }
+
+/** Where the game stands in its fixed-length slots. */
+export interface SlotTiming {
+  /** 0-based slot; equals the number of slots once they are all over. */
+  slot: number
+  /** Whole seconds left in the current slot. */
+  secondsLeft: number
+}
+
+/**
+ * Current slot of the rotation, derived from the start time like the clock (never counted in memory).
+ * @param startedAt Start timestamp in ms (« Commencer »).
+ * @param now Current timestamp in ms; a time before the start counts as the start.
+ * @param slotMinutes Length of one slot.
+ * @returns The slot and the seconds left in it; the first second of a slot shows the full "15:00".
+ * @example slotTiming(0, 16 * 60_000, 15) // { slot: 1, secondsLeft: 840 }
+ */
+export function slotTiming(startedAt: number, now: number, slotMinutes: number): SlotTiming {
+  const slotMs = slotMinutes * 60_000
+  const elapsed = Math.max(0, now - startedAt)
+  return { slot: Math.floor(elapsed / slotMs), secondsLeft: slotMinutes * 60 - Math.floor((elapsed % slotMs) / 1000) }
+}

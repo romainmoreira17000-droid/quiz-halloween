@@ -1,6 +1,6 @@
 /**
- * @file Victory sound (lock clack, door creak, ghost moan), synthesised with Web Audio:
- * no audio file to host or license, and it works offline. Timings match victory.css.
+ * @file Victory sound (lock clack, door creak, ghost moan) and pin clack, synthesised with Web Audio:
+ * no audio file to host or license, and it works offline. Timings match victory.css and lock.css.
  */
 
 /** Creates the audio context; null when the browser has no Web Audio (e.g. jsdom). */
@@ -77,4 +77,20 @@ export function playVictorySound(createContext: AudioContextFactory = browserCon
   moan.frequency.linearRampToValueAtTime(260, t + 4.4)
   // Browsers cap the number of open contexts: release this one when done.
   moan.onended = () => void ctx.close()
+}
+
+/**
+ * Plays the short clack of a pin dropping in the padlock. Must be called inside the tap handler.
+ * Silent (never throws) when audio is unavailable.
+ * @param createContext Audio context factory, replaced in tests.
+ */
+export function playPinSound(createContext: AudioContextFactory = browserContext): void {
+  const ctx = openContext(createContext)
+  if (!ctx) return
+  const t = ctx.currentTime
+  // Lands when the pin hits the bottom of its slot (pin-fall in lock.css lasts 0.45 s).
+  const clack = tone(ctx, 'square', t + 0.4, t + 0.47, 0.16)
+  clack.frequency.setValueAtTime(1200, t + 0.4)
+  clack.frequency.exponentialRampToValueAtTime(500, t + 0.47)
+  clack.onended = () => void ctx.close()
 }

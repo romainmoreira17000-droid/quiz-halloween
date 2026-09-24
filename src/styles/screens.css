@@ -27,11 +27,31 @@
   80% { transform: scale(1.02, .98) rotate(1deg); }
 }
 
-/* Step */
-.step-number { margin-top: 28px; font-size: 26px; color: var(--bronze); }
-.step h2 { margin: 6px 0 20px; }
-.instruction { font-size: 36px; line-height: 1.45; max-width: 19em; }
-.step-image { max-width: 100%; max-height: 280px; margin-top: 20px; border-radius: 12px; }
+/* Step: the instruction is a restaurant menu card on old parchment, dark ink. The entrance letter shares the paper. */
+.parchment {
+  width: 100%; max-width: 690px; margin-top: 8px; padding: 14px 32px 18px;
+}
+.parchment, .letter {
+  color: #2b1d12; border-radius: 6px;
+  background: radial-gradient(ellipse at 50% 40%, #efdcae, #d3b77f 75%, #a8854d);
+  box-shadow: 0 8px 20px rgb(0 0 0 / .7), inset 0 0 22px rgb(90 55 20 / .55);
+}
+/* Text font in small caps: the title font has only old-style digits (its 1 looks like an i). */
+.step-number { font-family: var(--text-font); font-variant: small-caps lining-nums; font-weight: 700; font-size: 22px; color: var(--seal); letter-spacing: .08em; }
+.step-number::before { content: "— "; }
+.step-number::after { content: " —"; }
+.parchment h2 { margin: 2px 0 6px; font-size: 48px; color: #2b1d12; text-shadow: none; }
+.instruction { font-size: 28px; line-height: 1.3; }
+.step-image { max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: 8px; }
+.step .cutaway-lock { margin-top: 40px; }
+.step .answer-zone { margin-top: 0; padding-top: 0; gap: 12px; }
+/* Tablet: the reset icon sits bottom left, clear of the centred keyboards, so the free strip can shrink. */
+@media (min-width: 601px) {
+  .screen.step { padding-top: 20px; padding-bottom: 40px; }
+  /* A slightly smaller lock and tighter input keep the digits step inside 810×1080 without scrolling. */
+  .step .cutaway-lock { width: 260px; }
+  .step .answer-input { gap: 12px; }
+}
 .answer-zone { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .wrong-answer { font-size: 30px; color: var(--amber); }
 .found { font-size: 40px; }
@@ -46,12 +66,25 @@
   80% { transform: translateX(9px); }
 }
 
-/* Entrance: the message keeps the line breaks written in quiz.yaml. */
-.entrance h2 { margin: 40px 0 24px; }
+/* Entrance: a letter slipped under the restaurant door; the message keeps the line breaks written in quiz.yaml. */
+.entrance h2 { margin: 40px 0 24px; text-shadow: 0 2px 8px #000, 0 0 24px rgb(242 165 65 / .45); }
+.letter { position: relative; max-width: 640px; padding: 22px 36px 30px; transform: rotate(-1.5deg); }
+/* Wax seal on the bottom right corner. */
+.letter::after {
+  content: ""; position: absolute; right: -14px; bottom: -14px; width: 54px; height: 54px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal) 55%, #5a150f);
+  box-shadow: 0 3px 6px rgb(0 0 0 / .6), inset 0 0 0 5px rgb(0 0 0 / .18);
+}
 .entrance-message { font-size: 34px; line-height: 1.45; max-width: 19em; white-space: pre-line; font-style: italic; }
 
 @media (max-width: 600px) {
   .intro { font-size: 24px; }
-  .instruction { font-size: 26px; }
+  .parchment { padding: 10px 16px 14px; }
+  .parchment h2 { font-size: 34px; }
+  .instruction { font-size: 22px; }
   .entrance-message { font-size: 24px; }
+  /* The letter's padding must not push the letter keyboard below an 800 px high phone screen. */
+  .entrance h2 { margin: 24px 0 16px; }
+  .letter { padding: 14px 18px 20px; }
+  .letter::after { right: -6px; bottom: -10px; width: 40px; height: 40px; }
 }

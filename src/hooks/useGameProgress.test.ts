@@ -13,6 +13,19 @@ const config: QuizConfig = {
 describe('useGameProgress', () => {
   afterEach(() => vi.useRealTimers())
 
+  it('tells whether an answer earns the digit: wrong, right, then again once solved', () => {
+    const { result } = renderHook(() => useGameProgress(config))
+    let right = true
+    act(() => { right = result.current.answer('3') })
+    expect(right).toBe(false) // still on the home screen
+    act(() => result.current.start())
+    act(() => { right = result.current.answer('4') })
+    expect(right).toBe(false)
+    act(() => { right = result.current.answer('3') })
+    expect(right).toBe(true)
+    act(() => { right = result.current.answer('3') })
+    expect(right).toBe(false)
+  })
   it('starts with the current time, plays a step and opens the padlock', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-10-31T14:00:00Z'))

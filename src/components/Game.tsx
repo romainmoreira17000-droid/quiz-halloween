@@ -1,9 +1,12 @@
-/** @file Picks the screen to show from the game progress, with the reset icon on top. */
+/** @file Picks the screen and its backdrop from the game progress, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { elapsedSeconds } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
-import { playVictorySound } from '../services/sound'
+import type { GameStatus } from '../game/progress'
+import { playPinSound, playVictorySound } from '../services/sound'
+import { HallBackdrop } from './decor/HallBackdrop'
+import { RestaurantFront } from './decor/RestaurantFront'
 import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
 import { HomeScreen } from './HomeScreen'
@@ -24,10 +27,20 @@ export function Game({ config }: GameProps) {
   const progress = useGameProgress(config)
   return (
     <>
+      {backdrop(progress.state.status)}
       {currentScreen(config, progress)}
       <ResetControl onReset={progress.reset} />
     </>
   )
+}
+
+/**
+ * Decor behind the screen: the restaurant door for the entrance message, the great hall once the group is
+ * inside; the home screen keeps its plain candlelight.
+ */
+function backdrop(status: GameStatus): ReactNode {
+  if (status === 'entrance') return <RestaurantFront />
+  return status === 'playing' || status === 'padlock' || status === 'won' ? <HallBackdrop /> : null
 }
 
 /** Screen matching the current game status. */
@@ -54,9 +67,11 @@ function currentScreen(config: QuizConfig, { state, start, enter, answer, next, 
         hint={config.padlock.hint} wrongAttempts={state.wrongAttempts} onOpen={open} />
     )
   }
+  // Same reason as the padlock: the clack must start inside the tap on Valider.
+  const submit = (text: string) => { if (answer(text)) playPinSound() }
   return (
     <StepScreen header={header} step={config.steps[state.stepIndex]} stepNumber={state.stepIndex + 1}
-      total={config.stepCount} foundDigit={state.foundDigits[state.stepIndex]} wrongAttempts={state.wrongAttempts}
-      isLast={state.stepIndex === config.stepCount - 1} onSubmit={answer} onNext={next} />
+      total={config.stepCount} foundDigits={state.foundDigits} wrongAttempts={state.wrongAttempts}
+      isLast={state.stepIndex === config.stepCount - 1} onSubmit={submit} onNext={next} />
   )
 }

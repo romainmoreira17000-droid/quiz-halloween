@@ -15,7 +15,7 @@ export interface EntranceScreenProps {
 }
 
 /**
- * Message in front of the restaurant door; no clock yet.
+ * Message on a letter found in front of the restaurant door; no clock yet.
  * @param props See EntranceScreenProps.
  * @returns The entrance screen.
  */
@@ -23,7 +23,9 @@ export function EntranceScreen({ entrance, wrongAttempts, onSubmit }: EntranceSc
   return (
     <main className="screen entrance">
       <h2>{entrance.title ?? DEFAULT_ENTRANCE_TITLE}</h2>
-      <p className="entrance-message">{entrance.message}</p>
+      <section className="letter">
+        <p className="entrance-message">{entrance.message}</p>
+      </section>
       <AnswerZone kind={entrance.answer.kind} wrongAttempts={wrongAttempts} onSubmit={onSubmit} />
     </main>
   )

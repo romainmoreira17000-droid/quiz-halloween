@@ -25,8 +25,8 @@
 
 /* Keypad: --key drives both width and height (never below 88px). */
 .keypad {
-  --key: 112px;
-  --key-gap: 22px;
+  --key: 88px;
+  --key-gap: 14px;
   display: grid;
   grid-template-columns: repeat(3, var(--key));
   gap: var(--key-gap);
@@ -35,10 +35,10 @@
 .keypad button {
   width: var(--key); height: var(--key);
   border-radius: 48% 52% 50% 50% / 52% 47% 53% 48%;
-  font-size: 60px; font-weight: 700;
+  font-size: 48px; font-weight: 700;
   font-variant-numeric: lining-nums;
 }
-.keypad .key-submit { font-family: var(--title-font); font-size: 26px; font-weight: 400; }
+.keypad .key-submit { font-family: var(--title-font); font-size: 21px; font-weight: 400; }
 .keypad .key-erase, .letter-keyboard .key-erase { background: #3a2a1e; }
 button:disabled { opacity: .4; }
 

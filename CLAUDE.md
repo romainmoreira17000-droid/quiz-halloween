@@ -34,9 +34,12 @@ src/hooks/                 useCountdown, useGameProgress
 src/components/            Game (seul assembleur d'écrans) + un composant par écran + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
+                           CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), ...
-src/services/              sound (son de victoire synthétisé en Web Audio), savedGame (seul accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, victory, reset
+src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
+                           HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
+src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame (seul accès au localStorage)
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -108,3 +111,12 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   une mauvaise réponse (remontage par `key`).
 - **Entrée** : statut `entrance` avant `playing`, `startedAt` à null ; le compteur démarre à la bonne
   réponse.
+- **Décors** : SVG en `position: fixed` z-index 0 (`.backdrop`), sous `.screen` (z-index 1). `Game` choisit le
+  décor selon le statut : aucun à l'accueil, `RestaurantFront` à l'entrée, `HallBackdrop` ensuite. Les
+  dégradés partagés sont dans `DecorGradients` (ids `hall-*`, jamais `lock-*`). Sur téléphone, le décor est
+  rogné sur les côtés (`slice`) : ne rien mettre d'important hors de x 162–648 du viewBox. Tout texte posé sur le
+  décor a besoin d'un fond ou d'un voile (la nappe claire rend l'ambre illisible).
+- **Clac de goupille** : joué dans le tap « Valider », d'où `answer()` qui renvoie un booléen (comme `unlock()`).
+  La chute `pin-fall` (0,45 s, `lock.css`) est calée avec le son de `playPinSound` (`sound.ts`).
+- **Hauteur de l'écran d'étape** : sur tablette (810×1080) il tient pile, sans défilement, grâce au cadenas à
+  260 px et à l'écart de saisie de 12 px (`screens.css`). Toute ligne ajoutée à l'écran d'étape le fera défiler.

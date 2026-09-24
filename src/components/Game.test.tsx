@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { Game } from './Game'
 import { RESET_HOLD_MS } from './ResetButton'
 import type { QuizConfig } from '../config/types'
-import { playVictorySound } from '../services/sound'
+import { playPinSound, playVictorySound } from '../services/sound'
 
-vi.mock('../services/sound', () => ({ playVictorySound: vi.fn() }))
+vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
 
 const config: QuizConfig = {
   title: 'Le manoir hanté', durationMinutes: 90, stepCount: 2,
@@ -18,7 +18,7 @@ const config: QuizConfig = {
 }
 
 describe('Game', () => {
-  afterEach(() => vi.useRealTimers())
+  afterEach(() => { vi.useRealTimers(); vi.clearAllMocks() })
 
   it('plays from home to the victory, with a wrong answer and a wrong code', async () => {
     const user = userEvent.setup()
@@ -78,5 +78,34 @@ describe('Game', () => {
     await user.click(screen.getByRole('button', { name: 'Valider' }))
     expect(screen.getByRole('heading', { name: 'La crypte' })).toBeInTheDocument()
     expect(screen.getByRole('timer')).toHaveTextContent('90:00')
+  })
+
+  it('shows the great hall behind the game, not on the home screen', async () => {
+    const user = userEvent.setup()
+    const { container } = render(<Game config={config} />)
+    expect(container.querySelector('.hall-backdrop')).toBeNull()
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    expect(container.querySelector('.hall-backdrop')).not.toBeNull()
+  })
+
+  it('shows the restaurant front behind the entrance message, not the great hall', async () => {
+    const user = userEvent.setup()
+    const entrance = { message: 'Qui suis-je ?', answer: { kind: 'letters', value: 'Bouh' } } as const
+    const { container } = render(<Game config={{ ...config, entrance }} />)
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    expect(container.querySelector('.restaurant-front')).not.toBeNull()
+    expect(container.querySelector('.hall-backdrop')).toBeNull()
+  })
+
+  it('plays the pin clack on a right answer only', async () => {
+    const user = userEvent.setup()
+    render(<Game config={config} />)
+    await user.click(screen.getByRole('button', { name: 'Commencer' }))
+    await user.click(screen.getByRole('button', { name: '1' }))
+    await user.click(screen.getByRole('button', { name: 'Valider' }))
+    expect(playPinSound).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: '4' }))
+    await user.click(screen.getByRole('button', { name: 'Valider' }))
+    expect(playPinSound).toHaveBeenCalledOnce()
   })
 })

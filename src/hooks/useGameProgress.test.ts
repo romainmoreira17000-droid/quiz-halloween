@@ -8,7 +8,7 @@ import { useGameProgress } from './useGameProgress'
 const MIN = 60_000
 const START = Date.parse('2026-10-31T20:15:00+01:00')
 const config: QuizConfig = {
-  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, animatorCode: '2710', stepCount: 2,
+  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '3' }, digit: 3 },
     { title: 'B', instruction: 'b', answer: { kind: 'digits', value: '8' }, digit: 8 },

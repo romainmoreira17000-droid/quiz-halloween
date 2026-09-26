@@ -69,10 +69,12 @@ Les images vont dans `public/images/`.
 | `intro` | non | texte |
 | `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
 | `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
+| `indice_apres_minutes` | oui | entier ≥ 0 et plus petit que `duree_epreuve_minutes` : minutes avant que le bouton « Indice » s'active |
+| `blocage_secondes` | oui | entier ≥ 0 : saisie bloquée après une mauvaise réponse (0 = jamais) |
 | `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
-| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) |
+| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) et `indice` (texte non vide, lu sur demande au bout de `indice_apres_minutes` ; sans indice, pas de bouton) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
 | `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |

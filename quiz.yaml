@@ -28,6 +28,16 @@ equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "M
 # nombre_etapes × duree_epreuve_minutes.
 duree_epreuve_minutes: 15
 
+# Minutes après le début de chaque épreuve avant que le bouton « Indice » s'active.
+# Obligatoire, nombre entier, 0 ou plus, et plus petit que duree_epreuve_minutes.
+indice_apres_minutes: 10
+
+# Après une mauvaise réponse à une épreuve, la saisie est bloquée pendant ce nombre de
+# secondes : les enfants doivent chercher au lieu de tenter au hasard. Obligatoire,
+# nombre entier, 0 ou plus (0 = pas de blocage). Le blocage s'arrête toujours au
+# changement de salle.
+blocage_secondes: 60
+
 # Code animateur : sert à régler l'équipe d'une tablette et à donner le chiffre d'une
 # épreuve pas trouvée à temps. Obligatoire, de 4 à 8 chiffres. Ne jamais le dire devant
 # les enfants. Attention : ce fichier est public, comme les réponses.
@@ -63,36 +73,43 @@ nombre_etapes: 6
 #                   - mots : lettres, espaces, apostrophes ou tirets, 24 caractères au plus ;
 #                     majuscules et accents ne comptent pas
 #   chiffre       obligatoire, le chiffre (0 à 9) gagné pour le cadenas final
+#   indice        facultatif, texte non vide : l'indice que les enfants peuvent lire au bout
+#                 de « indice_apres_minutes » ; sans indice, pas de bouton « Indice »
 etapes:
   - titre: "La crypte"
     consigne: "Comptez toutes les chauves-souris en papier cachées dans la salle."
     type_reponse: chiffres
     reponse: "13"
     chiffre: 4
+    indice: "Regardez aussi derrière les rideaux et sous les tables."
 
   - titre: "Le chaudron"
     consigne: "Goûtez la potion les yeux bandés. Quel animal la sorcière a-t-elle mis dedans ?"
     type_reponse: mots
     reponse: "Crapaud"
     chiffre: 7
+    indice: "Un animal vert qui fait « croa »."
 
   - titre: "La bibliothèque"
     consigne: "Le code du coffre à livres est écrit à l'envers sur le miroir."
     type_reponse: chiffres
     reponse: "0472"
     chiffre: 2
+    indice: "Lisez le miroir... dans un autre miroir."
 
   - titre: "Le cimetière"
     consigne: "Additionnez les années gravées sur les trois tombes à citrouille."
     type_reponse: chiffres
     reponse: "1832"
     chiffre: 9
+    indice: "Il y a trois années : posez l'addition sur une feuille."
 
   - titre: "Le grenier"
     consigne: "Qu'a tissé l'araignée géante au-dessus de la malle ?"
     type_reponse: mots
     reponse: "Toile d'araignée"
     chiffre: 0
+    indice: "Elle est faite de fils et attrape les mouches."
 
   - titre: "La porte de la cuisine"
     consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"

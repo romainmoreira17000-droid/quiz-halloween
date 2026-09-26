@@ -4,7 +4,7 @@ import { createGameReducer, earnsDigit, initialGameState, wrongAttemptsIn, type 
 
 const MIN = 60_000
 const config: QuizConfig = {
-  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, animatorCode: '2710', stepCount: 2,
+  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '14' }, digit: 4 },
     { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0 },

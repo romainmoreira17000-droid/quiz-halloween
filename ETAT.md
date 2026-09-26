@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 10 : cadrage et plan faits, exécution à lancer)
+Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
 
 ## Sprint en cours
 - **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
@@ -13,8 +13,8 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : cadrage et plan faits, exécuti
 ## Où on en est
 - [x] Sprints 1 à 9 terminés et en ligne (PR #21 fusionnée le 2026-09-26).
 - [x] Cadrage sprint 10 : indice sur le parchemin + fenêtre (choix de Romain), issue #22, plan écrit
-- [ ] Romain relit le plan et choisit le mode d'exécution
-- [ ] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
+- [x] Romain a lancé l'exécution (« go ») : exécution inline (executing-plans), registre dans `.superpowers/sdd/`
+- [x] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
 - [ ] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
 - [ ] Tâche 3 : clavier bloqué avec décompte
 - [ ] Tâche 4 : bouton et fenêtre d'indice
@@ -23,8 +23,8 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : cadrage et plan faits, exécuti
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Attendre la relecture du plan par Romain, puis exécuter la tâche 1 du plan
-(« ### Task 1 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`).
+Exécuter la tâche 2 du plan (« ### Task 2 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
+registre de progression : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
 
 ## Décisions prises (et pourquoi)
 - Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,

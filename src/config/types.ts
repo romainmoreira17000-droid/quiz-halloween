@@ -9,8 +9,12 @@ export interface ExpectedAnswer { kind: AnswerKind; value: string }
 /** Optional message read before entering the restaurant; its answer starts the clock. */
 export interface EntranceConfig { title?: string; message: string; answer: ExpectedAnswer }
 
-/** One challenge: an instruction, the answer children type, and the padlock digit it earns. */
-export interface QuizStep { title: string; instruction: string; image?: string; answer: ExpectedAnswer; digit: number }
+/** One challenge: an instruction, the answer children type, the padlock digit it earns, and an optional hint. */
+export interface QuizStep {
+  title: string; instruction: string; image?: string; answer: ExpectedAnswer; digit: number
+  /** `indice`: shown on demand once `hintAfterMinutes` of the slot are over; no hint button without it. */
+  hint?: string
+}
 
 /** Final padlock: order in which step digits are entered (always filled, default 1..N) and optional texts. */
 export interface PadlockConfig { order: number[]; hint?: string; title?: string; victoryMessage?: string }
@@ -23,6 +27,10 @@ export interface QuizConfig {
   teams: string[]
   /** Length of one slot in minutes: every team changes room at the same time. */
   slotMinutes: number
+  /** Minutes into each slot before the hint button unlocks (always below slotMinutes). */
+  hintAfterMinutes: number
+  /** Seconds the keyboard stays blocked after a wrong answer to a challenge (0 = never). */
+  blockSeconds: number
   /** Code animators type to set up a tablet or give the digit of a missed challenge (digits, kept as text). */
   animatorCode: string
   stepCount: number

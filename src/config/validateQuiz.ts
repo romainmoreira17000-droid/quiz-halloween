@@ -7,7 +7,8 @@ import { validateTeamSettings } from './validateTeamSettings'
 import type { QuizStep, ValidationResult } from './types'
 
 const ROOT_KEYS = [
-  'titre', 'intro', 'equipes', 'duree_epreuve_minutes', 'code_animateur', 'nombre_etapes', 'entree', 'etapes', 'cadenas',
+  'titre', 'intro', 'equipes', 'duree_epreuve_minutes', 'indice_apres_minutes', 'blocage_secondes', 'code_animateur',
+  'nombre_etapes', 'entree', 'etapes', 'cadenas',
 ] as const
 
 /**

@@ -1,35 +1,36 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 9 : les 6 tâches commitées, reste relecture + PR)
+Dernière mise à jour : 2026-09-26 (sprint 10 : cadrage et plan faits, exécution à lancer)
 
 ## Sprint en cours
-- **Objectif :** transformer le quiz en escape game pour 6 équipes en rotation (sprint 9), puis indice et
-  blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
-- **Issue :** #19 (sprint 9)
-- **Branche :** `feat/team-rotation`
-- **PR :** #21 (ouverte, à fusionner après accord de Romain)
-- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (6 tâches)
+- **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
+  bloquée `blocage_secondes` après une mauvaise réponse. Spec : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
+- **Issue :** #22
+- **Branche :** `feat/hint-and-block`
+- **PR :** pas encore ouverte
+- **Plan :** `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md` (5 tâches)
 
 ## Où on en est
-- [x] Sprints 1 à 8 terminés et en ligne (PR #18 fusionnée).
-- [x] Spec, scénario et plan du sprint 9 (PR #20 fusionnée)
-- [x] Tâche 1 : clés `equipes`, `duree_epreuve_minutes`, `code_animateur`
-- [x] Tâche 2 : créneaux, rotation et phase (logique pure)
-- [x] Tâche 3 : équipe de la tablette (réglage, accueil, changement d'équipe)
-- [x] Tâche 4 : écran « Temps écoulé », goupilles par épreuve
-- [x] Tâche 5 : rotation jouée (état, hook, écrans, e2e) — 302 tests unitaires + 7 e2e verts (ba2832f)
-- [x] Tâche 6 : contrôle de mise en page (`e2e/layout.spec.ts`), vérif navigateur 810×1080 et 390×844,
-  2 retouches CSS, documentation (CLAUDE.md, README)
-- [x] Relecture (`relecteur-code`) : I1 corrigé, I2 soumis à Romain, 4 mineurs reportés
-- [x] PR #21 ouverte vers `main` (Closes #19), CI en cours
-- [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
+- [x] Sprints 1 à 9 terminés et en ligne (PR #21 fusionnée le 2026-09-26).
+- [x] Cadrage sprint 10 : indice sur le parchemin + fenêtre (choix de Romain), issue #22, plan écrit
+- [ ] Romain relit le plan et choisit le mode d'exécution
+- [ ] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
+- [ ] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
+- [ ] Tâche 3 : clavier bloqué avec décompte
+- [ ] Tâche 4 : bouton et fenêtre d'indice
+- [ ] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
+- [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #22)
+- [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Attendre la CI verte de la PR #21 et la réponse de Romain : fusion, et code animateur pour « Recommencer »
-(si oui : petite correction sur la même branche avant fusion). Après fusion :
-`git checkout main && git pull && git branch -d feat/team-rotation`, puis sprint 10 (indice et blocage).
+Attendre la relecture du plan par Romain, puis exécuter la tâche 1 du plan
+(« ### Task 1 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`).
 
 ## Décisions prises (et pourquoi)
+- Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,
+  puis « Voir l’indice » qui ouvre une fenêtre relisible à volonté (l'écran d'étape n'a plus de place en hauteur).
+- Sprint 10 (plan) : décompte du blocage dans la ligne de la réponse tapée (touches grisées) ; blocage plafonné à la
+  fin du créneau ; seulement sur les épreuves ; pas d'indice sur l'attente, « Temps écoulé » et le cadenas.
 - Sprint 9 (relecture) : « Changer d'équipe » puis la même équipe reprend la partie au lieu de l'effacer
   (un enfant pouvait sinon décaler sa tablette dans la rotation pour toute la soirée).
 - Sprint 9 (relecture, choix de Romain) : pendant une partie, « Recommencer » demande le code animateur (un reset

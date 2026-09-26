@@ -1,30 +1,30 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-24 (spec validée par Romain, PR docs ouverte, plan du sprint 9 en cours)
+Dernière mise à jour : 2026-09-26 (sprint 9 : tâches 1 à 5 commitées, reste la tâche 6)
 
 ## Sprint en cours
 - **Objectif :** transformer le quiz en escape game pour 6 équipes en rotation (sprint 9), puis indice et
   blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
 - **Issue :** #19 (sprint 9)
-- **Branche :** `docs/escape-game-design` (spec + scénario + plan du sprint 9, pas de code)
-- **PR :** #20 (docs : spec + scénario + plan), à fusionner par Romain
-- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (6 tâches, écrit)
+- **Branche :** `feat/team-rotation`
+- **PR :** pas encore ouverte (PR #20 docs fusionnée)
+- **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (6 tâches)
 
 ## Où on en est
 - [x] Sprints 1 à 8 terminés et en ligne (PR #18 fusionnée).
-- [x] Brainstorming escape game : rotation, indice, blocage, code animateur, fin (voir décisions)
-- [x] Spec écrite et scénario animateurs en brouillon (`docs/scenario-soiree.md`)
-- [x] Romain a validé la spec (« go », 2026-09-24)
-- [x] PR docs ouverte
-- [x] Plan du sprint 9 écrit et ajouté à la PR #20
-- [ ] Romain relit le plan, choisit le mode d'exécution et fusionne la PR #20 ← en attente
-- [ ] Sprint 9 sur `feat/team-rotation` depuis `main` (tâches 1 à 6 du plan)
+- [x] Spec, scénario et plan du sprint 9 (PR #20 fusionnée)
+- [x] Tâche 1 : clés `equipes`, `duree_epreuve_minutes`, `code_animateur`
+- [x] Tâche 2 : créneaux, rotation et phase (logique pure)
+- [x] Tâche 3 : équipe de la tablette (réglage, accueil, changement d'équipe)
+- [x] Tâche 4 : écran « Temps écoulé », goupilles par épreuve
+- [x] Tâche 5 : rotation jouée (état, hook, écrans, e2e) — 302 tests unitaires + 7 e2e verts (ba2832f)
+- [ ] Tâche 6 : contrôle de mise en page, vérif navigateur, documentation (CLAUDE.md, README)
+- [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #19)
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Après fusion de la PR #20 : `git checkout main && git pull && git checkout -b feat/team-rotation`, puis
-exécuter le plan `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` à partir de la tâche 1.
-Décisions prises en écrivant le plan : voir sa section « Decisions taken while planning ».
+Exécuter la tâche 6 du plan (ligne « ### Task 6 » de
+`docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md`).
 
 ## Décisions prises (et pourquoi)
 - Escape game (2026-09-24) : 6 équipes, 6 épreuves toutes en rotation (équipe e, créneau c → épreuve

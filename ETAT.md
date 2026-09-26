@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 11 : cadrage et plan faits)
+Dernière mise à jour : 2026-09-26 (sprint 11 : 5 tâches faites, relecture en cours)
 
 ## Sprint en cours
 - **Objectif :** sprint 11 : fonds d'écran photo (une illustration par salle, « image principale » à l'accueil et
@@ -13,17 +13,17 @@ Dernière mise à jour : 2026-09-26 (sprint 11 : cadrage et plan faits)
 ## Où on en est
 - [x] Sprints 1 à 10 terminés et en ligne (PR #23 fusionnée le 2026-09-26).
 - [x] Cadrage sprint 11 avec Romain, issue #24, plan écrit
-- [ ] Tâche 1 : conversion des PNG en WebP (`npm run images`, originaux dans `images-sources/` hors dépôt)
-- [ ] Tâche 2 : clés YAML `fond`, `fond_accueil`, `cadenas.fond` + validateur
-- [ ] Tâche 3 : `backdropFor` (choix du décor, logique pure)
-- [ ] Tâche 4 : `PhotoBackdrop` + voile, branché dans `TeamGame`
-- [ ] Tâche 5 : quiz.yaml, e2e, vérif navigateur (tablette + téléphone), docs
+- [x] Tâche 1 : conversion des PNG en WebP (`npm run images`, originaux dans `images-sources/` hors dépôt)
+- [x] Tâche 2 : clés YAML `fond`, `fond_accueil`, `cadenas.fond` + validateur
+- [x] Tâche 3 : `backdropFor` (choix du décor, logique pure)
+- [x] Tâche 4 : `PhotoBackdrop` + voile, branché dans `TeamGame`
+- [x] Tâche 5 : quiz.yaml, e2e, vérif navigateur (tablette + téléphone), docs
 - [ ] Relecture, PR (Closes #24), merge par Romain
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Romain relit le plan et choisit le mode d'exécution ; puis tâche 1 du plan.
-Note : les 7 PNG sont encore dans `public/images/` (non suivis) : le build casse tant qu'ils y sont ; la tâche 1 les déplace.
+Relecture de la branche (`relecteur-code`) en cours ; corriger ce qui est Critique/Important, puis PR vers `main`
+(Closes #24). Registre d'exécution : `.superpowers/sdd/2026-09-26-sprint11-fonds-photo/progress.md`.
 
 ## Décisions prises (et pourquoi)
 - Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,
@@ -31,6 +31,9 @@ Note : les 7 PNG sont encore dans `public/images/` (non suivis) : le build casse
   « image principale » : accueil + attente ; « sortie du restaurant » : cadenas + victoire ; l'entrée garde sa façade dessinée.
 - Sprint 11 (plan) : nouvelles clés `fond` (étape), `fond_accueil`, `cadenas.fond` ; la clé `image` (image dans le
   parchemin) reste telle quelle. WebP en noms ASCII ; « Temps écoulé » montre la salle de l'épreuve ratée.
+- Sprint 11 (exécution) : source « la table hanté.png » renommée « hantée » (→ `table-hantee.webp`) ; originaux dans
+  `images-sources/` (gitignoré, restent sur le PC de Romain). WebP ≈ 200–250 Ko. Voile sombre en dégradé : texte lisible
+  sur les 7 écrans (tablette et téléphone). Test de mise en page étendu aux 6 épreuves (titres plus longs) : aucun défilement.
 - Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,
   puis « Voir l’indice » qui ouvre une fenêtre relisible à volonté (l'écran d'étape n'a plus de place en hauteur).
 - Sprint 10 (plan) : décompte du blocage dans la ligne de la réponse tapée (touches grisées) ; blocage plafonné à la

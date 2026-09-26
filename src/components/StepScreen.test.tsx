@@ -7,7 +7,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 const base: StepScreenProps = {
   header: <header>entête</header>,
   step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
-  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false,
+  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false, blockSecondsLeft: 0,
   onSubmit: () => {},
 }
 
@@ -61,5 +61,10 @@ describe('StepScreen', () => {
     render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} isLastSlot />)
     expect(screen.getByText('Le cadenas final dans 04:12')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /Cadenas ouvert/ })).toBeInTheDocument()
+  })
+  it('blocks the keyboard after a wrong answer', () => {
+    render(<StepScreen {...base} wrongAttempts={1} blockSecondsLeft={59} />)
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 00:59')
+    expect(screen.getByRole('button', { name: '7' })).toBeDisabled()
   })
 })

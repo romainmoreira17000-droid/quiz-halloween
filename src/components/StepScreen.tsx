@@ -20,6 +20,8 @@ export interface StepScreenProps {
   secondsLeft: number
   /** Last slot: the padlock comes next, not another room. */
   isLastSlot: boolean
+  /** Seconds before a new answer is accepted after a wrong one (0 = free). */
+  blockSecondsLeft: number
   /** Called with the typed answer. */
   onSubmit(text: string): void
 }
@@ -30,7 +32,7 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, onSubmit } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, onSubmit } = props
   const digit = digits[challenge]
   const solved = digit !== null
   return (
@@ -51,7 +53,7 @@ export function StepScreen(props: StepScreenProps) {
           <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement de salle dans'} {formatClock(secondsLeft)}</p>
         </div>
       ) : (
-        <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} onSubmit={onSubmit} />
+        <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} blockedSeconds={blockSecondsLeft} onSubmit={onSubmit} />
       )}
     </main>
   )

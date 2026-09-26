@@ -7,6 +7,11 @@
   font-variant-numeric: lining-nums; white-space: pre;
 }
 .typed--digits { font-family: var(--text-font); font-weight: 700; }
+/* Block countdown in the typed-answer line: a sentence, not a code, so plain text size and wrapping. */
+.typed--blocked {
+  font-family: var(--text-font); font-weight: 700; font-size: 26px; letter-spacing: 0;
+  white-space: normal; text-align: center; color: var(--amber);
+}
 
 .letter-keyboard { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 /* Row width must fit inside the screen: the widest row has 10 keys (e.g. AZERTYUIOP).
@@ -33,6 +38,7 @@
 
 @media (max-width: 600px) {
   .typed { font-size: 36px; }
+  .typed--blocked { font-size: 20px; }
   /* Phone: 10 * 28px + 9 * 4px gap = 316px, fits under 360 - 2*16px padding = 328px available
      (body clips overflow-x, so going over this would cut keys off screen).
      Bottom row already fits at 294px, so it keeps its own widths below. */

@@ -1,6 +1,7 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
+import { blockSecondsLeft } from '../game/block'
 import { gamePhase, type GamePhase } from '../game/phase'
 import { wrongAttemptsIn } from '../game/progress'
 import { remainingSeconds, slotTiming } from '../game/time'
@@ -98,7 +99,7 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
       return (
         <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
-          isLastSlot={phase.slot === stepCount - 1} onSubmit={submit} />
+          isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blockSecondsLeft(state.blockedUntil, at)} onSubmit={submit} />
       )
     }
   }

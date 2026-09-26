@@ -13,6 +13,12 @@
 # Titre affiché sur l'écran d'accueil. Obligatoire, texte non vide.
 titre: "Le manoir hanté"
 
+# Fond d'écran de l'accueil et de l'attente entre deux salles. Facultatif : nom d'un
+# fichier placé dans public/images/ (sans fond : décor sombre à l'accueil, grande salle
+# dessinée pendant l'attente). Pour ajouter une illustration : déposer le PNG dans
+# images-sources/ puis lancer « npm run images », qui crée le fichier .webp léger.
+fond_accueil: "image-principale.webp"
+
 # Texte d'introduction sous le titre. Facultatif.
 intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Réussissez les épreuves pour trouver le code du cadenas !"
 
@@ -66,6 +72,8 @@ nombre_etapes: 6
 #   titre         obligatoire, texte non vide
 #   consigne      obligatoire, texte non vide (ce que les enfants doivent faire)
 #   image         facultatif, nom d'un fichier placé dans public/images/
+#   fond          facultatif, fond d'écran de la salle (fichier .webp de public/images/,
+#                 voir « fond_accueil ») ; sans fond : la grande salle dessinée
 #   type_reponse  obligatoire : chiffres ou mots
 #   reponse       obligatoire, la bonne réponse de l'épreuve :
 #                   - chiffres : uniquement des chiffres, 12 au plus ; les guillemets sont
@@ -76,42 +84,47 @@ nombre_etapes: 6
 #   indice        facultatif, texte non vide : l'indice que les enfants peuvent lire au bout
 #                 de « indice_apres_minutes » ; sans indice, pas de bouton « Indice »
 etapes:
-  - titre: "La crypte"
+  - titre: "La galerie des portraits"
+    fond: "galerie-des-portraits.webp"
     consigne: "Comptez toutes les chauves-souris en papier cachées dans la salle."
     type_reponse: chiffres
     reponse: "13"
     chiffre: 4
     indice: "Regardez aussi derrière les rideaux et sous les tables."
 
-  - titre: "Le chaudron"
+  - titre: "La table hantée"
+    fond: "table-hantee.webp"
     consigne: "Goûtez la potion les yeux bandés. Quel animal la sorcière a-t-elle mis dedans ?"
     type_reponse: mots
     reponse: "Crapaud"
     chiffre: 7
     indice: "Un animal vert qui fait « croa »."
 
-  - titre: "La bibliothèque"
+  - titre: "Le cimetière"
+    fond: "cimetiere.webp"
     consigne: "Le code du coffre à livres est écrit à l'envers sur le miroir."
     type_reponse: chiffres
     reponse: "0472"
     chiffre: 2
     indice: "Lisez le miroir... dans un autre miroir."
 
-  - titre: "Le cimetière"
+  - titre: "Les saveurs hantées"
+    fond: "saveurs-hantees.webp"
     consigne: "Additionnez les années gravées sur les trois tombes à citrouille."
     type_reponse: chiffres
     reponse: "1832"
     chiffre: 9
     indice: "Il y a trois années : posez l'addition sur une feuille."
 
-  - titre: "Le grenier"
+  - titre: "Les toilettes scientifiques"
+    fond: "toilettes-scientifiques.webp"
     consigne: "Qu'a tissé l'araignée géante au-dessus de la malle ?"
     type_reponse: mots
     reponse: "Toile d'araignée"
     chiffre: 0
     indice: "Elle est faite de fils et attrape les mouches."
 
-  - titre: "La porte de la cuisine"
+  - titre: "Invisible mais visible"
     consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
     type_reponse: mots
     reponse: "Citrouille"
@@ -127,6 +140,9 @@ cadenas:
 
   # Indice affiché près du cadenas. Facultatif, texte.
   indice: "Commencez par les livres, finissez sous les tombes."
+
+  # Fond d'écran du cadenas et de la victoire. Facultatif (voir « fond_accueil »).
+  fond: "sortie-du-restaurant.webp"
 
   # Titre de l'écran du cadenas. Facultatif, texte non vide
   # (par défaut : « Le cadenas »).

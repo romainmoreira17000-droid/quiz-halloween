@@ -8,7 +8,7 @@ test('the game resumes on the same challenge after a reload', async ({ page }) =
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await typeAnswer(page, '13')
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'La crypte' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 4')
   await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toBeVisible()
 })

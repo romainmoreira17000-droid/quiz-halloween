@@ -7,7 +7,7 @@ test('a wrong answer blocks the keyboard for a minute and the hint unlocks after
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Le chaudron' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
   await expect(page.getByRole('button', { name: /^Indice dans (10:00|09:5\d)$/ })).toBeDisabled()
 
   await typeAnswer(page, 'CHAT')

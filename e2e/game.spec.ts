@@ -4,8 +4,8 @@ import { setUpTablet, typeAnswer } from './typing.js'
 
 // Sample quiz.yaml, by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
-  1: ['La crypte', '13', 4], 2: ['Le chaudron', 'CRAPAUD', 7], 3: ['La bibliothèque', '0472', 2],
-  4: ['Le cimetière', '1832', 9], 5: ['Le grenier', "TOILE D'ARAIGNEE", 0], 6: ['La porte de la cuisine', 'CITROUILLE', 5],
+  1: ['La galerie des portraits', '13', 4], 2: ['La table hantée', 'CRAPAUD', 7], 3: ['Le cimetière', '0472', 2],
+  4: ['Les saveurs hantées', '1832', 9], 5: ['Les toilettes scientifiques', "TOILE D'ARAIGNEE", 0], 6: ['Invisible mais visible', 'CITROUILLE', 5],
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
 
@@ -17,7 +17,7 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
 
   // Slot 1: challenge 2, after a wrong try.
-  await expect(page.getByRole('heading', { name: 'Le chaudron' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
   await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toHaveText('15:00')
   await expect(page.getByRole('timer', { name: 'Temps total restant' })).toHaveText('90:00')
   await typeAnswer(page, 'CHAT')
@@ -30,7 +30,7 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
 
   // Slot 2: challenge 3 is missed; an animator gives its digit at the start of slot 3.
   await nextSlot(page)
-  await expect(page.getByRole('heading', { name: 'La bibliothèque' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Le cimetière' })).toBeVisible()
   await nextSlot(page)
   await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
   await typeAnswer(page, '1111')

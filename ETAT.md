@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 9 : tâches 1 à 5 commitées, reste la tâche 6)
+Dernière mise à jour : 2026-09-26 (sprint 9 : les 6 tâches commitées, reste relecture + PR)
 
 ## Sprint en cours
 - **Objectif :** transformer le quiz en escape game pour 6 équipes en rotation (sprint 9), puis indice et
@@ -18,15 +18,30 @@ Dernière mise à jour : 2026-09-26 (sprint 9 : tâches 1 à 5 commitées, reste
 - [x] Tâche 3 : équipe de la tablette (réglage, accueil, changement d'équipe)
 - [x] Tâche 4 : écran « Temps écoulé », goupilles par épreuve
 - [x] Tâche 5 : rotation jouée (état, hook, écrans, e2e) — 302 tests unitaires + 7 e2e verts (ba2832f)
-- [ ] Tâche 6 : contrôle de mise en page, vérif navigateur, documentation (CLAUDE.md, README)
+- [x] Tâche 6 : contrôle de mise en page (`e2e/layout.spec.ts`), vérif navigateur 810×1080 et 390×844,
+  2 retouches CSS, documentation (CLAUDE.md, README)
 - [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #19)
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Exécuter la tâche 6 du plan (ligne « ### Task 6 » de
-`docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md`).
+Relecture de toute la branche (`relecteur-code`, revue finale du plan), corriger les points
+importants, puis `gh pr create` vers `main` avec `Closes #19` (demander à Romain avant de fusionner).
 
 ## Décisions prises (et pourquoi)
+- Sprint 9 (tâche 6) : voile sombre derrière « Chiffre de l'épreuve » (écran Temps écoulé) : l'ambre était
+  illisible sur la nappe claire ; boutons d'équipe en 40 px sans retour à la ligne (« Loups-garous » se
+  coupait en deux). Écran d'étape sur tablette : aucun défilement, aucune retouche de hauteur nécessaire.
+- Sprint 9 (tâche 6) : à revoir plus tard, hors sprint : sur l'écran du cadenas, la liste des chiffres et l'indice
+  sont posés sur le décor sans voile (lisibles, mais moins que sur fond uni).
+- Sprint 9 (plan) : clés YAML du sprint 9 seulement (`equipes`, `duree_epreuve_minutes`, `code_animateur`) ;
+  indice et blocage arrivent au sprint 10 avec leurs fonctionnalités.
+- Sprint 9 (plan) : ni index d'équipe ni liste « débloqué par un animateur » dans l'état : l'équipe a sa propre clé ;
+  un chiffre donné par l'animateur est rangé comme un chiffre trouvé. Choisir une équipe efface la partie.
+- Sprint 9 (plan) : une mauvaise réponse garde son créneau (`wrongSlot`) ; une réponse nomme son épreuve (un tap
+  au changement de créneau est ignoré) ; code animateur affiché en points (les enfants regardent).
+- Sprint 9 (plan) : entête « Épreuve 3/6 » + chrono du créneau en gros + total en petit ; pas de chrono sur le
+  cadenas ni la victoire (toutes les équipes finissent ensemble) ; le parchemin perd « Étape 2 sur 6 ».
+- Sprint 9 (plan) : l'entrée (`entree`) reste gérée par le code mais sort du `quiz.yaml` d'exemple.
 - Escape game (2026-09-24) : 6 équipes, 6 épreuves toutes en rotation (équipe e, créneau c → épreuve
   (e+c) mod 6) : avec l'épreuve 6 commune, une équipe restait sans épreuve. Le moment commun est le repas.
 - Escape game : créneaux de 15 min calculés depuis « Commencer » ; pas trouvé → « appelez un animateur » +

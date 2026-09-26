@@ -1,17 +1,20 @@
 # CLAUDE.md — quiz-halloween
 
 ## But
-Jeu d'énigmes d'Halloween joué en groupe sur tablette par les enfants du Centre de Loisirs.
-Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (chiffres ou mots), ce
-qui donne un chiffre (0–9) ; les chiffres ouvrent un cadenas final qui déclenche une animation. Un
-message d'entrée facultatif précède les étapes, dont la bonne réponse démarre le compteur. Tout le
-contenu vient de `quiz.yaml`.
+Escape game d'Halloween pour 6 équipes d'enfants du Centre de Loisirs, une tablette par équipe.
+Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 min comptés depuis « Commencer »
+(équipe e, créneau c → épreuve (e+c) mod 6). À chaque épreuve, les enfants tapent la bonne réponse
+(chiffres ou mots), ce qui donne un chiffre (0–9) ; une épreuve pas trouvée à temps donne son chiffre
+avec le code animateur. Les chiffres ouvrent un cadenas final qui déclenche une animation. L'équipe
+de la tablette est réglée par un animateur (code animateur). Tout le contenu vient de `quiz.yaml`.
 
-Conception complète : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md`.
+Conception : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md` (quiz d'origine) et
+`docs/superpowers/specs/2026-09-24-escape-game-design.md` (escape game en rotation).
 
 ## Utilisateurs
 - **Enfants** (en groupe, sur tablette) : jouent.
-- **Animateurs** : lancent la partie, remettent à zéro entre deux groupes, éditent le YAML.
+- **Animateurs** : règlent l'équipe de chaque tablette, lancent la partie, donnent le chiffre d'une
+  épreuve ratée (code animateur), remettent à zéro, éditent le YAML.
 
 ## Stack
 - Vite 8 + React 19 + TypeScript, vite-plugin-pwa (manifest, service worker et icônes PNG
@@ -28,17 +31,19 @@ scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
+                           rotation (créneau → épreuve), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu)
-src/hooks/                 useCountdown, useGameProgress
-src/components/            Game (seul assembleur d'écrans) + un composant par écran + EntranceScreen,
+src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress
+src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
+                           un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), ...
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
-src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame (seul accès au localStorage)
+src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
 src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
@@ -78,6 +83,13 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   précache grâce à `woff2` dans `workbox.globPatterns`. Ne pas repasser par Google Fonts.
 - **Chiffres** : toujours `font-variant-numeric: lining-nums`, sinon le 0 ressemble à un o.
 - **Compteur** : toujours recalculé depuis `startedAt` (`Date.now()`), jamais décrémenté en mémoire.
+- **Créneaux** : créneau, « Temps écoulé » et cadenas sont dérivés par `gamePhase` depuis `startedAt` +
+  `Date.now()` (jamais par une action). L'action de réponse nomme son épreuve : un tap pile au
+  changement de créneau est ignoré.
+- **Équipe** : clé localStorage `quiz-halloween:team` (le nom, pas l'index). Une remise à zéro la garde ;
+  choisir une équipe efface la partie sauvegardée.
+- **Code animateur** : affiché en points (`secret` d'`AnswerZone`), gardé en texte par `parseQuizYaml`
+  comme `reponse` (un 0 initial n'est pas perdu).
 - **Tests** : Vitest sert depuis `/`, donc `import.meta.env.BASE_URL` vaut `/` ; utiliser
   `vi.stubEnv('BASE_URL', ...)` pour tester une URL. `tsconfig.node.json` inclut la lib DOM pour
   le code de `page.evaluate` en e2e. `page.clock.fastForward` : format `hh:mm:ss` au-delà de 59 min.
@@ -89,7 +101,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   en mode silencieux. Jamais d'exception si Web Audio manque (jsdom).
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
-- **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`. L'empreinte est
+- **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`, avec
+  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot }` ;
+  `wrongSlot` empêche un message de mauvaise réponse de suivre le groupe au créneau suivant. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
   changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
   remonte (retour à l'accueil). Statut `home` = pas de sauvegarde (c'est ainsi que `reset` l'efface).
@@ -109,9 +123,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Saisie** : `AnswerInput` est un `<output>` (rôle `status`) : il n'est jamais affiché en même temps
   que « Chiffre trouvé », sinon `getByRole('status')` deviendrait ambigu. Le texte tapé s'efface après
   une mauvaise réponse (remontage par `key`).
-- **Entrée** : statut `entrance` avant `playing`, `startedAt` à null ; le compteur démarre à la bonne
+- **Entrée** : toujours gérée mais absente du `quiz.yaml` d'exemple (code d'entrée sur papier).
+  Statut `entrance` avant `playing`, `startedAt` à null ; le compteur démarre à la bonne
   réponse.
-- **Décors** : SVG en `position: fixed` z-index 0 (`.backdrop`), sous `.screen` (z-index 1). `Game` choisit le
+- **Décors** : SVG en `position: fixed` z-index 0 (`.backdrop`), sous `.screen` (z-index 1). `TeamGame` choisit le
   décor selon le statut : aucun à l'accueil, `RestaurantFront` à l'entrée, `HallBackdrop` ensuite. Les
   dégradés partagés sont dans `DecorGradients` (ids `hall-*`, jamais `lock-*`). Sur téléphone, le décor est
   rogné sur les côtés (`slice`) : ne rien mettre d'important hors de x 162–648 du viewBox. Tout texte posé sur le
@@ -119,4 +134,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Clac de goupille** : joué dans le tap « Valider », d'où `answer()` qui renvoie un booléen (comme `unlock()`).
   La chute `pin-fall` (0,45 s, `lock.css`) est calée avec le son de `playPinSound` (`sound.ts`).
 - **Hauteur de l'écran d'étape** : sur tablette (810×1080) il tient pile, sans défilement, grâce au cadenas à
-  260 px et à l'écart de saisie de 12 px (`screens.css`). Toute ligne ajoutée à l'écran d'étape le fera défiler.
+  260 px et à l'écart de saisie de 12 px (`screens.css`), malgré l'entête à deux compteurs (créneau en gros,
+  total en petit). Toute ligne ajoutée à l'écran d'étape le fera défiler : `e2e/layout.spec.ts` le vérifie
+  (pavé et clavier de lettres).
+- **e2e de la rotation** : `setUpTablet(page, équipe)` en premier dans chaque test (sinon écran de réglage) ;
+  `page.clock.fastForward('15:00')` avance d'un créneau. Code animateur du YAML d'exemple : 2710.

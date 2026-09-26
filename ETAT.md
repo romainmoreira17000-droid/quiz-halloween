@@ -7,7 +7,7 @@ Dernière mise à jour : 2026-09-26 (sprint 9 : les 6 tâches commitées, reste 
   blocage (sprint 10). Conception : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
 - **Issue :** #19 (sprint 9)
 - **Branche :** `feat/team-rotation`
-- **PR :** pas encore ouverte (PR #20 docs fusionnée)
+- **PR :** #21 (ouverte, à fusionner après accord de Romain)
 - **Plan :** `docs/superpowers/plans/2026-09-24-sprint9-equipes-rotation.md` (6 tâches)
 
 ## Où on en est
@@ -21,12 +21,13 @@ Dernière mise à jour : 2026-09-26 (sprint 9 : les 6 tâches commitées, reste 
 - [x] Tâche 6 : contrôle de mise en page (`e2e/layout.spec.ts`), vérif navigateur 810×1080 et 390×844,
   2 retouches CSS, documentation (CLAUDE.md, README)
 - [x] Relecture (`relecteur-code`) : I1 corrigé, I2 soumis à Romain, 4 mineurs reportés
-- [ ] PR vers `main` (Closes #19)
+- [x] PR #21 ouverte vers `main` (Closes #19), CI en cours
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-`gh pr create` vers `main` avec `Closes #19` (relecture faite, point I1 corrigé). Demander à Romain
-avant de fusionner, et sa décision sur le code animateur pour « Recommencer » (point I2).
+Attendre la CI verte de la PR #21 et la réponse de Romain : fusion, et code animateur pour « Recommencer »
+(si oui : petite correction sur la même branche avant fusion). Après fusion :
+`git checkout main && git pull && git branch -d feat/team-rotation`, puis sprint 10 (indice et blocage).
 
 ## Décisions prises (et pourquoi)
 - Sprint 9 (relecture) : « Changer d'équipe » puis la même équipe reprend la partie au lieu de l'effacer

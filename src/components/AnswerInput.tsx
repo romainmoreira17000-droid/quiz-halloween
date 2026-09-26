@@ -12,6 +12,8 @@ export interface AnswerInputProps {
   onSubmit(text: string): void
   /** Shows dots instead of the typed digits (animator code typed in front of the children). */
   secret?: boolean
+  /** While set, the keyboard is blocked and this text replaces the typed answer (e.g. « Nouvelle réponse possible dans 00:42 »). */
+  blockedMessage?: string
 }
 
 /**
@@ -20,7 +22,7 @@ export interface AnswerInputProps {
  * @param props See AnswerInputProps.
  * @returns The typed answer and its keyboard.
  */
-export function AnswerInput({ kind, onSubmit, secret = false }: AnswerInputProps) {
+export function AnswerInput({ kind, onSubmit, secret = false, blockedMessage }: AnswerInputProps) {
   const [text, setText] = useState('')
   const canSubmit = normalizeAnswer(text, kind).length > 0
   const keys: AnswerKeysProps = {
@@ -28,11 +30,14 @@ export function AnswerInput({ kind, onSubmit, secret = false }: AnswerInputProps
     onErase: () => setText((current) => current.slice(0, -1)),
     onSubmit: () => { if (canSubmit) onSubmit(text) },
     canSubmit,
+    disabled: blockedMessage !== undefined,
   }
   return (
     <div className="answer-input">
       {/* A no-break space keeps the line height while nothing is typed. */}
-      <output className={`typed typed--${kind}`} aria-label="Réponse tapée">{(secret ? '•'.repeat(text.length) : text) || ' '}</output>
+      <output className={`typed typed--${blockedMessage === undefined ? kind : 'blocked'}`} aria-label="Réponse tapée">
+        {blockedMessage ?? ((secret ? '•'.repeat(text.length) : text) || ' ')}
+      </output>
       {kind === 'digits' ? <Keypad {...keys} /> : <LetterKeyboard {...keys} />}
     </div>
   )

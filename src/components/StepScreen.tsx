@@ -1,9 +1,10 @@
-/** @file Challenge screen: instruction on a parchment menu, the cutaway lock, typed answer, then the earned digit and the time before the change of room. */
+/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then the earned digit and the time before the change of room. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { formatClock } from '../game/time'
 import { AnswerZone } from './AnswerZone'
 import { CutawayLock } from './CutawayLock'
+import { HintButton } from './HintButton'
 
 /** Props of StepScreen. */
 export interface StepScreenProps {
@@ -20,6 +21,10 @@ export interface StepScreenProps {
   secondsLeft: number
   /** Last slot: the padlock comes next, not another room. */
   isLastSlot: boolean
+  /** Seconds before a new answer is accepted after a wrong one (0 = free). */
+  blockSecondsLeft: number
+  /** Seconds before the hint unlocks (0 = available); unused when the step has no hint. */
+  hintSecondsLeft: number
   /** Called with the typed answer. */
   onSubmit(text: string): void
 }
@@ -30,7 +35,7 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, onSubmit } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintSecondsLeft, onSubmit } = props
   const digit = digits[challenge]
   const solved = digit !== null
   return (
@@ -42,6 +47,7 @@ export function StepScreen(props: StepScreenProps) {
         {step.image && (
           <img className="step-image" src={`${import.meta.env.BASE_URL}images/${step.image}`} alt={`Image de l’étape : ${step.title}`} />
         )}
+        {step.hint && !solved && <HintButton hint={step.hint} secondsLeft={hintSecondsLeft} />}
       </section>
       {/* Only the pin of this challenge falls: the others are already down or still up. */}
       <CutawayLock total={digits.length} foundDigits={digits} fallingIndex={solved ? challenge : undefined} />
@@ -51,7 +57,7 @@ export function StepScreen(props: StepScreenProps) {
           <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement de salle dans'} {formatClock(secondsLeft)}</p>
         </div>
       ) : (
-        <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} onSubmit={onSubmit} />
+        <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} blockedSeconds={blockSecondsLeft} onSubmit={onSubmit} />
       )}
     </main>
   )

@@ -43,4 +43,11 @@ describe('validateStep', () => {
     expect(run('coucou').errors)
       .toEqual(['étape 3 : doit contenir « titre », « consigne », « type_reponse », « reponse » et « chiffre ».'])
   })
+  it('adds the hint when there is one', () => {
+    expect(run({ ...valid, indice: 'Sous le chaudron.' }).step?.hint).toBe('Sous le chaudron.')
+    expect(run(valid).step).not.toHaveProperty('hint')
+  })
+  it.each(['', '  ', 3])('rejects indice %j', (indice) => {
+    expect(run({ ...valid, indice }).errors).toEqual(['étape 3 : « indice » doit être un texte non vide.'])
+  })
 })

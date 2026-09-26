@@ -35,4 +35,14 @@ describe('AnswerZone', () => {
     render(<AnswerZone kind="digits" wrongAttempts={1} wrongMessage="Code faux." onSubmit={vi.fn()} />)
     expect(screen.getByRole('alert')).toHaveTextContent('Code faux.')
   })
+  it('counts down the block with the clock format', () => {
+    render(<AnswerZone kind="digits" wrongAttempts={1} blockedSeconds={42} onSubmit={vi.fn()} />)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 00:42')
+    expect(screen.getByRole('button', { name: '1' })).toBeDisabled()
+  })
+  it('is free with no block left', () => {
+    render(<AnswerZone kind="digits" wrongAttempts={1} blockedSeconds={0} onSubmit={vi.fn()} />)
+    expect(screen.getByRole('button', { name: '1' })).toBeEnabled()
+  })
 })

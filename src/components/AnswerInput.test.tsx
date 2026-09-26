@@ -46,4 +46,10 @@ describe('AnswerInput', () => {
     await press('Valider')
     expect(onSubmit).toHaveBeenCalledWith('27')
   })
+  it('shows the block message instead of the typed answer and disables every key', async () => {
+    const onSubmit = vi.fn()
+    render(<AnswerInput kind="letters" onSubmit={onSubmit} blockedMessage="Nouvelle réponse possible dans 00:42" />)
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 00:42')
+    for (const name of ['A', 'Espace', 'Effacer', 'Valider']) expect(screen.getByRole('button', { name })).toBeDisabled()
+  })
 })

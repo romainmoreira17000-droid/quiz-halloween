@@ -2,7 +2,7 @@
 import { parseQuizYaml } from './parseQuiz'
 
 // Minimal valid root keys; each test appends `etapes`.
-const HEAD = 'titre: Test\nequipes: [A]\nduree_epreuve_minutes: 10\ncode_animateur: "2710"\nnombre_etapes: 1\n'
+const HEAD = 'titre: Test\nequipes: [A]\nduree_epreuve_minutes: 10\nindice_apres_minutes: 5\nblocage_secondes: 60\ncode_animateur: "2710"\nnombre_etapes: 1\n'
 
 describe('parseQuizYaml', () => {
   it('parses and validates a YAML document', () => {

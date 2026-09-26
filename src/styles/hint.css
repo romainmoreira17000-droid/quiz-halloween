@@ -1,0 +1,36 @@
+/** @file Hint button straddling the bottom edge of the parchment, and the hint window. */
+/* The button hangs half outside the parchment, in the gap above the lock: the step screen keeps its height. */
+.parchment { position: relative; }
+.hint-button {
+  position: absolute; right: 20px; bottom: -32px;
+  min-height: 52px; padding: 0 22px; border-radius: 26px;
+  font-family: var(--text-font); font-weight: 700; font-size: 22px; font-variant-numeric: lining-nums;
+  color: var(--wax); background: radial-gradient(circle at 35% 30%, var(--seal-light), var(--seal) 60%, #5a150f);
+  box-shadow: 0 6px 14px rgb(0 0 0 / .55);
+}
+/* Greyed but readable: the global disabled opacity would fade the countdown on the parchment. */
+.hint-button:disabled { opacity: 1; background: #4a3b2c; color: #cdb98f; }
+
+.hint-overlay {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; padding: 16px; overflow-y: auto;
+  background: rgb(10 6 4 / .82);
+}
+.hint-dialog {
+  margin: auto; width: 100%; max-width: 600px;
+  display: grid; gap: 24px; justify-items: center; padding: 36px 32px;
+  border-radius: 24px; background: var(--wall);
+  box-shadow: 0 20px 60px rgb(0 0 0 / .6);
+  text-align: center;
+}
+/* The window lives inside the parchment: take back the light ink of the screens (loaded after screens.css, same specificity). */
+.hint-dialog { color: var(--wax); }
+.hint-dialog h2 { font-size: 56px; color: var(--wax); text-shadow: 0 0 20px rgb(242 165 65 / .3); }
+.hint-text { font-size: 32px; line-height: 1.4; }
+
+@media (max-width: 600px) {
+  .hint-button { right: 12px; font-size: 18px; min-height: 48px; bottom: -30px; }
+  .hint-dialog { padding: 28px 16px; }
+  .hint-dialog h2 { font-size: 40px; }
+  .hint-text { font-size: 24px; }
+}

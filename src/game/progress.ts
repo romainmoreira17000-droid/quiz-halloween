@@ -5,6 +5,7 @@
  */
 import type { QuizConfig } from '../config/types'
 import { isAnimatorCode, isRightAnswer } from './answer'
+import { blockEnd, blockSecondsLeft } from './block'
 import { isPadlockCode, padlockCode } from './padlock'
 import { gamePhase, type GameStatus } from './phase'
 
@@ -23,6 +24,8 @@ export interface GameState {
   wrongAttempts: number
   /** Slot of those tries: null at the entrance, stepCount at the padlock. A new slot starts from zero. */
   wrongSlot: number | null
+  /** End of the keyboard block after a wrong answer to a challenge (ms), null when free. Saved: a reload keeps it. */
+  blockedUntil: number | null
 }
 
 /** Player actions. `now` is passed in so the reducer stays pure; each one is checked against the phase at `now`. */
@@ -40,7 +43,7 @@ export type GameAction =
 export function initialGameState(stepCount: number): GameState {
   return {
     status: 'home', digits: Array.from({ length: stepCount }, () => null),
-    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null,
+    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null,
   }
 }
 
@@ -60,13 +63,14 @@ export function wrongAttemptsIn(state: GameState, slot: number | null): number {
  * @param config Validated quiz.
  * @param teamIndex 0-based team of the tablet.
  * @param answer Challenge the children answered (the one they saw), typed text and time.
- * @returns True when that challenge is on screen, not found yet, and the text is its answer.
+ * @returns True when that challenge is on screen, not found yet, not blocked, and the text is its answer.
  */
 export function earnsDigit(
   state: GameState, config: QuizConfig, teamIndex: number, answer: { challenge: number; text: string; now: number },
 ): boolean {
   const phase = gamePhase(state, config, teamIndex, answer.now)
   return phase.kind === 'challenge' && phase.challenge === answer.challenge
+    && blockSecondsLeft(state.blockedUntil, answer.now) === 0
     && isRightAnswer(answer.text, config.steps[answer.challenge].answer)
 }
 
@@ -99,10 +103,12 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
           : countWrong(state, null)
       case 'answer': {
         const phase = gamePhase(state, config, teamIndex, action.now)
-        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge) return state
+        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge || state.startedAt === null) return state
+        // A tap while blocked is neither a new wrong try nor a right one: the group must wait.
+        if (blockSecondsLeft(state.blockedUntil, action.now) > 0) return state
         return earnsDigit(state, config, teamIndex, action)
-          ? { ...withDigit(state, action.challenge, config.steps[action.challenge].digit), wrongAttempts: 0 }
-          : countWrong(state, phase.slot)
+          ? { ...withDigit(state, action.challenge, config.steps[action.challenge].digit), wrongAttempts: 0, blockedUntil: null }
+          : { ...countWrong(state, phase.slot), blockedUntil: blockEnd(state.startedAt, action.now, config.slotMinutes, config.blockSeconds) }
       }
       case 'giveDigit': {
         const phase = gamePhase(state, config, teamIndex, action.now)

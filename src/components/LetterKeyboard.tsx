@@ -12,18 +12,18 @@ const LABELS: Readonly<Record<string, string>> = { "'": 'Apostrophe', '-': 'Tire
  * @param props See AnswerKeysProps.
  * @returns The keyboard.
  */
-export function LetterKeyboard({ onKey, onErase, onSubmit, canSubmit }: AnswerKeysProps) {
+export function LetterKeyboard({ onKey, onErase, onSubmit, canSubmit, disabled = false }: AnswerKeysProps) {
   return (
     <div className="letter-keyboard">
       {ROWS.map((row) => (
         <div key={row} className="key-row">
-          {[...row].map((c) => <button key={c} type="button" className={keyClass(c)} aria-label={LABELS[c]} onClick={() => onKey(c)}>{c}</button>)}
+          {[...row].map((c) => <button key={c} type="button" className={keyClass(c)} aria-label={LABELS[c]} disabled={disabled} onClick={() => onKey(c)}>{c}</button>)}
         </div>
       ))}
       <div className="key-row">
-        <button type="button" className="key-space" onClick={() => onKey(' ')}>Espace</button>
-        <button type="button" className="key-erase" aria-label="Effacer" onClick={onErase}>⌫</button>
-        <button type="button" className="key-submit" disabled={!canSubmit} onClick={onSubmit}>Valider</button>
+        <button type="button" className="key-space" disabled={disabled} onClick={() => onKey(' ')}>Espace</button>
+        <button type="button" className="key-erase" aria-label="Effacer" disabled={disabled} onClick={onErase}>⌫</button>
+        <button type="button" className="key-submit" disabled={disabled || !canSubmit} onClick={onSubmit}>Valider</button>
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: v
 
 const MIN = 60_000
 const config: QuizConfig = {
-  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, animatorCode: '2710', stepCount: 2,
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
     { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },
@@ -122,5 +122,32 @@ describe('TeamGame', () => {
     press('Valider')
     expect(screen.getByRole('heading', { name: 'Le grenier' })).toBeInTheDocument()
     expect(screen.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toHaveTextContent('15:00')
+  })
+  it('blocks the keyboard for a minute after a wrong answer, then accepts the right one', () => {
+    renderZombies({ blockSeconds: 60 })
+    press('Commencer')
+    type('9')
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 01:00')
+    expect(screen.getByRole('button', { name: '0' })).toBeDisabled()
+    wait(1)
+    type('0')
+    expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
+  })
+  it('unlocks the hint ten minutes into the slot', () => {
+    const steps = [config.steps[0], { ...config.steps[1], hint: 'Sous la malle.' }]
+    renderZombies({ steps })
+    press('Commencer')
+    expect(screen.getByRole('button', { name: 'Indice dans 10:00' })).toBeDisabled()
+    wait(10)
+    press('Voir l’indice')
+    expect(screen.getByRole('dialog', { name: 'Indice' })).toHaveTextContent('Sous la malle.')
+  })
+  it('never shows more than the block time, even when the screen clock lags', () => {
+    renderZombies({ blockSeconds: 60 })
+    press('Commencer')
+    // The screen clock ticks every 500 ms: the wrong answer lands 250 ms after the last tick.
+    act(() => vi.advanceTimersByTime(250))
+    type('9')
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 01:00')
   })
 })

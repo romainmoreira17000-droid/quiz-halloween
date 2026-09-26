@@ -7,7 +7,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 const base: StepScreenProps = {
   header: <header>entête</header>,
   step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
-  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false,
+  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false, blockSecondsLeft: 0, hintSecondsLeft: 0,
   onSubmit: () => {},
 }
 
@@ -61,5 +61,22 @@ describe('StepScreen', () => {
     render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} isLastSlot />)
     expect(screen.getByText('Le cadenas final dans 04:12')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /Cadenas ouvert/ })).toBeInTheDocument()
+  })
+  it('blocks the keyboard after a wrong answer', () => {
+    render(<StepScreen {...base} wrongAttempts={1} blockSecondsLeft={59} />)
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 00:59')
+    expect(screen.getByRole('button', { name: '7' })).toBeDisabled()
+  })
+  it('shows no hint button without a hint', () => {
+    render(<StepScreen {...base} />)
+    expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
+  })
+  it('shows the hint button on the parchment, with its countdown', () => {
+    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} hintSecondsLeft={125} />)
+    expect(screen.getByRole('button', { name: 'Indice dans 02:05' })).toBeDisabled()
+  })
+  it('hides the hint once the digit is found', () => {
+    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} digits={[4, 7, null, null, null, null]} />)
+    expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
   })
 })

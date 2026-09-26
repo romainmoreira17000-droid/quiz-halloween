@@ -6,7 +6,7 @@ import { Game } from './Game'
 import { RESET_HOLD_MS } from './ResetButton'
 
 const config: QuizConfig = {
-  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, animatorCode: '2710', stepCount: 2,
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
     { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },

@@ -1,8 +1,8 @@
-/** @file Validates the team settings of the escape game: team names, slot length and animator code. */
+/** @file Validates the game settings of the escape game: team names, slot length, hint delay, block time and animator code. */
 import { isIntInRange, isNonEmptyString, type RawObject } from './checks'
 
 /** Team settings, once validated. */
-export interface TeamSettings { teams: string[]; slotMinutes: number; animatorCode: string }
+export interface TeamSettings { teams: string[]; slotMinutes: number; hintAfterMinutes: number; blockSeconds: number; animatorCode: string }
 
 // Digits only, kept as text: a leading zero is part of the code.
 const ANIMATOR_CODE = /^\d{4,8}$/
@@ -26,7 +26,7 @@ function teamErrors(raw: unknown, stepCount: number | null): string[] {
 }
 
 /**
- * Validates the team settings found at the root of the quiz, pushing French messages into `errors`.
+ * Validates the game settings found at the root of the quiz, pushing French messages into `errors`.
  * @param raw Root mapping of the YAML.
  * @param stepCount Validated `nombre_etapes`, or null when it is invalid (the team count is then not checked).
  * @param errors Accumulator shared with the other validators.
@@ -35,8 +35,16 @@ function teamErrors(raw: unknown, stepCount: number | null): string[] {
 export function validateTeamSettings(raw: RawObject, stepCount: number | null, errors: string[]): TeamSettings | null {
   const before = errors.length
   errors.push(...teamErrors(raw.equipes, stepCount))
-  if (!isIntInRange(raw.duree_epreuve_minutes, 1, Number.MAX_SAFE_INTEGER)) {
-    errors.push('« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.')
+  const slotOk = isIntInRange(raw.duree_epreuve_minutes, 1, Number.MAX_SAFE_INTEGER)
+  if (!slotOk) errors.push('« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.')
+  if (!isIntInRange(raw.indice_apres_minutes, 0, Number.MAX_SAFE_INTEGER)) {
+    errors.push('« indice_apres_minutes » doit être un nombre entier supérieur ou égal à 0.')
+  } else if (slotOk && raw.indice_apres_minutes >= (raw.duree_epreuve_minutes as number)) {
+    // The slot clock restarts at every change of room: a later hint would never show.
+    errors.push(`« indice_apres_minutes » (${raw.indice_apres_minutes}) doit être plus petit que « duree_epreuve_minutes » (${raw.duree_epreuve_minutes as number}) : sinon l'indice n'arrive jamais.`)
+  }
+  if (!isIntInRange(raw.blocage_secondes, 0, Number.MAX_SAFE_INTEGER)) {
+    errors.push('« blocage_secondes » doit être un nombre entier supérieur ou égal à 0 (0 = pas de blocage).')
   }
   if (typeof raw.code_animateur !== 'string' || !ANIMATOR_CODE.test(raw.code_animateur)) {
     errors.push('« code_animateur » doit contenir de 4 à 8 chiffres.')
@@ -49,6 +57,8 @@ export function validateTeamSettings(raw: RawObject, stepCount: number | null, e
   return {
     teams: (raw.equipes as string[]).map((name) => name.trim()),
     slotMinutes: raw.duree_epreuve_minutes as number,
+    hintAfterMinutes: raw.indice_apres_minutes as number,
+    blockSeconds: raw.blocage_secondes as number,
     animatorCode: raw.code_animateur as string,
   }
 }

@@ -1,9 +1,10 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
+import { blockSecondsLeft } from '../game/block'
 import { gamePhase, type GamePhase } from '../game/phase'
 import { wrongAttemptsIn } from '../game/progress'
-import { remainingSeconds, slotTiming } from '../game/time'
+import { remainingSeconds, secondsBeforeHint, slotTiming } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { useNow } from '../hooks/useNow'
 import { playPinSound, playVictorySound } from '../services/sound'
@@ -95,10 +96,13 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
     case 'challenge':
     case 'waiting': {
       const submit = (text: string) => { if (answer(phase.challenge, text)) playPinSound() }
+      // The screen clock lags up to one tick behind the tap: never show more than the configured block (01:01).
+      const blocked = Math.min(blockSecondsLeft(state.blockedUntil, at), config.blockSeconds)
       return (
         <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
-          isLastSlot={phase.slot === stepCount - 1} onSubmit={submit} />
+          isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blocked}
+          hintSecondsLeft={secondsBeforeHint(timing.secondsLeft, slotMinutes, config.hintAfterMinutes)} onSubmit={submit} />
       )
     }
   }

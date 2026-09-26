@@ -15,8 +15,9 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    lancées en même temps : les créneaux de 15 minutes sont comptés depuis « Commencer ».
 3. **Épreuves :** l'équipe e fait, au créneau c, l'épreuve (e + c) modulo 6 : chaque équipe fait les
    6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
-   créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble et un message
-   d'encouragement s'affiche. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
+   créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
+   d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
+   Au bout de 10 minutes, le bouton « Voir l'indice » du parchemin montre l'indice de l'épreuve. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
    « Changement de salle dans … » jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
    L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
@@ -69,10 +70,12 @@ Les images vont dans `public/images/`.
 | `intro` | non | texte |
 | `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
 | `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
+| `indice_apres_minutes` | oui | entier ≥ 0 et plus petit que `duree_epreuve_minutes` : minutes avant que le bouton « Indice » s'active |
+| `blocage_secondes` | oui | entier ≥ 0 : saisie bloquée après une mauvaise réponse (0 = jamais) |
 | `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
-| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) |
+| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) et `indice` (texte non vide, lu sur demande au bout de `indice_apres_minutes` ; sans indice, pas de bouton) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
 | `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |

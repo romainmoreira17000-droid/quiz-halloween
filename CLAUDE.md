@@ -111,7 +111,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Remise à zéro** : durée de l'appui = `RESET_HOLD_MS` (ResetButton.tsx), à garder égale à l'animation
   `reset-fill` (3s) de `reset.css`. L'icône est en `position: absolute` en bas de `#root`, pas `fixed` :
   sur téléphone l'écran du cadenas défile et une icône fixe passait sur les molettes. `.screen` garde
-  96 px libres en bas pour elle.
+  96 px libres en bas pour elle. Pendant une partie (`playing`), « Recommencer » demande le code animateur
+  (un reset refait partir les créneaux de la tablette : l'équipe ne serait plus dans la bonne salle) ; la
+  fenêtre défile sur téléphone (`.reset-overlay` en `overflow-y: auto`, marges auto).
 - **Playwright et noms de boutons** : `getByRole({ name })` compare en sous-chaîne sans casse ;
   « Recommencer la partie » contient « Commencer » → toujours `exact: true` sur « Commencer ».
 - **Vérif visuelle après rebuild** : le service worker de la PWA peut resservir l'ancien build ;

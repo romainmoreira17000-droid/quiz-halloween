@@ -32,8 +32,8 @@ Attendre la CI verte de la PR #21 et la réponse de Romain : fusion, et code ani
 ## Décisions prises (et pourquoi)
 - Sprint 9 (relecture) : « Changer d'équipe » puis la même équipe reprend la partie au lieu de l'effacer
   (un enfant pouvait sinon décaler sa tablette dans la rotation pour toute la soirée).
-- Sprint 9 (relecture) : « Recommencer » reste sans code animateur (appui long 3 s choisi au sprint 6) ; question
-  posée à Romain dans la PR, car en rotation un reset en cours de soirée décale l'équipe.
+- Sprint 9 (relecture, choix de Romain) : pendant une partie, « Recommencer » demande le code animateur (un reset
+  en cours de soirée décalait l'équipe dans la rotation). À l'accueil et après la victoire, pas de code.
 - Sprint 9 (tâche 6) : voile sombre derrière « Chiffre de l'épreuve » (écran Temps écoulé) : l'ambre était
   illisible sur la nappe claire ; boutons d'équipe en 40 px sans retour à la ligne (« Loups-garous » se
   coupait en deux). Écran d'étape sur tablette : aucun défilement, aucune retouche de hauteur nécessaire.

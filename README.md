@@ -28,7 +28,9 @@ La partie est gardée sur la tablette : si la page se recharge (ou si la tablett
 le groupe retrouve l'écran du créneau en cours, avec les chiffres déjà trouvés.
 
 **Remettre à zéro entre deux groupes (animateur) :** rester appuyé 3 secondes sur la petite icône ↺
-en bas à gauche (un anneau se remplit), puis toucher « Recommencer » dans la fenêtre qui s'ouvre.
+en bas à gauche (un anneau se remplit), puis toucher « Recommencer » dans la fenêtre qui s'ouvre. Pendant une partie, le code animateur est
+demandé : un reset refait partir les créneaux de la tablette de zéro, l'équipe ne serait plus en phase
+avec les autres.
 « Annuler » garde la partie en cours ; « Changer d'équipe » ramène au réglage de la tablette. Si `quiz.yaml` a été modifié entre-temps, la partie
 sauvegardée est ignorée et le jeu revient à l'accueil.
 

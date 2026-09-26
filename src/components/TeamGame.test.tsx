@@ -1,5 +1,5 @@
 /** @file Integration tests: one team's evening, from home to the victory, driven by the clock. */
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
 import { playPinSound, playVictorySound } from '../services/sound'
 import { RESET_HOLD_MS } from './ResetButton'
@@ -88,11 +88,14 @@ describe('TeamGame', () => {
     expect(screen.getByRole('heading', { name: 'Le cadenas est ouvert !' })).toBeInTheDocument()
     expect(screen.getByText('Rendez-vous à la porte du restaurant !')).toBeInTheDocument()
   })
-  it('restarts on the home screen of the same team after a long press and confirmation', () => {
+  it('restarts a game under way only with the animator code, on the home screen of the same team', () => {
     renderZombies()
     press('Commencer')
     holdResetIcon()
     press('Recommencer')
+    // A restart moves the team's slots for the rest of the evening: a child alone must not be able to do it.
+    const dialog = within(screen.getByRole('dialog'))
+    for (const key of ['2', '7', '1', '0', 'Valider']) fireEvent.click(dialog.getByRole('button', { name: key }))
     expect(screen.getByText('Équipe des Zombies')).toBeInTheDocument()
   })
   it('lets an animator change the team from the reset window', () => {

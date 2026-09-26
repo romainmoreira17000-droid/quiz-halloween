@@ -13,7 +13,7 @@ test('the game resumes on the same challenge after a reload', async ({ page }) =
   await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toBeVisible()
 })
 
-test('a 3-second press on the reset icon, then confirming, restarts the game', async ({ page }) => {
+test('a 3-second press on the reset icon, then the animator code, restarts the game', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
@@ -21,13 +21,19 @@ test('a 3-second press on the reset icon, then confirming, restarts the game', a
   await typeAnswer(page, '13')
 
   await holdResetIcon(page)
-  const dialog = page.getByRole('dialog', { name: 'Recommencer la partie ?' })
-  await dialog.getByRole('button', { name: 'Recommencer', exact: true }).click()
+  await confirmReset(page)
 
   await expect(page.getByRole('button', { name: 'Commencer', exact: true })).toBeVisible()
   await page.reload()
   await expect(page.getByRole('button', { name: 'Commencer', exact: true })).toBeVisible()
 })
+
+/** « Recommencer », then the animator code of the sample quiz, asked while a game is under way. */
+async function confirmReset(page: Page): Promise<void> {
+  const dialog = page.getByRole('dialog', { name: 'Recommencer la partie ?' })
+  await dialog.getByRole('button', { name: 'Recommencer', exact: true }).click()
+  for (const key of ['2', '7', '1', '0', 'Valider']) await dialog.getByRole('button', { name: key, exact: true }).click()
+}
 
 async function holdResetIcon(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Recommencer la partie (appui long)' }).hover()
@@ -42,8 +48,7 @@ test('a reset keeps the team of the tablet', async ({ page }) => {
   await setUpTablet(page, 'Momies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await holdResetIcon(page)
-  await page.getByRole('dialog', { name: 'Recommencer la partie ?' })
-    .getByRole('button', { name: 'Recommencer', exact: true }).click()
+  await confirmReset(page)
   await expect(page.getByText('Équipe des Momies')).toBeVisible()
   await page.reload()
   await expect(page.getByText('Équipe des Momies')).toBeVisible()

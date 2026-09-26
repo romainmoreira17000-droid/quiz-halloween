@@ -41,7 +41,8 @@ export function TeamGame({ config, teamIndex, onChangeTeam }: TeamGameProps) {
     <>
       {backdrop(phase)}
       {currentScreen({ config, teamIndex, progress, phase, now })}
-      <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam} />
+      <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
+        animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined} />
     </>
   )
 }

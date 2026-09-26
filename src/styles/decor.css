@@ -10,6 +10,15 @@
 /* Screens paint above the backdrop. */
 .screen { z-index: 1; }
 
+/* Photo backdrops: landscape illustrations cropped to the middle on a portrait tablet. Soot shows while the image loads. */
+.backdrop--photo { background: var(--soot); }
+.backdrop--photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The illustrations are bright and busy: a candlelit veil, darker at the top and bottom where the texts sit. */
+.backdrop--photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgb(26 18 12 / .72), rgb(26 18 12 / .45) 45%, rgb(26 18 12 / .78));
+}
+
 .hall-flame {
   transform-box: fill-box; transform-origin: 50% 90%;
   animation: flicker 2.6s ease-in-out infinite;

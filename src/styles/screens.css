@@ -15,7 +15,8 @@
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
   width: 100%; max-width: 640px; padding: 0; list-style: none;
 }
-.team-button { width: 100%; padding: 0 16px; }
+/* Smaller than a seal button so the longest name (« Loups-garous ») stays on one line in its column. */
+.team-button { width: 100%; padding: 0 16px; font-size: 40px; white-space: nowrap; }
 
 .candle { display: flex; flex-direction: column; align-items: center; }
 .flame {
@@ -69,6 +70,11 @@
 
 /* Time up: the title is long, so it gets its own size on tablet and phone. */
 .time-up .parchment h2 { font-size: 40px; }
+/* Dark veil: on this screen the digit sits on the pale tablecloth of the hall, where amber is unreadable. */
+.time-up .found {
+  padding: 12px 32px; border-radius: 24px; white-space: nowrap;
+  background: radial-gradient(ellipse at 50% 50%, rgb(12 8 5 / .85) 55%, rgb(12 8 5 / 0));
+}
 
 .shake { animation: shake .45s ease-in-out; }
 @keyframes shake {
@@ -97,6 +103,7 @@
   .parchment { padding: 10px 16px 14px; }
   .parchment h2 { font-size: 34px; }
   .time-up .parchment h2 { font-size: 30px; }
+  .time-up .found { font-size: 28px; padding: 10px 16px; }
   .instruction { font-size: 22px; }
   .entrance-message { font-size: 24px; }
   /* The letter's padding must not push the letter keyboard below an 800 px high phone screen. */

@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 10 : 5 tâches faites, relecture puis PR)
+Dernière mise à jour : 2026-09-26 (sprint 10 : relecture faite, PR à ouvrir)
 
 ## Sprint en cours
 - **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
@@ -19,12 +19,14 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : 5 tâches faites, relecture pui
 - [x] Tâche 3 : clavier bloqué avec décompte
 - [x] Tâche 4 : bouton et fenêtre d'indice
 - [x] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
-- [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #22)
+- [x] Relecture (`relecteur-code`, Opus) : prêt pour PR ; « 01:01 » affiché une demi-seconde corrigé
+- [ ] PR vers `main` (Closes #22), CI verte, merge par Romain
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Relecture finale de toute la branche (agent de relecture), corrections éventuelles, puis `gh pr create` vers `main`
-avec `Closes #22`. Registre : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
+Pousser la branche et ouvrir la PR (`gh pr create`, Closes #22), puis attendre la CI et la décision de merge de Romain.
+Ensuite sprint 11 : fonds d'écran par épreuve (images déjà déposées par Romain dans `public/images/`, non commitées,
+2,5 Mo chacune : trop lourdes pour le précache PWA, le build casse tant qu'elles y sont → les compresser).
 
 ## Décisions prises (et pourquoi)
 - Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,
@@ -155,6 +157,11 @@ avec `Closes #22`. Registre : `.superpowers/sdd/2026-09-26-sprint10-indice-bloca
 
 ## Points en suspens / questions pour Romain
 - Sprint 11 envisagé (demande de Romain, 2026-09-26) : une image de fond par épreuve, fournie par Romain.
+  Question : l'image remplace-t-elle le décor SVG de la grande salle, ou passe-t-elle par-dessus ?
+- Relecture sprint 10, mineurs reportés : icône de remise à zéro visible au-dessus de la fenêtre d'indice ; focus
+  non rendu au bouton à la fermeture (et pas de fermeture en touchant le voile) ; décompte annoncé chaque seconde par
+  les lecteurs d'écran ; README qui cite « une minute » / « 10 minutes » en dur ; vieilles sauvegardes rejetées.
+- Changer un `indice` le jour J change l'empreinte du quiz et efface les parties en cours (comme toute modif du YAML).
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse
   pas être fusionnée pendant que la CI tourne (c'est arrivé sur la PR #7, sans conséquence).
 - Réglages GitHub sensibles (création du dépôt, push de `main`, invitations, protection) : Claude

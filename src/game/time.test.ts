@@ -1,5 +1,5 @@
 /** @file Tests for countdown arithmetic and clock formatting. */
-import { formatClock, remainingSeconds, slotTiming } from './time'
+import { formatClock, remainingSeconds, secondsBeforeHint, slotTiming } from './time'
 
 const START = Date.UTC(2026, 9, 31, 14, 0, 0)
 
@@ -48,5 +48,17 @@ describe('slotTiming', () => {
   })
   it('treats a time before the start as the start', () => {
     expect(slotTiming(5000, 1000, 15)).toEqual({ slot: 0, secondsLeft: 900 })
+  })
+})
+
+describe('secondsBeforeHint', () => {
+  it('counts down from the hint delay at the start of a slot', () => {
+    expect(secondsBeforeHint(900, 15, 10)).toBe(600)
+    expect(secondsBeforeHint(301, 15, 10)).toBe(1)
+  })
+  it('is 0 once the hint is available, and from the start with a delay of 0', () => {
+    expect(secondsBeforeHint(300, 15, 10)).toBe(0)
+    expect(secondsBeforeHint(12, 15, 10)).toBe(0)
+    expect(secondsBeforeHint(900, 15, 0)).toBe(0)
   })
 })

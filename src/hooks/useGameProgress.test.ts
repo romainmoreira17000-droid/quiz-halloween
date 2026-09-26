@@ -99,11 +99,25 @@ describe('useGameProgress', () => {
     expect(result.current.state).toMatchObject({ status: 'playing', startedAt: START + 5 * MIN })
   })
   it('ignores a stuck entrance save when the quiz no longer has an entrance', () => {
-    const stuck = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null }
+    const stuck = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null }
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ fingerprint: quizFingerprint(config), state: stuck }))
     const { result } = zombies()
     expect(result.current.state.status).toBe('home')
     act(() => result.current.start())
     expect(result.current.state.status).toBe('playing')
+  })
+  it('keeps the block after a reload', () => {
+    const blockingConfig = { ...config, blockSeconds: 60 }
+    const first = renderHook(() => useGameProgress(blockingConfig, 1))
+    act(() => first.result.current.start())
+    act(() => { first.result.current.answer(1, '9') })
+    first.unmount()
+    at(0.5)
+    const again = renderHook(() => useGameProgress(blockingConfig, 1))
+    expect(again.result.current.state.blockedUntil).toBe(START + MIN)
+    let right = true
+    act(() => { right = again.result.current.answer(1, '8') })
+    expect(right).toBe(false)
+    expect(again.result.current.state.digits).toEqual([null, null])
   })
 })

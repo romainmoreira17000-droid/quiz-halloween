@@ -46,3 +46,15 @@ export function slotTiming(startedAt: number, now: number, slotMinutes: number):
   const elapsed = Math.max(0, now - startedAt)
   return { slot: Math.floor(elapsed / slotMs), secondsLeft: slotMinutes * 60 - Math.floor((elapsed % slotMs) / 1000) }
 }
+
+/**
+ * Seconds before the hint button unlocks in the current slot.
+ * @param slotSecondsLeft Seconds left in the slot (`slotTiming(...).secondsLeft`).
+ * @param slotMinutes Length of one slot.
+ * @param hintAfterMinutes `indice_apres_minutes`.
+ * @returns Seconds to wait, 0 once the hint is available.
+ * @example secondsBeforeHint(900, 15, 10) // 600: first second of the slot
+ */
+export function secondsBeforeHint(slotSecondsLeft: number, slotMinutes: number, hintAfterMinutes: number): number {
+  return Math.max(0, hintAfterMinutes * 60 - (slotMinutes * 60 - slotSecondsLeft))
+}

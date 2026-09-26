@@ -15,7 +15,7 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
 - [x] Cadrage sprint 10 : indice sur le parchemin + fenêtre (choix de Romain), issue #22, plan écrit
 - [x] Romain a lancé l'exécution (« go ») : exécution inline (executing-plans), registre dans `.superpowers/sdd/`
 - [x] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
-- [ ] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
+- [x] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
 - [ ] Tâche 3 : clavier bloqué avec décompte
 - [ ] Tâche 4 : bouton et fenêtre d'indice
 - [ ] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
@@ -23,7 +23,7 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Exécuter la tâche 2 du plan (« ### Task 2 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
+Exécuter la tâche 3 du plan (« ### Task 3 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
 registre de progression : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
 
 ## Décisions prises (et pourquoi)

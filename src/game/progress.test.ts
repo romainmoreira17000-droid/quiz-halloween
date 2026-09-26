@@ -21,7 +21,7 @@ const atEntrance: GameState = { ...home, status: 'entrance' }
 
 describe('game reducer', () => {
   it('starts on the home screen, with no digit', () => {
-    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null })
+    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null })
   })
   it('records the start time, once', () => {
     expect(reduce(home, { type: 'start', now: 0 })).toEqual(playing)
@@ -93,5 +93,35 @@ describe('earnsDigit', () => {
     expect(earnsDigit(playing, config, 1, { challenge: 1, text: 'Fantôme', now: MIN })).toBe(true)
     expect(earnsDigit(playing, config, 1, { challenge: 1, text: 'chat', now: MIN })).toBe(false)
     expect(earnsDigit(playing, config, 1, { challenge: 0, text: '14', now: MIN })).toBe(false)
+  })
+})
+
+// Same quiz with a one-minute block.
+const blocking = createGameReducer({ ...config, blockSeconds: 60 }, 1)
+
+describe('blocking after a wrong answer', () => {
+  it('blocks the keyboard until one minute after a wrong answer', () => {
+    const wrong = blocking(playing, { type: 'answer', challenge: 1, text: 'chat', now: MIN })
+    expect(wrong).toEqual({ ...playing, wrongAttempts: 1, wrongSlot: 0, blockedUntil: 2 * MIN })
+  })
+  it('ignores every answer while blocked, right or wrong', () => {
+    const wrong = blocking(playing, { type: 'answer', challenge: 1, text: 'chat', now: MIN })
+    expect(blocking(wrong, { type: 'answer', challenge: 1, text: 'loup', now: MIN + 30_000 })).toBe(wrong)
+    expect(blocking(wrong, { type: 'answer', challenge: 1, text: 'fantome', now: 2 * MIN - 1 })).toBe(wrong)
+    expect(earnsDigit(wrong, { ...config, blockSeconds: 60 }, 1, { challenge: 1, text: 'fantome', now: 2 * MIN - 1 })).toBe(false)
+  })
+  it('accepts answers again once the block is over, and clears it on the right one', () => {
+    const wrong = blocking(playing, { type: 'answer', challenge: 1, text: 'chat', now: MIN })
+    expect(blocking(wrong, { type: 'answer', challenge: 1, text: 'fantome', now: 2 * MIN }))
+      .toEqual({ ...playing, digits: [null, 0], wrongAttempts: 0, wrongSlot: 0, blockedUntil: null })
+  })
+  it('a block never outlives its slot', () => {
+    const late = blocking(playing, { type: 'answer', challenge: 1, text: 'chat', now: 14.5 * MIN })
+    expect(late.blockedUntil).toBe(15 * MIN)
+  })
+  it('does not block the entrance nor the padlock', () => {
+    const blockingEntrance = createGameReducer({ ...config, blockSeconds: 60, entrance: { message: 'm', answer: { kind: 'letters', value: 'Bouh' } } }, 1)
+    expect(blockingEntrance(atEntrance, { type: 'enter', text: 'chat', now: 0 }).blockedUntil).toBeNull()
+    expect(blocking(allFound, { type: 'unlock', code: [4, 0], now: 30 * MIN }).blockedUntil).toBeNull()
   })
 })

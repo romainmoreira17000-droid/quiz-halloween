@@ -1,9 +1,9 @@
 /** @file Smoke test: the deployed bundle loads under the Pages base path. */
 import { test, expect } from '@playwright/test'
 
-test('home page shows the quiz title', async ({ page }) => {
+test('a new tablet shows the setup screen', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('heading', { name: 'Le manoir hanté' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Réglage de la tablette' })).toBeVisible()
 })
 
 test('bundled fonts are loaded (no Google Fonts needed offline)', async ({ page }) => {

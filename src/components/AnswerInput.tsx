@@ -10,6 +10,8 @@ export interface AnswerInputProps {
   kind: AnswerKind
   /** Called with the typed text when Valider is pressed. */
   onSubmit(text: string): void
+  /** Shows dots instead of the typed digits (animator code typed in front of the children). */
+  secret?: boolean
 }
 
 /**
@@ -18,7 +20,7 @@ export interface AnswerInputProps {
  * @param props See AnswerInputProps.
  * @returns The typed answer and its keyboard.
  */
-export function AnswerInput({ kind, onSubmit }: AnswerInputProps) {
+export function AnswerInput({ kind, onSubmit, secret = false }: AnswerInputProps) {
   const [text, setText] = useState('')
   const canSubmit = normalizeAnswer(text, kind).length > 0
   const keys: AnswerKeysProps = {
@@ -30,7 +32,7 @@ export function AnswerInput({ kind, onSubmit }: AnswerInputProps) {
   return (
     <div className="answer-input">
       {/* A no-break space keeps the line height while nothing is typed. */}
-      <output className={`typed typed--${kind}`} aria-label="Réponse tapée">{text || ' '}</output>
+      <output className={`typed typed--${kind}`} aria-label="Réponse tapée">{(secret ? '•'.repeat(text.length) : text) || ' '}</output>
       {kind === 'digits' ? <Keypad {...keys} /> : <LetterKeyboard {...keys} />}
     </div>
   )

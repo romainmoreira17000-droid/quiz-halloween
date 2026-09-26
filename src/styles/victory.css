@@ -57,7 +57,7 @@
   animation: rise-in .8s ease-out 4.2s both;
 }
 .victory h2 { font-size: 56px; max-width: 12em; text-wrap: balance; }
-.final-time { font-size: 34px; color: var(--amber); font-variant-numeric: lining-nums; }
+.meeting-point { font-size: 34px; color: var(--amber); font-variant-numeric: lining-nums; }
 
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes door-closed { from { transform: rotateY(0); } }
@@ -75,5 +75,5 @@
   .victory-text { padding: 12px 4px 16px; }
   .doorway { border-radius: 130px 130px 6px 6px; }
   .victory h2 { font-size: 36px; }
-  .final-time { font-size: 26px; }
+  .meeting-point { font-size: 26px; }
 }

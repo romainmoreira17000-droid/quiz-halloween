@@ -25,11 +25,13 @@
 @keyframes reset-fill { from { stroke-dashoffset: 100; } }
 
 /* Confirmation window */
+/* Scrolls when the code keypad makes the window taller than a phone; auto margins centre it without cutting its top. */
 .reset-overlay {
   position: fixed; inset: 0; z-index: 30;
-  display: grid; place-items: center; padding: 16px;
+  display: flex; padding: 16px; overflow-y: auto;
   background: rgb(10 6 4 / .82);
 }
+.reset-overlay > .reset-dialog { margin: auto; }
 .reset-dialog {
   width: 100%; max-width: 600px;
   display: grid; gap: 28px; padding: 40px 32px;
@@ -45,6 +47,10 @@
   border: 3px solid var(--bronze); border-radius: 56px 60px 54px 58px;
   font-family: var(--title-font); font-size: 48px;
 }
+.change-team { margin-top: 20px; min-height: 80px; font-size: 32px; }
+/* Code asked before a restart during a game: keypad right under its label, no screen-bottom spacing. */
+.reset-dialog .answer-zone { margin-top: 0; padding-top: 0; gap: 12px; }
+
 @media (max-width: 600px) {
   .reset-dialog { padding: 28px 16px; font-size: 22px; }
   .reset-dialog h2 { font-size: 40px; }

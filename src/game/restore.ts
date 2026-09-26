@@ -1,7 +1,7 @@
 /** @file Checks a game state read back from storage, so a damaged or tampered save can never break the game. */
-import { initialGameState, type GameState, type GameStatus } from './progress'
+import { initialGameState, type GameState } from './progress'
 
-const RESUMABLE: readonly string[] = ['entrance', 'playing', 'padlock', 'won']
+const RESUMABLE: readonly string[] = ['entrance', 'playing', 'won']
 
 const isTime = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
 const isDigit = (value: unknown): value is number =>
@@ -10,30 +10,21 @@ const isDigit = (value: unknown): value is number =>
 /**
  * Turns a value read from storage back into a game state, if it is a coherent one.
  * @param value Parsed JSON (anything).
- * @param stepCount Number of steps of the current quiz.
- * @returns The state (wrong tries reset to 0), or null when there is nothing usable to resume.
+ * @param stepCount Number of challenges of the current quiz.
+ * @returns The state (wrong tries cleared), or null when there is nothing usable to resume.
  */
 export function restoreGameState(value: unknown, stepCount: number): GameState | null {
   if (typeof value !== 'object' || value === null) return null
-  const { status, stepIndex, foundDigits, startedAt, finishedAt } = value as Record<string, unknown>
+  const { status, digits, startedAt, finishedAt } = value as Record<string, unknown>
   if (typeof status !== 'string' || !RESUMABLE.includes(status)) return null
+  if (!Array.isArray(digits) || digits.length !== stepCount || !digits.every((d) => d === null || isDigit(d))) return null
+  const known = digits as (number | null)[]
+  const fresh = { ...initialGameState(stepCount), digits: known }
   // The entrance comes before any progress: nothing else may be set.
   if (status === 'entrance') {
-    const fresh = stepIndex === 0 && Array.isArray(foundDigits) && foundDigits.length === 0
-      && startedAt === null && finishedAt === null
-    return fresh ? { ...initialGameState, status: 'entrance' } : null
+    return known.every((d) => d === null) && startedAt === null && finishedAt === null ? { ...fresh, status: 'entrance' } : null
   }
-  if (typeof stepIndex !== 'number' || !Number.isInteger(stepIndex) || stepIndex < 0 || stepIndex >= stepCount) return null
-  if (!Array.isArray(foundDigits) || !foundDigits.every(isDigit) || !isTime(startedAt)) return null
-  const digits = foundDigits.filter(isDigit)
-  const allSolved = stepIndex === stepCount - 1 && digits.length === stepCount
-  const coherent =
-    status === 'playing' ? finishedAt === null && (digits.length === stepIndex || digits.length === stepIndex + 1)
-    : status === 'padlock' ? finishedAt === null && allSolved
-    : isTime(finishedAt) && allSolved
-  if (!coherent) return null
-  return {
-    status: status as GameStatus, stepIndex, foundDigits: digits, startedAt,
-    finishedAt: isTime(finishedAt) ? finishedAt : null, wrongAttempts: 0,
-  }
+  if (!isTime(startedAt)) return null
+  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt } : null
+  return isTime(finishedAt) && known.every(isDigit) ? { ...fresh, status: 'won', startedAt, finishedAt } : null
 }

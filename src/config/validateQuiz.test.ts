@@ -7,8 +7,11 @@ function step(n: number) {
 function steps(count: number) {
   return Array.from({ length: count }, (_, i) => step(i + 1))
 }
+function teams(count: number) {
+  return Array.from({ length: count }, (_, i) => `Équipe ${i + 1}`)
+}
 function validRaw(count = 6): Record<string, unknown> {
-  return { titre: 'Le manoir hanté', duree_minutes: 90, nombre_etapes: count, etapes: steps(count) }
+  return { titre: 'Le manoir hanté', equipes: teams(count), duree_epreuve_minutes: 15, code_animateur: '2710', nombre_etapes: count, etapes: steps(count) }
 }
 function errorsOf(raw: unknown): string[] {
   const result = validateQuiz(raw)
@@ -19,7 +22,7 @@ describe('validateQuiz', () => {
   it('returns a typed config for a valid quiz', () => {
     const result = validateQuiz({ ...validRaw(), intro: 'Bienvenue', cadenas: { indice: 'Chut' } })
     expect(result).toEqual({ ok: true, config: {
-      title: 'Le manoir hanté', intro: 'Bienvenue', durationMinutes: 90, stepCount: 6,
+      title: 'Le manoir hanté', intro: 'Bienvenue', teams: teams(6), slotMinutes: 15, animatorCode: '2710', stepCount: 6,
       steps: [1, 2, 3, 4, 5, 6].map((n) => ({ title: `Étape ${n}`, instruction: `Consigne ${n}`, answer: { kind: 'digits', value: String(n) }, digit: n })),
       padlock: { order: [1, 2, 3, 4, 5, 6], hint: 'Chut' },
     } })
@@ -32,22 +35,29 @@ describe('validateQuiz', () => {
     expect(errorsOf({ ...validRaw(), etapes: steps(7) }))
       .toEqual(['« etapes » contient 7 étape(s) alors que « nombre_etapes » vaut 6.'])
   })
-  it.each([0, -5, 1.5, '90'])('rejects duree_minutes %j', (duree_minutes) => {
-    expect(errorsOf({ ...validRaw(), duree_minutes }))
-      .toEqual(['« duree_minutes » doit être un nombre entier supérieur à 0.'])
-  })
   it.each([0, 2.5, 'six'])('rejects nombre_etapes %j', (nombre_etapes) => {
     expect(errorsOf({ ...validRaw(), nombre_etapes }))
       .toContain('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
   })
-  it('rejects missing duree_minutes and nombre_etapes', () => {
+  it('rejects a missing nombre_etapes without complaining about the team count', () => {
     const raw = validRaw()
-    delete raw.duree_minutes
     delete raw.nombre_etapes
+    expect(errorsOf(raw)).toEqual(['« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.'])
+  })
+  it('requires the team settings', () => {
+    const raw = validRaw()
+    delete raw.equipes
+    delete raw.duree_epreuve_minutes
+    delete raw.code_animateur
     expect(errorsOf(raw)).toEqual([
-      '« duree_minutes » doit être un nombre entier supérieur à 0.',
-      '« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.',
+      '« equipes » est obligatoire et doit être une liste de noms.',
+      '« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.',
+      '« code_animateur » doit contenir de 4 à 8 chiffres.',
     ])
+  })
+  it('explains duree_minutes once, without calling it unknown', () => {
+    expect(errorsOf({ ...validRaw(), duree_minutes: 90 }))
+      .toEqual(["« duree_minutes » a été remplacée par « duree_epreuve_minutes » : la durée d'une épreuve, en minutes."])
   })
   it('accepts a single-step quiz', () => {
     expect(errorsOf(validRaw(1))).toEqual([])

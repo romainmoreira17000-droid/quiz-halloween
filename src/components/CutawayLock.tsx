@@ -7,8 +7,8 @@
 export interface CutawayLockProps {
   /** Number of steps, i.e. pins. */
   total: number
-  /** Digits found so far, in step order: their pins are down. */
-  foundDigits: number[]
+  /** Digit per step (index = step number - 1); null or missing while not found. Found pins are down. */
+  foundDigits: readonly (number | null)[]
   /** Pin that falls right now (the digit just earned); the other found pins are drawn already down. */
   fallingIndex?: number
 }
@@ -26,10 +26,13 @@ function lockLabel(total: number, down: number): string {
   return `Cadenas : ${down} ${down > 1 ? 'goupilles tombées' : 'goupille tombée'} sur ${total}`
 }
 
-/** @returns Class names of pin `i`. */
-function pinClass(i: number, down: number, fallingIndex: number | undefined): string {
-  if (i >= down) return 'lock-pin'
-  return i === fallingIndex ? 'lock-pin lock-pin--down lock-pin--falling' : 'lock-pin lock-pin--down'
+// Challenges are found in rotation order, so any pin can be down.
+const isFound = (digit: number | null | undefined): digit is number => digit !== null && digit !== undefined
+
+/** @returns Class names of a pin, found and/or falling right now. */
+function pinClass(found: boolean, falling: boolean): string {
+  if (!found) return 'lock-pin'
+  return falling ? 'lock-pin lock-pin--down lock-pin--falling' : 'lock-pin lock-pin--down'
 }
 
 /** Metal gradients, with ids of their own (the backdrops have theirs). */
@@ -61,7 +64,7 @@ function LockGradients() {
  * @returns An SVG image of the lock, described in French for screen readers.
  */
 export function CutawayLock({ total, foundDigits, fallingIndex }: CutawayLockProps) {
-  const down = foundDigits.length
+  const down = foundDigits.filter(isFound).length
   const open = down >= total
   const pitch = CHAMBER.width / total
   // Pins stay readable with few steps and never touch each other with many.
@@ -78,15 +81,16 @@ export function CutawayLock({ total, foundDigits, fallingIndex }: CutawayLockPro
       <rect {...CHAMBER} rx="6" fill="#0f0a07" />
       {Array.from({ length: total }, (_, i) => {
         const x = CHAMBER.x + pitch * i
-        const found = i < down
+        const digit = foundDigits[i]
+        const found = isFound(digit)
         return (
           <g key={i}>
             {found && <rect className="lock-slot-glow" x={x} y={CHAMBER.y} width={pitch} height={CHAMBER.height} fill="#f2a541" />}
-            <rect className={pinClass(i, down, fallingIndex)} x={x + (pitch - pinWidth) / 2} y={CHAMBER.y + 4}
+            <rect className={pinClass(found, i === fallingIndex)} x={x + (pitch - pinWidth) / 2} y={CHAMBER.y + 4}
               width={pinWidth} height={PIN_HEIGHT} rx={Math.min(4, pinWidth / 2)} fill="url(#lock-pin)" />
             <text className={found ? 'lock-digit lock-digit--found' : 'lock-digit'} x={x + pitch / 2} y="232"
               fontSize={fontSize} textAnchor="middle">
-              {found ? foundDigits[i] : '·'}
+              {found ? digit : '·'}
             </text>
           </g>
         )

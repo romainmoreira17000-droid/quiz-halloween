@@ -58,6 +58,15 @@ button:disabled { opacity: .4; }
 }
 .clock--overtime { color: var(--ember); text-shadow: 0 0 14px rgb(224 86 47 / .5); }
 
+/* Slot clock (big) with its number above; total clock (small) on the right. */
+.slot-clock { display: flex; flex-direction: column; align-items: flex-start; min-width: 150px; }
+.slot-label {
+  font-family: var(--text-font); font-variant: small-caps lining-nums; font-weight: 700;
+  font-size: 20px; letter-spacing: .06em; color: var(--bronze);
+}
+.total-clock { min-width: 150px; text-align: right; font-size: 18px; color: var(--bronze); }
+.total-clock .clock { min-width: 0; font-size: 26px; }
+
 /* Candle progress: lit = solved, current = wick glowing, others = unlit wax. */
 .candles { display: flex; gap: 14px; list-style: none; padding: 0; }
 .candles li {
@@ -89,4 +98,8 @@ button:disabled { opacity: .4; }
   .clock { min-width: 0; font-size: 32px; }
   .candles { gap: 8px; }
   .candles li { width: 12px; height: 34px; }
+  .slot-clock, .total-clock { min-width: 0; }
+  .slot-label { font-size: 16px; }
+  .total-clock { font-size: 14px; }
+  .total-clock .clock { font-size: 20px; }
 }

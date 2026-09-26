@@ -3,9 +3,12 @@ import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './ch
 import { validateEntrance } from './validateEntrance'
 import { validatePadlock } from './validatePadlock'
 import { validateStep } from './validateStep'
+import { validateTeamSettings } from './validateTeamSettings'
 import type { QuizStep, ValidationResult } from './types'
 
-const ROOT_KEYS = ['titre', 'intro', 'duree_minutes', 'nombre_etapes', 'entree', 'etapes', 'cadenas'] as const
+const ROOT_KEYS = [
+  'titre', 'intro', 'equipes', 'duree_epreuve_minutes', 'code_animateur', 'nombre_etapes', 'entree', 'etapes', 'cadenas',
+] as const
 
 /**
  * Validates a parsed YAML document against every rule of the spec.
@@ -19,11 +22,9 @@ export function validateQuiz(raw: unknown): ValidationResult {
   if (!isNonEmptyString(raw.titre)) errors.push('« titre » est obligatoire et doit être un texte non vide.')
   if (raw.intro !== undefined && typeof raw.intro !== 'string') errors.push('« intro » doit être un texte.')
   const entrance = validateEntrance(raw.entree, errors)
-  if (!isIntInRange(raw.duree_minutes, 1, Number.MAX_SAFE_INTEGER)) {
-    errors.push('« duree_minutes » doit être un nombre entier supérieur à 0.')
-  }
   const countOk = isIntInRange(raw.nombre_etapes, 1, Number.MAX_SAFE_INTEGER)
   if (!countOk) errors.push('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
+  const settings = validateTeamSettings(raw, countOk ? (raw.nombre_etapes as number) : null, errors)
 
   const steps: (QuizStep | null)[] = []
   if (!Array.isArray(raw.etapes)) {
@@ -37,13 +38,14 @@ export function validateQuiz(raw: unknown): ValidationResult {
   // Without a valid count, the step list length is the best guess for the padlock check.
   const stepCount = countOk ? (raw.nombre_etapes as number) : steps.length
   const padlock = validatePadlock(raw.cadenas, stepCount, errors)
-  errors.push(...unknownKeyErrors(raw, ROOT_KEYS, ''))
+  // `duree_minutes` already has its own "replaced by" message.
+  errors.push(...unknownKeyErrors(raw, [...ROOT_KEYS, 'duree_minutes'], ''))
 
-  if (errors.length > 0 || padlock === null || entrance === null) return { ok: false, errors }
+  if (errors.length > 0 || padlock === null || entrance === null || settings === null) return { ok: false, errors }
   return { ok: true, config: {
     title: raw.titre as string,
     ...(raw.intro !== undefined && { intro: raw.intro as string }),
-    durationMinutes: raw.duree_minutes as number,
+    ...settings,
     stepCount,
     steps: steps as QuizStep[],
     padlock,

@@ -38,4 +38,14 @@ describe('CutawayLock', () => {
       expect(x + width).toBeLessThanOrEqual(256)
     }
   })
+  it('drops the pins of the challenges found, in any order', () => {
+    const { container } = render(<CutawayLock total={6} foundDigits={[null, 7, null, null, 2, null]} fallingIndex={4} />)
+    expect(screen.getByRole('img', { name: 'Cadenas : 2 goupilles tombées sur 6' })).toBeInTheDocument()
+    const pins = [...container.querySelectorAll('.lock-pin')].map((pin) => pin.getAttribute('class'))
+    expect(pins).toEqual([
+      'lock-pin', 'lock-pin lock-pin--down', 'lock-pin', 'lock-pin',
+      'lock-pin lock-pin--down lock-pin--falling', 'lock-pin',
+    ])
+    expect([...container.querySelectorAll('.lock-digit')].map((d) => d.textContent)).toEqual(['·', '7', '·', '·', '2', '·'])
+  })
 })

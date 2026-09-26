@@ -1,31 +1,37 @@
 # Quiz Halloween
 
-Jeu d'énigmes d'Halloween pour les enfants du Centre de Loisirs, joué en groupe sur tablette.
-Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (code en chiffres ou mot)
-et gagnent un chiffre. Un message d'entrée facultatif fait entrer dans le restaurant et démarre le
-compteur ; les chiffres trouvés ouvrent le cadenas final.
+Escape game d'Halloween pour les enfants du Centre de Loisirs : 6 équipes, une tablette par équipe.
+Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 minutes. À chaque épreuve, les
+enfants tapent la bonne réponse (code en chiffres ou mot) et gagnent un chiffre ; les chiffres
+ouvrent le cadenas final de la porte du restaurant hanté.
 
 En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 
 ## Déroulé d'une partie
 
-1. Accueil, puis message d'entrée (facultatif) : la bonne réponse fait entrer dans le restaurant et
-   démarre le compteur.
-2. Chaque étape est une épreuve réelle : les enfants tapent la bonne réponse (code en chiffres ou
-   mot, sur un pavé ou un clavier de lettres dessinés dans l'appli) et gagnent le chiffre de
-   l'étape. Mauvaise réponse : l'écran tremble et un message d'encouragement s'affiche (essais
-   illimités). Bonne réponse : le chiffre trouvé et « Étape suivante ». Les bougies en haut
-   montrent la progression.
-3. Quand le temps est écoulé, le compteur passe en rouge et devient négatif ; le jeu continue.
-4. Après la dernière étape, le cadenas : N molettes à régler dans l'ordre de `cadenas.ordre`. Le bon code ouvre la
-   porte du restaurant hanté (animation + son) et affiche le temps mis.
+1. **Réglage de la tablette (animateur) :** taper le code animateur (affiché en points), puis
+   toucher le nom de l'équipe. La tablette garde son équipe, même après une remise à zéro.
+2. **Accueil :** « Équipe des … » et le bouton « Commencer ». Toutes les tablettes doivent être
+   lancées en même temps : les créneaux de 15 minutes sont comptés depuis « Commencer ».
+3. **Épreuves :** l'équipe e fait, au créneau c, l'épreuve (e + c) modulo 6 : chaque équipe fait les
+   6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
+   créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble et un message
+   d'encouragement s'affiche. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
+   « Changement de salle dans … » jusqu'à la fin du créneau.
+4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
+   L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
+   l'épreuve du créneau en cours.
+5. **Cadenas :** après le dernier créneau, N molettes à régler dans l'ordre de `cadenas.ordre`. Le
+   bon code ouvre la porte (animation + son) et donne rendez-vous à la vraie porte du restaurant.
 
-La partie est gardée sur la tablette : si la page se recharge (ou si la tablette redémarre), le
-groupe reprend à la même étape, avec le compteur toujours juste. Les essais ratés ne sont pas gardés.
+La partie est gardée sur la tablette : si la page se recharge (ou si la tablette se met en veille),
+le groupe retrouve l'écran du créneau en cours, avec les chiffres déjà trouvés.
 
 **Remettre à zéro entre deux groupes (animateur) :** rester appuyé 3 secondes sur la petite icône ↺
-en bas à gauche (un anneau se remplit), puis toucher « Recommencer » dans la fenêtre qui s'ouvre.
-« Annuler » garde la partie en cours. Si `quiz.yaml` a été modifié entre-temps, la partie
+en bas à gauche (un anneau se remplit), puis toucher « Recommencer » dans la fenêtre qui s'ouvre. Pendant une partie, le code animateur est
+demandé : un reset refait partir les créneaux de la tablette de zéro, l'équipe ne serait plus en phase
+avec les autres.
+« Annuler » garde la partie en cours ; « Changer d'équipe » ramène au réglage de la tablette. Si `quiz.yaml` a été modifié entre-temps, la partie
 sauvegardée est ignorée et le jeu revient à l'accueil.
 
 Le jeu fonctionne sans connexion une fois le site ouvert une première fois (polices embarquées).
@@ -61,7 +67,9 @@ Les images vont dans `public/images/`.
 |---|---|---|
 | `titre` | oui | texte non vide |
 | `intro` | non | texte |
-| `duree_minutes` | oui | nombre entier supérieur à 0 |
+| `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
+| `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
+| `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
 | `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) |

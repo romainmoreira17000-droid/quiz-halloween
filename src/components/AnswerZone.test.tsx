@@ -31,4 +31,8 @@ describe('AnswerZone', () => {
     rerender(<AnswerZone kind="digits" wrongAttempts={1} onSubmit={vi.fn()} />)
     expect(screen.getByLabelText('Réponse tapée')).not.toHaveTextContent('12')
   })
+  it('can replace the children’s messages', () => {
+    render(<AnswerZone kind="digits" wrongAttempts={1} wrongMessage="Code faux." onSubmit={vi.fn()} />)
+    expect(screen.getByRole('alert')).toHaveTextContent('Code faux.')
+  })
 })

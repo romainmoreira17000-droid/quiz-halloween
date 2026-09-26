@@ -17,13 +17,13 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
 - [x] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
 - [x] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
 - [x] Tâche 3 : clavier bloqué avec décompte
-- [ ] Tâche 4 : bouton et fenêtre d'indice
+- [x] Tâche 4 : bouton et fenêtre d'indice
 - [ ] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
 - [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #22)
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Exécuter la tâche 4 du plan (« ### Task 4 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
+Exécuter la tâche 5 du plan (« ### Task 5 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
 registre de progression : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
 
 ## Décisions prises (et pourquoi)

@@ -133,4 +133,13 @@ describe('TeamGame', () => {
     type('0')
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
   })
+  it('unlocks the hint ten minutes into the slot', () => {
+    const steps = [config.steps[0], { ...config.steps[1], hint: 'Sous la malle.' }]
+    renderZombies({ steps })
+    press('Commencer')
+    expect(screen.getByRole('button', { name: 'Indice dans 10:00' })).toBeDisabled()
+    wait(10)
+    press('Voir l’indice')
+    expect(screen.getByRole('dialog', { name: 'Indice' })).toHaveTextContent('Sous la malle.')
+  })
 })

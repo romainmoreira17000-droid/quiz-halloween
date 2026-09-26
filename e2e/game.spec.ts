@@ -22,6 +22,8 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   await expect(page.getByRole('timer', { name: 'Temps total restant' })).toHaveText('90:00')
   await typeAnswer(page, 'CHAT')
   await expect(page.getByRole('alert')).toBeVisible()
+  await expect(page.getByLabel('Réponse tapée')).toHaveText(/^Nouvelle réponse possible dans (01:00|00:5\d)$/)
+  await page.clock.fastForward('01:00')
   await typeAnswer(page, 'CRAPAUD')
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 7')
   await expect(page.getByText(/^Changement de salle dans \d\d:\d\d$/)).toBeVisible()

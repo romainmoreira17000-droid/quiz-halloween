@@ -9,6 +9,7 @@ for (const [team, title] of [['Sorcières', 'La crypte'], ['Zombies', 'Le chaudr
     await setUpTablet(page, team)
     await page.getByRole('button', { name: 'Commencer', exact: true }).click()
     await expect(page.getByRole('heading', { name: title })).toBeVisible()
+    await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
     const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
     expect(overflow).toBeLessThanOrEqual(0)
   })

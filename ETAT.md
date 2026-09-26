@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
+Dernière mise à jour : 2026-09-26 (sprint 10 : 5 tâches faites, relecture puis PR)
 
 ## Sprint en cours
 - **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
@@ -18,19 +18,23 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : exécution en cours, inline)
 - [x] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
 - [x] Tâche 3 : clavier bloqué avec décompte
 - [x] Tâche 4 : bouton et fenêtre d'indice
-- [ ] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
+- [x] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
 - [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #22)
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Exécuter la tâche 5 du plan (« ### Task 5 » de `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md`) ;
-registre de progression : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
+Relecture finale de toute la branche (agent de relecture), corrections éventuelles, puis `gh pr create` vers `main`
+avec `Closes #22`. Registre : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/progress.md`.
 
 ## Décisions prises (et pourquoi)
 - Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,
   puis « Voir l’indice » qui ouvre une fenêtre relisible à volonté (l'écran d'étape n'a plus de place en hauteur).
 - Sprint 10 (plan) : décompte du blocage dans la ligne de la réponse tapée (touches grisées) ; blocage plafonné à la
   fin du créneau ; seulement sur les épreuves ; pas d'indice sur l'attente, « Temps écoulé » et le cadenas.
+- Sprint 10 (plan) : `blockedUntil` sauvegardé et relu (seulement en `playing`) ; une sauvegarde sans ce champ est
+  rejetée. `indice_apres_minutes` et `blocage_secondes` validés avec les réglages de partie (`validateTeamSettings`).
+- Sprint 10 (tâche 5) : la fenêtre d'indice héritait de l'encre sombre du parchemin (texte illisible) : encre claire
+  forcée dans `hint.css`. Écran d'étape sur tablette : tient toujours sans défilement avec le bouton d'indice.
 - Sprint 9 (relecture) : « Changer d'équipe » puis la même équipe reprend la partie au lieu de l'effacer
   (un enfant pouvait sinon décaler sa tablette dans la rotation pour toute la soirée).
 - Sprint 9 (relecture, choix de Romain) : pendant une partie, « Recommencer » demande le code animateur (un reset
@@ -150,6 +154,7 @@ registre de progression : `.superpowers/sdd/2026-09-26-sprint10-indice-blocage/p
   touches en sceaux de cire rouge, bougies pour la progression, IM Fell English SC (titres) + Alegreya.
 
 ## Points en suspens / questions pour Romain
+- Sprint 11 envisagé (demande de Romain, 2026-09-26) : une image de fond par épreuve, fournie par Romain.
 - Protection de `main` : ajouter « Require status checks » (check `check`) pour qu'une PR ne puisse
   pas être fusionnée pendant que la CI tourne (c'est arrivé sur la PR #7, sans conséquence).
 - Réglages GitHub sensibles (création du dépôt, push de `main`, invitations, protection) : Claude

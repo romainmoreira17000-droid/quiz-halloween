@@ -6,7 +6,9 @@ Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 min compt�
 (équipe e, créneau c → épreuve (e+c) mod 6). À chaque épreuve, les enfants tapent la bonne réponse
 (chiffres ou mots), ce qui donne un chiffre (0–9) ; une épreuve pas trouvée à temps donne son chiffre
 avec le code animateur. Les chiffres ouvrent un cadenas final qui déclenche une animation. L'équipe
-de la tablette est réglée par un animateur (code animateur). Tout le contenu vient de `quiz.yaml`.
+de la tablette est réglée par un animateur (code animateur). Un indice par épreuve (bouton débloqué à
+`indice_apres_minutes`) ; une mauvaise réponse bloque la saisie `blocage_secondes`. Tout le contenu vient
+de `quiz.yaml`.
 
 Conception : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md` (quiz d'origine) et
 `docs/superpowers/specs/2026-09-24-escape-game-design.md` (escape game en rotation).
@@ -33,18 +35,19 @@ src/config/                types, validateurs purs (checks, validateStep, valida
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
                            rotation (créneau → épreuve), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
-                           restore (contrôle d'un état relu)
+                           restore (contrôle d'un état relu), block (blocage après mauvaise réponse)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
-                           ResetControl (ResetButton appui long + ResetDialog), ...
+                           ResetControl (ResetButton appui long + ResetDialog), HintButton (bouton +
+                           fenêtre d'indice), ...
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -103,7 +106,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
 - **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`, avec
-  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot }` ;
+  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil }` ;
   `wrongSlot` empêche un message de mauvaise réponse de suivre le groupe au créneau suivant. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
   changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
@@ -142,3 +145,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   (pavé et clavier de lettres).
 - **e2e de la rotation** : `setUpTablet(page, équipe)` en premier dans chaque test (sinon écran de réglage) ;
   `page.clock.fastForward('15:00')` avance d'un créneau. Code animateur du YAML d'exemple : 2710.
+- **Blocage** : `blockedUntil` (timestamp) dans l'état sauvegardé, plafonné à la fin du créneau (`blockEnd`) ; le
+  réducteur ignore toute réponse pendant le blocage (ni bonne ni mauvaise) et `earnsDigit` renvoie false (pas de
+  « clac »). Le décompte remplace la réponse tapée dans l'`<output>` (pas de ligne en plus). Seulement sur les épreuves.
+- **Indice** : `secondsBeforeHint` dérivé du chrono du créneau ; bouton en `position: absolute` à cheval sur le bas du
+  parchemin (`hint.css`), pour ne pas allonger l'écran d'étape. Pas d'indice sur l'attente, « Temps écoulé » ni le
+  cadenas. La fenêtre est dans le parchemin : `hint.css` lui redonne l'encre claire (sinon texte sombre sur fond sombre).
+- **e2e** : après une mauvaise réponse à une épreuve, `page.clock.fastForward('01:00')` avant de retaper.

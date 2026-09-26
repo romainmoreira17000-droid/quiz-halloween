@@ -37,21 +37,18 @@ code_animateur: "2710"
 # Doit être égal au nombre d'étapes listées sous « etapes ».
 nombre_etapes: 6
 
-# Message d'entrée, lu devant la porte du restaurant. Section facultative.
-# Sa bonne réponse fait entrer les enfants dans la salle et démarre le compteur.
-# Sans cette section, le compteur démarre dès « Commencer ».
+# Message d'entrée, lu devant la porte du restaurant. Section facultative, absente ici :
+# le soir d'Halloween, le code d'entrée est sur papier. Si on l'ajoute, sa bonne réponse
+# fait entrer les enfants dans la salle et démarre les chronos.
 #   titre         facultatif, texte non vide (par défaut : « Le message d'entrée »)
 #   message       obligatoire, texte non vide ; « | » permet d'écrire sur plusieurs lignes
 #   type_reponse  obligatoire : chiffres (pavé numérique) ou mots (clavier de lettres)
 #   reponse       obligatoire, ce que les enfants doivent taper (voir les règles plus bas)
-entree:
-  titre: "Une lettre sous la porte"
-  message: |
-    Chers visiteurs,
-    le fantôme du chef a verrouillé son restaurant.
-    Qui suis-je ? Je traverse les murs et je fais « Bouh ! ».
-  type_reponse: mots
-  reponse: "Fantôme"
+# Exemple :
+# entree:
+#   message: "Qui suis-je ? Je traverse les murs."
+#   type_reponse: mots
+#   reponse: "Fantôme"
 
 # Liste des étapes (une étape = une épreuve), numérotées dans l'ordre (la 1re est l'épreuve
 # 1) ; chaque équipe les joue dans son ordre de rotation.

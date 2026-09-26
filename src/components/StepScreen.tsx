@@ -1,53 +1,54 @@
-/** @file Step screen: instruction on a parchment menu, the cutaway lock, typed answer, then the earned digit and a button to go on. */
+/** @file Challenge screen: instruction on a parchment menu, the cutaway lock, typed answer, then the earned digit and the time before the change of room. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
+import { formatClock } from '../game/time'
 import { AnswerZone } from './AnswerZone'
 import { CutawayLock } from './CutawayLock'
 
 /** Props of StepScreen. */
 export interface StepScreenProps {
-  /** In-game header (clock and candles). */
+  /** In-game header (clocks and candles). */
   header: ReactNode
   step: QuizStep
-  /** 1-based number of this step. */
-  stepNumber: number
-  total: number
-  /** Digits earned so far, in step order; this step is solved once it has its own. */
-  foundDigits: number[]
-  /** Wrong tries so far on this step. */
+  /** 0-based challenge number of this step. */
+  challenge: number
+  /** Digit per challenge, null while not found; this one is solved once it has its own. */
+  digits: readonly (number | null)[]
+  /** Wrong tries in this slot. */
   wrongAttempts: number
-  isLast: boolean
+  /** Seconds before every group changes room (shown once the digit is found). */
+  secondsLeft: number
+  /** Last slot: the padlock comes next, not another room. */
+  isLastSlot: boolean
   /** Called with the typed answer. */
   onSubmit(text: string): void
-  onNext(): void
 }
 
 /**
- * One challenge of the quiz.
+ * One challenge of the rotation.
  * @param props See StepScreenProps.
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, stepNumber, total, foundDigits, wrongAttempts, isLast, onSubmit, onNext } = props
-  const index = stepNumber - 1
-  const solved = foundDigits.length > index
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, onSubmit } = props
+  const digit = digits[challenge]
+  const solved = digit !== null
   return (
     <main className="screen step">
       {header}
       <section className="parchment">
-        <p className="step-number">Étape {stepNumber} sur {total}</p>
         <h2>{step.title}</h2>
         <p className="instruction">{step.instruction}</p>
         {step.image && (
           <img className="step-image" src={`${import.meta.env.BASE_URL}images/${step.image}`} alt={`Image de l’étape : ${step.title}`} />
         )}
       </section>
-      {/* Only the pin of this step falls: the earlier ones are already down. */}
-      <CutawayLock total={total} foundDigits={foundDigits} fallingIndex={solved ? index : undefined} />
+      {/* Only the pin of this challenge falls: the others are already down or still up. */}
+      <CutawayLock total={digits.length} foundDigits={digits} fallingIndex={solved ? challenge : undefined} />
       {solved ? (
         <div className="answer-zone">
-          <p className="found" role="status">Chiffre trouvé : <b>{foundDigits[index]}</b></p>
-          <button type="button" className="seal-button" onClick={onNext}>{isLast ? 'Continuer' : 'Étape suivante'}</button>
+          <p className="found" role="status">Chiffre trouvé : <b>{digit}</b></p>
+          <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement de salle dans'} {formatClock(secondsLeft)}</p>
         </div>
       ) : (
         <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} onSubmit={onSubmit} />

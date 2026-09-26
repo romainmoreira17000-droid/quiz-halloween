@@ -1,9 +1,11 @@
-/** @file One team's game: picks the screen and its backdrop from the progress, with the reset icon on top. */
+/** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
-import { elapsedSeconds } from '../game/time'
+import { gamePhase, type GamePhase } from '../game/phase'
+import { wrongAttemptsIn } from '../game/progress'
+import { remainingSeconds, slotTiming } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
-import type { GameStatus } from '../game/progress'
+import { useNow } from '../hooks/useNow'
 import { playPinSound, playVictorySound } from '../services/sound'
 import { HallBackdrop } from './decor/HallBackdrop'
 import { RestaurantFront } from './decor/RestaurantFront'
@@ -13,6 +15,7 @@ import { HomeScreen } from './HomeScreen'
 import { PadlockScreen } from './PadlockScreen'
 import { ResetControl } from './ResetControl'
 import { StepScreen } from './StepScreen'
+import { TimeUpScreen } from './TimeUpScreen'
 import { VictoryScreen } from './VictoryScreen'
 
 /** Props of TeamGame. */
@@ -30,60 +33,72 @@ export interface TeamGameProps {
  * @returns The current screen, with the reset icon.
  */
 export function TeamGame({ config, teamIndex, onChangeTeam }: TeamGameProps) {
-  const progress = useGameProgress(config)
+  const progress = useGameProgress(config, teamIndex)
+  // Ticks only while playing: slot changes, clocks and « Temps écoulé » all follow from the time.
+  const now = useNow(progress.state.status === 'playing')
+  const phase = gamePhase(progress.state, config, teamIndex, now)
   return (
     <>
-      {backdrop(progress.state.status)}
-      {currentScreen(config, teamIndex, progress)}
+      {backdrop(phase)}
+      {currentScreen({ config, teamIndex, progress, phase, now })}
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam} />
     </>
   )
 }
 
-/**
- * Decor behind the screen: the restaurant door for the entrance message, the great hall once the group is
- * inside; the home screen keeps its plain candlelight.
- */
-function backdrop(status: GameStatus): ReactNode {
-  if (status === 'entrance') return <RestaurantFront />
-  return status === 'playing' || status === 'padlock' || status === 'won' ? <HallBackdrop /> : null
+/** Restaurant door for the entrance message, great hall once the group is inside; plain candlelight at home. */
+function backdrop(phase: GamePhase): ReactNode {
+  if (phase.kind === 'entrance') return <RestaurantFront />
+  return phase.kind === 'home' ? null : <HallBackdrop />
 }
 
-/** Screen matching the current game status. */
-function currentScreen(config: QuizConfig, teamIndex: number, { state, start, enter, answer, next, unlock }: GameProgress): ReactNode {
-  // Temporary bridge until the rotation lands (Task 5): the whole game still runs on one clock,
-  // but only GameHeader needs it now that HomeScreen shows the rhythm of the evening instead.
-  const durationMinutes = config.stepCount * config.slotMinutes
-  const { status, startedAt, finishedAt } = state
-  if (status === 'entrance' && config.entrance) {
-    return <EntranceScreen entrance={config.entrance} wrongAttempts={state.wrongAttempts} onSubmit={enter} />
+interface ScreenInput { config: QuizConfig; teamIndex: number; progress: GameProgress; phase: GamePhase; now: number }
+
+/** Screen matching the phase. */
+function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput): ReactNode {
+  const { state, start, enter, answer, giveDigit, unlock } = progress
+  if (phase.kind === 'entrance' && config.entrance) {
+    return <EntranceScreen entrance={config.entrance} wrongAttempts={wrongAttemptsIn(state, null)} onSubmit={enter} />
   }
-  if (status === 'home' || startedAt === null) {
+  if (phase.kind === 'home' || phase.kind === 'entrance' || state.startedAt === null) {
     return (
       <HomeScreen title={config.title} intro={config.intro} teamName={config.teams[teamIndex]}
         challengeCount={config.stepCount} slotMinutes={config.slotMinutes} onStart={start} />
     )
   }
+  const { stepCount, slotMinutes } = config
+  // `now` may lag one tick behind « Commencer »: never show a time before the start.
+  const at = Math.max(now, state.startedAt)
+  const timing = slotTiming(state.startedAt, at, slotMinutes)
+  const slot = phase.kind !== 'won' && timing.slot < stepCount ? timing.slot : null
   const header = (
-    <GameHeader startedAt={startedAt} finishedAt={finishedAt} durationMinutes={durationMinutes}
-      total={config.stepCount} solved={state.foundDigits.length} current={status === 'playing' ? state.stepIndex : null} />
+    <GameHeader slot={slot} total={stepCount} solved={state.digits.filter((d) => d !== null).length}
+      slotSeconds={timing.secondsLeft} totalSeconds={remainingSeconds(state.startedAt, at, stepCount * slotMinutes)} />
   )
-  if (status === 'won' && finishedAt !== null) {
-    return <VictoryScreen header={header} message={config.padlock.victoryMessage} elapsedSeconds={elapsedSeconds(startedAt, finishedAt)} />
+  switch (phase.kind) {
+    case 'won':
+      return <VictoryScreen header={header} message={config.padlock.victoryMessage} />
+    case 'padlock': {
+      // Sounds start inside the tap handler: tablets only allow sound started by a gesture.
+      const open = (code: number[]) => { if (unlock(code)) playVictorySound() }
+      return (
+        <PadlockScreen header={header} title={config.padlock.title} steps={config.steps} foundDigits={state.digits}
+          hint={config.padlock.hint} wrongAttempts={wrongAttemptsIn(state, stepCount)} onOpen={open} />
+      )
+    }
+    case 'timeUp':
+      return (
+        <TimeUpScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]}
+          animatorCode={config.animatorCode} onUnlock={(code) => giveDigit(phase.challenge, code)} />
+      )
+    case 'challenge':
+    case 'waiting': {
+      const submit = (text: string) => { if (answer(phase.challenge, text)) playPinSound() }
+      return (
+        <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
+          digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
+          isLastSlot={phase.slot === stepCount - 1} onSubmit={submit} />
+      )
+    }
   }
-  if (status === 'padlock') {
-    // The sound starts inside the tap handler: tablets only allow sound started by a gesture.
-    const open = (code: number[]) => { if (unlock(code)) playVictorySound() }
-    return (
-      <PadlockScreen header={header} title={config.padlock.title} steps={config.steps} foundDigits={state.foundDigits}
-        hint={config.padlock.hint} wrongAttempts={state.wrongAttempts} onOpen={open} />
-    )
-  }
-  // Same reason as the padlock: the clack must start inside the tap on Valider.
-  const submit = (text: string) => { if (answer(text)) playPinSound() }
-  return (
-    <StepScreen header={header} step={config.steps[state.stepIndex]} stepNumber={state.stepIndex + 1}
-      total={config.stepCount} foundDigits={state.foundDigits} wrongAttempts={state.wrongAttempts}
-      isLast={state.stepIndex === config.stepCount - 1} onSubmit={submit} onNext={next} />
-  )
 }

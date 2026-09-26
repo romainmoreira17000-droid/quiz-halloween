@@ -1,6 +1,5 @@
-/** @file Victory: the haunted door opens, then the victory message and the time taken. */
+/** @file Victory: the haunted door opens, then the victory message and where every team meets. */
 import type { ReactNode } from 'react'
-import { formatDuration } from '../game/time'
 import { HauntedDoor } from './HauntedDoor'
 
 /** Message shown when quiz.yaml has no `cadenas.message_victoire`. */
@@ -8,12 +7,10 @@ export const DEFAULT_VICTORY_MESSAGE = 'Le cadenas est ouvert !'
 
 /** Props of VictoryScreen. */
 export interface VictoryScreenProps {
-  /** In-game header, with the clock frozen. */
+  /** In-game header (candles only: every team finishes at the same time). */
   header: ReactNode
   /** `cadenas.message_victoire`, if any. */
   message?: string
-  /** Time the group took. */
-  elapsedSeconds: number
 }
 
 /**
@@ -21,14 +18,14 @@ export interface VictoryScreenProps {
  * @param props See VictoryScreenProps.
  * @returns The victory screen.
  */
-export function VictoryScreen({ header, message = DEFAULT_VICTORY_MESSAGE, elapsedSeconds }: VictoryScreenProps) {
+export function VictoryScreen({ header, message = DEFAULT_VICTORY_MESSAGE }: VictoryScreenProps) {
   return (
     <main className="screen victory">
       {header}
       <HauntedDoor />
       <div className="victory-text">
         <h2>{message}</h2>
-        <p className="final-time">Temps : {formatDuration(elapsedSeconds)}</p>
+        <p className="meeting-point">Rendez-vous à la porte du restaurant !</p>
       </div>
     </main>
   )

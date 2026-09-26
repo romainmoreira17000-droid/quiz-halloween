@@ -1,45 +1,45 @@
-/** @file Game progress, saved in the tablet's localStorage so a reload loses nothing. */
+/** @file Game progress of the tablet's team, saved in localStorage so a reload loses nothing. */
 import { useEffect, useMemo, useReducer } from 'react'
 import type { QuizConfig } from '../config/types'
-import { isRightAnswer } from '../game/answer'
 import { quizFingerprint } from '../game/fingerprint'
 import { isPadlockCode, padlockCode } from '../game/padlock'
-import { createGameReducer, initialGameState, isCurrentStepSolved, type GameState } from '../game/progress'
+import { gamePhase } from '../game/phase'
+import { createGameReducer, earnsDigit, initialGameState, type GameState } from '../game/progress'
 import { clearGame, loadGame, saveGame } from '../services/savedGame'
 
 /** Game state and the actions the screens can trigger. */
 export interface GameProgress {
   state: GameState
-  /** Leaves the home screen: to the entrance message, or straight to step 1 with the clock. */
+  /** Leaves the home screen: to the entrance message, or straight into the first slot. */
   start(): void
   /** Submits the answer of the entrance message; the right one starts the clock. */
   enter(text: string): void
-  /** Submits the typed answer of the current step; returns true when it earns the step's digit (so the caller can play the clack in the tap handler). */
-  answer(text: string): boolean
-  /** Goes to the next step (or to the padlock) once the current one is solved. */
-  next(): void
-  /** Tries a padlock code; returns true when it opens (so the caller can play the sound in the tap handler). */
+  /** Submits the answer typed for `challenge` (the one on screen); true when it earns the digit, so the caller plays the clack inside the tap. */
+  answer(challenge: number, text: string): boolean
+  /** Records the digit of a missed challenge, once an animator typed the code. */
+  giveDigit(challenge: number, code: string): void
+  /** Tries a padlock code; true when it opens (the caller plays the sound inside the tap). */
   unlock(code: number[]): boolean
-  /** Goes back to the home screen and deletes the saved game. */
+  /** Goes back to the home screen (same team) and deletes the saved game. */
   reset(): void
 }
 
 /**
- * Holds the progress of one game, resumed from and saved to localStorage.
+ * Holds the progress of one team's game, resumed from and saved to localStorage.
  * @param config Validated quiz.
+ * @param teamIndex 0-based team of the tablet.
  * @returns The state and its actions.
  */
-export function useGameProgress(config: QuizConfig): GameProgress {
-  const { steps, stepCount } = config
+export function useGameProgress(config: QuizConfig, teamIndex: number): GameProgress {
   const fingerprint = useMemo(() => quizFingerprint(config), [config])
-  const code = useMemo(() => padlockCode(steps, config.padlock.order), [steps, config.padlock.order])
-  const reducer = useMemo(() => createGameReducer(steps, code, config.entrance?.answer), [steps, code, config.entrance])
+  const code = useMemo(() => padlockCode(config.steps, config.padlock.order), [config])
+  const reducer = useMemo(() => createGameReducer(config, teamIndex), [config, teamIndex])
   const [state, dispatch] = useReducer(reducer, null, () => {
-    const loaded = loadGame(fingerprint, stepCount)
+    const loaded = loadGame(fingerprint, config.stepCount)
     // A quiz edited to remove its entrance must not resume stuck on 'entrance': the reducer no
-    // longer has an action that leaves that status, so "Commencer" would silently do nothing.
-    if (loaded?.status === 'entrance' && !config.entrance) return initialGameState
-    return loaded ?? initialGameState
+    // longer has an action that leaves that status, so « Commencer » would silently do nothing.
+    if (loaded?.status === 'entrance' && !config.entrance) return initialGameState(config.stepCount)
+    return loaded ?? initialGameState(config.stepCount)
   })
   useEffect(() => {
     // Home means "no game": nothing worth keeping, and it is how reset deletes the save.
@@ -50,16 +50,17 @@ export function useGameProgress(config: QuizConfig): GameProgress {
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
     enter: (text) => dispatch({ type: 'enter', text, now: Date.now() }),
-    answer: (text) => {
-      dispatch({ type: 'answer', text })
-      // Same check as the reducer, needed now: the sound must start inside the tap.
-      return state.status === 'playing' && !isCurrentStepSolved(state) && isRightAnswer(text, steps[state.stepIndex].answer)
+    answer: (challenge, text) => {
+      const action = { type: 'answer', challenge, text, now: Date.now() } as const
+      dispatch(action)
+      return earnsDigit(state, config, teamIndex, action)
     },
-    next: () => dispatch({ type: 'next' }),
+    giveDigit: (challenge, animatorCode) => dispatch({ type: 'giveDigit', challenge, code: animatorCode, now: Date.now() }),
     unlock: (entered) => {
-      dispatch({ type: 'unlock', code: entered, now: Date.now() })
-      // Same check as the reducer (same helper, same code): the caller needs the answer now, inside the tap.
-      return isPadlockCode(code, entered)
+      const now = Date.now()
+      dispatch({ type: 'unlock', code: entered, now })
+      // Same checks as the reducer: the caller needs the answer now, inside the tap.
+      return gamePhase(state, config, teamIndex, now).kind === 'padlock' && isPadlockCode(code, entered)
     },
     reset: () => dispatch({ type: 'reset' }),
   }

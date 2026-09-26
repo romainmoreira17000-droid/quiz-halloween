@@ -1,35 +1,23 @@
-/** @file Critical paths of sprint 6: resume after a reload, and the animator's reset. */
+/** @file Critical paths around the tablet: resume after a reload, reset, change of team. */
 import { test, expect, type Page } from '@playwright/test'
-import { enterRestaurant, setUpTablet, typeAnswer } from './typing.js'
+import { setUpTablet, typeAnswer } from './typing.js'
 
-test('the game resumes at the same step after a reload', async ({ page }) => {
-  await page.goto('./')
-  await setUpTablet(page, 'Sorcières')
-  await enterRestaurant(page)
-  await typeAnswer(page, '13')
-  await page.getByRole('button', { name: 'Étape suivante' }).click()
-  await expect(page.getByText('Étape 2 sur 6')).toBeVisible()
-
-  await page.reload()
-  await expect(page.getByText('Étape 2 sur 6')).toBeVisible()
-  await expect(page.getByRole('timer')).toBeVisible()
-})
-
-test('the entrance message is still there after a reload, with no clock', async ({ page }) => {
+test('the game resumes on the same challenge after a reload', async ({ page }) => {
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Une lettre sous la porte' })).toBeVisible()
+  await typeAnswer(page, '13')
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'Une lettre sous la porte' })).toBeVisible()
-  await expect(page.getByRole('timer')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'La crypte' })).toBeVisible()
+  await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 4')
+  await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toBeVisible()
 })
 
 test('a 3-second press on the reset icon, then confirming, restarts the game', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
-  await enterRestaurant(page)
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await typeAnswer(page, '13')
 
   await holdResetIcon(page)

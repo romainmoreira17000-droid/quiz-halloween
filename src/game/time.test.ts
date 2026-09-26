@@ -1,5 +1,5 @@
 /** @file Tests for countdown arithmetic and clock formatting. */
-import { elapsedSeconds, formatClock, formatDuration, remainingSeconds, slotTiming } from './time'
+import { formatClock, remainingSeconds, slotTiming } from './time'
 
 const START = Date.UTC(2026, 9, 31, 14, 0, 0)
 
@@ -28,21 +28,6 @@ describe('formatClock', () => {
   it('prefixes negative times with a minus sign', () => {
     expect(formatClock(-1)).toBe('-00:01')
     expect(formatClock(-61)).toBe('-01:01')
-  })
-})
-
-describe('elapsedSeconds', () => {
-  it('rounds down to whole seconds', () => {
-    expect(elapsedSeconds(1_000, 2_536_999)).toBe(2535)
-  })
-})
-
-describe('formatDuration', () => {
-  it.each([
-    [0, '0 min 00 s'], [45, '0 min 45 s'], [2535, '42 min 15 s'], [3599, '59 min 59 s'],
-    [3600, '1 h 00 min 00 s'], [3903, '1 h 05 min 03 s'],
-  ])('%i s → %s', (seconds, expected) => {
-    expect(formatDuration(seconds)).toBe(expected)
   })
 })
 

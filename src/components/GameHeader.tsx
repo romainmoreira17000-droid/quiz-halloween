@@ -1,17 +1,19 @@
-/** @file In-game header: live countdown and candle progress. */
-import { useCountdown } from '../hooks/useCountdown'
+/** @file In-game header: time left for the challenge (big, with its number), candle progress, total time left (small). */
 import { CandleProgress } from './CandleProgress'
 import { Clock } from './Clock'
 
-/** Props of GameHeader. */
+/** Props of GameHeader. Times are computed by the caller from the start time. */
 export interface GameHeaderProps {
-  startedAt: number
-  /** Set once the padlock opened: freezes the clock. */
-  finishedAt?: number | null
-  durationMinutes: number
+  /** 0-based slot, or null once every slot is over (padlock, victory): no clocks then. */
+  slot: number | null
+  /** Number of challenges (= slots). */
   total: number
+  /** Challenges with a known digit. */
   solved: number
-  current: number | null
+  /** Seconds left in the slot. */
+  slotSeconds: number
+  /** Seconds left in the whole game. */
+  totalSeconds: number
 }
 
 /**
@@ -19,14 +21,21 @@ export interface GameHeaderProps {
  * @param props See GameHeaderProps.
  * @returns The header.
  */
-export function GameHeader({ startedAt, finishedAt, durationMinutes, total, solved, current }: GameHeaderProps) {
-  const seconds = useCountdown(startedAt, durationMinutes, finishedAt ?? null)
+export function GameHeader({ slot, total, solved, slotSeconds, totalSeconds }: GameHeaderProps) {
+  // Spacers keep the candles centred when the clocks are gone.
+  const spacer = <span className="header-spacer" aria-hidden="true" />
   return (
     <header className="game-header">
-      {/* Replaced by the slot/total clocks in Task 5, once the rotation lands. */}
-      <Clock seconds={seconds} label="Temps restant" />
-      <CandleProgress total={total} solved={solved} current={current} />
-      <span className="header-spacer" aria-hidden="true" />
+      {slot === null ? spacer : (
+        <div className="slot-clock">
+          <span className="slot-label">Épreuve {slot + 1}/{total}</span>
+          <Clock seconds={slotSeconds} label="Temps restant pour l’épreuve" />
+        </div>
+      )}
+      <CandleProgress total={total} solved={solved} current={slot} />
+      {slot === null ? spacer : (
+        <p className="total-clock">Total <Clock seconds={totalSeconds} label="Temps total restant" /></p>
+      )}
     </header>
   )
 }

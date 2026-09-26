@@ -20,14 +20,19 @@ Dernière mise à jour : 2026-09-26 (sprint 9 : les 6 tâches commitées, reste 
 - [x] Tâche 5 : rotation jouée (état, hook, écrans, e2e) — 302 tests unitaires + 7 e2e verts (ba2832f)
 - [x] Tâche 6 : contrôle de mise en page (`e2e/layout.spec.ts`), vérif navigateur 810×1080 et 390×844,
   2 retouches CSS, documentation (CLAUDE.md, README)
-- [ ] Relecture (`relecteur-code`), puis PR vers `main` (Closes #19)
+- [x] Relecture (`relecteur-code`) : I1 corrigé, I2 soumis à Romain, 4 mineurs reportés
+- [ ] PR vers `main` (Closes #19)
 - [ ] Romain : réponses et chiffres de chaque épreuve, code animateur, code d'entrée (liste en fin de scénario)
 
 ## Prochaine action concrète
-Relecture de toute la branche (`relecteur-code`, revue finale du plan), corriger les points
-importants, puis `gh pr create` vers `main` avec `Closes #19` (demander à Romain avant de fusionner).
+`gh pr create` vers `main` avec `Closes #19` (relecture faite, point I1 corrigé). Demander à Romain
+avant de fusionner, et sa décision sur le code animateur pour « Recommencer » (point I2).
 
 ## Décisions prises (et pourquoi)
+- Sprint 9 (relecture) : « Changer d'équipe » puis la même équipe reprend la partie au lieu de l'effacer
+  (un enfant pouvait sinon décaler sa tablette dans la rotation pour toute la soirée).
+- Sprint 9 (relecture) : « Recommencer » reste sans code animateur (appui long 3 s choisi au sprint 6) ; question
+  posée à Romain dans la PR, car en rotation un reset en cours de soirée décale l'équipe.
 - Sprint 9 (tâche 6) : voile sombre derrière « Chiffre de l'épreuve » (écran Temps écoulé) : l'ambre était
   illisible sur la nappe claire ; boutons d'équipe en 40 px sans retour à la ligne (« Loups-garous » se
   coupait en deux). Écran d'étape sur tablette : aucun défilement, aucune retouche de hauteur nécessaire.

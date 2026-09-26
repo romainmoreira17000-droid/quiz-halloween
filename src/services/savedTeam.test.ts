@@ -1,5 +1,5 @@
 /** @file Tests for the team saved on the tablet. */
-import { clearTeam, loadTeam, saveTeam, TEAM_KEY } from './savedTeam'
+import { loadTeam, saveTeam, TEAM_KEY } from './savedTeam'
 
 const TEAMS = ['Sorcières', 'Zombies']
 
@@ -10,10 +10,7 @@ describe('saved team', () => {
     saveTeam('Zombies')
     expect(loadTeam(TEAMS)).toBe(1)
   })
-  it('has no team at first, or after clearing', () => {
-    expect(loadTeam(TEAMS)).toBeNull()
-    saveTeam('Zombies')
-    clearTeam()
+  it('has no team at first', () => {
     expect(loadTeam(TEAMS)).toBeNull()
   })
   it('forgets a team that quiz.yaml no longer has', () => {
@@ -24,9 +21,7 @@ describe('saved team', () => {
     const refuse = () => { throw new Error('denied') }
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(refuse)
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(refuse)
-    vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(refuse)
     expect(loadTeam(TEAMS)).toBeNull()
     expect(() => saveTeam('Zombies')).not.toThrow()
-    expect(() => clearTeam()).not.toThrow()
   })
 })

@@ -87,7 +87,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `Date.now()` (jamais par une action). L'action de réponse nomme son épreuve : un tap pile au
   changement de créneau est ignoré.
 - **Équipe** : clé localStorage `quiz-halloween:team` (le nom, pas l'index). Une remise à zéro la garde ;
-  choisir une équipe efface la partie sauvegardée.
+  « Changer d'équipe » ne l'efface pas (retour au réglage seulement). Choisir une **autre** équipe efface la
+  partie ; rechoisir la même la reprend (sinon ses créneaux repartiraient de zéro, dans la salle d'une autre).
 - **Code animateur** : affiché en points (`secret` d'`AnswerZone`), gardé en texte par `parseQuizYaml`
   comme `reponse` (un 0 initial n'est pas perdu).
 - **Tests** : Vitest sert depuis `/`, donc `import.meta.env.BASE_URL` vaut `/` ; utiliser

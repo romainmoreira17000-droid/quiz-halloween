@@ -21,11 +21,20 @@ describe('useTeam', () => {
     act(() => result.current.choose(0))
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull()
   })
-  it('forgets the team', () => {
+  it('shows the setup again on forget, but keeps the saved team until another one is chosen', () => {
     localStorage.setItem(TEAM_KEY, 'Zombies')
     const { result } = renderHook(() => useTeam(TEAMS))
     act(() => result.current.forget())
     expect(result.current.teamIndex).toBeNull()
-    expect(localStorage.getItem(TEAM_KEY)).toBeNull()
+    expect(localStorage.getItem(TEAM_KEY)).toBe('Zombies')
+  })
+  it('resumes the game when the same team is chosen again after a forget', () => {
+    localStorage.setItem(TEAM_KEY, 'Zombies')
+    localStorage.setItem(STORAGE_KEY, '{"fingerprint":"x","state":{}}')
+    const { result } = renderHook(() => useTeam(TEAMS))
+    act(() => result.current.forget())
+    act(() => result.current.choose(1))
+    expect(result.current.teamIndex).toBe(1)
+    expect(localStorage.getItem(STORAGE_KEY)).not.toBeNull()
   })
 })

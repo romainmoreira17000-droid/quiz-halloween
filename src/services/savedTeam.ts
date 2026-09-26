@@ -26,8 +26,3 @@ export function loadTeam(teams: readonly string[]): number | null {
 export function saveTeam(name: string): void {
   try { localStorage.setItem(TEAM_KEY, name) } catch { /* see above */ }
 }
-
-/** Forgets the team of this tablet. */
-export function clearTeam(): void {
-  try { localStorage.removeItem(TEAM_KEY) } catch { /* see above */ }
-}

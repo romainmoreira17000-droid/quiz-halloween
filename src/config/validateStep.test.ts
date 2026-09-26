@@ -15,6 +15,13 @@ describe('validateStep', () => {
       answer: { kind: 'digits', value: '13' }, digit: 4,
     })
   })
+  it('maps fond to the room backdrop, and leaves it out when absent', () => {
+    expect(run({ ...valid, fond: 'cimetiere.webp' }).step?.backdrop).toBe('cimetiere.webp')
+    expect(run(valid).step).not.toHaveProperty('backdrop')
+  })
+  it('rejects an empty fond', () => {
+    expect(run({ ...valid, fond: '' }).errors).toEqual(['étape 3 : « fond » doit être un nom de fichier.'])
+  })
   it.each([0, 9])('accepts boundary chiffre %i', (chiffre) => {
     expect(run({ ...valid, chiffre }).errors).toEqual([])
   })

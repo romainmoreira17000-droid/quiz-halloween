@@ -27,6 +27,13 @@ describe('validateQuiz', () => {
       padlock: { order: [1, 2, 3, 4, 5, 6], hint: 'Chut' },
     } })
   })
+  it('maps fond_accueil to the home backdrop', () => {
+    const result = validateQuiz({ ...validRaw(), fond_accueil: 'accueil.webp' })
+    expect(result.ok && result.config.homeBackdrop).toBe('accueil.webp')
+  })
+  it('rejects an empty fond_accueil', () => {
+    expect(errorsOf({ ...validRaw(), fond_accueil: '' })).toEqual(['« fond_accueil » doit être un nom de fichier.'])
+  })
   it('rejects fewer steps than nombre_etapes', () => {
     expect(errorsOf({ ...validRaw(), etapes: steps(5) }))
       .toEqual(['« etapes » contient 5 étape(s) alors que « nombre_etapes » vaut 6.'])

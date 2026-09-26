@@ -15,6 +15,17 @@ describe('findMissingImages', () => {
     expect(findMissingImages(config, new Set(['crypte.png'])))
       .toEqual(["étape 2 : l'image « absent.png » est introuvable dans public/images/."])
   })
+  it('also checks the home, step and padlock backdrops', () => {
+    const withBackdrops: QuizConfig = {
+      ...config, homeBackdrop: 'accueil.webp', padlock: { order: [1, 2], backdrop: 'sortie.webp' },
+      steps: [{ ...config.steps[0], image: undefined, backdrop: 'salle.webp' }, { ...config.steps[1], image: undefined }],
+    }
+    expect(findMissingImages(withBackdrops, new Set())).toEqual([
+      "fond_accueil : l'image « accueil.webp » est introuvable dans public/images/.",
+      "étape 1 : l'image « salle.webp » est introuvable dans public/images/.",
+      "cadenas : l'image « sortie.webp » est introuvable dans public/images/.",
+    ])
+  })
   it('returns nothing when every image is present', () => {
     expect(findMissingImages(config, new Set(['crypte.png', 'absent.png']))).toEqual([])
   })

@@ -15,6 +15,12 @@ describe('validatePadlock', () => {
     expect(run({ indice: 'La crypte en premier' }).padlock)
       .toEqual({ order: [1, 2, 3, 4], hint: 'La crypte en premier' })
   })
+  it('maps fond to the padlock backdrop', () => {
+    expect(run({ fond: 'sortie.webp' }).padlock).toEqual({ order: [1, 2, 3, 4], backdrop: 'sortie.webp' })
+  })
+  it('rejects a fond that is not a file name', () => {
+    expect(run({ fond: 3 }).errors).toEqual(['cadenas : « fond » doit être un nom de fichier.'])
+  })
   it('accepts a permutation', () => {
     expect(run({ ordre: [3, 1, 4, 2] }).padlock).toEqual({ order: [3, 1, 4, 2] })
   })
@@ -41,6 +47,6 @@ describe('validatePadlock', () => {
   })
   it('rejects a non-object padlock', () => {
     expect(run([1, 2]).errors)
-      .toEqual(['« cadenas » doit contenir des paramètres : « ordre », « indice », « titre » ou « message_victoire ».'])
+      .toEqual(['« cadenas » doit contenir des paramètres : « ordre », « indice », « titre », « message_victoire » ou « fond ».'])
   })
 })

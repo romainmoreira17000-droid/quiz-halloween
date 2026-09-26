@@ -3,7 +3,7 @@ import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './ch
 import type { QuizStep } from './types'
 import { validateAnswer } from './validateAnswer'
 
-const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indice'] as const
+const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indice', 'fond'] as const
 
 /**
  * Validates a raw step, pushing French messages into `errors`.
@@ -24,6 +24,7 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
   const answer = validateAnswer(raw, prefix, errors)
   if (!isIntInRange(raw.chiffre, 0, 9)) errors.push(`${prefix}« chiffre » doit être un chiffre entier entre 0 et 9.`)
   if (raw.image !== undefined && !isNonEmptyString(raw.image)) errors.push(`${prefix}« image » doit être un nom de fichier.`)
+  if (raw.fond !== undefined && !isNonEmptyString(raw.fond)) errors.push(`${prefix}« fond » doit être un nom de fichier.`)
   if (raw.indice !== undefined && !isNonEmptyString(raw.indice)) errors.push(`${prefix}« indice » doit être un texte non vide.`)
   // Quizzes written before sprint 7 use `solution`: explain the new keys instead of "unknown key".
   if (raw.solution !== undefined) {
@@ -38,5 +39,6 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
     answer,
     digit: raw.chiffre as number,
     ...(raw.indice !== undefined && { hint: raw.indice as string }),
+    ...(raw.fond !== undefined && { backdrop: raw.fond as string }),
   }
 }

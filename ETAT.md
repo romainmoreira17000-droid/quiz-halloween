@@ -1,13 +1,13 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 10 : relecture faite, PR à ouvrir)
+Dernière mise à jour : 2026-09-26 (sprint 10 : PR #23 ouverte, en attente de merge)
 
 ## Sprint en cours
 - **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
   bloquée `blocage_secondes` après une mauvaise réponse. Spec : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
 - **Issue :** #22
 - **Branche :** `feat/hint-and-block`
-- **PR :** pas encore ouverte
+- **PR :** #23 (ouverte le 2026-09-26, CI en cours)
 - **Plan :** `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md` (5 tâches)
 
 ## Où on en est
@@ -24,7 +24,8 @@ Dernière mise à jour : 2026-09-26 (sprint 10 : relecture faite, PR à ouvrir)
 - [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
 
 ## Prochaine action concrète
-Pousser la branche et ouvrir la PR (`gh pr create`, Closes #22), puis attendre la CI et la décision de merge de Romain.
+PR #23 ouverte : vérifier la CI (`gh pr checks 23`), puis Romain décide du merge. Après merge :
+`git checkout main && git pull && git branch -d feat/hint-and-block`.
 Ensuite sprint 11 : fonds d'écran par épreuve (images déjà déposées par Romain dans `public/images/`, non commitées,
 2,5 Mo chacune : trop lourdes pour le précache PWA, le build casse tant qu'elles y sont → les compresser).
 

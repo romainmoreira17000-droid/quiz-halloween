@@ -142,4 +142,12 @@ describe('TeamGame', () => {
     press('Voir l’indice')
     expect(screen.getByRole('dialog', { name: 'Indice' })).toHaveTextContent('Sous la malle.')
   })
+  it('never shows more than the block time, even when the screen clock lags', () => {
+    renderZombies({ blockSeconds: 60 })
+    press('Commencer')
+    // The screen clock ticks every 500 ms: the wrong answer lands 250 ms after the last tick.
+    act(() => vi.advanceTimersByTime(250))
+    type('9')
+    expect(screen.getByLabelText('Réponse tapée')).toHaveTextContent('Nouvelle réponse possible dans 01:00')
+  })
 })

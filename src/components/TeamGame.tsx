@@ -96,10 +96,12 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
     case 'challenge':
     case 'waiting': {
       const submit = (text: string) => { if (answer(phase.challenge, text)) playPinSound() }
+      // The screen clock lags up to one tick behind the tap: never show more than the configured block (01:01).
+      const blocked = Math.min(blockSecondsLeft(state.blockedUntil, at), config.blockSeconds)
       return (
         <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
-          isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blockSecondsLeft(state.blockedUntil, at)}
+          isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blocked}
           hintSecondsLeft={secondsBeforeHint(timing.secondsLeft, slotMinutes, config.hintAfterMinutes)} onSubmit={submit} />
       )
     }

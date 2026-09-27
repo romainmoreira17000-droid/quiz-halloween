@@ -92,6 +92,13 @@ describe('animator menu in the game', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeInTheDocument()
   })
+  it('offers the start time on « Temps écoulé », without saying there is nothing to do', () => {
+    startZombies()
+    act(() => vi.advanceTimersByTime(16 * 60_000))
+    openMenu()
+    expect(screen.getByLabelText('Départ de la partie')).toBeInTheDocument()
+    expect(screen.queryByText('Rien à débloquer sur cet écran.')).not.toBeInTheDocument()
+  })
   it('has no action but the answers on the home screen', () => {
     render(<TeamGame config={config} teamIndex={1} onChangeTeam={vi.fn()} />)
     openMenu()

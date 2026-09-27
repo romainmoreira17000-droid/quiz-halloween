@@ -16,6 +16,10 @@ describe('startAtTimeOfDay', () => {
     expect(startAtTimeOfDay('20:00', at(20, 47, 12))).toBe(at(20, 0))
     expect(startAtTimeOfDay('20:47', at(20, 47, 12))).toBe(at(20, 47))
   })
+  it('reads a later time as yesterday when the evening went past midnight', () => {
+    const tenPast = new Date(2026, 10, 1, 0, 10).getTime()
+    expect(startAtTimeOfDay('23:50', tenPast)).toBe(at(23, 50))
+  })
   it('refuses a time still to come, and anything that is not hh:mm', () => {
     expect(startAtTimeOfDay('20:48', at(20, 47, 12))).toBeNull()
     for (const text of ['', '8', '24:00', '20:60', '2000', 'ab:cd']) expect(startAtTimeOfDay(text, at(20, 47))).toBeNull()

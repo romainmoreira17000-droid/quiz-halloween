@@ -6,7 +6,7 @@ Dernière mise à jour : 2026-09-27 (sprint 16 ouvert)
 - **Objectif :** animation « Bravo ! » quand une épreuve est validée + message animé pendant l'attente
 - **Issue :** #46 — Animation de réussite et message d'attente
 - **Branche :** feat/success-celebration
-- **PR :** pas encore ouverte
+- **PR :** #48 (ouverte, en attente du merge de Romain)
 
 Design validé en chat (chantier « bounded », pas de spec) :
 - Bonne réponse ou validation animateur : goupille + clac, puis ~0,5 s après un plein écran « Bravo ! » avec le chiffre et
@@ -30,8 +30,8 @@ Design validé en chat (chantier « bounded », pas de spec) :
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 16 : appliquer les retours de `relecteur-code` (relancer l'agent si la session a été vidée), `npm run test:run`,
-`npm run test:e2e` (arrêter tout `vite preview` sur 4173 avant), puis `gh pr create` (Closes #46).
+Sprint 16 : PR #48 ouverte ; attendre l'accord de Romain pour le merge (jamais pendant la soirée), puis
+`git checkout main && git pull && git branch -d feat/success-celebration`.
 Ensuite : sprint 17 = cadenas 3D d'horreur, les deux cadenas (issue #47), à cadrer en brainstorming.
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,

@@ -7,7 +7,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 const base: StepScreenProps = {
   header: <header>entête</header>,
   step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
-  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false, blockSecondsLeft: 0, hintSecondsLeft: 0,
+  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false, blockSecondsLeft: 0, hintsAvailable: 0, secondsToNextHint: null,
   onSubmit: () => {},
 }
 
@@ -72,11 +72,15 @@ describe('StepScreen', () => {
     expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
   })
   it('shows the hint button on the parchment, with its countdown', () => {
-    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} hintSecondsLeft={125} />)
+    render(<StepScreen {...base} step={{ ...base.step, hints: ['Sous le chaudron.'] }} secondsToNextHint={125} />)
     expect(screen.getByRole('button', { name: 'Indice dans 02:05' })).toBeDisabled()
   })
+  it('shows how many hints are unlocked', () => {
+    render(<StepScreen {...base} step={{ ...base.step, hints: ['a', 'b', 'c'] }} hintsAvailable={2} secondsToNextHint={60} />)
+    expect(screen.getByRole('button', { name: 'Voir les indices (2/3)' })).toBeEnabled()
+  })
   it('hides the hint once the digit is found', () => {
-    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} digits={[4, 7, null, null, null, null]} />)
+    render(<StepScreen {...base} step={{ ...base.step, hints: ['Sous le chaudron.'] }} digits={[4, 7, null, null, null, null]} />)
     expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
   })
 })

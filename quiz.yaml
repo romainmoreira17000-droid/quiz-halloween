@@ -34,9 +34,10 @@ equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "M
 # nombre_etapes × duree_epreuve_minutes.
 duree_epreuve_minutes: 15
 
-# Minutes après le début de chaque épreuve avant que le bouton « Indice » s'active.
-# Obligatoire, nombre entier, 0 ou plus, et plus petit que duree_epreuve_minutes.
-indice_apres_minutes: 10
+# Minutes après le début de chaque épreuve où s'active chaque indice : le 1er à 5 min,
+# le 2e à 8 min… Obligatoire, nombres entiers en croissant, plus petits que
+# duree_epreuve_minutes. Une épreuve a au plus autant d'indices que d'horaires.
+indices_apres_minutes: [5, 8, 11]
 
 # Après une mauvaise réponse à une épreuve, la saisie est bloquée pendant ce nombre de
 # secondes : les enfants doivent chercher au lieu de tenter au hasard. Obligatoire,
@@ -81,8 +82,9 @@ nombre_etapes: 6
 #                   - mots : lettres, espaces, apostrophes ou tirets, 24 caractères au plus ;
 #                     majuscules et accents ne comptent pas
 #   chiffre       obligatoire, le chiffre (0 à 9) gagné pour le cadenas final
-#   indice        facultatif, texte non vide : l'indice que les enfants peuvent lire au bout
-#                 de « indice_apres_minutes » ; sans indice, pas de bouton « Indice »
+#   indices       facultatif, liste de textes non vides : les indices que les enfants débloquent
+#                 un par un aux minutes de « indices_apres_minutes » ; sans indices, pas de
+#                 bouton « Indice »
 etapes:
   - titre: "La galerie des portraits"
     fond: "galerie-des-portraits.webp"
@@ -90,7 +92,7 @@ etapes:
     type_reponse: chiffres
     reponse: "13"
     chiffre: 4
-    indice: "Regardez aussi derrière les rideaux et sous les tables."
+    indices: ["Regardez aussi derrière les rideaux et sous les tables."]
 
   - titre: "La table hantée"
     fond: "table-hantee.webp"
@@ -98,7 +100,7 @@ etapes:
     type_reponse: mots
     reponse: "Crapaud"
     chiffre: 7
-    indice: "Un animal vert qui fait « croa »."
+    indices: ["Un animal qui vit près des mares.", "Il est vert et saute.", "Il fait « croa »."]
 
   - titre: "Le cimetière"
     fond: "cimetiere.webp"
@@ -106,7 +108,7 @@ etapes:
     type_reponse: chiffres
     reponse: "0472"
     chiffre: 2
-    indice: "Lisez le miroir... dans un autre miroir."
+    indices: ["Lisez le miroir... dans un autre miroir."]
 
   - titre: "Les saveurs hantées"
     fond: "saveurs-hantees.webp"
@@ -114,7 +116,7 @@ etapes:
     type_reponse: chiffres
     reponse: "1832"
     chiffre: 9
-    indice: "Il y a trois années : posez l'addition sur une feuille."
+    indices: ["Il y a trois années : posez l'addition sur une feuille."]
 
   - titre: "Les toilettes scientifiques"
     fond: "toilettes-scientifiques.webp"
@@ -122,7 +124,7 @@ etapes:
     type_reponse: mots
     reponse: "Toile d'araignée"
     chiffre: 0
-    indice: "Elle est faite de fils et attrape les mouches."
+    indices: ["Elle est faite de fils et attrape les mouches."]
 
   - titre: "Invisible mais visible"
     fond: "invisible-mais-visible.webp"

@@ -2,9 +2,9 @@
 import { restoreGameState } from './restore'
 
 // Two-challenge quiz in every case.
-const playing = { status: 'playing', digits: [null, 0], startedAt: 1000, finishedAt: null, wrongAttempts: 3, wrongSlot: 0, blockedUntil: 90_000, hintSlot: 1 }
-const won = { status: 'won', digits: [4, 0], startedAt: 1000, finishedAt: 5000, wrongAttempts: 0, wrongSlot: 2, blockedUntil: null, hintSlot: null }
-const entrance = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 2, wrongSlot: null, blockedUntil: null, hintSlot: null }
+const playing = { status: 'playing', digits: [null, 0], startedAt: 1000, finishedAt: null, wrongAttempts: 3, wrongSlot: 0, blockedUntil: 90_000, hintSlot: 1, hintCount: 2 }
+const won = { status: 'won', digits: [4, 0], startedAt: 1000, finishedAt: 5000, wrongAttempts: 0, wrongSlot: 2, blockedUntil: null, hintSlot: null, hintCount: 0 }
+const entrance = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 2, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0 }
 const cleared = { wrongAttempts: 0, wrongSlot: null }
 
 describe('restoreGameState', () => {
@@ -12,8 +12,12 @@ describe('restoreGameState', () => {
     expect(restoreGameState(playing, 2)).toEqual({ ...playing, ...cleared })
   })
   it('restores a sprint 12 save (no hint shown by an animator) with the hint closed', () => {
-    const { hintSlot: _dropped, ...older } = playing
-    expect(restoreGameState(older, 2)).toEqual({ ...playing, ...cleared, hintSlot: null })
+    const { hintSlot: _slot, hintCount: _count, ...older } = playing
+    expect(restoreGameState(older, 2)).toEqual({ ...playing, ...cleared, hintSlot: null, hintCount: 0 })
+  })
+  it('restores a sprint 13 save (one hint shown, no count) with that hint', () => {
+    const { hintCount: _dropped, ...older } = playing
+    expect(restoreGameState(older, 2)).toEqual({ ...playing, ...cleared, hintCount: 1 })
   })
   it('restores the victory and the entrance', () => {
     expect(restoreGameState(won, 2)).toEqual({ ...won, ...cleared })
@@ -39,6 +43,8 @@ describe('restoreGameState', () => {
     ['block as text', { ...playing, blockedUntil: '90000' }],
     ['hint slot as text', { ...playing, hintSlot: '1' }],
     ['negative hint slot', { ...playing, hintSlot: -1 }],
+    ['hint count as text', { ...playing, hintCount: '1' }],
+    ['negative hint count', { ...playing, hintCount: -1 }],
   ])('rejects %s', (_label, value) => {
     expect(restoreGameState(value, 2)).toBeNull()
   })

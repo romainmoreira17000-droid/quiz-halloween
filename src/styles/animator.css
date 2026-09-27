@@ -12,6 +12,9 @@
   display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: baseline;
   padding: 6px 0; border-bottom: 1px dashed rgb(241 220 176 / .25);
 }
+.animator-hints { grid-column: 1 / -1; margin: 0; padding-left: 28px; font-size: 18px; opacity: .85; }
+/* Nested in a solution line: no dashed border of its own. */
+.animator-answers .animator-hints li { display: list-item; padding: 0; border: 0; }
 .animator-answers b, .animator-code { color: var(--amber); font-variant-numeric: lining-nums; }
 .animator-code { font-size: 30px; font-weight: 700; }
 

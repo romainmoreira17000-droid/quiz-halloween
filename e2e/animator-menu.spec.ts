@@ -29,7 +29,7 @@ test('an animator unblocks, shows the hint, solves the challenge and reads the a
   await expect(page.getByRole('button', { name: '1', exact: true })).toBeEnabled()
 
   await openMenu(page)
-  await page.getByRole('button', { name: 'Montrer l’indice' }).click()
+  await page.getByRole('button', { name: 'Débloquer l’indice suivant (1/1)' }).click()
   await page.getByRole('button', { name: 'Voir l’indice' }).click()
   await expect(page.getByRole('dialog', { name: 'Indice' })).toContainText('Regardez aussi derrière les rideaux')
   await page.getByRole('button', { name: 'Fermer' }).click()

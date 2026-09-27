@@ -1,13 +1,13 @@
 /** @file Tests for the animator menu actions of the game reducer: solve, unblock, show the hint. */
 import type { QuizConfig } from '../config/types'
-import { createGameReducer, hintShown, initialGameState, type GameState } from './progress'
+import { createGameReducer, hintsAvailable, initialGameState, type GameState } from './progress'
 
 const MIN = 60_000
 const config: QuizConfig = {
-  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 60, animatorCode: '2710', stepCount: 2,
+  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [5, 8, 11], blockSeconds: 60, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '14' }, digit: 4 },
-    { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0, hint: 'Bouh' },
+    { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0, hints: ['Bouh', 'Hou', 'Ouh'] },
   ],
   padlock: { order: [2, 1] },
 }
@@ -43,13 +43,20 @@ describe('unblock', () => {
 })
 
 describe('showHint', () => {
-  it('opens the hint of the challenge on screen for the rest of its slot', () => {
-    const shown = reduce(playing, { type: 'showHint', challenge: 1, now: MIN })
-    expect(shown).toEqual({ ...playing, hintSlot: 0 })
-    expect(hintShown(shown, 0)).toBe(true)
-    expect(hintShown(shown, 1)).toBe(false)
+  it('gives one more hint on each tap, for the rest of the slot', () => {
+    const one = reduce(playing, { type: 'showHint', challenge: 1, now: MIN })
+    expect(one).toEqual({ ...playing, hintSlot: 0, hintCount: 1 })
+    const two = reduce(one, { type: 'showHint', challenge: 1, now: MIN })
+    expect(hintsAvailable(two, config, 1, 0, MIN)).toBe(2)
+    expect(hintsAvailable(two, config, 1, 1, 16 * MIN)).toBe(0)
   })
-  it('ignores a challenge without hint, another challenge, or another screen', () => {
+  it('counts from the hints the clock already unlocked', () => {
+    // 9 minutes in: the clock gave 2 hints, the animator gives the third.
+    expect(reduce(playing, { type: 'showHint', challenge: 1, now: 9 * MIN })).toEqual({ ...playing, hintSlot: 0, hintCount: 3 })
+  })
+  it('ignores a tap once every hint is out, a challenge without hint, another challenge, or another screen', () => {
+    const all = { ...playing, hintSlot: 0, hintCount: 3 }
+    expect(reduce(all, { type: 'showHint', challenge: 1, now: MIN })).toBe(all)
     const zombiesOnA = { ...playing, digits: [null, 0] }
     expect(reduce(zombiesOnA, { type: 'showHint', challenge: 0, now: 16 * MIN })).toBe(zombiesOnA)
     expect(reduce(playing, { type: 'showHint', challenge: 0, now: MIN })).toBe(playing)

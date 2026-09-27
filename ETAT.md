@@ -1,25 +1,36 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du contenu réel des épreuves)
+Dernière mise à jour : 2026-09-27 (sprint 14 : relu, PR ouverte, en attente de merge)
 
 ## Sprint en cours
-- Aucun. Dernier sprint fermé : menu animateur (issue #38, PR #39 fusionnée et déployée le 2026-09-27).
+- **Objectif :** indices progressifs, jusqu'à 3 par épreuve (5, 8, 11 min), un de plus par appui dans le menu animateur.
+- **Issue :** #41 — Indices progressifs : jusqu'à 3 indices par épreuve
+- **Branche :** feat/progressive-hints
+- **PR :** ouverte (voir `gh pr list`), en attente de la relecture de Romain et de la CI
+- Conception : `docs/superpowers/specs/2026-09-27-indices-progressifs-design.md`
+- Plan : `docs/superpowers/plans/2026-09-27-sprint14-indices-progressifs.md`
 
 ## Où on en est
-- [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
-- [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
-- [x] Voile sombre derrière les chiffres et l'indice du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
-- [x] Mode test `?test` + « Épreuve suivante » (issue #33, PR #34 fusionnée et déployée le 2026-09-27).
-- [x] 6e image reçue (« Invisible mais visible ») : fond de l'épreuve 6 (issue #35, PR #36 fusionnée et déployée le 2026-09-27).
-- [x] Menu animateur : valider, débloquer, indice, solutions (issue #38, PR #39 fusionnée et déployée le 2026-09-27).
-- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve, nouveau code animateur
+- [x] Sprints 1 à 13 terminés et en ligne (dernier : menu animateur, PR #39).
+- [x] Cadrage, conception et plan du sprint 14 (validés par Romain).
+- [x] Tâches 1 à 7 : `hints.ts`, config, état/réducteur/relecture, HintButton, branchement + menu animateur, e2e, docs.
+  426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone (fenêtre à 2 indices).
+- [x] Relecture (relecteur-code, Opus) : 0 critique, 1 important corrigé (doc : un déploiement perd les parties en cours
+  car l'empreinte de la config change), 8 mineurs reportés (liste dans la PR).
+- [ ] Merge de la PR par Romain ← reprendre ici
+- [ ] Ensuite, sprint 15 `feat/real-quiz-content` : contenu réel (épreuves reçues dans `docs/contenu-epreuves.md`).
 
 ## Prochaine action concrète
-Attendre le contenu réel des épreuves de Romain (et son nouveau code animateur), puis ouvrir le sprint 14
-(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
-Attention : changer le code animateur casse les e2e qui tapent 2710 (`e2e/typing.ts`, `animator-menu`, `game`, `test-mode`).
+Attendre le merge de la PR par Romain (CI verte), puis `git checkout main && git pull && git branch -d feat/progressive-hints`,
+et ouvrir le sprint 15 (contenu réel). **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 14 (exécution) : indices disponibles = max (pas somme) du chrono et de l'animateur ; une vieille sauvegarde avec
+  `hintSlot` sans `hintCount` reprend avec 1 indice ; un seul indice dans une étape → fenêtre « Indice » sans numéro.
+- Sprint 14 (cadrage, choix de Romain) : horaires d'indices communs à toutes les épreuves (`indices_apres_minutes: [5, 8, 11]`,
+  modifiable) ; enfants : indices un par un ; menu animateur : un indice de plus par appui, tous les indices dans les solutions.
+- Contenu réel (choix de Romain) : textes indépendants de l'ordre de passage (rotation) ; consignes courtes (3-4 lignes, je
+  les condense et Romain valide) ; au cimetière les enfants tapent **8** (2806 ouvre un vrai cadenas sur place).
 - Sprint 13 (cadrage, choix de Romain) : menu animateur via la fenêtre de ↺ (rien de plus à l'écran pour les enfants),
   code toujours demandé (le menu montre les solutions). Actions : valider l'épreuve, débloquer la saisie, montrer
   l'indice, voir les solutions. Le menu ne touche jamais au temps (rotation intacte).

@@ -11,7 +11,7 @@ function teams(count: number) {
   return Array.from({ length: count }, (_, i) => `Équipe ${i + 1}`)
 }
 function validRaw(count = 6): Record<string, unknown> {
-  return { titre: 'Le manoir hanté', equipes: teams(count), duree_epreuve_minutes: 15, indice_apres_minutes: 10, blocage_secondes: 60, code_animateur: '2710', nombre_etapes: count, etapes: steps(count) }
+  return { titre: 'Le manoir hanté', equipes: teams(count), duree_epreuve_minutes: 15, indices_apres_minutes: [10], blocage_secondes: 60, code_animateur: '2710', nombre_etapes: count, etapes: steps(count) }
 }
 function errorsOf(raw: unknown): string[] {
   const result = validateQuiz(raw)
@@ -22,7 +22,7 @@ describe('validateQuiz', () => {
   it('returns a typed config for a valid quiz', () => {
     const result = validateQuiz({ ...validRaw(), intro: 'Bienvenue', cadenas: { indice: 'Chut' } })
     expect(result).toEqual({ ok: true, config: {
-      title: 'Le manoir hanté', intro: 'Bienvenue', teams: teams(6), slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 60, animatorCode: '2710', stepCount: 6,
+      title: 'Le manoir hanté', intro: 'Bienvenue', teams: teams(6), slotMinutes: 15, hintTimes: [10], blockSeconds: 60, animatorCode: '2710', stepCount: 6,
       steps: [1, 2, 3, 4, 5, 6].map((n) => ({ title: `Étape ${n}`, instruction: `Consigne ${n}`, answer: { kind: 'digits', value: String(n) }, digit: n })),
       padlock: { order: [1, 2, 3, 4, 5, 6], hint: 'Chut' },
     } })
@@ -65,6 +65,13 @@ describe('validateQuiz', () => {
   it('explains duree_minutes once, without calling it unknown', () => {
     expect(errorsOf({ ...validRaw(), duree_minutes: 90 }))
       .toEqual(["« duree_minutes » a été remplacée par « duree_epreuve_minutes » : la durée d'une épreuve, en minutes."])
+  })
+  it('refuses a step with more hints than hint times', () => {
+    const raw = validRaw()
+    const etapes = raw.etapes as Record<string, unknown>[]
+    etapes[1] = { ...etapes[1], indices: ['a', 'b'] }
+    expect(validateQuiz(raw)).toEqual({ ok: false, errors: [
+      'étape 2 : 2 indices mais seulement 1 horaire(s) dans « indices_apres_minutes ».'] })
   })
   it('accepts a single-step quiz', () => {
     expect(errorsOf(validRaw(1))).toEqual([])

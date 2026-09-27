@@ -17,7 +17,7 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
-   Au bout de 10 minutes, le bouton « Voir l'indice » du parchemin montre l'indice de l'épreuve. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
+   À 5, 8 puis 11 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
    « Changement de salle dans … » jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
    L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
@@ -37,8 +37,8 @@ sauvegardée est ignorée et le jeu revient à l'accueil.
 
 **Menu animateur (à tout moment) :** rester appuyé 3 secondes sur ↺, toucher « Menu animateur », taper le code
 animateur. Selon l'écran : « Valider l'épreuve » (donne le chiffre de l'épreuve affichée), « Débloquer la saisie »
-(annule la minute de blocage), « Montrer l'indice » (sans attendre les 10 min), et toujours « Voir les solutions »
-(réponse et chiffre de chaque épreuve, code du cadenas). Le menu ne change jamais le temps : l'équipe reste en phase.
+(annule la minute de blocage), « Débloquer l'indice suivant (2/3) » (un indice de plus à chaque appui, sans attendre), et toujours « Voir les solutions »
+(réponse, chiffre et indices de chaque épreuve, code du cadenas). Le menu ne change jamais le temps : l'équipe reste en phase.
 
 **Tester sans attendre (mode test) :** ouvrir le site avec `?test` à la fin de l'adresse
 (https://romainmoreira17000-droid.github.io/quiz-halloween/?test). Une étiquette rouge « Mode test » s'affiche,
@@ -91,12 +91,12 @@ centre de l'illustration est visible.
 | `fond_accueil` | non | fichier de `public/images/` : fond de l'accueil et de l'attente entre deux salles |
 | `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
 | `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
-| `indice_apres_minutes` | oui | entier ≥ 0 et plus petit que `duree_epreuve_minutes` : minutes avant que le bouton « Indice » s'active |
+| `indices_apres_minutes` | oui | liste d'entiers ≥ 0 en croissant, plus petits que `duree_epreuve_minutes` (ex. `[5, 8, 11]`) : minute du créneau où s'active chaque indice |
 | `blocage_secondes` | oui | entier ≥ 0 : saisie bloquée après une mauvaise réponse (0 = jamais) |
 | `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
-| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`), `fond` (fond d'écran de la salle, fichier présent dans `public/images/` ; sans fond, la grande salle dessinée) et `indice` (texte non vide, lu sur demande au bout de `indice_apres_minutes` ; sans indice, pas de bouton) |
+| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`), `fond` (fond d'écran de la salle, fichier présent dans `public/images/` ; sans fond, la grande salle dessinée) et `indices` (liste de textes non vides, débloqués un par un aux minutes de `indices_apres_minutes`, pas plus que d'horaires ; sans indices, pas de bouton) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
 | `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |

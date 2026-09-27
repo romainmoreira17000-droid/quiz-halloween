@@ -4,7 +4,8 @@ import { initialGameState, type GameState } from './progress'
 const RESUMABLE: readonly string[] = ['entrance', 'playing', 'won']
 
 const isTime = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
-const isSlot = (value: unknown): value is number => typeof value === 'number' && Number.isInteger(value) && value >= 0
+// A slot number or a hint count: a whole number, 0 or more.
+const isCount = (value: unknown): value is number => typeof value === 'number' && Number.isInteger(value) && value >= 0
 const isDigit = (value: unknown): value is number =>
   typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 9
 
@@ -21,7 +22,11 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
   // A save without the field comes from an older game format: nothing to resume.
   if (blockedUntil !== null && !isTime(blockedUntil)) return null
   // Missing is fine (saved before the animator menu): games under way on the evening must survive the update.
-  if (hintSlot !== null && !isSlot(hintSlot)) return null
+  if (hintSlot !== null && !isCount(hintSlot)) return null
+  const { hintCount = hintSlot !== null ? 1 : 0 } = value as Record<string, unknown>
+  // Missing too before sprint 14 (one hint shown per slot at most). Only a safety net: that sprint changed the shape of
+  // QuizConfig, so its fingerprint too, and older saves are dropped by loadGame before they get here.
+  if (!isCount(hintCount)) return null
   if (!Array.isArray(digits) || digits.length !== stepCount || !digits.every((d) => d === null || isDigit(d))) return null
   const known = digits as (number | null)[]
   const fresh = { ...initialGameState(stepCount), digits: known }
@@ -30,6 +35,6 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
     return known.every((d) => d === null) && startedAt === null && finishedAt === null ? { ...fresh, status: 'entrance' } : null
   }
   if (!isTime(startedAt)) return null
-  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot } : null
+  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot, hintCount: hintSlot === null ? 0 : hintCount } : null
   return isTime(finishedAt) && known.every(isDigit) ? { ...fresh, status: 'won', startedAt, finishedAt } : null
 }

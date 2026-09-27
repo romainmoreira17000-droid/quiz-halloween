@@ -7,7 +7,7 @@ import { validateTeamSettings } from './validateTeamSettings'
 import type { QuizStep, ValidationResult } from './types'
 
 const ROOT_KEYS = [
-  'titre', 'intro', 'fond_accueil', 'equipes', 'duree_epreuve_minutes', 'indice_apres_minutes', 'blocage_secondes', 'code_animateur',
+  'titre', 'intro', 'fond_accueil', 'equipes', 'duree_epreuve_minutes', 'indices_apres_minutes', 'blocage_secondes', 'code_animateur',
   'nombre_etapes', 'entree', 'etapes', 'cadenas',
 ] as const
 
@@ -40,8 +40,16 @@ export function validateQuiz(raw: unknown): ValidationResult {
   // Without a valid count, the step list length is the best guess for the padlock check.
   const stepCount = countOk ? (raw.nombre_etapes as number) : steps.length
   const padlock = validatePadlock(raw.cadenas, stepCount, errors)
-  // `duree_minutes` already has its own "replaced by" message.
-  errors.push(...unknownKeyErrors(raw, [...ROOT_KEYS, 'duree_minutes'], ''))
+  // `duree_minutes` and `indice_apres_minutes` already have their own "replaced by" message.
+  errors.push(...unknownKeyErrors(raw, [...ROOT_KEYS, 'duree_minutes', 'indice_apres_minutes'], ''))
+  if (settings !== null) {
+    steps.forEach((step, i) => {
+      const count = step?.hints?.length ?? 0
+      if (count > settings.hintTimes.length) {
+        errors.push(`étape ${i + 1} : ${count} indices mais seulement ${settings.hintTimes.length} horaire(s) dans « indices_apres_minutes ».`)
+      }
+    })
+  }
 
   if (errors.length > 0 || padlock === null || entrance === null || settings === null) return { ok: false, errors }
   return { ok: true, config: {

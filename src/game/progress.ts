@@ -6,9 +6,11 @@
 import type { QuizConfig } from '../config/types'
 import { isAnimatorCode, isRightAnswer } from './answer'
 import { blockEnd, blockSecondsLeft } from './block'
+import { availableHints, hintsUnlockedByClock } from './hints'
 import { isPadlockCode, padlockCode } from './padlock'
 import { gamePhase, type GameStatus } from './phase'
 import { startForNextSlot } from './skip'
+import { slotTiming } from './time'
 
 export type { GameStatus }
 
@@ -27,8 +29,10 @@ export interface GameState {
   wrongSlot: number | null
   /** End of the keyboard block after a wrong answer to a challenge (ms), null when free. Saved: a reload keeps it. */
   blockedUntil: number | null
-  /** Slot in which an animator showed the hint early (animator menu), null otherwise. A new slot hides it again. */
+  /** Slot in which an animator gave hints early (animator menu), null otherwise. A new slot hides them again. */
   hintSlot: number | null
+  /** Hints the animator gave in `hintSlot` (menu), 0 otherwise. */
+  hintCount: number
 }
 
 /** Player actions. `now` is passed in so the reducer stays pure; each one is checked against the phase at `now`. */
@@ -51,7 +55,7 @@ export type GameAction =
 export function initialGameState(stepCount: number): GameState {
   return {
     status: 'home', digits: Array.from({ length: stepCount }, () => null),
-    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null,
+    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0,
   }
 }
 
@@ -83,13 +87,20 @@ export function earnsDigit(
 }
 
 /**
- * Whether an animator showed the hint in this slot (animator menu).
+ * Hints of the challenge available now, unlocked by the slot clock or given by an animator in this slot.
  * @param state Game state.
+ * @param config Validated quiz.
+ * @param challenge 0-based challenge on screen.
  * @param slot Slot on screen.
- * @returns True when the hint button must be available now, whatever the clock says.
+ * @param now Current timestamp in ms.
+ * @returns Between 0 and the number of hints of the step.
  */
-export function hintShown(state: GameState, slot: number): boolean {
-  return state.hintSlot === slot
+export function hintsAvailable(state: GameState, config: QuizConfig, challenge: number, slot: number, now: number): number {
+  const total = config.steps[challenge].hints?.length ?? 0
+  if (state.startedAt === null) return 0
+  const { secondsLeft } = slotTiming(state.startedAt, now, config.slotMinutes)
+  const byClock = hintsUnlockedByClock(secondsLeft, config.slotMinutes, config.hintTimes)
+  return availableHints(byClock, { slot: state.hintSlot, count: state.hintCount }, slot, total)
 }
 
 function withDigit(state: GameState, challenge: number, digit: number): GameState {
@@ -150,8 +161,11 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
         return blockSecondsLeft(state.blockedUntil, action.now) > 0 ? { ...state, blockedUntil: null } : state
       case 'showHint': {
         const phase = gamePhase(state, config, teamIndex, action.now)
-        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge || !config.steps[action.challenge].hint) return state
-        return { ...state, hintSlot: phase.slot }
+        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge) return state
+        // One more hint than on screen now, whether the clock or the animator unlocked those.
+        const shown = hintsAvailable(state, config, action.challenge, phase.slot, action.now)
+        if (shown >= (config.steps[action.challenge].hints?.length ?? 0)) return state
+        return { ...state, hintSlot: phase.slot, hintCount: shown + 1 }
       }
       case 'skipSlot': {
         // Not on « Temps écoulé »: the animator code is still needed there, as on the evening.

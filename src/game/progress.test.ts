@@ -4,7 +4,7 @@ import { createGameReducer, earnsDigit, initialGameState, wrongAttemptsIn, type 
 
 const MIN = 60_000
 const config: QuizConfig = {
-  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
+  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10], blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '14' }, digit: 4 },
     { title: 'B', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0 },
@@ -21,7 +21,7 @@ const atEntrance: GameState = { ...home, status: 'entrance' }
 
 describe('game reducer', () => {
   it('starts on the home screen, with no digit', () => {
-    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null })
+    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0 })
   })
   it('records the start time, once', () => {
     expect(reduce(home, { type: 'start', now: 0 })).toEqual(playing)

@@ -2,7 +2,7 @@
 import { validateTeamSettings } from './validateTeamSettings'
 
 const valid = {
-  equipes: ['Sorcières', 'Zombies'], duree_epreuve_minutes: 15, indice_apres_minutes: 10, blocage_secondes: 60, code_animateur: '2710',
+  equipes: ['Sorcières', 'Zombies'], duree_epreuve_minutes: 15, indices_apres_minutes: [5, 8, 11], blocage_secondes: 60, code_animateur: '2710',
 }
 
 function run(raw: Record<string, unknown>, stepCount: number | null = 2) {
@@ -14,7 +14,7 @@ function run(raw: Record<string, unknown>, stepCount: number | null = 2) {
 describe('validateTeamSettings', () => {
   it('returns the settings', () => {
     expect(run(valid)).toEqual({
-      settings: { teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 60, animatorCode: '2710' },
+      settings: { teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [5, 8, 11], blockSeconds: 60, animatorCode: '2710' },
       errors: [],
     })
   })
@@ -55,20 +55,29 @@ describe('validateTeamSettings', () => {
     expect(run({ ...valid, duree_minutes: 90 }).errors)
       .toEqual(["« duree_minutes » a été remplacée par « duree_epreuve_minutes » : la durée d'une épreuve, en minutes."])
   })
-  it.each([0, 14])('accepts indice_apres_minutes %j', (indice_apres_minutes) => {
-    expect(run({ ...valid, indice_apres_minutes }).errors).toEqual([])
+  it.each([[[0]], [[5, 8, 11]], [[14]]])('accepts indices_apres_minutes %j', (indices_apres_minutes) => {
+    expect(run({ ...valid, indices_apres_minutes }).errors).toEqual([])
   })
-  it.each([-1, 2.5, '10', undefined])('rejects indice_apres_minutes %j', (indice_apres_minutes) => {
-    expect(run({ ...valid, indice_apres_minutes }).errors)
-      .toEqual(['« indice_apres_minutes » doit être un nombre entier supérieur ou égal à 0.'])
+  it.each([[[]], [10], [[-1]], [[2.5]], [['5']], [undefined]])('rejects indices_apres_minutes %j', (indices_apres_minutes) => {
+    expect(run({ ...valid, indices_apres_minutes }).errors)
+      .toEqual(['« indices_apres_minutes » doit être une liste de nombres entiers, 0 ou plus (exemple : [5, 8, 11]).'])
   })
-  it('needs the hint before the end of the slot', () => {
-    expect(run({ ...valid, indice_apres_minutes: 15 }).errors)
-      .toEqual(["« indice_apres_minutes » (15) doit être plus petit que « duree_epreuve_minutes » (15) : sinon l'indice n'arrive jamais."])
+  it.each([[[8, 5]], [[5, 5]]])('needs increasing times %j', (indices_apres_minutes) => {
+    expect(run({ ...valid, indices_apres_minutes }).errors)
+      .toEqual(['« indices_apres_minutes » : les minutes doivent aller en croissant, sans doublon (exemple : [5, 8, 11]).'])
+  })
+  it('needs every hint before the end of the slot', () => {
+    expect(run({ ...valid, indices_apres_minutes: [5, 15] }).errors)
+      .toEqual(["« indices_apres_minutes » : 15 doit être plus petit que « duree_epreuve_minutes » (15) : sinon l'indice n'arrive jamais."])
   })
   it('skips the hint-vs-slot check when the slot length is wrong', () => {
-    expect(run({ ...valid, duree_epreuve_minutes: 0, indice_apres_minutes: 20 }).errors)
+    expect(run({ ...valid, duree_epreuve_minutes: 0, indices_apres_minutes: [20] }).errors)
       .toEqual(['« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.'])
+  })
+  it('explains the old single hint delay', () => {
+    const { indices_apres_minutes: _dropped, ...old } = valid
+    expect(run({ ...old, indice_apres_minutes: 10 }).errors).toContain(
+      '« indice_apres_minutes » a été remplacée par « indices_apres_minutes » : une liste de minutes, une par indice (exemple : [5, 8, 11]).')
   })
   it('accepts blocage_secondes 0 (no block)', () => {
     expect(run({ ...valid, blocage_secondes: 0 }).settings?.blockSeconds).toBe(0)

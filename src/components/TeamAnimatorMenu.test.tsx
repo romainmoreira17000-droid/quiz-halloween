@@ -8,10 +8,10 @@ import { TeamGame } from './TeamGame'
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
 
 const config: QuizConfig = {
-  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 60, animatorCode: '2710', stepCount: 2,
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10, 12], blockSeconds: 60, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
-    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0, hint: 'Sous le lit' },
+    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0, hints: ['Sous le lit', 'Sous l’oreiller'] },
   ],
   padlock: { order: [2, 1] },
 }
@@ -44,7 +44,7 @@ describe('animator menu in the game', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
     expect(playPinSound).toHaveBeenCalledOnce()
   })
-  it('ends a block, and shows the hint before its time', () => {
+  it('ends a block, and gives the hints one by one before their time', () => {
     startZombies()
     type('9')
     expect(screen.getByRole('button', { name: 'Indice dans 10:00' })).toBeDisabled()
@@ -52,8 +52,13 @@ describe('animator menu in the game', () => {
     press('Débloquer la saisie')
     expect(screen.getByRole('button', { name: '0' })).toBeEnabled()
     openMenu()
-    press('Montrer l’indice')
-    expect(screen.getByRole('button', { name: 'Voir l’indice' })).toBeEnabled()
+    press('Débloquer l’indice suivant (1/2)')
+    expect(screen.getByRole('button', { name: 'Voir l’indice (1/2)' })).toBeEnabled()
+    openMenu()
+    press('Débloquer l’indice suivant (2/2)')
+    expect(screen.getByRole('button', { name: 'Voir les indices (2/2)' })).toBeEnabled()
+    openMenu()
+    expect(screen.queryByRole('button', { name: /Débloquer l’indice/ })).not.toBeInTheDocument()
   })
   it('has no action but the answers on the home screen', () => {
     render(<TeamGame config={config} teamIndex={1} onChangeTeam={vi.fn()} />)

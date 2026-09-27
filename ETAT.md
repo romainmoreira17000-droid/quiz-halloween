@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-2 faites)
+Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-3 faites)
 
 ## Sprint en cours
 - **Objectif :** cadenas 3D d'horreur (rouille, chaînes, sang) : cadenas des épreuves + cadenas final + ouverture
@@ -25,7 +25,7 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 Étapes du sprint 17 :
 - [x] 1. `lock/` : LockDefs, LockChains, BloodDrips (tests de rendu simples) ; styles chaînes/goutte dans lock.css
 - [x] 2. CutawayLock restylé (tests existants verts ; e2e layout écran d'étape sans défilement)
-- [ ] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
+- [x] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
 - [ ] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
 - [ ] 5. Vérif Playwright tablette + téléphone, e2e complets, CLAUDE.md, relecture, PR
 
@@ -36,12 +36,14 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 17, étape 3 : tambour 3D. D'abord en TDD la fonction pure d'angle cumulé (9 → 0 roule dans le même sens),
-puis `Dial` en tambour (10 faces, `<output>` garde le chiffre, tambour `aria-hidden`), puis le cadre rouillé du cadenas
-final dans `PadlockScreen` (réutiliser `LockDefs`/`LockChains`/`BloodDrips`). Téléphone : 6 tambours sur une ligne à 360 px.
-Notes étape 2 : l'anse SVG s'appelle `cutaway-shackle` (plus de conflit avec `.lock-shackle` de victory.css) ; jambes
-de l'anse raccourcies pour loger plaque des chiffres + trou de serrure dans le même viewBox ; grain de rouille affiné
-dans `LockDefs` ; `.cutaway-lock *` en `pointer-events: none` (sang et chaînes débordent sur le pavé).
+Sprint 17, étape 4 : `HauntedDoor` (écran de victoire). Remplacer le petit cadenas CSS par le cadenas rouillé (réutiliser
+`LockDefs`/`LockChains`/`BloodDrips`, voire la forme de `FinalLock`) : anse qui saute, chaînes qui tombent
+(`lock-chains--fallen`), chute du cadenas, puis portes comme avant. Timeline 0–1,4 s gardée (calée sur `sound.ts`),
+reduced motion = état final. Vérifier le conflit `.lock-shackle` de victory.css.
+Notes étape 3 : `rollDrum` (`padlock.ts`) = angle cumulé, plus court chemin, en avant sur égalité ; `Dial` garde
+`{ digit, angle }` en état (état dérivé pendant le rendu) et pose `--drum-angle` ; `<output class="dial-value">` masqué
+visuellement (lu par lecteurs d'écran et tests). `FinalLock` (`lock/`) : seule `LockDefs` de l'écran, la plaque et le sang
+d'autres SVG y renvoient. Tablette : 6 tambours sur une ligne (fenêtre 84 px) ; téléphone 360 px : corps 324 px, une ligne.
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.

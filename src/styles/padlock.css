@@ -7,7 +7,8 @@
   list-style: none;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px;
 }
-/* Dark veil: the recap and the hint sit on the photo backdrop, where the pale text lost contrast. */
+/* Dark veil: the recap and the hint sit on the photo backdrop, where the pale text lost contrast.
+   A solid rounded panel, not the radial glow of time-up and victory: the recap is a wide grid that a glow would leave half bare. */
 .recap, .hint {
   padding: 12px 20px; border-radius: 20px;
   background: rgb(12 8 5 / .78); box-shadow: 0 0 24px 8px rgb(12 8 5 / .5);

@@ -39,6 +39,11 @@ describe('AnimatorMenu', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Passer à l’épreuve suivante' }))
     expect(onSkip).not.toHaveBeenCalled()
     expect(screen.getByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).toBeInTheDocument()
+    // « Annuler » only takes the question back, the menu stays open.
+    await userEvent.click(screen.getByRole('button', { name: 'Annuler' }))
+    expect(screen.queryByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).not.toBeInTheDocument()
+    expect(onClose).not.toHaveBeenCalled()
+    await userEvent.click(screen.getByRole('button', { name: 'Passer à l’épreuve suivante' }))
     await userEvent.click(screen.getByRole('button', { name: 'Oui, passer à l’épreuve suivante' }))
     expect(onSkip).toHaveBeenCalledOnce()
     expect(onClose).toHaveBeenCalledOnce()

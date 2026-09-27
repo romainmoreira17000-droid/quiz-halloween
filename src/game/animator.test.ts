@@ -82,3 +82,17 @@ describe('animatorSkip', () => {
     expect(reduce(home, { type: 'animatorSkip', challenge: 1, now: 0 })).toBe(home)
   })
 })
+
+describe('setStart', () => {
+  it('moves the start, keeping the digits and forgetting what belonged to the old slot', () => {
+    const helped = { ...blocked, digits: [null, 0], hintSlot: 0, hintCount: 2 }
+    expect(reduce(helped, { type: 'setStart', startedAt: -20 * MIN, now: 2 * MIN }))
+      .toEqual({ ...playing, digits: [null, 0], startedAt: -20 * MIN })
+  })
+  it('refuses a start in the future, and every screen but a game in progress', () => {
+    expect(reduce(playing, { type: 'setStart', startedAt: 3 * MIN, now: 2 * MIN })).toBe(playing)
+    expect(reduce(home, { type: 'setStart', startedAt: 0, now: 2 * MIN })).toBe(home)
+    const won = { ...playing, status: 'won' as const, digits: [4, 0], finishedAt: 40 * MIN }
+    expect(reduce(won, { type: 'setStart', startedAt: 0, now: 50 * MIN })).toBe(won)
+  })
+})

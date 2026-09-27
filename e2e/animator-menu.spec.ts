@@ -57,3 +57,21 @@ test('an animator moves the group on to the next challenge, giving the digit of 
   await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
   await expect(page.getByText('Temps écoulé')).toHaveCount(0)
 })
+
+test('an animator lines a late tablet up with the start time of the others', async ({ page }) => {
+  await page.clock.install({ time: new Date(2026, 9, 31, 20, 5) })
+  await page.goto('./')
+  await setUpTablet(page, 'Sorcières')
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
+
+  // The other tablets started at 19:48: they are in slot 1, and this group missed its first challenge.
+  await openMenu(page)
+  await expect(page.getByLabel('Départ de la partie')).toHaveValue('20:05')
+  await page.getByLabel('Départ de la partie').fill('19:48')
+  await page.getByRole('button', { name: 'Recaler l’heure de départ' }).click()
+  await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
+  await typeAnswer(page, '2710')
+  await page.getByRole('button', { name: 'Continuer' }).click()
+  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
+})

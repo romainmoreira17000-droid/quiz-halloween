@@ -1,23 +1,25 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 18 codé, PR à ouvrir)
+Dernière mise à jour : 2026-09-27 (sprint 18 mergé PR #53, sprint 19 codé)
 
 ## Sprint en cours
-Sprint 18 : « Passer à l'épreuve suivante » dans le menu animateur (issue #51, branche `feat/animator-next-challenge`).
-- [x] Action `animatorSkip` du réducteur (donne le chiffre si besoin, puis recule `startedAt` au créneau suivant)
-- [x] Bouton + confirmation (`SkipNext`) dans le menu, sur épreuve et attente ; « clac » si un chiffre est donné
-- [x] Tests unitaires (455 verts), e2e (21 verts), vérif visuelle tablette + téléphone
-- [ ] Relecture (`relecteur-code`), PR, merge par Romain
+Sprint 19 : « Départ de la partie » dans le menu animateur (issue #52, branche `feat/animator-start-time`).
+- [x] `startTime.ts` (hh:mm ↔ horodatage du jour, refus d'une heure à venir), action `setStart` du réducteur
+- [x] Champ `StartTime` dans le menu, sur tout écran de partie en cours ; message si l'heure n'est pas passée
+- [x] Tests unitaires (462 verts), e2e (22 verts), vérif visuelle tablette + téléphone
+- [ ] PR, merge par Romain
 
 ## Où on en est
-- [ ] Sprint 19 (issue #52) : recaler l'heure de départ d'une tablette décalée (menu animateur, sélecteur d'heure).
+- [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
+- [ ] Suggestion de relecture du sprint 18, non faite : bouton « Annuler » à côté de « Oui, passer à l'épreuve suivante »
+  (aujourd'hui seul « Fermer » annule, en fermant tout le menu).
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
   ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Relire le sprint 18 puis ouvrir la PR (Closes #51). Ensuite, sprint 19 (#52).
+Faire relire et merger la PR du sprint 19 (Closes #52), puis remettre ETAT.md à zéro.
 En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
@@ -26,6 +28,8 @@ Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 19 (design) : heure de départ à la minute (écart ≤ 1 min avec les autres tablettes, acceptable) ; possible sur
+  tout écran `playing` (y compris « Temps écoulé » et cadenas), pas avant « Commencer ». Pas de confirmation : taper une heure est déjà volontaire.
 - Sprint 18 (cadrage, choix de Romain) : trois besoins (tout le monde avance, une équipe bloquée, une tablette décalée).
   Un saut sur une seule tablette l'envoie dans une salle occupée → bouton avec confirmation « à faire sur toutes les
   tablettes » ; équipe bloquée = « Valider l'épreuve » (existant) ; tablette décalée = sprint 19 (heure de départ).

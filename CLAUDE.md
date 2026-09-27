@@ -31,7 +31,7 @@ quiz.yaml                  paramètres du quiz (clés en français, commentées)
 public/images/             images des étapes (`image:`) et fonds photo WebP (`fond`, `fond_accueil`, `cadenas.fond`)
 images-sources/            illustrations PNG d'origine de Romain (gitignoré, converties par `npm run images`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
-scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifié par `slug.ts`
+scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifié par `slug.ts`, sources choisies par `sources.ts`
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,

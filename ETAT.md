@@ -1,52 +1,18 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-4 faites, étape 5 en cours)
+Dernière mise à jour : 2026-09-27 (sprint 17 mergé, PR #49)
 
 ## Sprint en cours
-- **Objectif :** cadenas 3D d'horreur (rouille, chaînes, sang) : cadenas des épreuves + cadenas final + ouverture
-- **Issue :** #47 — Cadenas 3D d'horreur
-- **Branche :** feat/horror-padlock
-- **PR :** pas encore
-
-Design validé en chat (chantier « bounded », pas de spec). **Aucun changement de logique** (goupilles, code, sauvegarde, sons) :
-- Pièces partagées `src/components/lock/` : `LockDefs` (dégradés rouille, filtre SVG de bruit, sang ; ids `lock-*`),
-  `LockChains` (chaînes SVG qui peuvent tomber), `BloodDrips` (coulures fixes + une goutte qui perle lentement).
-- `CutawayLock` (écran d'étape) : même encombrement (190 px sur tablette, l'écran d'étape ne doit pas défiler) ; fer rouillé
-  en relief, rivets, sang au trou de serrure, chaînes en croix derrière l'anse ; à l'ouverture l'anse s'ouvre et les chaînes tombent.
-- Cadenas final (`PadlockScreen` + `Dial`) : grand cadenas rouillé (anse + chaînes) autour des molettes ; chaque molette
-  devient un **tambour 3D** de 10 chiffres qui roule (voisins visibles en perspective), flèches ▲▼ gardées ; 9 → 0 roule
-  dans le même sens (fonction pure testée, angle cumulé). `<output>` garde le chiffre (tambour `aria-hidden`).
-  Téléphone : 6 tambours sur une ligne à 360 px.
-- Ouverture : **au début de l'écran de victoire** (`HauntedDoor`), le petit cadenas CSS est remplacé par le cadenas rouillé :
-  anse qui saute, chaînes qui tombent, chute, puis portes comme avant. Timeline 0–1,4 s gardée (calée sur `sound.ts`).
-  Pas d'attente ajoutée entre bon code et victoire (sinon nouvel état de partie à sauvegarder).
-- Reduced motion : état final direct. Corriger le conflit `.lock-shackle` (lock.css / victory.css).
-
-Étapes du sprint 17 :
-- [x] 1. `lock/` : LockDefs, LockChains, BloodDrips (tests de rendu simples) ; styles chaînes/goutte dans lock.css
-- [x] 2. CutawayLock restylé (tests existants verts ; e2e layout écran d'étape sans défilement)
-- [x] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
-- [x] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
-- [ ] 5. Vérif Playwright tablette + téléphone, e2e complets, CLAUDE.md, relecture, PR
-  (fait : 450 unitaires + 20 e2e verts, typecheck/lint OK, captures tablette/téléphone/reduced motion OK, CLAUDE.md à jour)
+Aucun. Sprint 17 (cadenas 3D d'horreur, #47) terminé et mergé (PR #49).
 
 ## Où on en est
-- [x] Sprints 1 à 16 terminés et en ligne (dernier : célébration « Bravo ! » et message d'attente, PR #48).
+- [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
   ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 17, étape 5 : appliquer les retours de `relecteur-code`, attendre la CI verte de la PR `Closes #47`, puis merger
-(Romain a donné son accord pour le merge, 2026-09-27) et nettoyer la branche.
-Notes étape 4 : `VictoryLock` (`lock/`) remplace le petit cadenas CSS dans `HauntedDoor` (`.lock` garde `lock-fall`, 200 px,
-140 px sur téléphone). Chaînes **devant** le corps et rendues déjà `fallen` (elles tombent dès l'affichage, à 0,3 s) ; anse
-`.victory-lock-shackle` qui saute à 0,2 s (clac de `sound.ts`), jambes longues cachées derrière le corps pour rester engagées.
-`.lock-shackle` / `.lock-body` supprimés de victory.css (conflit réglé). Vérifié en captures Playwright tablette + téléphone.
-Notes étape 3 : `rollDrum` (`padlock.ts`) = angle cumulé, plus court chemin, en avant sur égalité ; `Dial` garde
-`{ digit, angle }` en état (état dérivé pendant le rendu) et pose `--drum-angle` ; `<output class="dial-value">` masqué
-visuellement (lu par lecteurs d'écran et tests). `FinalLock` (`lock/`) : seule `LockDefs` de l'écran, la plaque et le sang
-d'autres SVG y renvoient. Tablette : 6 tambours sur une ligne (fenêtre 84 px) ; téléphone 360 px : corps 324 px, une ligne.
+Aucun sprint en cours. Attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.

@@ -41,3 +41,19 @@ test('an animator unblocks, shows the hint, solves the challenge and reads the a
   await page.getByRole('button', { name: 'Valider l’épreuve « La galerie des portraits »' }).click()
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
 })
+
+test('an animator moves the group on to the next challenge, giving the digit of the unsolved one', async ({ page }) => {
+  await page.clock.install()
+  await page.goto('./')
+  await setUpTablet(page, 'Sorcières')
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
+
+  await openMenu(page)
+  await page.getByRole('button', { name: 'Passer à l’épreuve suivante' }).click()
+  await expect(page.getByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).toBeVisible()
+  await page.getByRole('button', { name: 'Oui, passer à l’épreuve suivante' }).click()
+  // « Temps écoulé » would come first if the digit of the skipped challenge were still missing.
+  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
+  await expect(page.getByText('Temps écoulé')).toHaveCount(0)
+})

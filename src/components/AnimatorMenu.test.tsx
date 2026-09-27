@@ -31,6 +31,18 @@ describe('AnimatorMenu', () => {
     expect(onUnblock).toHaveBeenCalledOnce()
     expect(onShow).toHaveBeenCalledOnce()
   })
+  it('asks to confirm before moving on to the next challenge', async () => {
+    const onSkip = vi.fn()
+    const onClose = vi.fn()
+    render(<AnimatorMenu steps={steps} code={[0, 4]} onSkip={onSkip} onClose={onClose} />)
+    expect(screen.queryByText('Rien à débloquer sur cet écran.')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Passer à l’épreuve suivante' }))
+    expect(onSkip).not.toHaveBeenCalled()
+    expect(screen.getByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Oui, passer à l’épreuve suivante' }))
+    expect(onSkip).toHaveBeenCalledOnce()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
   it('shows the answers and the padlock code on demand', async () => {
     render(<AnimatorMenu steps={steps} code={[0, 4]} onClose={vi.fn()} />)
     expect(screen.queryByText('0472')).not.toBeInTheDocument()

@@ -1,18 +1,24 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 17 mergé, PR #49)
+Dernière mise à jour : 2026-09-27 (sprint 18 codé, PR à ouvrir)
 
 ## Sprint en cours
-Aucun. Sprint 17 (cadenas 3D d'horreur, #47) terminé et mergé (PR #49).
+Sprint 18 : « Passer à l'épreuve suivante » dans le menu animateur (issue #51, branche `feat/animator-next-challenge`).
+- [x] Action `animatorSkip` du réducteur (donne le chiffre si besoin, puis recule `startedAt` au créneau suivant)
+- [x] Bouton + confirmation (`SkipNext`) dans le menu, sur épreuve et attente ; « clac » si un chiffre est donné
+- [x] Tests unitaires (455 verts), e2e (21 verts), vérif visuelle tablette + téléphone
+- [ ] Relecture (`relecteur-code`), PR, merge par Romain
 
 ## Où on en est
+- [ ] Sprint 19 (issue #52) : recaler l'heure de départ d'une tablette décalée (menu animateur, sélecteur d'heure).
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
   ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Aucun sprint en cours. Attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
+Relire le sprint 18 puis ouvrir la PR (Closes #51). Ensuite, sprint 19 (#52).
+En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
@@ -20,6 +26,11 @@ Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 18 (cadrage, choix de Romain) : trois besoins (tout le monde avance, une équipe bloquée, une tablette décalée).
+  Un saut sur une seule tablette l'envoie dans une salle occupée → bouton avec confirmation « à faire sur toutes les
+  tablettes » ; équipe bloquée = « Valider l'épreuve » (existant) ; tablette décalée = sprint 19 (heure de départ).
+- Sprint 18 (design) : le saut donne le chiffre de l'épreuve pas trouvée (sinon « Temps écoulé » redemandait le code) ;
+  l'action nomme son épreuve (un tap au changement de créneau ne saute pas deux fois). Le `skipSlot` du mode test reste inchangé.
 - Sprint 17 (choix de Romain) : ambiance rouille + chaînes + sang ; molettes-tambours 3D + animation d'ouverture.
 - Sprint 17 (design) : ouverture jouée au début de la victoire plutôt qu'avant (pas de nouvel état de partie).
 - Sprint 16 (choix de Romain) : grande célébration plein écran ; message d'attente identique dans toutes les salles ;

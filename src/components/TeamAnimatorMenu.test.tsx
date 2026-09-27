@@ -62,6 +62,23 @@ describe('animator menu in the game', () => {
     openMenu()
     expect(screen.queryByRole('button', { name: /Débloquer l’indice/ })).not.toBeInTheDocument()
   })
+  it('moves on to the next challenge, giving the digit of the unsolved one', () => {
+    startZombies()
+    openMenu()
+    press('Passer à l’épreuve suivante')
+    press('Oui, passer à l’épreuve suivante')
+    expect(playPinSound).toHaveBeenCalledOnce()
+    expect(screen.getByRole('heading', { name: 'La crypte' })).toBeInTheDocument()
+    // From the wait too: no clack, the digit is already found.
+    type('4')
+    act(() => vi.advanceTimersByTime(4000)) // let « Bravo ! » close
+    vi.clearAllMocks()
+    openMenu()
+    press('Passer à l’épreuve suivante')
+    press('Oui, passer à l’épreuve suivante')
+    expect(playPinSound).not.toHaveBeenCalled()
+    expect(screen.getByRole('heading', { name: /cadenas/i })).toBeInTheDocument()
+  })
   it('has no action but the answers on the home screen', () => {
     render(<TeamGame config={config} teamIndex={1} onChangeTeam={vi.fn()} />)
     openMenu()

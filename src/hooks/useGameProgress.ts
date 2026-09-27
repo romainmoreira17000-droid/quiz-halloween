@@ -30,6 +30,8 @@ export interface GameProgress {
   unblock(): void
   /** Animator menu: makes the hint of `challenge` (on screen) available until the end of the slot. */
   showHint(challenge: number): void
+  /** Animator menu: starts the next slot now, giving the digit of `challenge` (on screen) if needed; true when it gave it (the caller plays the clack). */
+  animatorSkip(challenge: number): boolean
 }
 
 /**
@@ -80,5 +82,10 @@ export function useGameProgress(config: QuizConfig, teamIndex: number): GameProg
     },
     unblock: () => dispatch({ type: 'unblock', now: Date.now() }),
     showHint: (challenge) => dispatch({ type: 'showHint', challenge, now: Date.now() }),
+    animatorSkip: (challenge) => {
+      const action = { type: 'animatorSkip', challenge, now: Date.now() } as const
+      dispatch(action)
+      return reducer(state, action).digits[challenge] !== state.digits[challenge]
+    },
   }
 }

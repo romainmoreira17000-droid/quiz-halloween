@@ -46,6 +46,8 @@ export type GameAction =
   /** Animator menu (the code is checked when it opens): never changes the time, so the rotation stays in step. */
   | { type: 'animatorSolve'; challenge: number; now: number } | { type: 'unblock'; now: number }
   | { type: 'showHint'; challenge: number; now: number }
+  /** Animator menu, to move every tablet on together: gives the digit of `challenge` if needed, then starts the next slot now. */
+  | { type: 'animatorSkip'; challenge: number; now: number }
 
 /**
  * State before the game starts.
@@ -173,6 +175,16 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
         if ((kind !== 'challenge' && kind !== 'waiting') || state.startedAt === null) return state
         // The block is an absolute time: once the start moves back it would follow the group into the next room.
         return { ...state, startedAt: startForNextSlot(state.startedAt, action.now, config.slotMinutes), blockedUntil: null }
+      }
+      case 'animatorSkip': {
+        // The challenge is named so a tap right at the change of slot does not skip the next one too.
+        const phase = gamePhase(state, config, teamIndex, action.now)
+        if ((phase.kind !== 'challenge' && phase.kind !== 'waiting') || phase.challenge !== action.challenge) return state
+        if (state.startedAt === null) return state
+        // Unlike the test mode skip, the digit is given: the animator already decided, no « Temps écoulé » to unlock.
+        const solved = phase.kind === 'challenge'
+          ? { ...withDigit(state, action.challenge, config.steps[action.challenge].digit), wrongAttempts: 0 } : state
+        return { ...solved, startedAt: startForNextSlot(state.startedAt, action.now, config.slotMinutes), blockedUntil: null }
       }
     }
   }

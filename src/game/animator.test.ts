@@ -63,3 +63,22 @@ describe('showHint', () => {
     expect(reduce(home, { type: 'showHint', challenge: 1, now: 0 })).toBe(home)
   })
 })
+
+describe('animatorSkip', () => {
+  it('gives the digit of an unsolved challenge and starts the next slot now', () => {
+    // 4 minutes into slot 0: the start moves back 11 minutes, so now is 15:00 into the game.
+    expect(reduce(blocked, { type: 'animatorSkip', challenge: 1, now: 4 * MIN }))
+      .toEqual({ ...blocked, digits: [null, 0], startedAt: -11 * MIN, wrongAttempts: 0, blockedUntil: null })
+  })
+  it('skips the wait of a found challenge without touching its digit', () => {
+    const found = { ...playing, digits: [null, 0] }
+    expect(reduce(found, { type: 'animatorSkip', challenge: 1, now: 10 * MIN })).toEqual({ ...found, startedAt: -5 * MIN })
+  })
+  it('ignores another challenge (a tap right at the change of slot), « Temps écoulé », the padlock and other screens', () => {
+    expect(reduce(playing, { type: 'animatorSkip', challenge: 0, now: MIN })).toBe(playing)
+    expect(reduce(playing, { type: 'animatorSkip', challenge: 1, now: 16 * MIN })).toBe(playing)
+    const allFound = { ...playing, digits: [4, 0] }
+    expect(reduce(allFound, { type: 'animatorSkip', challenge: 0, now: 31 * MIN })).toBe(allFound)
+    expect(reduce(home, { type: 'animatorSkip', challenge: 1, now: 0 })).toBe(home)
+  })
+})

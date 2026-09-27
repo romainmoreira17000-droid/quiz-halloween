@@ -7,7 +7,8 @@
   position: fixed; inset: 0; z-index: 25; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
   padding: 16px; text-align: center; cursor: pointer;
-  background: radial-gradient(ellipse at 50% 45%, rgb(26 18 12 / .88), rgb(12 8 5 / .96) 70%);
+  /* Opaque: a see-through veil left « Chiffre trouvé » showing behind the big digit. */
+  background: radial-gradient(ellipse at 50% 45%, var(--wall), #0c0805 70%);
   animation: fade-in .3s ease-out both;
 }
 .celebration-bats { position: absolute; inset: 0; pointer-events: none; }

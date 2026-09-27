@@ -47,11 +47,13 @@
   border: 3px solid var(--bronze); border-radius: 56px 60px 54px 58px;
   font-family: var(--title-font); font-size: 48px;
 }
-.change-team { margin-top: 20px; min-height: 80px; font-size: 32px; }
+.dialog-extra { margin-top: 20px; min-height: 80px; font-size: 32px; }
 /* Code asked before a restart during a game: keypad right under its label, no screen-bottom spacing. */
 .reset-dialog .answer-zone { margin-top: 0; padding-top: 0; gap: 12px; }
 
 @media (max-width: 600px) {
   .reset-dialog { padding: 28px 16px; font-size: 22px; }
   .reset-dialog h2 { font-size: 40px; }
+  /* « Changer d'équipe » and « Menu animateur » on one line each. */
+  .dialog-extra { min-height: 64px; font-size: 24px; }
 }

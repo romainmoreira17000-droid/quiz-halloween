@@ -15,6 +15,23 @@ describe('ResetDialog', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Recommencer' }))
     expect(onConfirm).toHaveBeenCalledOnce()
   })
+  it('opens the animator menu after the animator code, always asked', async () => {
+    const onOpen = vi.fn()
+    const onConfirm = vi.fn()
+    render(<ResetDialog onCancel={vi.fn()} onConfirm={onConfirm} menu={{ code: '27', onOpen }} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Menu animateur' }))
+    expect(screen.getByRole('dialog', { name: 'Menu animateur' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Recommencer' })).not.toBeInTheDocument()
+    for (const key of ['1', 'Valider']) await userEvent.click(screen.getByRole('button', { name: key }))
+    expect(screen.getByRole('alert')).toHaveTextContent('Ce n’est pas le code animateur.')
+    for (const key of ['2', '7', 'Valider']) await userEvent.click(screen.getByRole('button', { name: key }))
+    expect(onOpen).toHaveBeenCalledOnce()
+    expect(onConfirm).not.toHaveBeenCalled()
+  })
+  it('has no animator menu button unless asked to', () => {
+    render(<ResetDialog onCancel={vi.fn()} onConfirm={vi.fn()} />)
+    expect(screen.queryByRole('button', { name: 'Menu animateur' })).not.toBeInTheDocument()
+  })
   it('cancels with the Escape key', async () => {
     const onCancel = vi.fn()
     render(<ResetDialog onCancel={onCancel} onConfirm={vi.fn()} />)

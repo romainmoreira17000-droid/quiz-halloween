@@ -1,24 +1,37 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (mode test fusionné ; fond de l'épreuve 6 en PR #36)
+Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
 
 ## Sprint en cours
-- Fond de l'épreuve 6 : issue #35, PR #36 (`feat/challenge-6-backdrop`), attend CI + merge.
-  Source renommée `invisible mais visible.png`, `npm run images` (180 Ko), `fond` dans `quiz.yaml`.
+- Sprint 13 : menu animateur, issue #38, branche `feat/animator-menu`.
+  Plan : `docs/superpowers/plans/2026-09-27-sprint13-menu-animateur.md`.
+  - [x] 1–3. `hintSlot` + restore tolérant, actions `animatorSolve`/`unblock`/`showHint`, hook
+  - [x] 4–6. bouton « Menu animateur » (ResetDialog), `AnimatorMenu`, `TeamAnimatorMenu`, `animator.css`
+  - [x] 7. e2e `animator-menu.spec.ts` ; vérif visuelle tablette + téléphone ; 403 tests unitaires, 18 e2e verts
+  - [x] 8. docs (README, CLAUDE.md)
+  - [x] Relecture (`relecteur-code`) : prêt ; classe `change-team` renommée `dialog-extra`
+  - [ ] PR, CI verte, merge par Romain
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
 - [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
 - [x] Voile sombre derrière les chiffres et l'indice du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
-- [x] Mode test `?test` + « Épreuve suivante » (issue #33, PR #34 fusionnée le 2026-09-27).
-- [x] 6e image reçue (« Invisible mais visible ») : fond de l'épreuve 6 (issue #35).
+- [x] Mode test `?test` + « Épreuve suivante » (issue #33, PR #34 fusionnée et déployée le 2026-09-27).
+- [x] 6e image reçue (« Invisible mais visible ») : fond de l'épreuve 6 (issue #35, PR #36 fusionnée et déployée le 2026-09-27).
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve
 
 ## Prochaine action concrète
-Merger la PR #36, puis attendre le contenu réel des épreuves de Romain et ouvrir le sprint 13
-(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
+Sprint 13 : PR du menu animateur ouverte, attendre CI + merge de Romain.
+Ensuite : contenu réel des épreuves de Romain (et nouveau code animateur) → sprint 14 (`feat/real-quiz-content`) :
+remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
 
 ## Décisions prises (et pourquoi)
+- Sprint 13 (cadrage, choix de Romain) : menu animateur via la fenêtre de ↺ (rien de plus à l'écran pour les enfants),
+  code toujours demandé (le menu montre les solutions). Actions : valider l'épreuve, débloquer la saisie, montrer
+  l'indice, voir les solutions. Le menu ne touche jamais au temps (rotation intacte).
+- Sprint 13 (exécution) : « Valider l'épreuve » seulement sur une épreuve en cours (« Temps écoulé » garde son code à
+  l'écran) ; une action ferme le menu (l'animateur voit l'effet tout de suite) ; sur téléphone, boutons de la fenêtre ↺
+  réduits pour tenir sur une ligne.
 - Épreuve 6 (issue #35) : source « 6eme epreuves.png » renommée « invisible mais visible.png » (→ `invisible-mais-visible.webp`,
   même règle de nom que les autres fonds).
 - Sprint 12 (cadrage, choix de Romain) : le saut de créneau sert seulement à tester l'app, pas pendant la soirée

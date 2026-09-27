@@ -24,6 +24,12 @@ export interface GameProgress {
   reset(): void
   /** Test mode only: ends the current slot now (ignored outside of a challenge or the wait). */
   skipSlot(): void
+  /** Animator menu: gives the digit of `challenge` if it is on screen; true when it did (the caller plays the clack). */
+  animatorSolve(challenge: number): boolean
+  /** Animator menu: ends the keyboard block at once. */
+  unblock(): void
+  /** Animator menu: makes the hint of `challenge` (on screen) available until the end of the slot. */
+  showHint(challenge: number): void
 }
 
 /**
@@ -66,5 +72,13 @@ export function useGameProgress(config: QuizConfig, teamIndex: number): GameProg
     },
     reset: () => dispatch({ type: 'reset' }),
     skipSlot: () => dispatch({ type: 'skipSlot', now: Date.now() }),
+    animatorSolve: (challenge) => {
+      const action = { type: 'animatorSolve', challenge, now: Date.now() } as const
+      dispatch(action)
+      // The reducer is pure: running it here tells the caller, inside the tap, whether the digit was given.
+      return reducer(state, action).digits[challenge] !== state.digits[challenge]
+    },
+    unblock: () => dispatch({ type: 'unblock', now: Date.now() }),
+    showHint: (challenge) => dispatch({ type: 'showHint', challenge, now: Date.now() }),
   }
 }

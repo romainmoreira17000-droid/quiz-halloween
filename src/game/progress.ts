@@ -27,6 +27,8 @@ export interface GameState {
   wrongSlot: number | null
   /** End of the keyboard block after a wrong answer to a challenge (ms), null when free. Saved: a reload keeps it. */
   blockedUntil: number | null
+  /** Slot in which an animator showed the hint early (animator menu), null otherwise. A new slot hides it again. */
+  hintSlot: number | null
 }
 
 /** Player actions. `now` is passed in so the reducer stays pure; each one is checked against the phase at `now`. */
@@ -37,6 +39,9 @@ export type GameAction =
   | { type: 'unlock'; code: number[]; now: number } | { type: 'reset' }
   /** Test mode only (see testMode.ts): ends the current slot now. */
   | { type: 'skipSlot'; now: number }
+  /** Animator menu (the code is checked when it opens): never changes the time, so the rotation stays in step. */
+  | { type: 'animatorSolve'; challenge: number; now: number } | { type: 'unblock'; now: number }
+  | { type: 'showHint'; challenge: number; now: number }
 
 /**
  * State before the game starts.
@@ -46,7 +51,7 @@ export type GameAction =
 export function initialGameState(stepCount: number): GameState {
   return {
     status: 'home', digits: Array.from({ length: stepCount }, () => null),
-    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null,
+    startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null,
   }
 }
 
@@ -75,6 +80,16 @@ export function earnsDigit(
   return phase.kind === 'challenge' && phase.challenge === answer.challenge
     && blockSecondsLeft(state.blockedUntil, answer.now) === 0
     && isRightAnswer(answer.text, config.steps[answer.challenge].answer)
+}
+
+/**
+ * Whether an animator showed the hint in this slot (animator menu).
+ * @param state Game state.
+ * @param slot Slot on screen.
+ * @returns True when the hint button must be available now, whatever the clock says.
+ */
+export function hintShown(state: GameState, slot: number): boolean {
+  return state.hintSlot === slot
 }
 
 function withDigit(state: GameState, challenge: number, digit: number): GameState {
@@ -126,6 +141,18 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
           : countWrong(state, config.stepCount)
       case 'reset':
         return initialGameState(config.stepCount)
+      case 'animatorSolve': {
+        const phase = gamePhase(state, config, teamIndex, action.now)
+        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge) return state
+        return { ...withDigit(state, action.challenge, config.steps[action.challenge].digit), wrongAttempts: 0, blockedUntil: null }
+      }
+      case 'unblock':
+        return blockSecondsLeft(state.blockedUntil, action.now) > 0 ? { ...state, blockedUntil: null } : state
+      case 'showHint': {
+        const phase = gamePhase(state, config, teamIndex, action.now)
+        if (phase.kind !== 'challenge' || phase.challenge !== action.challenge || !config.steps[action.challenge].hint) return state
+        return { ...state, hintSlot: phase.slot }
+      }
       case 'skipSlot': {
         // Not on « Temps écoulé »: the animator code is still needed there, as on the evening.
         const kind = gamePhase(state, config, teamIndex, action.now).kind

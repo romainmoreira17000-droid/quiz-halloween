@@ -46,11 +46,12 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), HintButton (bouton +
-                           fenêtre d'indice), TestModeControl (étiquette + bouton du mode test), ...
+                           fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
+                           AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran), ...
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -110,7 +111,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
 - **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`, avec
-  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil }` ;
+  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil, hintSlot }` ;
   `wrongSlot` empêche un message de mauvaise réponse de suivre le groupe au créneau suivant. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
   changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
@@ -165,3 +166,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   absolu, il suivrait sinon au créneau suivant) ; seulement en `challenge`/`waiting`, pas sur « Temps écoulé ».
   Bouton en bas à droite, dans la bande libre de 96 px, en face de l'icône de remise à zéro. En e2e :
   `page.goto('./?test')`, sans `page.clock`.
+- **Menu animateur** : ↺ appui long → « Menu animateur » (`ResetDialog`, prop `menu`) → code toujours demandé (le menu
+  montre les solutions). Actions du réducteur `animatorSolve`, `unblock`, `showHint`, vérifiées contre la phase ; aucune ne
+  touche au temps. `hintSlot` = créneau où l'indice a été montré (`hintShown`), absent des sauvegardes d'avant le sprint 13 :
+  `restoreGameState` le lit alors comme null (une partie en cours survit à la mise à jour). `TeamAnimatorMenu` ne passe
+  que les actions possibles à l'écran (validation seulement en `challenge`). Le « clac » est joué dans le tap
+  (`animatorSolve` renvoie un booléen). En test, taper le code **dans** la fenêtre (`within(dialog)`) : l'écran d'étape a
+  aussi un pavé.

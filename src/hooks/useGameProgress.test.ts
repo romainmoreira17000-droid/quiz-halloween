@@ -32,6 +32,26 @@ describe('useGameProgress', () => {
     expect(result.current.state.startedAt).toBe(START - 11 * MIN)
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}').state.startedAt).toBe(START - 11 * MIN)
   })
+  it('lets an animator solve the challenge on screen, telling whether it gave the digit', () => {
+    const { result } = zombies()
+    act(() => result.current.start())
+    let solved = false
+    act(() => { solved = result.current.animatorSolve(0) })
+    expect(solved).toBe(false) // not this team's challenge now
+    act(() => { solved = result.current.animatorSolve(1) })
+    expect(solved).toBe(true)
+    expect(result.current.state.digits).toEqual([null, 8])
+  })
+  it('lets an animator show the hint and end a block', () => {
+    const { result } = renderHook(() => useGameProgress({ ...config, blockSeconds: 60, steps: [config.steps[0], { ...config.steps[1], hint: 'h' }] }, 1))
+    act(() => result.current.start())
+    act(() => { result.current.answer(1, '9') })
+    expect(result.current.state.blockedUntil).not.toBeNull()
+    act(() => result.current.unblock())
+    expect(result.current.state.blockedUntil).toBeNull()
+    act(() => result.current.showHint(1))
+    expect(result.current.state.hintSlot).toBe(0)
+  })
   it('tells whether an answer earns the digit of the challenge on screen', () => {
     const { result } = zombies()
     let right = true

@@ -72,11 +72,11 @@ describe('StepScreen', () => {
     expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
   })
   it('shows the hint button on the parchment, with its countdown', () => {
-    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} hintSecondsLeft={125} />)
+    render(<StepScreen {...base} step={{ ...base.step, hints: ['Sous le chaudron.'] }} hintSecondsLeft={125} />)
     expect(screen.getByRole('button', { name: 'Indice dans 02:05' })).toBeDisabled()
   })
   it('hides the hint once the digit is found', () => {
-    render(<StepScreen {...base} step={{ ...base.step, hint: 'Sous le chaudron.' }} digits={[4, 7, null, null, null, null]} />)
+    render(<StepScreen {...base} step={{ ...base.step, hints: ['Sous le chaudron.'] }} digits={[4, 7, null, null, null, null]} />)
     expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
   })
 })

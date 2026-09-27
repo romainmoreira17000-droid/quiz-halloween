@@ -50,11 +50,16 @@ describe('validateStep', () => {
     expect(run('coucou').errors)
       .toEqual(['étape 3 : doit contenir « titre », « consigne », « type_reponse », « reponse » et « chiffre ».'])
   })
-  it('adds the hint when there is one', () => {
-    expect(run({ ...valid, indice: 'Sous le chaudron.' }).step?.hint).toBe('Sous le chaudron.')
-    expect(run(valid).step).not.toHaveProperty('hint')
+  it('adds the hints when there are some', () => {
+    expect(run({ ...valid, indices: ['Sous le chaudron.', 'Derrière'] }).step?.hints).toEqual(['Sous le chaudron.', 'Derrière'])
+    expect(run(valid).step).not.toHaveProperty('hints')
+    expect(run({ ...valid, indices: [] }).step).not.toHaveProperty('hints')
   })
-  it.each(['', '  ', 3])('rejects indice %j', (indice) => {
-    expect(run({ ...valid, indice }).errors).toEqual(['étape 3 : « indice » doit être un texte non vide.'])
+  it.each([['Sous le chaudron.'], [['']], [['  ']], [[3]]])('rejects indices %j', (indices) => {
+    expect(run({ ...valid, indices }).errors).toEqual(['étape 3 : « indices » doit être une liste de textes non vides.'])
+  })
+  it('explains the old single hint', () => {
+    expect(run({ ...valid, indice: 'Sous le chaudron.' }).errors).toEqual([
+      'étape 3 : « indice » a été remplacée par « indices », une liste (exemple : indices: ["premier indice", "deuxième indice"]).'])
   })
 })

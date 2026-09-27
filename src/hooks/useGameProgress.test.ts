@@ -8,7 +8,7 @@ import { useGameProgress } from './useGameProgress'
 const MIN = 60_000
 const START = Date.parse('2026-10-31T20:15:00+01:00')
 const config: QuizConfig = {
-  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
+  title: 'T', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10], blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '3' }, digit: 3 },
     { title: 'B', instruction: 'b', answer: { kind: 'digits', value: '8' }, digit: 8 },
@@ -43,7 +43,7 @@ describe('useGameProgress', () => {
     expect(result.current.state.digits).toEqual([null, 8])
   })
   it('lets an animator show the hint and end a block', () => {
-    const { result } = renderHook(() => useGameProgress({ ...config, blockSeconds: 60, steps: [config.steps[0], { ...config.steps[1], hint: 'h' }] }, 1))
+    const { result } = renderHook(() => useGameProgress({ ...config, blockSeconds: 60, steps: [config.steps[0], { ...config.steps[1], hints: ['h'] }] }, 1))
     act(() => result.current.start())
     act(() => { result.current.answer(1, '9') })
     expect(result.current.state.blockedUntil).not.toBeNull()

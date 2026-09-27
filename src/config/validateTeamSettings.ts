@@ -1,11 +1,32 @@
-/** @file Validates the game settings of the escape game: team names, slot length, hint delay, block time and animator code. */
+/** @file Validates the game settings of the escape game: team names, slot length, hint times, block time and animator code. */
 import { isIntInRange, isNonEmptyString, type RawObject } from './checks'
 
 /** Team settings, once validated. */
-export interface TeamSettings { teams: string[]; slotMinutes: number; hintAfterMinutes: number; blockSeconds: number; animatorCode: string }
+export interface TeamSettings { teams: string[]; slotMinutes: number; hintTimes: number[]; blockSeconds: number; animatorCode: string }
 
 // Digits only, kept as text: a leading zero is part of the code.
 const ANIMATOR_CODE = /^\d{4,8}$/
+
+const HINT_EXAMPLE = '(exemple : [5, 8, 11])'
+
+/**
+ * @param raw Value of `indices_apres_minutes`.
+ * @param slotMinutes Valid slot length, or null when it is wrong (the times are then not compared to it).
+ * @returns French messages about the hint times: list shape first, then order, then the slot bound.
+ */
+function hintTimeErrors(raw: unknown, slotMinutes: number | null): string[] {
+  if (!Array.isArray(raw) || raw.length === 0 || !raw.every((m) => isIntInRange(m, 0, Number.MAX_SAFE_INTEGER))) {
+    return [`« indices_apres_minutes » doit être une liste de nombres entiers, 0 ou plus ${HINT_EXAMPLE}.`]
+  }
+  const times = raw as number[]
+  if (times.some((m, i) => i > 0 && m <= times[i - 1])) {
+    return [`« indices_apres_minutes » : les minutes doivent aller en croissant, sans doublon ${HINT_EXAMPLE}.`]
+  }
+  // The slot clock restarts at every change of room: a later hint would never show.
+  const late = slotMinutes === null ? undefined : times.find((m) => m >= slotMinutes)
+  return late === undefined ? []
+    : [`« indices_apres_minutes » : ${late} doit être plus petit que « duree_epreuve_minutes » (${slotMinutes}) : sinon l'indice n'arrive jamais.`]
+}
 
 /** @returns French messages about the `equipes` list. */
 function teamErrors(raw: unknown, stepCount: number | null): string[] {
@@ -37,12 +58,7 @@ export function validateTeamSettings(raw: RawObject, stepCount: number | null, e
   errors.push(...teamErrors(raw.equipes, stepCount))
   const slotOk = isIntInRange(raw.duree_epreuve_minutes, 1, Number.MAX_SAFE_INTEGER)
   if (!slotOk) errors.push('« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.')
-  if (!isIntInRange(raw.indice_apres_minutes, 0, Number.MAX_SAFE_INTEGER)) {
-    errors.push('« indice_apres_minutes » doit être un nombre entier supérieur ou égal à 0.')
-  } else if (slotOk && raw.indice_apres_minutes >= (raw.duree_epreuve_minutes as number)) {
-    // The slot clock restarts at every change of room: a later hint would never show.
-    errors.push(`« indice_apres_minutes » (${raw.indice_apres_minutes}) doit être plus petit que « duree_epreuve_minutes » (${raw.duree_epreuve_minutes as number}) : sinon l'indice n'arrive jamais.`)
-  }
+  errors.push(...hintTimeErrors(raw.indices_apres_minutes, slotOk ? (raw.duree_epreuve_minutes as number) : null))
   if (!isIntInRange(raw.blocage_secondes, 0, Number.MAX_SAFE_INTEGER)) {
     errors.push('« blocage_secondes » doit être un nombre entier supérieur ou égal à 0 (0 = pas de blocage).')
   }
@@ -53,11 +69,15 @@ export function validateTeamSettings(raw: RawObject, stepCount: number | null, e
   if (raw.duree_minutes !== undefined) {
     errors.push("« duree_minutes » a été remplacée par « duree_epreuve_minutes » : la durée d'une épreuve, en minutes.")
   }
+  // Quizzes written before sprint 14 have a single hint delay.
+  if (raw.indice_apres_minutes !== undefined) {
+    errors.push(`« indice_apres_minutes » a été remplacée par « indices_apres_minutes » : une liste de minutes, une par indice ${HINT_EXAMPLE}.`)
+  }
   if (errors.length > before) return null
   return {
     teams: (raw.equipes as string[]).map((name) => name.trim()),
     slotMinutes: raw.duree_epreuve_minutes as number,
-    hintAfterMinutes: raw.indice_apres_minutes as number,
+    hintTimes: raw.indices_apres_minutes as number[],
     blockSeconds: raw.blocage_secondes as number,
     animatorCode: raw.code_animateur as string,
   }

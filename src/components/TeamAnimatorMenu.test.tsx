@@ -8,10 +8,10 @@ import { TeamGame } from './TeamGame'
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
 
 const config: QuizConfig = {
-  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 60, animatorCode: '2710', stepCount: 2,
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10], blockSeconds: 60, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
-    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0, hint: 'Sous le lit' },
+    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0, hints: ['Sous le lit'] },
   ],
   padlock: { order: [2, 1] },
 }

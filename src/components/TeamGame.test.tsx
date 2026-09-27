@@ -9,7 +9,7 @@ vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: v
 
 const MIN = 60_000
 const config: QuizConfig = {
-  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintAfterMinutes: 10, blockSeconds: 0, animatorCode: '2710', stepCount: 2,
+  title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10], blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
     { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },
@@ -162,7 +162,7 @@ describe('TeamGame', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
   })
   it('unlocks the hint ten minutes into the slot', () => {
-    const steps = [config.steps[0], { ...config.steps[1], hint: 'Sous la malle.' }]
+    const steps = [config.steps[0], { ...config.steps[1], hints: ['Sous la malle.'] }]
     renderZombies({ steps })
     press('Commencer')
     expect(screen.getByRole('button', { name: 'Indice dans 10:00' })).toBeDisabled()

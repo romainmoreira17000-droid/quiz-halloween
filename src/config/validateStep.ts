@@ -3,7 +3,7 @@ import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './ch
 import type { QuizStep } from './types'
 import { validateAnswer } from './validateAnswer'
 
-const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indice', 'fond'] as const
+const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indices', 'fond'] as const
 
 /**
  * Validates a raw step, pushing French messages into `errors`.
@@ -25,12 +25,18 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
   if (!isIntInRange(raw.chiffre, 0, 9)) errors.push(`${prefix}« chiffre » doit être un chiffre entier entre 0 et 9.`)
   if (raw.image !== undefined && !isNonEmptyString(raw.image)) errors.push(`${prefix}« image » doit être un nom de fichier.`)
   if (raw.fond !== undefined && !isNonEmptyString(raw.fond)) errors.push(`${prefix}« fond » doit être un nom de fichier.`)
-  if (raw.indice !== undefined && !isNonEmptyString(raw.indice)) errors.push(`${prefix}« indice » doit être un texte non vide.`)
+  if (raw.indices !== undefined && !(Array.isArray(raw.indices) && raw.indices.every(isNonEmptyString))) {
+    errors.push(`${prefix}« indices » doit être une liste de textes non vides.`)
+  }
   // Quizzes written before sprint 7 use `solution`: explain the new keys instead of "unknown key".
   if (raw.solution !== undefined) {
     errors.push(`${prefix}« solution » a été remplacée par « reponse » (ce que tapent les enfants) et « chiffre » (le chiffre gagné).`)
   }
-  errors.push(...unknownKeyErrors(raw, [...STEP_KEYS, 'solution'], prefix))
+  // Quizzes written before sprint 14 have a single hint.
+  if (raw.indice !== undefined) {
+    errors.push(`${prefix}« indice » a été remplacée par « indices », une liste (exemple : indices: ["premier indice", "deuxième indice"]).`)
+  }
+  errors.push(...unknownKeyErrors(raw, [...STEP_KEYS, 'solution', 'indice'], prefix))
   if (errors.length > before || answer === null) return null
   return {
     title: raw.titre as string,
@@ -38,7 +44,7 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
     ...(raw.image !== undefined && { image: raw.image as string }),
     answer,
     digit: raw.chiffre as number,
-    ...(raw.indice !== undefined && { hint: raw.indice as string }),
+    ...(Array.isArray(raw.indices) && raw.indices.length > 0 && { hints: raw.indices as string[] }),
     ...(raw.fond !== undefined && { backdrop: raw.fond as string }),
   }
 }

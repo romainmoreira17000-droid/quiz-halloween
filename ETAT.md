@@ -1,13 +1,13 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 11 : 5 tâches faites, relecture en cours)
+Dernière mise à jour : 2026-09-26 (sprint 11 : PR #25 ouverte, en attente de merge)
 
 ## Sprint en cours
 - **Objectif :** sprint 11 : fonds d'écran photo (une illustration par salle, « image principale » à l'accueil et
   pendant l'attente, « sortie du restaurant » sur le cadenas et la victoire).
 - **Issue :** #24
 - **Branche :** `feat/photo-backdrops`
-- **PR :** pas encore
+- **PR :** #25
 - **Plan :** `docs/superpowers/plans/2026-09-26-sprint11-fonds-photo.md` (5 tâches)
 
 ## Où on en est
@@ -18,12 +18,15 @@ Dernière mise à jour : 2026-09-26 (sprint 11 : 5 tâches faites, relecture en 
 - [x] Tâche 3 : `backdropFor` (choix du décor, logique pure)
 - [x] Tâche 4 : `PhotoBackdrop` + voile, branché dans `TeamGame`
 - [x] Tâche 5 : quiz.yaml, e2e, vérif navigateur (tablette + téléphone), docs
-- [ ] Relecture, PR (Closes #24), merge par Romain
+- [x] Relecture (`relecteur-code`) : prêt pour PR ; PR #25 ouverte
+- [ ] CI verte, merge par Romain
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Relecture de la branche (`relecteur-code`) en cours ; corriger ce qui est Critique/Important, puis PR vers `main`
-(Closes #24). Registre d'exécution : `.superpowers/sdd/2026-09-26-sprint11-fonds-photo/progress.md`.
+PR #25 ouverte : vérifier la CI (`gh pr checks 25`), puis Romain décide du merge. Après merge :
+`git checkout main && git pull && git branch -d feat/photo-backdrops`.
+Petits points laissés de côté (relecture) : `npm run images` plante sans message clair si `images-sources/` manque ;
+virgule manquante dans la ligne `etapes` du README.
 
 ## Décisions prises (et pourquoi)
 - Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,

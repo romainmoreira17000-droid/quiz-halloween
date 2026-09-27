@@ -33,7 +33,7 @@ Règles vérifiées (messages en français, le validateur continue après une er
   forme, au lieu de « paramètre inconnu ». L'`indice` du **cadenas** ne change pas.
 
 Types : `QuizConfig.hintAfterMinutes: number` devient `hintTimes: number[]` ; `QuizStep.hint?: string` devient
-`hints: string[]` (vide = pas de bouton).
+`hints?: string[]` (absent = pas de bouton).
 
 ## Règle de déblocage (logique pure, `src/game/hints.ts`)
 

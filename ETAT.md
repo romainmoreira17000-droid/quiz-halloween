@@ -1,27 +1,29 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (PR #31 ouverte, en attente du merge de Romain)
+Dernière mise à jour : 2026-09-27 (sprint 12 : mode test, en cours)
 
 ## Sprint en cours
-- Voile sombre derrière les chiffres et l'indice du cadenas : issue #30, branche `fix/padlock-veil`.
-  - [x] Test e2e rouge (`e2e/padlock-veil.spec.ts`), CSS dans `padlock.css`, test vert, vérif visuelle tablette + téléphone
-  - [x] Vérifications : 370 tests unitaires, typecheck, lint, 15 e2e verts ; commit `eb09c07`
-  - [x] Relecture (`relecteur-code`) : prêt, une suggestion suivie (commentaire sur le panneau plein)
-  - [x] PR #31 ouverte
-  - [ ] CI verte, merge par Romain, puis nettoyage de la branche
+- Sprint 12 : mode test (`?test` + bouton « Épreuve suivante »), issue #33, branche `feat/test-mode`.
+  Plan : `docs/superpowers/plans/2026-09-27-sprint12-mode-test.md`.
+  - [ ] 1. `skip.ts`  - [ ] 2. action `skipSlot`  - [ ] 3. `testMode.ts`  - [ ] 4. hook
+  - [ ] 5. `TestModeControl` + CSS  - [ ] 6. e2e  - [ ] 7. docs, relecture, PR
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
 - [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
+- [x] Voile sombre derrière les chiffres et l'indice du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Attendre la CI et le merge de la PR #31 par Romain, puis `git checkout main && git pull && git branch -d fix/padlock-veil`.
-Ensuite : attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
-(issue + branche `feat/real-quiz-content`) : remplir `quiz.yaml`, convertir l'image (`npm run images`),
-`npm run valider`, vérifier la mise en page des nouveaux textes (`e2e/layout.spec.ts`).
+Sprint 12, tâche 1 : test rouge de `startForNextSlot` dans `src/game/skip.test.ts`.
+Après le sprint 12 : attendre le contenu réel des épreuves et la 6e image de Romain, puis sprint 13
+(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run images`, `npm run valider`, `e2e/layout.spec.ts`.
 
 ## Décisions prises (et pourquoi)
+- Sprint 12 (cadrage, choix de Romain) : le saut de créneau sert seulement à tester l'app, pas pendant la soirée
+  (une tablette qui avance seule arrive dans une salle occupée et reste décalée). Activation par `?test` dans
+  l'adresse : un enfant ne peut pas l'activer en tapotant. Pas de saut sur « Temps écoulé » (il faut le code
+  animateur, comme en vrai) ; l'indice ne se débloque pas plus tôt.
 - Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,
   Les saveurs hantées, Les toilettes scientifiques, Invisible mais visible (sans image → décor dessiné de la grande salle).
   « image principale » : accueil + attente ; « sortie du restaurant » : cadenas + victoire ; l'entrée garde sa façade dessinée.

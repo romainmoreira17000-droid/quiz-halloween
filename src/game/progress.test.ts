@@ -21,7 +21,7 @@ const atEntrance: GameState = { ...home, status: 'entrance' }
 
 describe('game reducer', () => {
   it('starts on the home screen, with no digit', () => {
-    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null })
+    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0 })
   })
   it('records the start time, once', () => {
     expect(reduce(home, { type: 'start', now: 0 })).toEqual(playing)

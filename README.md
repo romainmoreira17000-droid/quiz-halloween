@@ -17,8 +17,9 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
-   À 5, 8 puis 11 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : le chiffre trouvé, une goupille du cadenas tombe, et
-   « Changement de salle dans … » jusqu'à la fin du créneau.
+   À 5, 8 puis 11 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : une goupille du cadenas tombe, un grand « Bravo ! »
+   montre le chiffre gagné (3 s, ou un tap pour le fermer), puis le message d'attente de `message_attente`
+   (« Profitez-en pour déguster… ») et « Changement d'épreuve dans … » jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
    L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
    l'épreuve du créneau en cours.

@@ -43,6 +43,8 @@ describe('animator menu in the game', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
     expect(playPinSound).toHaveBeenCalledOnce()
+    act(() => vi.advanceTimersByTime(600))
+    expect(screen.getByRole('dialog', { name: 'Bravo !' })).toBeInTheDocument()
   })
   it('ends a block, and gives the hints one by one before their time', () => {
     startZombies()

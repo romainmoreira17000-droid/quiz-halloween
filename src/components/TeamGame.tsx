@@ -121,7 +121,7 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
           isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blocked}
           hintsAvailable={shown} secondsToNextHint={secondsBeforeNextHint(timing.secondsLeft, slotMinutes, config.hintTimes, shown)}
-          onSubmit={submit} />
+          waitingMessage={config.waitingMessage} onSubmit={submit} />
       )
     }
   }

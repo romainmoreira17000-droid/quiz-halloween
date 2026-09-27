@@ -1,5 +1,5 @@
 /** @file Tests for a step screen. */
-import { render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { StepScreen, type StepScreenProps } from './StepScreen'
 import { WRONG_ANSWER_MESSAGES } from '../game/messages'
@@ -52,10 +52,18 @@ describe('StepScreen', () => {
   it('drops the pin, shows the found digit and the time before the next room', () => {
     const { container } = render(<StepScreen {...base} digits={[4, 7, null, null, null, null]} />)
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 7')
-    expect(screen.getByText('Changement de salle dans 04:12')).toBeInTheDocument()
+    expect(screen.getByText('Changement d’épreuve dans 04:12')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Cadenas : 2 goupilles tombées sur 6' })).toBeInTheDocument()
     expect(container.querySelectorAll('.lock-pin')[1]).toHaveClass('lock-pin--falling')
     expect(screen.queryByRole('button', { name: '1' })).not.toBeInTheDocument()
+  })
+  it('shows the waiting message once the digit is found', () => {
+    render(<StepScreen {...base} digits={[4, 7, null, null, null, null]} waitingMessage="Goûtez les bonbons !" />)
+    expect(screen.getByText('Goûtez les bonbons !')).toBeInTheDocument()
+  })
+  it('keeps the waiting message hidden while the digit is not found', () => {
+    render(<StepScreen {...base} waitingMessage="Goûtez les bonbons !" />)
+    expect(screen.queryByText('Goûtez les bonbons !')).not.toBeInTheDocument()
   })
   it('announces the padlock during the last slot', () => {
     render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} isLastSlot />)
@@ -82,5 +90,33 @@ describe('StepScreen', () => {
   it('hides the hint once the digit is found', () => {
     render(<StepScreen {...base} step={{ ...base.step, hints: ['Sous le chaudron.'] }} digits={[4, 7, null, null, null, null]} />)
     expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
+  })
+
+  describe('celebration', () => {
+    const solved = [4, 7, null, null, null, null]
+    beforeEach(() => vi.useFakeTimers())
+    afterEach(() => vi.useRealTimers())
+
+    it('celebrates just after the pin falls, then goes away on its own', () => {
+      const { rerender } = render(<StepScreen {...base} />)
+      rerender(<StepScreen {...base} digits={solved} />)
+      expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
+      act(() => vi.advanceTimersByTime(600))
+      expect(screen.getByRole('dialog', { name: 'Bravo !' })).toHaveTextContent('7')
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
+    })
+    it('closes on a tap', () => {
+      const { rerender } = render(<StepScreen {...base} />)
+      rerender(<StepScreen {...base} digits={solved} />)
+      act(() => vi.advanceTimersByTime(600))
+      fireEvent.click(screen.getByRole('dialog', { name: 'Bravo !' }))
+      expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
+    })
+    it('does not celebrate again when the screen opens already solved (reload)', () => {
+      render(<StepScreen {...base} digits={solved} />)
+      act(() => vi.advanceTimersByTime(600))
+      expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
+    })
   })
 })

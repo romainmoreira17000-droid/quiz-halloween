@@ -1,8 +1,10 @@
-/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then the earned digit and the time before the change of room. */
+/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then a « Bravo ! », the earned digit, the waiting message and the time before the next challenge. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { formatClock } from '../game/time'
+import { useCelebration } from '../hooks/useCelebration'
 import { AnswerZone } from './AnswerZone'
+import { CelebrationOverlay } from './CelebrationOverlay'
 import { CutawayLock } from './CutawayLock'
 import { HintButton } from './HintButton'
 
@@ -27,6 +29,8 @@ export interface StepScreenProps {
   hintsAvailable: number
   /** Seconds before the next hint, null when none is left to come. */
   secondsToNextHint: number | null
+  /** Message shown once the digit is found (`message_attente`), none when absent. */
+  waitingMessage?: string
   /** Called with the typed answer. */
   onSubmit(text: string): void
 }
@@ -37,9 +41,10 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintsAvailable, secondsToNextHint, onSubmit } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintsAvailable, secondsToNextHint, waitingMessage, onSubmit } = props
   const digit = digits[challenge]
   const solved = digit !== null
+  const celebration = useCelebration(solved)
   return (
     <main className="screen step">
       {header}
@@ -56,11 +61,13 @@ export function StepScreen(props: StepScreenProps) {
       {solved ? (
         <div className="answer-zone">
           <p className="found" role="status">Chiffre trouvé : <b>{digit}</b></p>
-          <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement de salle dans'} {formatClock(secondsLeft)}</p>
+          {waitingMessage && <p className="waiting-message">{waitingMessage}</p>}
+          <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement d’épreuve dans'} {formatClock(secondsLeft)}</p>
         </div>
       ) : (
         <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} blockedSeconds={blockSecondsLeft} onSubmit={onSubmit} />
       )}
+      {celebration.shown && digit !== null && <CelebrationOverlay digit={digit} onDismiss={celebration.dismiss} />}
     </main>
   )
 }

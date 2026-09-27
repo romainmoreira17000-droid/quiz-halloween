@@ -8,7 +8,7 @@ describe('HauntedDoor', () => {
     const root = container.firstElementChild
     expect(root).toHaveAttribute('aria-hidden', 'true')
     expect(container.querySelectorAll('.door')).toHaveLength(2)
-    expect(container.querySelector('.lock')).not.toBeNull()
+    expect(container.querySelector('.victory-lock')).not.toBeNull()
     expect(container.querySelectorAll('.ghost')).toHaveLength(3)
     expect(container.querySelectorAll('.bat')).toHaveLength(4)
   })

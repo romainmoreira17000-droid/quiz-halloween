@@ -25,30 +25,68 @@
 .hint::after { content: " »"; }
 
 .lock-zone { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.dials { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+/* Six dials on one row on the tablet: 6 × 96 + 5 × 12 + 2 × 24 = 684 px, within the 714 px of the screen. */
+.dials { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .dial {
+  position: relative; /* above the rusty plate */
   display: flex; flex-direction: column; align-items: stretch;
   padding: 4px; border-radius: 18px;
   background: linear-gradient(#3b2817, #20150c);
   border: 2px solid #6b4a28;
+  box-shadow: 0 4px 10px rgb(0 0 0 / .6);
 }
 /* Arrows span the whole dial: easy to hit for small fingers. */
 .dial button { min-height: 64px; font-size: 32px; color: var(--amber); }
 .dial button:active { transform: translateY(2px); }
-.dial output {
-  width: 92px; height: 104px; line-height: 104px;
-  font-size: 68px; font-weight: 700; font-variant-numeric: lining-nums;
+
+/* Drum: ten faces around a wheel seen through a window. Faces are shorter than the window, so the
+   neighbouring digits show above and below, tilted away. --drum-r = face height / 2 / tan(18°). */
+.dial-window {
+  --face-h: 54px; --drum-r: 83px;
+  position: relative; width: 84px; height: 108px;
+  perspective: 420px; overflow: hidden;
   background: #110b06; border-radius: 10px;
-  box-shadow: inset 0 10px 14px rgb(0 0 0 / .6), inset 0 -10px 14px rgb(0 0 0 / .6);
 }
+/* Shadow of the window edges over the drum. */
+.dial-window::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(rgb(0 0 0 / .85), transparent 36%, transparent 64%, rgb(0 0 0 / .85));
+  box-shadow: inset 0 0 0 2px #000, inset 0 6px 10px rgb(0 0 0 / .7);
+}
+/* The digit is read from here by screen readers and tests; the eye reads the drum. */
+.dial-value { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.dial-drum {
+  position: absolute; inset: 0; transform-style: preserve-3d;
+  transform: translateZ(calc(-1 * var(--drum-r))) rotateX(var(--drum-angle));
+  transition: transform .3s cubic-bezier(.3, 1.4, .6, 1);
+}
+.dial-face {
+  position: absolute; left: 0; right: 0; top: calc(50% - var(--face-h) / 2); height: var(--face-h);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 50px; font-weight: 700; font-family: var(--text-font); font-variant-numeric: lining-nums;
+  color: #f1dcb0; background: linear-gradient(#2a1d12, #1a120b 50%, #2a1d12);
+  border-block: 1px solid #000;
+  backface-visibility: hidden;
+  transform: rotateX(calc(-1 * var(--face-angle))) translateZ(var(--drum-r));
+}
+
+/* Final lock (FinalLock): shackle and chains above, rusty plate behind the dials, blood under them. */
+.final-lock { display: flex; flex-direction: column; align-items: center; }
+.final-lock svg { pointer-events: none; overflow: visible; }
+.final-lock-shackle { width: 62%; height: auto; margin-bottom: -2px; }
+.final-lock-body { position: relative; padding: 26px 24px 30px; }
+.final-lock-plate { position: absolute; inset: 0; width: 100%; height: 100%; }
+.final-lock-blood { position: absolute; left: 0; top: calc(100% - 6px); width: 100%; height: auto; }
 .open-button { margin-top: auto; }
 
 @media (max-width: 600px) {
   .recap { grid-template-columns: 1fr; padding: 8px 14px; }
   .hint { font-size: 20px; padding: 10px 14px; }
-  /* Six dials must fit one row on a 360 px phone: 6 × 50 px + 5 × 6 px. */
-  .dials { gap: 6px; flex-wrap: nowrap; }
+  /* Six dials and the lock body must fit one row in the 328 px of a 360 px phone: 6 × 48 + 5 × 4 + 2 × 8 = 324 px. */
+  .dials { gap: 4px; flex-wrap: nowrap; }
   .dial { padding: 3px; }
   .dial button { min-height: 52px; font-size: 24px; }
-  .dial output { width: 40px; height: 64px; line-height: 64px; font-size: 40px; }
+  .dial-window { --face-h: 36px; --drum-r: 55px; width: 38px; height: 64px; perspective: 260px; }
+  .dial-face { font-size: 32px; }
+  .final-lock-body { padding: 16px 8px 20px; }
 }

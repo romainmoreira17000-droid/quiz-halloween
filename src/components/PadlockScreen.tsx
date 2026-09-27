@@ -1,8 +1,9 @@
-/** @file Final padlock: digits found, optional hint, one dial per step and an "Ouvrir" button. */
+/** @file Final padlock: digits found, optional hint, one dial per step inside the rusty lock and an "Ouvrir" button. */
 import { useState, type ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { wrongCodeMessage } from '../game/messages'
 import { Dial } from './Dial'
+import { FinalLock } from './lock/FinalLock'
 
 /** Title shown when quiz.yaml has no `cadenas.titre`. */
 export const DEFAULT_PADLOCK_TITLE = 'Le cadenas'
@@ -46,9 +47,11 @@ export function PadlockScreen(props: PadlockScreenProps) {
       {/* Changing key on each wrong code remounts the zone, which replays the shake animation. */}
       <div key={wrongAttempts} className={wrongAttempts > 0 ? 'lock-zone shake' : 'lock-zone'}>
         {wrongAttempts > 0 && <p className="wrong-answer" role="alert">{wrongCodeMessage(wrongAttempts)}</p>}
-        <div className="dials">
-          {code.map((digit, i) => <Dial key={i} position={i + 1} value={digit} onChange={(d) => setDigit(i, d)} />)}
-        </div>
+        <FinalLock>
+          <div className="dials">
+            {code.map((digit, i) => <Dial key={i} position={i + 1} value={digit} onChange={(d) => setDigit(i, d)} />)}
+          </div>
+        </FinalLock>
       </div>
       <button type="button" className="seal-button open-button" onClick={() => onOpen(code)}>Ouvrir</button>
     </main>

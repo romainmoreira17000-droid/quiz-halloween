@@ -3,6 +3,8 @@
  * Base styles = final state, keyframes = starting state, so reduced motion shows the end at once.
  */
 .cutaway-lock { width: 300px; height: auto; overflow: visible; }
+/* The blood and the chains spill out of the viewBox: they must never catch a tap meant for the keypad. */
+.cutaway-lock * { pointer-events: none; }
 .lock-pin { transform-box: view-box; }
 .lock-pin--down { transform: translateY(34px); }
 /* 0.45 s: the clack of playPinSound (sound.ts) lands at the end of this fall. */
@@ -18,9 +20,9 @@
 .lock-digit--found { fill: #f5c46b; }
 
 /* The shackle rises out of the body, then swings on its left leg. */
-.cutaway-lock--open .lock-shackle {
+.cutaway-lock--open .cutaway-shackle {
   transform: translateY(-24px) rotate(-16deg);
-  transform-box: view-box; transform-origin: 78px 116px;
+  transform-box: view-box; transform-origin: 78px 100px;
   animation: shackle-release .9s .5s both;
 }
 @keyframes shackle-release {
@@ -30,4 +32,21 @@
 
 @media (max-width: 600px) {
   .cutaway-lock { width: 240px; }
+}
+
+/* Chains (LockChains): they drop away once the lock opens, each swinging to its own side. */
+.lock-chain { transform-box: view-box; transform-origin: 150px 150px; }
+.lock-chains--fallen .lock-chain { opacity: 0; animation: chain-fall .8s .3s cubic-bezier(.5, 0, 1, .5) both; }
+.lock-chains--fallen .lock-chain--left { transform: translate(-20px, 180px) rotate(-25deg); }
+.lock-chains--fallen .lock-chain--right { transform: translate(20px, 180px) rotate(25deg); }
+@keyframes chain-fall { from { transform: none; opacity: 1; } 80% { opacity: 1; } }
+
+/* Blood (BloodDrips): the drop swells under its drip, falls and starts again.
+   Reduced motion (base.css) stops it: the drop then stays visible, frozen under its drip. */
+.blood-drop { transform-box: fill-box; transform-origin: 50% 0; animation: drop-bead 6s ease-in infinite; }
+@keyframes drop-bead {
+  0% { transform: scale(0); opacity: 1; }
+  70% { transform: scale(1); opacity: 1; }
+  85% { transform: translateY(40px) scale(.8); opacity: 0; }
+  100% { transform: scale(0); opacity: 0; }
 }

@@ -38,7 +38,7 @@ src/game/                  logique pure : time, answer (normalisation chiffres/m
                            rotation (créneau → épreuve), hints (déblocage des indices), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
-                           skip + testMode (mode test : saut de créneau, activé par `?test`)
+                           skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress,
                            useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée)
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
@@ -48,7 +48,7 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), HintButton (bouton +
                            fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
-                           AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran) + SkipNext (« Passer à l'épreuve suivante » avec confirmation),
+                           AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran) + SkipNext (« Passer à l'épreuve suivante » avec confirmation) + StartTime (« Départ de la partie »),
                            CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
 src/components/lock/       cadenas rouillés : LockDefs (dégradés, bruit, sang ; ids `lock-*`), LockChains, BloodDrips,
                            FinalLock (cadre du cadenas final), VictoryLock (cadenas qui s'ouvre au début de la victoire)
@@ -180,7 +180,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   touche au temps, sauf `animatorSkip` (« Passer à l'épreuve suivante », épreuve ou attente) : même recul de `startedAt`
   que `skipSlot`, mais donne le chiffre de l'épreuve pas trouvée (pas de « Temps écoulé » ensuite) et nomme son épreuve
   (un tap pile au changement de créneau ne saute pas deux fois). Confirmation obligatoire : à faire sur **toutes** les
-  tablettes, sinon l'équipe arrive dans une salle occupée. `showHint` = un indice de plus (`hintSlot` = créneau, `hintCount` = disponibles + 1). Relecture :
+  tablettes, sinon l'équipe arrive dans une salle occupée.
+  `setStart` (« Départ de la partie », tout l'écran `playing`) : recale une tablette décalée sur l'heure de départ des autres
+  (`<input type="time">`, aujourd'hui, jamais dans le futur) ; garde les chiffres, efface blocage, mauvaises réponses et
+  indices donnés (ils visaient un créneau qui ne correspond plus). Les créneaux sautés passent par « Temps écoulé ». `showHint` = un indice de plus (`hintSlot` = créneau, `hintCount` = disponibles + 1). Relecture :
   `hintSlot` absent (avant le sprint 13) → null ; `hintCount` absent (avant le sprint 14) → 1 si `hintSlot` est un créneau,
   sinon 0 (simple garde-fou : le sprint 14 a changé la forme de la config, donc l'empreinte, et `loadGame` écarte ces
   vieilles sauvegardes avant la relecture). `TeamAnimatorMenu` ne passe

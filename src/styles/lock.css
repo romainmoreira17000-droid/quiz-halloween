@@ -31,3 +31,19 @@
 @media (max-width: 600px) {
   .cutaway-lock { width: 240px; }
 }
+
+/* Chains (LockChains): they drop away once the lock opens, each swinging to its own side. */
+.lock-chain { transform-box: view-box; transform-origin: 150px 150px; }
+.lock-chains--fallen .lock-chain { opacity: 0; animation: chain-fall .8s .3s cubic-bezier(.5, 0, 1, .5) both; }
+.lock-chains--fallen .lock-chain--left { transform: translate(-20px, 180px) rotate(-25deg); }
+.lock-chains--fallen .lock-chain--right { transform: translate(20px, 180px) rotate(25deg); }
+@keyframes chain-fall { from { transform: none; opacity: 1; } 80% { opacity: 1; } }
+
+/* Blood (BloodDrips): the drop swells under its drip, falls and starts again. Still under reduced motion. */
+.blood-drop { transform-box: fill-box; transform-origin: 50% 0; animation: drop-bead 6s ease-in infinite; }
+@keyframes drop-bead {
+  0% { transform: scale(0); opacity: 1; }
+  70% { transform: scale(1); opacity: 1; }
+  85% { transform: translateY(40px) scale(.8); opacity: 0; }
+  100% { transform: scale(0); opacity: 0; }
+}

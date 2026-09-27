@@ -1,6 +1,6 @@
 /** @file The challenge screens fit a 810×1080 tablet without scrolling, with the digits and the letters keyboards. */
 import { test, expect } from '@playwright/test'
-import { setUpTablet } from './typing.js'
+import { setUpTablet, typeAnswer } from './typing.js'
 
 // Each team starts on its own challenge: every title (some wrap on two lines) with both keyboards.
 const FIRST_CHALLENGES = [
@@ -27,6 +27,18 @@ test('the step screen still fits the tablet once the three hints are out', async
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await page.clock.fastForward('11:00')
   await expect(page.getByRole('button', { name: 'Voir les indices (3/3)' })).toBeVisible()
+  const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
+  expect(overflow).toBeLessThanOrEqual(0)
+})
+
+test('the waiting screen, with its message, fits the tablet without scrolling', async ({ page }) => {
+  await page.clock.install()
+  await page.goto('./')
+  await setUpTablet(page, 'Sorcières')
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await typeAnswer(page, '6')
+  await page.clock.fastForward('00:04')
+  await expect(page.getByText('Profitez-en pour déguster ce qui se trouve sur la table !')).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
   expect(overflow).toBeLessThanOrEqual(0)
 })

@@ -1,14 +1,14 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprints 18 et 19 mergés, suite de relecture en PR)
+Dernière mise à jour : 2026-09-27 (sprints 18, 19 et suite de relecture mergés)
 
 ## Sprint en cours
-Aucun. Sprints 18 (#51, PR #53) et 19 (#52, PR #54) mergés ; suite de relecture en PR (branche `fix/animator-menu-followups`).
+Aucun. Sprints 18 (#51, PR #53), 19 (#52, PR #54) et suite de relecture (PR #55) mergés.
 
 ## Où on en est
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
 - [x] Sprint 19 (#52) : « Départ de la partie » (recaler une tablette décalée), mergé (PR #54).
-- [ ] Suite de relecture (PR `fix/animator-menu-followups`) : bouton « Annuler » de la confirmation du saut,
+- [x] Suite de relecture, mergée (PR #55) : bouton « Annuler » de la confirmation du saut,
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
@@ -16,8 +16,7 @@ Aucun. Sprints 18 (#51, PR #53) et 19 (#52, PR #54) mergés ; suite de relecture
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Merger la PR de suite de relecture. Ensuite, aucun sprint prévu : attendre le contenu des épreuves (ci-dessous).
-En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
+Aucun sprint prévu : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.

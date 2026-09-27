@@ -8,6 +8,7 @@ import { isAnimatorCode, isRightAnswer } from './answer'
 import { blockEnd, blockSecondsLeft } from './block'
 import { isPadlockCode, padlockCode } from './padlock'
 import { gamePhase, type GameStatus } from './phase'
+import { startForNextSlot } from './skip'
 
 export type { GameStatus }
 
@@ -34,6 +35,8 @@ export type GameAction =
   | { type: 'answer'; challenge: number; text: string; now: number }
   | { type: 'giveDigit'; challenge: number; code: string; now: number }
   | { type: 'unlock'; code: number[]; now: number } | { type: 'reset' }
+  /** Test mode only (see testMode.ts): ends the current slot now. */
+  | { type: 'skipSlot'; now: number }
 
 /**
  * State before the game starts.
@@ -123,6 +126,13 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
           : countWrong(state, config.stepCount)
       case 'reset':
         return initialGameState(config.stepCount)
+      case 'skipSlot': {
+        // Not on « Temps écoulé »: the animator code is still needed there, as on the evening.
+        const kind = gamePhase(state, config, teamIndex, action.now).kind
+        if ((kind !== 'challenge' && kind !== 'waiting') || state.startedAt === null) return state
+        // The block is an absolute time: once the start moves back it would follow the group into the next room.
+        return { ...state, startedAt: startForNextSlot(state.startedAt, action.now, config.slotMinutes), blockedUntil: null }
+      }
     }
   }
 }

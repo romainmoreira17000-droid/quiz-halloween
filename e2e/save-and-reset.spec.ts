@@ -6,10 +6,10 @@ test('the game resumes on the same challenge after a reload', async ({ page }) =
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await typeAnswer(page, '13')
+  await typeAnswer(page, '6')
   await page.reload()
   await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
-  await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 4')
+  await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
   await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toBeVisible()
 })
 
@@ -18,7 +18,7 @@ test('a 3-second press on the reset icon, then the animator code, restarts the g
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await typeAnswer(page, '13')
+  await typeAnswer(page, '6')
 
   await holdResetIcon(page)
   await confirmReset(page)

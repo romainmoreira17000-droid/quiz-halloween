@@ -88,11 +88,16 @@ nombre_etapes: 6
 etapes:
   - titre: "La galerie des portraits"
     fond: "galerie-des-portraits.webp"
-    consigne: "Comptez toutes les chauves-souris en papier cachées dans la salle."
+    consigne: "Les tableaux couvrent les murs. Certains personnages semblent immobiles… d'autres vous suivent des yeux. Comptez les yeux mobiles qui vous regardent : ce nombre est le chiffre caché par la galerie."
     type_reponse: chiffres
-    reponse: "13"
-    chiffre: 4
-    indices: ["Regardez aussi derrière les rideaux et sous les tables."]
+    reponse: "6"
+    chiffre: 6
+    indices:
+      - "La réponse est un nombre pair."
+      - "Pensez à votre équipe… moins le chef, il reste la moitié du groupe."
+      - "Les yeux des portraits vous donnent la réponse."
+
+  # Épreuves 2, 4, 5 et 6 : contenu d'exemple, à remplacer par le contenu réel.
 
   - titre: "La table hantée"
     fond: "table-hantee.webp"
@@ -102,13 +107,18 @@ etapes:
     chiffre: 7
     indices: ["Un animal qui vit près des mares.", "Il est vert et saute.", "Il fait « croa »."]
 
+  # Le cadenas physique du cercueil s'ouvre avec 2806 (date cachée, 28/06) ; dans
+  # l'app, les enfants tapent le chiffre trouvé dans le cercueil.
   - titre: "Le cimetière"
     fond: "cimetiere.webp"
-    consigne: "Le code du coffre à livres est écrit à l'envers sur le miroir."
+    consigne: "Le fantôme de Palissy a emporté un chiffre du code. Trouvez la date de sa mort : elle ouvre le cadenas du cercueil. Mais elle n'apparaît pas à la lumière ordinaire… Tapez le chiffre caché dans le cercueil."
     type_reponse: chiffres
-    reponse: "0472"
-    chiffre: 2
-    indices: ["Lisez le miroir... dans un autre miroir."]
+    reponse: "8"
+    chiffre: 8
+    indices:
+      - "La réponse se trouve sur le cercueil… mais tout dépend de la lumière."
+      - "Cherchez une lumière qui permet de révéler ce qui est invisible."
+      - "Utilisez la lampe à lumière noire."
 
   - titre: "Les saveurs hantées"
     fond: "saveurs-hantees.webp"
@@ -141,8 +151,9 @@ cadenas:
   # Ici : chiffre de l'étape 3, puis de l'étape 1, puis 6, 2, 5 et 4.
   ordre: [3, 1, 6, 2, 5, 4]
 
-  # Indice affiché près du cadenas. Facultatif, texte.
-  indice: "Commencez par les livres, finissez sous les tombes."
+  # Indice affiché près du cadenas. Facultatif, texte. Absent pour l'instant :
+  # à écrire quand toutes les épreuves réelles seront là.
+  # indice: "..."
 
   # Fond d'écran du cadenas et de la victoire. Facultatif (voir « fond_accueil »).
   fond: "sortie-du-restaurant.webp"

@@ -3,7 +3,7 @@ import { test, expect, type Locator } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières play challenges 1 to 6 in order; answers of the sample quiz.yaml.
-const ANSWERS = ['13', 'CRAPAUD', '0472', '1832', "TOILE D'ARAIGNEE", 'CITROUILLE']
+const ANSWERS = ['6', 'CRAPAUD', '8', '1832', "TOILE D'ARAIGNEE", 'CITROUILLE']
 
 /** Alpha of the element's background colour (0 when transparent). */
 const backgroundAlpha = (locator: Locator) => locator.evaluate((el) => {
@@ -25,7 +25,9 @@ test('the padlock recap and hint have a dark veil behind them', async ({ page })
   const recap = page.getByRole('list', { name: 'Chiffres trouvés' })
   await expect(recap).toBeVisible()
   expect(await backgroundAlpha(recap)).toBeGreaterThanOrEqual(0.6)
-  expect(await backgroundAlpha(page.locator('.padlock .hint'))).toBeGreaterThanOrEqual(0.6)
+  // The padlock hint is optional and the quiz has none until its real text is written.
+  const hint = page.locator('.padlock .hint')
+  if (await hint.count() > 0) expect(await backgroundAlpha(hint)).toBeGreaterThanOrEqual(0.6)
   const overflowX = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflowX).toBeLessThanOrEqual(0)
 })

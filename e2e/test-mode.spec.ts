@@ -4,7 +4,7 @@ import { setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières play challenges 1 to 6 in order; answers of the sample quiz.yaml.
 const CHALLENGES = [
-  ['La galerie des portraits', '13'], ['La table hantée', 'CRAPAUD'], ['Le cimetière', '0472'],
+  ['La galerie des portraits', '6'], ['La table hantée', 'CRAPAUD'], ['Le cimetière', '8'],
   ['Les saveurs hantées', '1832'], ['Les toilettes scientifiques', "TOILE D'ARAIGNEE"], ['Invisible mais visible', 'CITROUILLE'],
 ] as const
 

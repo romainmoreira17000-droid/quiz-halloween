@@ -52,8 +52,9 @@ avant le prochain (null s'il n'y en a plus), nombre disponible pour l'état.
 `hintSlot`, 0 sinon). L'action `showHint` devient « un indice de plus » : `hintSlot` = créneau,
 `hintCount` = disponibles + 1, refusée s'il n'y a plus d'indice à débloquer ou hors d'une épreuve en cours.
 
-Relecture (`restoreGameState`) : `hintCount` absent → 1 si `hintSlot` est un créneau, 0 sinon (une partie en cours
-le soir de la mise à jour n'est pas perdue et garde l'indice montré). Valeur invalide → sauvegarde rejetée.
+Relecture (`restoreGameState`) : `hintCount` absent → 1 si `hintSlot` est un créneau, 0 sinon (garde-fou). Valeur
+invalide → sauvegarde rejetée. En pratique, la config change de forme (`hintTimes`, `hints`) : son empreinte change et
+une partie en cours au moment du déploiement est perdue (retour à l'accueil). Ne pas déployer pendant la soirée.
 
 ## Écran d'épreuve (enfants)
 

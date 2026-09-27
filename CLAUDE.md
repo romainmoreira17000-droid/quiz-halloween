@@ -114,7 +114,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil, hintSlot, hintCount }` ;
   `wrongSlot` empêche un message de mauvaise réponse de suivre le groupe au créneau suivant. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
-  changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
+  changer une réponse si, **tout changement de forme de `QuizConfig`** aussi (nouveau champ, champ renommé : un
+  déploiement de l'app peut donc perdre les parties en cours → ne jamais déployer pendant la soirée). Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
   remonte (retour à l'accueil). Statut `home` = pas de sauvegarde (c'est ainsi que `reset` l'efface).
 - **Remise à zéro** : durée de l'appui = `RESET_HOLD_MS` (ResetButton.tsx), à garder égale à l'animation
   `reset-fill` (3s) de `reset.css`. L'icône est en `position: absolute` en bas de `#root`, pas `fixed` :
@@ -174,7 +175,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   montre les solutions). Actions du réducteur `animatorSolve`, `unblock`, `showHint`, vérifiées contre la phase ; aucune ne
   touche au temps. `showHint` = un indice de plus (`hintSlot` = créneau, `hintCount` = disponibles + 1). Relecture :
   `hintSlot` absent (avant le sprint 13) → null ; `hintCount` absent (avant le sprint 14) → 1 si `hintSlot` est un créneau,
-  sinon 0 (une partie en cours survit à la mise à jour). `TeamAnimatorMenu` ne passe
+  sinon 0 (simple garde-fou : le sprint 14 a changé la forme de la config, donc l'empreinte, et `loadGame` écarte ces
+  vieilles sauvegardes avant la relecture). `TeamAnimatorMenu` ne passe
   que les actions possibles à l'écran (validation seulement en `challenge`). Le « clac » est joué dans le tap
   (`animatorSolve` renvoie un booléen). En test, taper le code **dans** la fenêtre (`within(dialog)`) : l'écran d'étape a
   aussi un pavé.

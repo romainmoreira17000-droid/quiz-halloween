@@ -24,7 +24,8 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
   // Missing is fine (saved before the animator menu): games under way on the evening must survive the update.
   if (hintSlot !== null && !isCount(hintSlot)) return null
   const { hintCount = hintSlot !== null ? 1 : 0 } = value as Record<string, unknown>
-  // Missing too before sprint 14: an animator could then show the single hint, so a set slot means one hint.
+  // Missing too before sprint 14 (one hint shown per slot at most). Only a safety net: that sprint changed the shape of
+  // QuizConfig, so its fingerprint too, and older saves are dropped by loadGame before they get here.
   if (!isCount(hintCount)) return null
   if (!Array.isArray(digits) || digits.length !== stepCount || !digits.every((d) => d === null || isDigit(d))) return null
   const known = digits as (number | null)[]

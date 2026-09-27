@@ -3,8 +3,7 @@ import type { QuizConfig } from '../config/types'
 import { blockSecondsLeft } from '../game/block'
 import { padlockCode } from '../game/padlock'
 import type { GamePhase } from '../game/phase'
-import { hintShown } from '../game/progress'
-import { secondsBeforeHint, slotTiming } from '../game/time'
+import { hintsAvailable } from '../game/progress'
 import type { GameProgress } from '../hooks/useGameProgress'
 import { playPinSound } from '../services/sound'
 import { AnimatorMenu } from './AnimatorMenu'
@@ -21,7 +20,7 @@ export interface TeamAnimatorMenuProps {
 }
 
 /**
- * The menu, with only the actions possible now: solve, unblock and show the hint need a challenge on screen.
+ * The menu, with only the actions possible now: solve, unblock and one more hint need a challenge on screen.
  * @param props See TeamAnimatorMenuProps.
  * @returns The animator menu.
  */
@@ -33,14 +32,14 @@ export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: Team
   }
   const { challenge, slot } = phase
   const step = config.steps[challenge]
-  const { secondsLeft } = slotTiming(state.startedAt, now, config.slotMinutes)
-  const hintLocked = !!step.hint && !hintShown(state, slot)
-    && secondsBeforeHint(secondsLeft, config.slotMinutes, config.hintAfterMinutes) > 0
+  const total = step.hints?.length ?? 0
+  const shown = hintsAvailable(state, config, challenge, slot, now)
   return (
     <AnimatorMenu steps={config.steps} code={code} challengeTitle={step.title}
       // Sounds start inside the tap handler: tablets only allow sound started by a gesture.
       onSolve={() => { if (progress.animatorSolve(challenge)) playPinSound() }}
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
-      onShowHint={hintLocked ? () => progress.showHint(challenge) : undefined} onClose={onClose} />
+      nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
+      onClose={onClose} />
   )
 }

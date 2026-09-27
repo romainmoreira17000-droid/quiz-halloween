@@ -14,8 +14,8 @@ export interface AnimatorMenuProps {
   onSolve?(): void
   /** Ends the keyboard block after a wrong answer. */
   onUnblock?(): void
-  /** Makes the hint of the challenge on screen available now. */
-  onShowHint?(): void
+  /** Next hint of the challenge on screen, while one is left: its number, the step's hint count, and the unlock. */
+  nextHint?: { number: number; total: number; onShow(): void }
   onClose(): void
 }
 
@@ -25,12 +25,12 @@ export interface AnimatorMenuProps {
  * @param props See AnimatorMenuProps.
  * @returns The menu over the current screen.
  */
-export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, onShowHint, onClose }: AnimatorMenuProps) {
+export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onClose }: AnimatorMenuProps) {
   const close = useRef<HTMLButtonElement>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
   const run = (action: () => void) => () => { action(); onClose() }
-  const nothing = !onSolve && !onUnblock && !onShowHint
+  const nothing = !onSolve && !onUnblock && !nextHint
   return (
     <div className="reset-overlay">
       <div className="reset-dialog animator-menu" role="dialog" aria-modal="true" aria-labelledby="animator-title"
@@ -39,12 +39,23 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
         {nothing && <p>Rien à débloquer sur cet écran.</p>}
         {onSolve && <button type="button" className="seal-button" onClick={run(onSolve)}>Valider l’épreuve « {challengeTitle} »</button>}
         {onUnblock && <button type="button" className="ghost-button" onClick={run(onUnblock)}>Débloquer la saisie</button>}
-        {onShowHint && <button type="button" className="ghost-button" onClick={run(onShowHint)}>Montrer l’indice</button>}
+        {nextHint && (
+          <button type="button" className="ghost-button" onClick={run(nextHint.onShow)}>
+            Débloquer l’indice suivant ({nextHint.number}/{nextHint.total})
+          </button>
+        )}
         {showAnswers ? (
           <>
             <ol className="animator-answers" aria-label="Solutions">
               {steps.map((step, i) => (
-                <li key={i}><span>{i + 1}. {step.title}</span><b>{step.answer.value}</b><span>→ {step.digit}</span></li>
+                <li key={i}>
+                  <span>{i + 1}. {step.title}</span><b>{step.answer.value}</b><span>→ {step.digit}</span>
+                  {step.hints && (
+                    <ol className="animator-hints" aria-label={`Indices de ${step.title}`}>
+                      {step.hints.map((hint, j) => <li key={j}>{hint}</li>)}
+                    </ol>
+                  )}
+                </li>
               ))}
             </ol>
             <p className="animator-code">Code du cadenas : {code.join(' ')}</p>

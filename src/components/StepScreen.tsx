@@ -23,8 +23,10 @@ export interface StepScreenProps {
   isLastSlot: boolean
   /** Seconds before a new answer is accepted after a wrong one (0 = free). */
   blockSecondsLeft: number
-  /** Seconds before the hint unlocks (0 = available); unused when the step has no hint. */
-  hintSecondsLeft: number
+  /** Hints of the step unlocked now; unused when the step has no hint. */
+  hintsAvailable: number
+  /** Seconds before the next hint, null when none is left to come. */
+  secondsToNextHint: number | null
   /** Called with the typed answer. */
   onSubmit(text: string): void
 }
@@ -35,7 +37,7 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintSecondsLeft, onSubmit } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintsAvailable, secondsToNextHint, onSubmit } = props
   const digit = digits[challenge]
   const solved = digit !== null
   return (
@@ -47,7 +49,7 @@ export function StepScreen(props: StepScreenProps) {
         {step.image && (
           <img className="step-image" src={`${import.meta.env.BASE_URL}images/${step.image}`} alt={`Image de l’étape : ${step.title}`} />
         )}
-        {step.hint && !solved && <HintButton hint={step.hint} secondsLeft={hintSecondsLeft} />}
+        {step.hints && !solved && <HintButton hints={step.hints} available={hintsAvailable} secondsToNext={secondsToNextHint} />}
       </section>
       {/* Only the pin of this challenge falls: the others are already down or still up. */}
       <CutawayLock total={digits.length} foundDigits={digits} fallingIndex={solved ? challenge : undefined} />

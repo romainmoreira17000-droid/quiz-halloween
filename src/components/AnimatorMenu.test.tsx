@@ -1,11 +1,11 @@
 /** @file Tests for the animator menu window. */
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { QuizStep } from '../config/types'
 import { AnimatorMenu } from './AnimatorMenu'
 
 const steps: QuizStep[] = [
-  { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '0472' }, digit: 4 },
+  { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '0472' }, digit: 4, hints: ['Sous la dalle', 'Derrière'] },
   { title: 'Le grenier', instruction: 'b', answer: { kind: 'letters', value: 'Fantôme' }, digit: 0 },
 ]
 
@@ -21,15 +21,15 @@ describe('AnimatorMenu', () => {
   })
   it('offers only the possible actions', async () => {
     const onUnblock = vi.fn()
-    const onShowHint = vi.fn()
+    const onShow = vi.fn()
     const { rerender } = render(<AnimatorMenu steps={steps} code={[0, 4]} onClose={vi.fn()} />)
     expect(screen.getByText('Rien à débloquer sur cet écran.')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Valider|Débloquer|indice/ })).not.toBeInTheDocument()
-    rerender(<AnimatorMenu steps={steps} code={[0, 4]} onUnblock={onUnblock} onShowHint={onShowHint} onClose={vi.fn()} />)
+    rerender(<AnimatorMenu steps={steps} code={[0, 4]} onUnblock={onUnblock} nextHint={{ number: 2, total: 3, onShow }} onClose={vi.fn()} />)
     await userEvent.click(screen.getByRole('button', { name: 'Débloquer la saisie' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Montrer l’indice' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Débloquer l’indice suivant (2/3)' }))
     expect(onUnblock).toHaveBeenCalledOnce()
-    expect(onShowHint).toHaveBeenCalledOnce()
+    expect(onShow).toHaveBeenCalledOnce()
   })
   it('shows the answers and the padlock code on demand', async () => {
     render(<AnimatorMenu steps={steps} code={[0, 4]} onClose={vi.fn()} />)
@@ -38,6 +38,8 @@ describe('AnimatorMenu', () => {
     const list = screen.getByRole('list', { name: 'Solutions' })
     expect(list).toHaveTextContent('1. La crypte0472→ 4')
     expect(list).toHaveTextContent('2. Le grenierFantôme→ 0')
+    expect(within(list).getByRole('list', { name: 'Indices de La crypte' })).toHaveTextContent('Sous la dalleDerrière')
+    expect(within(list).queryByRole('list', { name: 'Indices de Le grenier' })).not.toBeInTheDocument()
     expect(screen.getByText('Code du cadenas : 0 4')).toBeInTheDocument()
   })
   it('closes with « Fermer », focused, or Escape', async () => {

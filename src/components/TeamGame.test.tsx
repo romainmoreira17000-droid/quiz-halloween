@@ -170,6 +170,17 @@ describe('TeamGame', () => {
     press('Voir l’indice')
     expect(screen.getByRole('dialog', { name: 'Indice' })).toHaveTextContent('Sous la malle.')
   })
+  it('unlocks the hints one by one at their minutes', () => {
+    const steps = [config.steps[0], { ...config.steps[1], hints: ['Sous la malle.', 'Dans le grenier.'] }]
+    renderZombies({ steps, hintTimes: [5, 8] })
+    press('Commencer')
+    wait(5)
+    press('Voir l’indice (1/2)')
+    expect(screen.getByRole('dialog', { name: 'Indices' })).toHaveTextContent('Indice suivant dans 03:00')
+    press('Fermer')
+    wait(3)
+    expect(screen.getByRole('button', { name: 'Voir les indices (2/2)' })).toBeEnabled()
+  })
   it('never shows more than the block time, even when the screen clock lags', () => {
     renderZombies({ blockSeconds: 60 })
     press('Commencer')

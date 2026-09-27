@@ -19,3 +19,14 @@ for (const [team, title] of FIRST_CHALLENGES) {
     expect(overflow).toBeLessThanOrEqual(0)
   })
 }
+
+test('the step screen still fits the tablet once the three hints are out', async ({ page }) => {
+  await page.clock.install()
+  await page.goto('./')
+  await setUpTablet(page, 'Zombies')
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await page.clock.fastForward('11:00')
+  await expect(page.getByRole('button', { name: 'Voir les indices (3/3)' })).toBeVisible()
+  const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
+  expect(overflow).toBeLessThanOrEqual(0)
+})

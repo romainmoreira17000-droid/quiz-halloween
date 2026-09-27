@@ -1,9 +1,27 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 15 partiel mergé, aucun sprint en cours)
+Dernière mise à jour : 2026-09-27 (sprint 16 ouvert)
 
 ## Sprint en cours
-Aucun. Prochain sprint : les 4 épreuves réelles manquantes, dès que Romain les envoie.
+- **Objectif :** animation « Bravo ! » quand une épreuve est validée + message animé pendant l'attente
+- **Issue :** #46 — Animation de réussite et message d'attente
+- **Branche :** feat/success-celebration
+- **PR :** pas encore ouverte
+
+Design validé en chat (chantier « bounded », pas de spec) :
+- Bonne réponse ou validation animateur : goupille + clac, puis ~0,5 s après un plein écran « Bravo ! » avec le chiffre et
+  des chauves-souris, ~3 s, fermeture auto ou au tap. Pas rejoué au rechargement (déclenché par le passage non trouvé → trouvé
+  pendant que l'écran d'étape est affiché). Reduced motion : état final direct.
+- Clé facultative `message_attente` (racine de quiz.yaml, même texte partout) → `waitingMessage`, affichée animée sous
+  « Chiffre trouvé ». Texte : « Profitez-en pour déguster ce qui se trouve sur la table ! ».
+- « Changement de salle dans » → « Changement d'épreuve dans ».
+
+Étapes du sprint 16 :
+- [ ] 1. Config : `message_attente` (types, validateQuiz + tests, quiz.yaml commenté)
+- [ ] 2. StepScreen : message d'attente + nouveau libellé (tests, e2e existant à adapter, README)
+- [ ] 3. Hook `useCelebration` + `CelebrationOverlay` + `celebration.css` (tests fake timers)
+- [ ] 4. e2e : parcours célébration + layout tablette ; vérif visuelle Playwright
+- [ ] 5. CLAUDE.md, relecture, PR
 
 ## Où on en est
 - [x] Sprints 1 à 15 terminés et en ligne (dernier : contenu réel du cimetière et de la galerie, PR #44).
@@ -12,7 +30,9 @@ Aucun. Prochain sprint : les 4 épreuves réelles manquantes, dès que Romain le
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
+Sprint 16, étape 1 : test rouge dans `src/config/validateQuiz.test.ts` pour `message_attente`.
+
+Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
 Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.

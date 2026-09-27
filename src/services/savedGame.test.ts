@@ -2,7 +2,7 @@
 import type { GameState } from '../game/progress'
 import { clearGame, loadGame, saveGame, STORAGE_KEY } from './savedGame'
 
-const state: GameState = { status: 'playing', digits: [4, null], startedAt: 1000, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null }
+const state: GameState = { status: 'playing', digits: [4, null], startedAt: 1000, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null }
 
 describe('saved game', () => {
   afterEach(() => vi.restoreAllMocks())

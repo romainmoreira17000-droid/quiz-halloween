@@ -9,7 +9,8 @@ Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
   - [x] 4–6. bouton « Menu animateur » (ResetDialog), `AnimatorMenu`, `TeamAnimatorMenu`, `animator.css`
   - [x] 7. e2e `animator-menu.spec.ts` ; vérif visuelle tablette + téléphone ; 403 tests unitaires, 18 e2e verts
   - [x] 8. docs (README, CLAUDE.md)
-  - [ ] Relecture (`relecteur-code`), PR, merge par Romain
+  - [x] Relecture (`relecteur-code`) : prêt ; classe `change-team` renommée `dialog-extra`
+  - [ ] PR, CI verte, merge par Romain
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
@@ -20,7 +21,7 @@ Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve
 
 ## Prochaine action concrète
-Sprint 13 : relecture de `feat/animator-menu`, puis PR (Closes #38) et merge par Romain.
+Sprint 13 : PR du menu animateur ouverte, attendre CI + merge de Romain.
 Ensuite : contenu réel des épreuves de Romain (et nouveau code animateur) → sprint 14 (`feat/real-quiz-content`) :
 remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
 

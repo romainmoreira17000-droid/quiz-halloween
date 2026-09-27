@@ -53,10 +53,10 @@ export function ResetDialog({ onCancel, onConfirm, onChangeTeam, animatorCode, m
           {asking === null && <button type="button" className="seal-button" onClick={confirm}>Recommencer</button>}
         </div>
         {onChangeTeam && asking === null && (
-          <button type="button" className="ghost-button change-team" onClick={onChangeTeam}>Changer d’équipe</button>
+          <button type="button" className="ghost-button dialog-extra" onClick={onChangeTeam}>Changer d’équipe</button>
         )}
         {menu && asking === null && (
-          <button type="button" className="ghost-button change-team" onClick={() => setAsking('menu')}>Menu animateur</button>
+          <button type="button" className="ghost-button dialog-extra" onClick={() => setAsking('menu')}>Menu animateur</button>
         )}
       </div>
     </div>

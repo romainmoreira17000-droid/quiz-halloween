@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 14 ouvert : plan écrit, code pas commencé)
+Dernière mise à jour : 2026-09-27 (sprint 14 : tâches 1 à 7 faites, relecture puis PR)
 
 ## Sprint en cours
 - **Objectif :** indices progressifs, jusqu'à 3 par épreuve (5, 8, 11 min), un de plus par appui dans le menu animateur.
@@ -13,15 +13,17 @@ Dernière mise à jour : 2026-09-27 (sprint 14 ouvert : plan écrit, code pas co
 ## Où on en est
 - [x] Sprints 1 à 13 terminés et en ligne (dernier : menu animateur, PR #39).
 - [x] Cadrage, conception et plan du sprint 14 (validés par Romain).
-- [ ] Tâche 1 : `src/game/hints.ts` ← reprendre ici
-- [ ] Tâche 2 : config (`indices_apres_minutes`, `indices`) · Tâche 3 : état/réducteur/relecture
-- [ ] Tâche 4 : HintButton · Tâche 5 : branchement + menu animateur · Tâche 6 : e2e · Tâche 7 : docs, PR
+- [x] Tâches 1 à 7 : `hints.ts`, config, état/réducteur/relecture, HintButton, branchement + menu animateur, e2e, docs.
+  426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone (fenêtre à 2 indices).
+- [ ] Relecture de la branche (agent `relecteur-code`), puis PR `Closes #41` ← reprendre ici
 - [ ] Ensuite, sprint 15 `feat/real-quiz-content` : contenu réel (épreuves reçues dans `docs/contenu-epreuves.md`).
 
 ## Prochaine action concrète
-Tâche 1 du plan : écrire `src/game/hints.test.ts` (rouge), puis `src/game/hints.ts`.
+Lancer la relecture de la branche, corriger ce qui est important, puis `gh pr create` (Closes #41).
 
 ## Décisions prises (et pourquoi)
+- Sprint 14 (exécution) : indices disponibles = max (pas somme) du chrono et de l'animateur ; une vieille sauvegarde avec
+  `hintSlot` sans `hintCount` reprend avec 1 indice ; un seul indice dans une étape → fenêtre « Indice » sans numéro.
 - Sprint 14 (cadrage, choix de Romain) : horaires d'indices communs à toutes les épreuves (`indices_apres_minutes: [5, 8, 11]`,
   modifiable) ; enfants : indices un par un ; menu animateur : un indice de plus par appui, tous les indices dans les solutions.
 - Contenu réel (choix de Romain) : textes indépendants de l'ordre de passage (rotation) ; consignes courtes (3-4 lignes, je

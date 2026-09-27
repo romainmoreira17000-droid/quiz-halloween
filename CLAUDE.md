@@ -6,8 +6,8 @@ Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 min compt�
 (équipe e, créneau c → épreuve (e+c) mod 6). À chaque épreuve, les enfants tapent la bonne réponse
 (chiffres ou mots), ce qui donne un chiffre (0–9) ; une épreuve pas trouvée à temps donne son chiffre
 avec le code animateur. Les chiffres ouvrent un cadenas final qui déclenche une animation. L'équipe
-de la tablette est réglée par un animateur (code animateur). Un indice par épreuve (bouton débloqué à
-`indice_apres_minutes`) ; une mauvaise réponse bloque la saisie `blocage_secondes`. Tout le contenu vient
+de la tablette est réglée par un animateur (code animateur). Jusqu'à 3 indices par épreuve (débloqués un par un
+aux minutes de `indices_apres_minutes`, ou un de plus par appui dans le menu animateur) ; une mauvaise réponse bloque la saisie `blocage_secondes`. Tout le contenu vient
 de `quiz.yaml`.
 
 Conception : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md` (quiz d'origine) et
@@ -35,7 +35,7 @@ scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifi�
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
-                           rotation (créneau → épreuve), phase (écran dérivé de l'horloge),
+                           rotation (créneau → épreuve), hints (déblocage des indices), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
                            skip + testMode (mode test : saut de créneau, activé par `?test`)
@@ -111,7 +111,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **tsconfig.scripts.json** : `scripts/` a son propre tsconfig en résolution `bundler`, car
   `tsconfig.node.json` (`nodenext`) exige des extensions sur les imports de `src/`.
 - **Sauvegarde** : clé localStorage `quiz-halloween:progress` = `{ fingerprint, state }`, avec
-  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil, hintSlot }` ;
+  `state = { status, digits (un par épreuve), startedAt, finishedAt, wrongAttempts, wrongSlot, blockedUntil, hintSlot, hintCount }` ;
   `wrongSlot` empêche un message de mauvaise réponse de suivre le groupe au créneau suivant. L'empreinte est
   calculée sur la **config validée** (pas le texte du YAML) : changer un commentaire ne perd pas la partie,
   changer une réponse si. Tout état relu passe par `restoreGameState` ; aucune erreur de stockage ne
@@ -153,7 +153,11 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Blocage** : `blockedUntil` (timestamp) dans l'état sauvegardé, plafonné à la fin du créneau (`blockEnd`) ; le
   réducteur ignore toute réponse pendant le blocage (ni bonne ni mauvaise) et `earnsDigit` renvoie false (pas de
   « clac »). Le décompte remplace la réponse tapée dans l'`<output>` (pas de ligne en plus). Seulement sur les épreuves.
-- **Indice** : `secondsBeforeHint` dérivé du chrono du créneau ; bouton en `position: absolute` à cheval sur le bas du
+- **Indices** : `hintsAvailable` (`progress.ts`) = le **max** (pas la somme) entre les indices débloqués par le chrono du
+  créneau (`hintsUnlockedByClock`) et ceux donnés par l'animateur dans ce créneau (`hintCount` si `hintSlot` = créneau),
+  plafonné au nombre d'indices de l'étape. Horaires communs à toutes les épreuves ; le validateur refuse une étape avec plus
+  d'indices que d'horaires. Anciennes clés `indice_apres_minutes` / `indice` d'étape : message « remplacée par ». Un seul
+  bouton (« Voir l'indice (1/3) », « Voir les indices (2/3) ») dont la fenêtre suit l'arrivée des indices ; bouton en `position: absolute` à cheval sur le bas du
   parchemin (`hint.css`), pour ne pas allonger l'écran d'étape. Pas d'indice sur l'attente, « Temps écoulé » ni le
   cadenas. La fenêtre est dans le parchemin : `hint.css` lui redonne l'encre claire (sinon texte sombre sur fond sombre).
 - **e2e** : après une mauvaise réponse à une épreuve, `page.clock.fastForward('01:00')` avant de retaper.
@@ -168,8 +172,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `page.goto('./?test')`, sans `page.clock`.
 - **Menu animateur** : ↺ appui long → « Menu animateur » (`ResetDialog`, prop `menu`) → code toujours demandé (le menu
   montre les solutions). Actions du réducteur `animatorSolve`, `unblock`, `showHint`, vérifiées contre la phase ; aucune ne
-  touche au temps. `hintSlot` = créneau où l'indice a été montré (`hintShown`), absent des sauvegardes d'avant le sprint 13 :
-  `restoreGameState` le lit alors comme null (une partie en cours survit à la mise à jour). `TeamAnimatorMenu` ne passe
+  touche au temps. `showHint` = un indice de plus (`hintSlot` = créneau, `hintCount` = disponibles + 1). Relecture :
+  `hintSlot` absent (avant le sprint 13) → null ; `hintCount` absent (avant le sprint 14) → 1 si `hintSlot` est un créneau,
+  sinon 0 (une partie en cours survit à la mise à jour). `TeamAnimatorMenu` ne passe
   que les actions possibles à l'écran (validation seulement en `challenge`). Le « clac » est joué dans le tap
   (`animatorSolve` renvoie un booléen). En test, taper le code **dans** la fenêtre (`within(dialog)`) : l'écran d'étape a
   aussi un pavé.

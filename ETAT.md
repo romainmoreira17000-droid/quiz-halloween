@@ -1,23 +1,18 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (PR #31 ouverte, en attente du merge de Romain)
+Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du contenu réel des épreuves)
 
 ## Sprint en cours
-- Voile sombre derrière les chiffres et l'indice du cadenas : issue #30, branche `fix/padlock-veil`.
-  - [x] Test e2e rouge (`e2e/padlock-veil.spec.ts`), CSS dans `padlock.css`, test vert, vérif visuelle tablette + téléphone
-  - [x] Vérifications : 370 tests unitaires, typecheck, lint, 15 e2e verts ; commit `eb09c07`
-  - [x] Relecture (`relecteur-code`) : prêt, une suggestion suivie (commentaire sur le panneau plein)
-  - [x] PR #31 ouverte
-  - [ ] CI verte, merge par Romain, puis nettoyage de la branche
+- Aucun. Dernier sprint fermé : voile du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
 - [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
+- [x] Voile sombre derrière les chiffres et l'indice du cadenas (PR #31).
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Attendre la CI et le merge de la PR #31 par Romain, puis `git checkout main && git pull && git branch -d fix/padlock-veil`.
-Ensuite : attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
+Attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
 (issue + branche `feat/real-quiz-content`) : remplir `quiz.yaml`, convertir l'image (`npm run images`),
 `npm run valider`, vérifier la mise en page des nouveaux textes (`e2e/layout.spec.ts`).
 

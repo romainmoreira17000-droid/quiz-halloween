@@ -1,32 +1,25 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 11 : PR #25 ouverte, en attente de merge)
+Dernière mise à jour : 2026-09-27 (petit sprint de nettoyage, PR ouverte, en attente de merge)
 
 ## Sprint en cours
-- **Objectif :** sprint 11 : fonds d'écran photo (une illustration par salle, « image principale » à l'accueil et
-  pendant l'attente, « sortie du restaurant » sur le cadenas et la victoire).
-- **Issue :** #24
-- **Branche :** `feat/photo-backdrops`
-- **PR :** #25
-- **Plan :** `docs/superpowers/plans/2026-09-26-sprint11-fonds-photo.md` (5 tâches)
+- **Objectif :** nettoyage après le sprint 11 : message clair si `images-sources/` manque (`npm run images`),
+  virgule du README, ETAT à jour.
+- **Issue :** #26
+- **Branche :** `chore/cleanup-after-sprint11`
+- **PR :** #27
 
 ## Où on en est
-- [x] Sprints 1 à 10 terminés et en ligne (PR #23 fusionnée le 2026-09-26).
-- [x] Cadrage sprint 11 avec Romain, issue #24, plan écrit
-- [x] Tâche 1 : conversion des PNG en WebP (`npm run images`, originaux dans `images-sources/` hors dépôt)
-- [x] Tâche 2 : clés YAML `fond`, `fond_accueil`, `cadenas.fond` + validateur
-- [x] Tâche 3 : `backdropFor` (choix du décor, logique pure)
-- [x] Tâche 4 : `PhotoBackdrop` + voile, branché dans `TeamGame`
-- [x] Tâche 5 : quiz.yaml, e2e, vérif navigateur (tablette + téléphone), docs
-- [x] Relecture (`relecteur-code`) : prêt pour PR ; PR #25 ouverte
+- [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
+- [x] `scripts/sources.ts` (`pickSourceImages`, testé) : message en français et code 1 si dossier absent ou vide
+- [x] README : virgule entre `image` et `fond` dans la ligne `etapes`
+- [x] Vérifications (370 tests, typecheck, build, lint) et relecture (`relecteur-code`) : prêt pour PR
 - [ ] CI verte, merge par Romain
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-PR #25 ouverte : vérifier la CI (`gh pr checks 25`), puis Romain décide du merge. Après merge :
-`git checkout main && git pull && git branch -d feat/photo-backdrops`.
-Petits points laissés de côté (relecture) : `npm run images` plante sans message clair si `images-sources/` manque ;
-virgule manquante dans la ligne `etapes` du README.
+PR #27 ouverte : vérifier la CI (`gh pr checks 27`), puis Romain décide du merge.
+Après merge : `git checkout main && git pull && git branch -d chore/cleanup-after-sprint11`.
 
 ## Décisions prises (et pourquoi)
 - Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,

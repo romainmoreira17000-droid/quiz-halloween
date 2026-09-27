@@ -179,10 +179,11 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   montre les solutions). Actions du réducteur `animatorSolve`, `unblock`, `showHint`, vérifiées contre la phase ; aucune ne
   touche au temps, sauf `animatorSkip` (« Passer à l'épreuve suivante », épreuve ou attente) : même recul de `startedAt`
   que `skipSlot`, mais donne le chiffre de l'épreuve pas trouvée (pas de « Temps écoulé » ensuite) et nomme son épreuve
-  (un tap pile au changement de créneau ne saute pas deux fois). Confirmation obligatoire : à faire sur **toutes** les
-  tablettes, sinon l'équipe arrive dans une salle occupée.
+  (un tap pile au changement de créneau ne saute pas deux fois). Confirmation obligatoire (avec « Annuler ») : à faire sur
+  **toutes** les tablettes, sinon l'équipe arrive dans une salle occupée.
   `setStart` (« Départ de la partie », tout l'écran `playing`) : recale une tablette décalée sur l'heure de départ des autres
-  (`<input type="time">`, aujourd'hui, jamais dans le futur) ; garde les chiffres, efface blocage, mauvaises réponses et
+  (`<input type="time">`, aujourd'hui ; une heure à venir compte pour hier si c'est à moins de 12 h, pour une soirée
+  qui passe minuit, sinon refusée) ; garde les chiffres, efface blocage, mauvaises réponses et
   indices donnés (ils visaient un créneau qui ne correspond plus). Les créneaux sautés passent par « Temps écoulé ». `showHint` = un indice de plus (`hintSlot` = créneau, `hintCount` = disponibles + 1). Relecture :
   `hintSlot` absent (avant le sprint 13) → null ; `hintCount` absent (avant le sprint 14) → 1 si `hintSlot` est un créneau,
   sinon 0 (simple garde-fou : le sprint 14 a changé la forme de la config, donc l'empreinte, et `loadGame` écarte ces

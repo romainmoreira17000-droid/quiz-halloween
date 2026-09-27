@@ -36,7 +36,7 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
   const run = (action: () => void) => () => { action(); onClose() }
-  const nothing = !onSolve && !onUnblock && !nextHint && !onSkip
+  const nothing = !onSolve && !onUnblock && !nextHint && !onSkip && !start
   return (
     <div className="reset-overlay">
       <div className="reset-dialog animator-menu" role="dialog" aria-modal="true" aria-labelledby="animator-title"

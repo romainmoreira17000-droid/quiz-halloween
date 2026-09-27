@@ -1,0 +1,24 @@
+/**
+ * @file Animator menu: built on the reset window (reset.css), with smaller buttons (up to four actions stack up)
+ * and the list of answers.
+ */
+.animator-menu { gap: 18px; }
+.animator-menu .ghost-button, .animator-menu .seal-button { min-height: 80px; font-size: 32px; padding: 0 28px; }
+.animator-answers {
+  list-style: none; padding: 0; display: grid; gap: 8px;
+  text-align: left; font-size: 22px;
+}
+.animator-answers li {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: baseline;
+  padding: 6px 0; border-bottom: 1px dashed rgb(241 220 176 / .25);
+}
+.animator-answers b, .animator-code { color: var(--amber); font-variant-numeric: lining-nums; }
+.animator-code { font-size: 30px; font-weight: 700; }
+
+@media (max-width: 600px) {
+  .animator-menu .ghost-button, .animator-menu .seal-button { min-height: 64px; font-size: 24px; padding: 0 16px; }
+  .animator-answers { font-size: 18px; }
+  .animator-answers li { grid-template-columns: 1fr auto; }
+  .animator-answers li > span:first-child { grid-column: 1 / -1; }
+  .animator-code { font-size: 24px; }
+}

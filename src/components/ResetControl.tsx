@@ -11,6 +11,8 @@ export interface ResetControlProps {
   onChangeTeam?(): void
   /** See ResetDialogProps.animatorCode. */
   animatorCode?: string
+  /** See ResetDialogProps.menu; the reset window closes when the menu opens. */
+  menu?: { code: string; onOpen(): void }
 }
 
 /**
@@ -18,14 +20,15 @@ export interface ResetControlProps {
  * @param props See ResetControlProps.
  * @returns The icon, and the window while asking.
  */
-export function ResetControl({ onReset, onChangeTeam, animatorCode }: ResetControlProps) {
+export function ResetControl({ onReset, onChangeTeam, animatorCode, menu }: ResetControlProps) {
   const [asking, setAsking] = useState(false)
   return (
     <>
       <ResetButton onLongPress={() => setAsking(true)} />
       {asking && (
         <ResetDialog animatorCode={animatorCode} onCancel={() => setAsking(false)} onConfirm={() => { setAsking(false); onReset() }}
-          onChangeTeam={onChangeTeam && (() => { setAsking(false); onChangeTeam() })} />
+          onChangeTeam={onChangeTeam && (() => { setAsking(false); onChangeTeam() })}
+          menu={menu && { code: menu.code, onOpen: () => { setAsking(false); menu.onOpen() } }} />
       )}
     </>
   )

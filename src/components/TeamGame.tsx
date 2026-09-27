@@ -1,10 +1,10 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { backdropFor, type Backdrop } from '../game/backdrop'
 import { blockSecondsLeft } from '../game/block'
 import { gamePhase, type GamePhase } from '../game/phase'
-import { wrongAttemptsIn } from '../game/progress'
+import { hintShown, wrongAttemptsIn } from '../game/progress'
 import { remainingSeconds, secondsBeforeHint, slotTiming } from '../game/time'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { useNow } from '../hooks/useNow'
@@ -18,6 +18,7 @@ import { HomeScreen } from './HomeScreen'
 import { PadlockScreen } from './PadlockScreen'
 import { ResetControl } from './ResetControl'
 import { StepScreen } from './StepScreen'
+import { TeamAnimatorMenu } from './TeamAnimatorMenu'
 import { TestModeControl } from './TestModeControl'
 import { TimeUpScreen } from './TimeUpScreen'
 import { VictoryScreen } from './VictoryScreen'
@@ -44,12 +45,15 @@ export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false }: 
   const now = useNow(progress.state.status === 'playing')
   const phase = gamePhase(progress.state, config, teamIndex, now)
   const canSkip = phase.kind === 'challenge' || phase.kind === 'waiting'
+  const [menuOpen, setMenuOpen] = useState(false)
   return (
     <>
       {renderBackdrop(backdropFor(phase, config))}
       {currentScreen({ config, teamIndex, progress, phase, now })}
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
-        animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined} />
+        animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined}
+        menu={{ code: config.animatorCode, onOpen: () => setMenuOpen(true) }} />
+      {menuOpen && <TeamAnimatorMenu config={config} progress={progress} phase={phase} now={now} onClose={() => setMenuOpen(false)} />}
       {testMode && <TestModeControl onSkip={canSkip ? progress.skipSlot : undefined} />}
     </>
   )
@@ -114,7 +118,7 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
         <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
           isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blocked}
-          hintSecondsLeft={secondsBeforeHint(timing.secondsLeft, slotMinutes, config.hintAfterMinutes)} onSubmit={submit} />
+          hintSecondsLeft={hintShown(state, phase.slot) ? 0 : secondsBeforeHint(timing.secondsLeft, slotMinutes, config.hintAfterMinutes)} onSubmit={submit} />
       )
     }
   }

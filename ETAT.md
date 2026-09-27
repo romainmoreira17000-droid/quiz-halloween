@@ -1,25 +1,19 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (petit sprint de nettoyage, PR ouverte, en attente de merge)
+Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du contenu réel des épreuves)
 
 ## Sprint en cours
-- **Objectif :** nettoyage après le sprint 11 : message clair si `images-sources/` manque (`npm run images`),
-  virgule du README, ETAT à jour.
-- **Issue :** #26
-- **Branche :** `chore/cleanup-after-sprint11`
-- **PR :** #27
+- Aucun. Dernier sprint fermé : nettoyage après le sprint 11 (issue #26, PR #27 fusionnée le 2026-09-27).
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
-- [x] `scripts/sources.ts` (`pickSourceImages`, testé) : message en français et code 1 si dossier absent ou vide
-- [x] README : virgule entre `image` et `fond` dans la ligne `etapes`
-- [x] Vérifications (370 tests, typecheck, build, lint) et relecture (`relecteur-code`) : prêt pour PR
-- [ ] CI verte, merge par Romain
+- [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-PR #27 ouverte : vérifier la CI (`gh pr checks 27`), puis Romain décide du merge.
-Après merge : `git checkout main && git pull && git branch -d chore/cleanup-after-sprint11`.
+Attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
+(issue + branche `feat/real-quiz-content`) : remplir `quiz.yaml`, convertir l'image (`npm run images`),
+`npm run valider`, vérifier la mise en page des nouveaux textes (`e2e/layout.spec.ts`).
 
 ## Décisions prises (et pourquoi)
 - Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,

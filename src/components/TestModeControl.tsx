@@ -2,7 +2,7 @@
 
 /** Props of TestModeControl. */
 export interface TestModeControlProps {
-  /** Ends the current slot now; without it (home, time up, padlock) only the badge shows. */
+  /** Ends the current slot now. The caller leaves it out where skipping makes no sense (home, time up, padlock): only the badge shows. */
   onSkip?(): void
 }
 

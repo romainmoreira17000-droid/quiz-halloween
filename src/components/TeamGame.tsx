@@ -1,6 +1,7 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
 import type { ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
+import { backdropFor, type Backdrop } from '../game/backdrop'
 import { blockSecondsLeft } from '../game/block'
 import { gamePhase, type GamePhase } from '../game/phase'
 import { wrongAttemptsIn } from '../game/progress'
@@ -9,6 +10,7 @@ import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { useNow } from '../hooks/useNow'
 import { playPinSound, playVictorySound } from '../services/sound'
 import { HallBackdrop } from './decor/HallBackdrop'
+import { PhotoBackdrop } from './decor/PhotoBackdrop'
 import { RestaurantFront } from './decor/RestaurantFront'
 import { EntranceScreen } from './EntranceScreen'
 import { GameHeader } from './GameHeader'
@@ -40,7 +42,7 @@ export function TeamGame({ config, teamIndex, onChangeTeam }: TeamGameProps) {
   const phase = gamePhase(progress.state, config, teamIndex, now)
   return (
     <>
-      {backdrop(phase)}
+      {renderBackdrop(backdropFor(phase, config))}
       {currentScreen({ config, teamIndex, progress, phase, now })}
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
         animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined} />
@@ -48,10 +50,15 @@ export function TeamGame({ config, teamIndex, onChangeTeam }: TeamGameProps) {
   )
 }
 
-/** Restaurant door for the entrance message, great hall once the group is inside; plain candlelight at home. */
-function backdrop(phase: GamePhase): ReactNode {
-  if (phase.kind === 'entrance') return <RestaurantFront />
-  return phase.kind === 'home' ? null : <HallBackdrop />
+/** Draws the backdrop picked by backdropFor. */
+function renderBackdrop(backdrop: Backdrop): ReactNode {
+  switch (backdrop.kind) {
+    case 'none': return null
+    case 'restaurant': return <RestaurantFront />
+    case 'hall': return <HallBackdrop />
+    // Keyed by file: a new room swaps the image instead of briefly showing the old one while the new one loads.
+    case 'photo': return <PhotoBackdrop key={backdrop.file} file={backdrop.file} />
+  }
 }
 
 interface ScreenInput { config: QuizConfig; teamIndex: number; progress: GameProgress; phase: GamePhase; now: number }

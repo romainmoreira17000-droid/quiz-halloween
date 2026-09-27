@@ -30,3 +30,6 @@ playwright-report/
 
 # Brainstorming visual companion
 .superpowers/
+
+# Original illustrations (heavy PNG): converted by npm run images
+images-sources/

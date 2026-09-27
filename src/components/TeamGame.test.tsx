@@ -41,6 +41,15 @@ describe('TeamGame', () => {
     expect(screen.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toHaveTextContent('15:00')
     expect(screen.getByRole('timer', { name: 'Temps total restant' })).toHaveTextContent('30:00')
   })
+  it('shows the photo of each place: home, the room, then home again while waiting', () => {
+    const photo = () => document.querySelector('.backdrop--photo img')?.getAttribute('src')
+    renderZombies({ homeBackdrop: 'accueil.webp', steps: [config.steps[0], { ...config.steps[1], backdrop: 'grenier.webp' }] })
+    expect(photo()).toBe('/images/accueil.webp')
+    press('Commencer')
+    expect(photo()).toBe('/images/grenier.webp')
+    type('0')
+    expect(photo()).toBe('/images/accueil.webp')
+  })
   it('waits for the next room once the digit is found, then moves on by itself', () => {
     renderZombies()
     press('Commencer')

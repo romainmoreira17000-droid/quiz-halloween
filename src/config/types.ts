@@ -14,15 +14,23 @@ export interface QuizStep {
   title: string; instruction: string; image?: string; answer: ExpectedAnswer; digit: number
   /** `indice`: shown on demand once `hintAfterMinutes` of the slot are over; no hint button without it. */
   hint?: string
+  /** `fond`: photo shown behind the screen while the group is in this room; drawn great hall without it. */
+  backdrop?: string
 }
 
 /** Final padlock: order in which step digits are entered (always filled, default 1..N) and optional texts. */
-export interface PadlockConfig { order: number[]; hint?: string; title?: string; victoryMessage?: string }
+export interface PadlockConfig {
+  order: number[]; hint?: string; title?: string; victoryMessage?: string
+  /** `fond`: photo behind the padlock and victory screens. */
+  backdrop?: string
+}
 
 /** Whole quiz, with English keys mapped from the French YAML. */
 export interface QuizConfig {
   title: string
   intro?: string
+  /** `fond_accueil`: photo behind the home screen and the wait between two rooms. */
+  homeBackdrop?: string
   /** Team names, in rotation order: team i starts on challenge i + 1. As many as steps. */
   teams: string[]
   /** Length of one slot in minutes: every team changes room at the same time. */

@@ -1,8 +1,8 @@
-/** @file Validates the optional `cadenas` section (order, hint, title, victory message) and fills in the default order. */
+/** @file Validates the optional `cadenas` section (order, hint, title, victory message, backdrop) and fills in the default order. */
 import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './checks'
 import type { PadlockConfig } from './types'
 
-const PADLOCK_KEYS = ['ordre', 'indice', 'titre', 'message_victoire'] as const
+const PADLOCK_KEYS = ['ordre', 'indice', 'titre', 'message_victoire', 'fond'] as const
 
 /** @returns [1, 2, ..., stepCount]. */
 function defaultOrder(stepCount: number): number[] {
@@ -26,7 +26,7 @@ function isPermutation(order: unknown, stepCount: number): order is number[] {
 export function validatePadlock(raw: unknown, stepCount: number, errors: string[]): PadlockConfig | null {
   if (raw === undefined) return { order: defaultOrder(stepCount) }
   if (!isObject(raw)) {
-    errors.push('« cadenas » doit contenir des paramètres : « ordre », « indice », « titre » ou « message_victoire ».')
+    errors.push('« cadenas » doit contenir des paramètres : « ordre », « indice », « titre », « message_victoire » ou « fond ».')
     return null
   }
   const before = errors.length
@@ -38,6 +38,7 @@ export function validatePadlock(raw: unknown, stepCount: number, errors: string[
   for (const key of ['titre', 'message_victoire'] as const) {
     if (raw[key] !== undefined && !isNonEmptyString(raw[key])) errors.push(`${prefix}« ${key} » doit être un texte non vide.`)
   }
+  if (raw.fond !== undefined && !isNonEmptyString(raw.fond)) errors.push(`${prefix}« fond » doit être un nom de fichier.`)
   errors.push(...unknownKeyErrors(raw, PADLOCK_KEYS, prefix))
   if (errors.length > before) return null
   return {
@@ -45,5 +46,6 @@ export function validatePadlock(raw: unknown, stepCount: number, errors: string[
     ...(raw.indice !== undefined && { hint: raw.indice as string }),
     ...(raw.titre !== undefined && { title: raw.titre as string }),
     ...(raw.message_victoire !== undefined && { victoryMessage: raw.message_victoire as string }),
+    ...(raw.fond !== undefined && { backdrop: raw.fond as string }),
   }
 }

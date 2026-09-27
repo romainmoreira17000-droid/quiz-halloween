@@ -28,8 +28,10 @@ Conception : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md` (quiz 
 ## Structure
 ```
 quiz.yaml                  paramètres du quiz (clés en français, commentées)
-public/images/             images des étapes (référencées par `image:`)
+public/images/             images des étapes (`image:`) et fonds photo WebP (`fond`, `fond_accueil`, `cadenas.fond`)
+images-sources/            illustrations PNG d'origine de Romain (gitignoré, converties par `npm run images`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
+scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifié par `slug.ts`
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
@@ -60,6 +62,7 @@ npm run dev          # serveur local (http://localhost:5173/quiz-halloween/)
 npm run test:run     # tests unitaires
 npm run test:e2e     # build + preview + Playwright
 npm run typecheck    # vérification des types
+npm run images       # convertit images-sources/ en WebP dans public/images/
 npm run valider      # vérifie quiz.yaml + images (aussi en prebuild)
 npm run build        # build de production dans dist/
 ```
@@ -152,3 +155,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   parchemin (`hint.css`), pour ne pas allonger l'écran d'étape. Pas d'indice sur l'attente, « Temps écoulé » ni le
   cadenas. La fenêtre est dans le parchemin : `hint.css` lui redonne l'encre claire (sinon texte sombre sur fond sombre).
 - **e2e** : après une mauvaise réponse à une épreuve, `page.clock.fastForward('01:00')` avant de retaper.
+- **Fonds photo** : `backdropFor` (`src/game/backdrop.ts`) choisit le décor : `fond_accueil` à l'accueil et pendant l'attente,
+  `fond` de l'épreuve pendant l'épreuve et « Temps écoulé », `cadenas.fond` au cadenas et à la victoire ; sans fond, grande salle
+  dessinée (façade à l'entrée, rien à l'accueil). `PhotoBackdrop` : `object-fit: cover` + voile sombre (`decor.css`) ; ne jamais
+  commiter de PNG lourd dans `public/` (précache PWA : le build casse au-delà de 2 Mo). WebP ≈ 200 Ko via `npm run images`.

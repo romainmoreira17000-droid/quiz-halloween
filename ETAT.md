@@ -1,35 +1,42 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-26 (sprint 10 : PR #23 ouverte, en attente de merge)
+Dernière mise à jour : 2026-09-26 (sprint 11 : PR #25 ouverte, en attente de merge)
 
 ## Sprint en cours
-- **Objectif :** sprint 10 de l'escape game : bouton indice (débloqué à `indice_apres_minutes`) et saisie
-  bloquée `blocage_secondes` après une mauvaise réponse. Spec : `docs/superpowers/specs/2026-09-24-escape-game-design.md`.
-- **Issue :** #22
-- **Branche :** `feat/hint-and-block`
-- **PR :** #23 (ouverte le 2026-09-26, CI en cours)
-- **Plan :** `docs/superpowers/plans/2026-09-26-sprint10-indice-blocage.md` (5 tâches)
+- **Objectif :** sprint 11 : fonds d'écran photo (une illustration par salle, « image principale » à l'accueil et
+  pendant l'attente, « sortie du restaurant » sur le cadenas et la victoire).
+- **Issue :** #24
+- **Branche :** `feat/photo-backdrops`
+- **PR :** #25
+- **Plan :** `docs/superpowers/plans/2026-09-26-sprint11-fonds-photo.md` (5 tâches)
 
 ## Où on en est
-- [x] Sprints 1 à 9 terminés et en ligne (PR #21 fusionnée le 2026-09-26).
-- [x] Cadrage sprint 10 : indice sur le parchemin + fenêtre (choix de Romain), issue #22, plan écrit
-- [x] Romain a lancé l'exécution (« go ») : exécution inline (executing-plans), registre dans `.superpowers/sdd/`
-- [x] Tâche 1 : clés `indice_apres_minutes`, `blocage_secondes`, `indice` d'étape
-- [x] Tâche 2 : blocage et délai d'indice (logique pure, état, sauvegarde)
-- [x] Tâche 3 : clavier bloqué avec décompte
-- [x] Tâche 4 : bouton et fenêtre d'indice
-- [x] Tâche 5 : e2e, mise en page, vérif navigateur, documentation
-- [x] Relecture (`relecteur-code`, Opus) : prêt pour PR ; « 01:01 » affiché une demi-seconde corrigé
-- [ ] PR vers `main` (Closes #22), CI verte, merge par Romain
-- [ ] Romain : réponses, chiffres et indices de chaque épreuve, code animateur (liste en fin de scénario)
+- [x] Sprints 1 à 10 terminés et en ligne (PR #23 fusionnée le 2026-09-26).
+- [x] Cadrage sprint 11 avec Romain, issue #24, plan écrit
+- [x] Tâche 1 : conversion des PNG en WebP (`npm run images`, originaux dans `images-sources/` hors dépôt)
+- [x] Tâche 2 : clés YAML `fond`, `fond_accueil`, `cadenas.fond` + validateur
+- [x] Tâche 3 : `backdropFor` (choix du décor, logique pure)
+- [x] Tâche 4 : `PhotoBackdrop` + voile, branché dans `TeamGame`
+- [x] Tâche 5 : quiz.yaml, e2e, vérif navigateur (tablette + téléphone), docs
+- [x] Relecture (`relecteur-code`) : prêt pour PR ; PR #25 ouverte
+- [ ] CI verte, merge par Romain
+- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-PR #23 ouverte : vérifier la CI (`gh pr checks 23`), puis Romain décide du merge. Après merge :
-`git checkout main && git pull && git branch -d feat/hint-and-block`.
-Ensuite sprint 11 : fonds d'écran par épreuve (images déjà déposées par Romain dans `public/images/`, non commitées,
-2,5 Mo chacune : trop lourdes pour le précache PWA, le build casse tant qu'elles y sont → les compresser).
+PR #25 ouverte : vérifier la CI (`gh pr checks 25`), puis Romain décide du merge. Après merge :
+`git checkout main && git pull && git branch -d feat/photo-backdrops`.
+Petits points laissés de côté (relecture) : `npm run images` plante sans message clair si `images-sources/` manque ;
+virgule manquante dans la ligne `etapes` du README.
 
 ## Décisions prises (et pourquoi)
+- Sprint 11 (cadrage, choix de Romain) : épreuves 1 à 6 = La galerie des portraits, La table hantée, Le cimetière,
+  Les saveurs hantées, Les toilettes scientifiques, Invisible mais visible (sans image → décor dessiné de la grande salle).
+  « image principale » : accueil + attente ; « sortie du restaurant » : cadenas + victoire ; l'entrée garde sa façade dessinée.
+- Sprint 11 (plan) : nouvelles clés `fond` (étape), `fond_accueil`, `cadenas.fond` ; la clé `image` (image dans le
+  parchemin) reste telle quelle. WebP en noms ASCII ; « Temps écoulé » montre la salle de l'épreuve ratée.
+- Sprint 11 (exécution) : source « la table hanté.png » renommée « hantée » (→ `table-hantee.webp`) ; originaux dans
+  `images-sources/` (gitignoré, restent sur le PC de Romain). WebP ≈ 200–250 Ko. Voile sombre en dégradé : texte lisible
+  sur les 7 écrans (tablette et téléphone). Test de mise en page étendu aux 6 épreuves (titres plus longs) : aucun défilement.
 - Sprint 10 (cadrage, choix de Romain) : bouton indice à cheval sur le bas du parchemin, grisé « Indice dans 03:00 »,
   puis « Voir l’indice » qui ouvre une fenêtre relisible à volonté (l'écran d'étape n'a plus de place en hauteur).
 - Sprint 10 (plan) : décompte du blocage dans la ligne de la réponse tapée (touches grisées) ; blocage plafonné à la

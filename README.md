@@ -56,6 +56,7 @@ Aucune variable d'environnement n'est nécessaire (pas de backend).
 | `npm run test:run` | Tests unitaires (Vitest) |
 | `npm run test:e2e` | Tests de parcours sur tablette (Playwright) |
 | `npm run typecheck` | Vérification des types |
+| `npm run images` | Convertit les illustrations de `images-sources/` en WebP légers dans `public/images/` |
 | `npm run valider` | Vérifie `quiz.yaml` et ses images (lancé aussi avant chaque build) |
 | `npm run build` | Build de production dans `dist/` |
 
@@ -64,10 +65,18 @@ Aucune variable d'environnement n'est nécessaire (pas de backend).
 Tout le contenu du jeu est dans `quiz.yaml`, à la racine. Le fichier est commenté ligne par ligne.
 Les images vont dans `public/images/`.
 
+**Ajouter ou remplacer une illustration de salle :** déposer le PNG (ou JPG) d'origine dans `images-sources/`
+(dossier gardé sur l'ordinateur, jamais envoyé sur GitHub : les originaux pèsent 2 à 3 Mo), puis lancer
+`npm run images`. Le script crée un `.webp` d'environ 200 Ko au nom simplifié (« la table hantée.png » →
+`table-hantee.webp`), à indiquer dans `quiz.yaml` (`fond`, `fond_accueil` ou `cadenas.fond`). Les images sont
+gardées dans la tablette pour jouer hors ligne : les garder légères. Sur une tablette en portrait, seul le
+centre de l'illustration est visible.
+
 | Clé | Obligatoire | Règle |
 |---|---|---|
 | `titre` | oui | texte non vide |
 | `intro` | non | texte |
+| `fond_accueil` | non | fichier de `public/images/` : fond de l'accueil et de l'attente entre deux salles |
 | `equipes` | oui | liste de noms non vides et différents, autant que `nombre_etapes` |
 | `duree_epreuve_minutes` | oui | nombre entier supérieur à 0 (durée d'un créneau) |
 | `indice_apres_minutes` | oui | entier ≥ 0 et plus petit que `duree_epreuve_minutes` : minutes avant que le bouton « Indice » s'active |
@@ -75,10 +84,11 @@ Les images vont dans `public/images/`.
 | `code_animateur` | oui | 4 à 8 chiffres ; ne jamais le dire devant les enfants |
 | `nombre_etapes` | oui | entier ≥ 1, égal au nombre d'étapes listées |
 | `entree` | non | `message`, `type_reponse`, `reponse` ; `titre` facultatif |
-| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) et `indice` (texte non vide, lu sur demande au bout de `indice_apres_minutes` ; sans indice, pas de bouton) |
+| `etapes` | oui | liste ; chaque étape a `titre`, `consigne`, `type_reponse` (`chiffres` \| `mots`), `reponse`, `chiffre` (0 à 9), et éventuellement `image` (fichier présent dans `public/images/`) `fond` (fond d'écran de la salle, fichier présent dans `public/images/` ; sans fond, la grande salle dessinée) et `indice` (texte non vide, lu sur demande au bout de `indice_apres_minutes` ; sans indice, pas de bouton) |
 | `cadenas.ordre` | non | chaque numéro d'étape de 1 à `nombre_etapes`, une seule fois (par défaut 1, 2, 3...) |
 | `cadenas.indice` | non | texte |
 | `cadenas.titre` | non | texte non vide (par défaut « Le cadenas ») |
+| `cadenas.fond` | non | fichier de `public/images/` : fond du cadenas et de la victoire |
 | `cadenas.message_victoire` | non | texte non vide (par défaut « Le cadenas est ouvert ! ») |
 
 Toute clé inconnue (faute de frappe) est refusée. Après une modification, lancer `npm run valider`.

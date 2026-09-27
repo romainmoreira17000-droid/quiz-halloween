@@ -1,4 +1,4 @@
-/** @file Hint button straddling the bottom edge of the parchment, and the hint window. */
+/** @file Hint button straddling the bottom edge of the parchment, and the window listing the unlocked hints. */
 /* The button hangs half outside the parchment, in the gap above the lock: the step screen keeps its height. */
 .parchment { position: relative; }
 .hint-button {
@@ -26,11 +26,18 @@
 /* The window lives inside the parchment: take back the light ink of the screens (loaded after screens.css, same specificity). */
 .hint-dialog { color: var(--wax); }
 .hint-dialog h2 { font-size: 56px; color: var(--wax); text-shadow: 0 0 20px rgb(242 165 65 / .3); }
-.hint-text { font-size: 32px; line-height: 1.4; }
+.hint-list {
+  justify-self: stretch; display: grid; gap: 16px; margin: 0; padding-left: 44px;
+  text-align: left; font-size: 30px; line-height: 1.35; font-variant-numeric: lining-nums;
+}
+/* A single hint needs no number. */
+.hint-list:has(> li:only-child) { padding-left: 0; list-style: none; text-align: center; }
+.hint-next { font-size: 22px; color: var(--amber); font-variant-numeric: lining-nums; }
 
 @media (max-width: 600px) {
   .hint-button { right: 12px; font-size: 18px; min-height: 48px; bottom: -30px; }
   .hint-dialog { padding: 28px 16px; }
   .hint-dialog h2 { font-size: 40px; }
-  .hint-text { font-size: 24px; }
+  .hint-list { font-size: 22px; padding-left: 32px; }
+  .hint-next { font-size: 18px; }
 }

@@ -1,38 +1,42 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 16 ouvert)
+Dernière mise à jour : 2026-09-27 (sprint 17 ouvert, design validé)
 
 ## Sprint en cours
-- **Objectif :** animation « Bravo ! » quand une épreuve est validée + message animé pendant l'attente
-- **Issue :** #46 — Animation de réussite et message d'attente
-- **Branche :** feat/success-celebration
-- **PR :** #48 (ouverte, en attente du merge de Romain)
+- **Objectif :** cadenas 3D d'horreur (rouille, chaînes, sang) : cadenas des épreuves + cadenas final + ouverture
+- **Issue :** #47 — Cadenas 3D d'horreur
+- **Branche :** feat/horror-padlock
+- **PR :** pas encore
 
-Design validé en chat (chantier « bounded », pas de spec) :
-- Bonne réponse ou validation animateur : goupille + clac, puis ~0,5 s après un plein écran « Bravo ! » avec le chiffre et
-  des chauves-souris, ~3 s, fermeture auto ou au tap. Pas rejoué au rechargement (déclenché par le passage non trouvé → trouvé
-  pendant que l'écran d'étape est affiché). Reduced motion : état final direct.
-- Clé facultative `message_attente` (racine de quiz.yaml, même texte partout) → `waitingMessage`, affichée animée sous
-  « Chiffre trouvé ». Texte : « Profitez-en pour déguster ce qui se trouve sur la table ! ».
-- « Changement de salle dans » → « Changement d'épreuve dans ».
+Design validé en chat (chantier « bounded », pas de spec). **Aucun changement de logique** (goupilles, code, sauvegarde, sons) :
+- Pièces partagées `src/components/lock/` : `LockDefs` (dégradés rouille, filtre SVG de bruit, sang ; ids `lock-*`),
+  `LockChains` (chaînes SVG qui peuvent tomber), `BloodDrips` (coulures fixes + une goutte qui perle lentement).
+- `CutawayLock` (écran d'étape) : même encombrement (190 px sur tablette, l'écran d'étape ne doit pas défiler) ; fer rouillé
+  en relief, rivets, sang au trou de serrure, chaînes en croix derrière l'anse ; à l'ouverture l'anse s'ouvre et les chaînes tombent.
+- Cadenas final (`PadlockScreen` + `Dial`) : grand cadenas rouillé (anse + chaînes) autour des molettes ; chaque molette
+  devient un **tambour 3D** de 10 chiffres qui roule (voisins visibles en perspective), flèches ▲▼ gardées ; 9 → 0 roule
+  dans le même sens (fonction pure testée, angle cumulé). `<output>` garde le chiffre (tambour `aria-hidden`).
+  Téléphone : 6 tambours sur une ligne à 360 px.
+- Ouverture : **au début de l'écran de victoire** (`HauntedDoor`), le petit cadenas CSS est remplacé par le cadenas rouillé :
+  anse qui saute, chaînes qui tombent, chute, puis portes comme avant. Timeline 0–1,4 s gardée (calée sur `sound.ts`).
+  Pas d'attente ajoutée entre bon code et victoire (sinon nouvel état de partie à sauvegarder).
+- Reduced motion : état final direct. Corriger le conflit `.lock-shackle` (lock.css / victory.css).
 
-Étapes du sprint 16 :
-- [x] 1. Config : `message_attente` (types, validateQuiz + tests, quiz.yaml commenté)
-- [x] 2. StepScreen : message d'attente + nouveau libellé (tests, e2e existant à adapter, README)
-- [x] 3. Hook `useCelebration` + `CelebrationOverlay` + `celebration.css` (tests fake timers)
-- [x] 4. e2e : parcours célébration + layout tablette (20/20 verts) ; vérif visuelle Playwright tablette + téléphone
-- [x] 5. CLAUDE.md, relecture (aria-modal ajouté), PR ouverte ← attendre le merge de Romain
+Étapes du sprint 17 :
+- [ ] 1. `lock/` : LockDefs, LockChains, BloodDrips (tests de rendu simples)
+- [ ] 2. CutawayLock restylé (tests existants verts ; e2e layout écran d'étape sans défilement)
+- [ ] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
+- [ ] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
+- [ ] 5. Vérif Playwright tablette + téléphone, e2e complets, CLAUDE.md, relecture, PR
 
 ## Où on en est
-- [x] Sprints 1 à 15 terminés et en ligne (dernier : contenu réel du cimetière et de la galerie, PR #44).
+- [x] Sprints 1 à 16 terminés et en ligne (dernier : célébration « Bravo ! » et message d'attente, PR #48).
 - [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
   ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 16 : PR #48 ouverte ; attendre l'accord de Romain pour le merge (jamais pendant la soirée), puis
-`git checkout main && git pull && git branch -d feat/success-celebration`.
-Ensuite : sprint 17 = cadenas 3D d'horreur, les deux cadenas (issue #47), à cadrer en brainstorming.
+Sprint 17, étape 1 : créer `src/components/lock/` (LockDefs, LockChains, BloodDrips), en TDD.
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
@@ -40,6 +44,8 @@ Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 17 (choix de Romain) : ambiance rouille + chaînes + sang ; molettes-tambours 3D + animation d'ouverture.
+- Sprint 17 (design) : ouverture jouée au début de la victoire plutôt qu'avant (pas de nouvel état de partie).
 - Sprint 16 (choix de Romain) : grande célébration plein écran ; message d'attente identique dans toutes les salles ;
   « Changement de salle » → « Changement d'épreuve ».
 - Sprint 16 (exécution) : fond du « Bravo ! » opaque (translucide, on lisait « Chiffre trouvé » sous le gros chiffre) ;

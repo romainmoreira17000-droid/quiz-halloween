@@ -4,8 +4,13 @@
 
 .recap {
   width: 100%; max-width: 690px;
-  list-style: none; padding: 0;
+  list-style: none;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 20px;
+}
+/* Dark veil: the recap and the hint sit on the photo backdrop, where the pale text lost contrast. */
+.recap, .hint {
+  padding: 12px 20px; border-radius: 20px;
+  background: rgb(12 8 5 / .78); box-shadow: 0 0 24px 8px rgb(12 8 5 / .5);
 }
 .recap li {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -38,8 +43,8 @@
 .open-button { margin-top: auto; }
 
 @media (max-width: 600px) {
-  .recap { grid-template-columns: 1fr; }
-  .hint { font-size: 20px; }
+  .recap { grid-template-columns: 1fr; padding: 8px 14px; }
+  .hint { font-size: 20px; padding: 10px 14px; }
   /* Six dials must fit one row on a 360 px phone: 6 × 50 px + 5 × 6 px. */
   .dials { gap: 6px; flex-wrap: nowrap; }
   .dial { padding: 3px; }

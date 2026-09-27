@@ -50,6 +50,8 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
                            AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran),
                            CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
+src/components/lock/       cadenas rouillés : LockDefs (dégradés, bruit, sang ; ids `lock-*`), LockChains, BloodDrips,
+                           FinalLock (cadre du cadenas final), VictoryLock (cadenas qui s'ouvre au début de la victoire)
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
@@ -189,3 +191,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   nommé « Bravo ! » : en test, toujours `getByRole('dialog', { name: ... })` si l'écran peut en montrer deux. En e2e avec
   `page.clock`, le « Bravo ! » n'apparaît qu'après un `fastForward`. `message_attente` (racine du YAML, facultatif, même
   texte dans toutes les salles) s'affiche sous « Chiffre trouvé », au-dessus de « Changement d'épreuve dans ».
+- **Cadenas rouillés** (`src/components/lock/`) : les ids SVG partagés sont en `lock-*` (ceux des décors en `hall-*`) ; un seul
+  `LockDefs` par écran, les autres SVG y renvoient. `CutawayLock` garde 190 px (écran d'étape sans défilement). Molettes du
+  cadenas final = tambours 3D : `rollDrum` (`padlock.ts`) donne l'angle cumulé (9 → 0 roule en avant), le tambour est
+  `aria-hidden`, le chiffre reste lu dans l'`<output class="dial-value">` (masqué visuellement). L'ouverture est jouée au
+  **début** de la victoire (`VictoryLock` dans `HauntedDoor`, anse à 0,2 s calée sur le clac de `sound.ts`, chaînes qui
+  tombent à 0,3 s) : pas d'état de partie en plus. Classes de l'anse : `.victory-lock-shackle` (plus de `.lock-shackle` dans victory.css).

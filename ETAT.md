@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-4 faites)
+Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-4 faites, étape 5 en cours)
 
 ## Sprint en cours
 - **Objectif :** cadenas 3D d'horreur (rouille, chaînes, sang) : cadenas des épreuves + cadenas final + ouverture
@@ -28,6 +28,7 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 - [x] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
 - [x] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
 - [ ] 5. Vérif Playwright tablette + téléphone, e2e complets, CLAUDE.md, relecture, PR
+  (fait : 450 unitaires + 20 e2e verts, typecheck/lint OK, captures tablette/téléphone/reduced motion OK, CLAUDE.md à jour)
 
 ## Où on en est
 - [x] Sprints 1 à 16 terminés et en ligne (dernier : célébration « Bravo ! » et message d'attente, PR #48).
@@ -36,9 +37,8 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 17, étape 5 : `npm run test:e2e` complet (arrêter tout `vite preview` sur 4173 avant), vérif Playwright tablette
-(810×1080) + téléphone (360) de l'écran d'étape, du cadenas final et de la victoire, reduced motion ; mettre à jour CLAUDE.md
-(dossier `src/components/lock/`, pièges : ids `lock-*`, chaînes/anse) ; agent `relecteur-code` ; PR `Closes #47`.
+Sprint 17, étape 5 : appliquer les retours de `relecteur-code`, attendre la CI verte de la PR `Closes #47`, puis merger
+(Romain a donné son accord pour le merge, 2026-09-27) et nettoyer la branche.
 Notes étape 4 : `VictoryLock` (`lock/`) remplace le petit cadenas CSS dans `HauntedDoor` (`.lock` garde `lock-fall`, 200 px,
 140 px sur téléphone). Chaînes **devant** le corps et rendues déjà `fallen` (elles tombent dès l'affichage, à 0,3 s) ; anse
 `.victory-lock-shackle` qui saute à 0,2 s (clac de `sound.ts`), jambes longues cachées derrière le corps pour rester engagées.

@@ -1,9 +1,14 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du contenu réel des épreuves)
+Dernière mise à jour : 2026-09-27 (PR #31 ouverte, en attente du merge de Romain)
 
 ## Sprint en cours
-- Aucun. Dernier sprint fermé : nettoyage après le sprint 11 (issue #26, PR #27 fusionnée le 2026-09-27).
+- Voile sombre derrière les chiffres et l'indice du cadenas : issue #30, branche `fix/padlock-veil`.
+  - [x] Test e2e rouge (`e2e/padlock-veil.spec.ts`), CSS dans `padlock.css`, test vert, vérif visuelle tablette + téléphone
+  - [x] Vérifications : 370 tests unitaires, typecheck, lint, 15 e2e verts ; commit `eb09c07`
+  - [x] Relecture (`relecteur-code`) : prêt, une suggestion suivie (commentaire sur le panneau plein)
+  - [x] PR #31 ouverte
+  - [ ] CI verte, merge par Romain, puis nettoyage de la branche
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
@@ -11,7 +16,8 @@ Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du conten
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
+Attendre la CI et le merge de la PR #31 par Romain, puis `git checkout main && git pull && git branch -d fix/padlock-veil`.
+Ensuite : attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le sprint 12
 (issue + branche `feat/real-quiz-content`) : remplir `quiz.yaml`, convertir l'image (`npm run images`),
 `npm run valider`, vérifier la mise en page des nouveaux textes (`e2e/layout.spec.ts`).
 
@@ -39,8 +45,8 @@ Attendre le contenu réel des épreuves et la 6e image de Romain, puis ouvrir le
 - Sprint 9 (tâche 6) : voile sombre derrière « Chiffre de l'épreuve » (écran Temps écoulé) : l'ambre était
   illisible sur la nappe claire ; boutons d'équipe en 40 px sans retour à la ligne (« Loups-garous » se
   coupait en deux). Écran d'étape sur tablette : aucun défilement, aucune retouche de hauteur nécessaire.
-- Sprint 9 (tâche 6) : à revoir plus tard, hors sprint : sur l'écran du cadenas, la liste des chiffres et l'indice
-  sont posés sur le décor sans voile (lisibles, mais moins que sur fond uni).
+- Sprint 9 (tâche 6) : la liste des chiffres et l'indice du cadenas étaient posés sur le décor sans voile : corrigé par
+  l'issue #30 (panneau sombre `rgb(12 8 5 / .78)` arrondi, fond uni plutôt que dégradé radial car la liste est large).
 - Sprint 9 (plan) : clés YAML du sprint 9 seulement (`equipes`, `duree_epreuve_minutes`, `code_animateur`) ;
   indice et blocage arrivent au sprint 10 avec leurs fonctionnalités.
 - Sprint 9 (plan) : ni index d'équipe ni liste « débloqué par un animateur » dans l'état : l'équipe a sa propre clé ;

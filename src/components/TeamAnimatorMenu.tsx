@@ -20,13 +20,17 @@ export interface TeamAnimatorMenuProps {
 }
 
 /**
- * The menu, with only the actions possible now: solve, unblock and one more hint need a challenge on screen.
+ * The menu, with only the actions possible now: solve, unblock and one more hint need a challenge on screen;
+ * the skip also works during the wait.
  * @param props See TeamAnimatorMenuProps.
  * @returns The animator menu.
  */
 export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: TeamAnimatorMenuProps) {
   const { state } = progress
   const code = padlockCode(config.steps, config.padlock.order)
+  if (phase.kind === 'waiting') {
+    return <AnimatorMenu steps={config.steps} code={code} onSkip={() => progress.animatorSkip(phase.challenge)} onClose={onClose} />
+  }
   if (phase.kind !== 'challenge' || state.startedAt === null) {
     return <AnimatorMenu steps={config.steps} code={code} onClose={onClose} />
   }
@@ -40,6 +44,7 @@ export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: Team
       onSolve={() => { if (progress.animatorSolve(challenge)) playPinSound() }}
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
       nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
+      onSkip={() => { if (progress.animatorSkip(challenge)) playPinSound() }}
       onClose={onClose} />
   )
 }

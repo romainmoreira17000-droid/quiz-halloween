@@ -1,6 +1,7 @@
 /** @file Animator menu, opened with the animator code from the reset window: help a group at any time. */
 import { useEffect, useRef, useState } from 'react'
 import type { QuizStep } from '../config/types'
+import { SkipNext } from './SkipNext'
 
 /** Props of AnimatorMenu. Each action is given only when it makes sense on the current screen. */
 export interface AnimatorMenuProps {
@@ -16,6 +17,8 @@ export interface AnimatorMenuProps {
   onUnblock?(): void
   /** Next hint of the challenge on screen, while one is left: its number, the step's hint count, and the unlock. */
   nextHint?: { number: number; total: number; onShow(): void }
+  /** Starts the next slot now (giving the digit on screen if needed), after a confirmation tap. */
+  onSkip?(): void
   onClose(): void
 }
 
@@ -25,12 +28,12 @@ export interface AnimatorMenuProps {
  * @param props See AnimatorMenuProps.
  * @returns The menu over the current screen.
  */
-export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onClose }: AnimatorMenuProps) {
+export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, onClose }: AnimatorMenuProps) {
   const close = useRef<HTMLButtonElement>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
   const run = (action: () => void) => () => { action(); onClose() }
-  const nothing = !onSolve && !onUnblock && !nextHint
+  const nothing = !onSolve && !onUnblock && !nextHint && !onSkip
   return (
     <div className="reset-overlay">
       <div className="reset-dialog animator-menu" role="dialog" aria-modal="true" aria-labelledby="animator-title"
@@ -44,6 +47,7 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
             Débloquer l’indice suivant ({nextHint.number}/{nextHint.total})
           </button>
         )}
+        {onSkip && <SkipNext onSkip={run(onSkip)} />}
         {showAnswers ? (
           <>
             <ol className="animator-answers" aria-label="Solutions">

@@ -54,4 +54,6 @@
 @media (max-width: 600px) {
   .reset-dialog { padding: 28px 16px; font-size: 22px; }
   .reset-dialog h2 { font-size: 40px; }
+  /* « Changer d'équipe » and « Menu animateur » on one line each. */
+  .change-team { min-height: 64px; font-size: 24px; }
 }

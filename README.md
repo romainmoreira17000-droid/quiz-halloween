@@ -35,6 +35,11 @@ avec les autres.
 « Annuler » garde la partie en cours ; « Changer d'équipe » ramène au réglage de la tablette. Si `quiz.yaml` a été modifié entre-temps, la partie
 sauvegardée est ignorée et le jeu revient à l'accueil.
 
+**Menu animateur (à tout moment) :** rester appuyé 3 secondes sur ↺, toucher « Menu animateur », taper le code
+animateur. Selon l'écran : « Valider l'épreuve » (donne le chiffre de l'épreuve affichée), « Débloquer la saisie »
+(annule la minute de blocage), « Montrer l'indice » (sans attendre les 10 min), et toujours « Voir les solutions »
+(réponse et chiffre de chaque épreuve, code du cadenas). Le menu ne change jamais le temps : l'équipe reste en phase.
+
 **Tester sans attendre (mode test) :** ouvrir le site avec `?test` à la fin de l'adresse
 (https://romainmoreira17000-droid.github.io/quiz-halloween/?test). Une étiquette rouge « Mode test » s'affiche,
 et le bouton « Épreuve suivante » (en bas à droite) termine tout de suite le créneau en cours. Une épreuve

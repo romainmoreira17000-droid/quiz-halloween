@@ -5,8 +5,11 @@ Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
 ## Sprint en cours
 - Sprint 13 : menu animateur, issue #38, branche `feat/animator-menu`.
   Plan : `docs/superpowers/plans/2026-09-27-sprint13-menu-animateur.md`.
-  - [ ] 1. `hintSlot` + restore  - [ ] 2. actions du réducteur  - [ ] 3. hook  - [ ] 4. ResetDialog
-  - [ ] 5. AnimatorMenu  - [ ] 6. branchement + styles  - [ ] 7. e2e  - [ ] 8. docs, relecture, PR
+  - [x] 1–3. `hintSlot` + restore tolérant, actions `animatorSolve`/`unblock`/`showHint`, hook
+  - [x] 4–6. bouton « Menu animateur » (ResetDialog), `AnimatorMenu`, `TeamAnimatorMenu`, `animator.css`
+  - [x] 7. e2e `animator-menu.spec.ts` ; vérif visuelle tablette + téléphone ; 403 tests unitaires, 18 e2e verts
+  - [x] 8. docs (README, CLAUDE.md)
+  - [ ] Relecture (`relecteur-code`), PR, merge par Romain
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
@@ -17,7 +20,7 @@ Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve
 
 ## Prochaine action concrète
-Sprint 13, tâche 1 : tests rouges de `hintSlot` (état initial, `restoreGameState` avec et sans le champ).
+Sprint 13 : relecture de `feat/animator-menu`, puis PR (Closes #38) et merge par Romain.
 Ensuite : contenu réel des épreuves de Romain (et nouveau code animateur) → sprint 14 (`feat/real-quiz-content`) :
 remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
 
@@ -25,6 +28,9 @@ remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.s
 - Sprint 13 (cadrage, choix de Romain) : menu animateur via la fenêtre de ↺ (rien de plus à l'écran pour les enfants),
   code toujours demandé (le menu montre les solutions). Actions : valider l'épreuve, débloquer la saisie, montrer
   l'indice, voir les solutions. Le menu ne touche jamais au temps (rotation intacte).
+- Sprint 13 (exécution) : « Valider l'épreuve » seulement sur une épreuve en cours (« Temps écoulé » garde son code à
+  l'écran) ; une action ferme le menu (l'animateur voit l'effet tout de suite) ; sur téléphone, boutons de la fenêtre ↺
+  réduits pour tenir sur une ligne.
 - Épreuve 6 (issue #35) : source « 6eme epreuves.png » renommée « invisible mais visible.png » (→ `invisible-mais-visible.webp`,
   même règle de nom que les autres fonds).
 - Sprint 12 (cadrage, choix de Romain) : le saut de créneau sert seulement à tester l'app, pas pendant la soirée

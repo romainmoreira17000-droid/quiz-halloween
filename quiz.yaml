@@ -125,6 +125,7 @@ etapes:
     indice: "Elle est faite de fils et attrape les mouches."
 
   - titre: "Invisible mais visible"
+    fond: "invisible-mais-visible.webp"
     consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
     type_reponse: mots
     reponse: "Citrouille"

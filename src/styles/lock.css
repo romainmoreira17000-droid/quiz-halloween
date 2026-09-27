@@ -19,7 +19,7 @@
 .lock-digit { fill: #6b5a4a; font-family: var(--text-font); font-weight: 700; font-variant-numeric: lining-nums; }
 .lock-digit--found { fill: #f5c46b; }
 
-/* The shackle rises out of the body, then swings on its left leg. Not `.lock-shackle`: victory.css owns that one. */
+/* The shackle rises out of the body, then swings on its left leg. */
 .cutaway-lock--open .cutaway-shackle {
   transform: translateY(-24px) rotate(-16deg);
   transform-box: view-box; transform-origin: 78px 100px;

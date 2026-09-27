@@ -28,21 +28,17 @@
 .door--left { left: 0; transform-origin: left center; transform: rotateY(80deg); animation: door-closed 2s ease-in-out 1s both; }
 .door--right { right: 0; transform-origin: right center; transform: rotateY(-80deg); animation: door-closed 2s ease-in-out 1s both; }
 
+/* VictoryLock: the shackle springs up with the clack of sound.ts (0.2 s), the chains fall (lock.css), then the lock drops. */
 .lock {
-  position: absolute; left: 50%; top: 52%; width: 72px; margin-left: -36px;
+  position: absolute; left: 50%; top: 36%; width: 200px; margin-left: -100px;
   opacity: 0; transform: translateY(80px) rotate(25deg);
   animation: lock-fall 1.4s ease-in both;
 }
-.lock-shackle {
-  display: block; width: 44px; height: 44px; margin: 0 auto -12px;
-  border: 9px solid var(--bronze); border-bottom: 0; border-radius: 22px 22px 0 0;
-  transform: translateY(-22px);
-  animation: shackle-closed .5s ease-out .2s both;
-}
-.lock-body {
-  display: block; height: 58px; border-radius: 10px;
-  background: linear-gradient(#d9b57a, var(--bronze) 50%, #8a6a3c);
-  box-shadow: 0 6px 14px rgb(0 0 0 / .5);
+.victory-lock { display: block; width: 100%; height: auto; overflow: visible; }
+.victory-lock-shackle {
+  transform-box: view-box; transform-origin: 78px 100px;
+  transform: translateY(-30px) rotate(-14deg);
+  animation: shackle-closed .4s cubic-bezier(.2, 1.6, .5, 1) .2s both;
 }
 
 .ghost, .bat { position: absolute; left: 50%; top: 50%; opacity: 0; animation: fly-out 2.6s ease-out both; }
@@ -72,6 +68,7 @@
 
 @media (max-width: 600px) {
   .haunted-door { width: 260px; height: 330px; }
+  .lock { width: 140px; margin-left: -70px; }
   .victory-text { padding: 12px 4px 16px; }
   .doorway { border-radius: 130px 130px 6px 6px; }
   .victory h2 { font-size: 36px; }

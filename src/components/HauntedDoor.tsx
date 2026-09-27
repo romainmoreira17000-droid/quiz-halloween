@@ -1,8 +1,9 @@
 /**
- * @file Decorative victory animation: the padlock springs open, the double door of the haunted
+ * @file Decorative victory animation: the rusty padlock springs open and drops its chains, the double door of the haunted
  * restaurant swings in, candlelight spills out, ghosts and bats escape. Pure markup; timing in victory.css.
  */
 import type { CSSProperties } from 'react'
+import { VictoryLock } from './lock/VictoryLock'
 
 /** Where a flyer ends up, relative to the doorway centre (px), and when it leaves (s). */
 interface Flight { dx: number; dy: number; delay: number }
@@ -30,7 +31,7 @@ export function HauntedDoor() {
         <div className="door door--left" />
         <div className="door door--right" />
       </div>
-      <div className="lock"><span className="lock-shackle" /><span className="lock-body" /></div>
+      <div className="lock"><VictoryLock /></div>
       {GHOSTS.map((f, i) => (
         <svg key={`g${i}`} className="ghost" style={flight(f)} viewBox="0 0 40 50">
           <path d="M20 2C9 2 2 11 2 22v26l6-5 6 5 6-5 6 5 6-5 6 5V22C38 11 31 2 20 2z" />

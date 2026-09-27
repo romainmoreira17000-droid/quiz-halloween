@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-3 faites)
+Dernière mise à jour : 2026-09-27 (sprint 17, étapes 1-4 faites)
 
 ## Sprint en cours
 - **Objectif :** cadenas 3D d'horreur (rouille, chaînes, sang) : cadenas des épreuves + cadenas final + ouverture
@@ -26,7 +26,7 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 - [x] 1. `lock/` : LockDefs, LockChains, BloodDrips (tests de rendu simples) ; styles chaînes/goutte dans lock.css
 - [x] 2. CutawayLock restylé (tests existants verts ; e2e layout écran d'étape sans défilement)
 - [x] 3. Tambour : fonction d'angle (TDD) + Dial en tambour 3D + cadre du cadenas final (PadlockScreen)
-- [ ] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
+- [x] 4. HauntedDoor : cadenas rouillé qui s'ouvre (victory.css)
 - [ ] 5. Vérif Playwright tablette + téléphone, e2e complets, CLAUDE.md, relecture, PR
 
 ## Où on en est
@@ -36,10 +36,13 @@ Design validé en chat (chantier « bounded », pas de spec). **Aucun changement
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 17, étape 4 : `HauntedDoor` (écran de victoire). Remplacer le petit cadenas CSS par le cadenas rouillé (réutiliser
-`LockDefs`/`LockChains`/`BloodDrips`, voire la forme de `FinalLock`) : anse qui saute, chaînes qui tombent
-(`lock-chains--fallen`), chute du cadenas, puis portes comme avant. Timeline 0–1,4 s gardée (calée sur `sound.ts`),
-reduced motion = état final. Vérifier le conflit `.lock-shackle` de victory.css.
+Sprint 17, étape 5 : `npm run test:e2e` complet (arrêter tout `vite preview` sur 4173 avant), vérif Playwright tablette
+(810×1080) + téléphone (360) de l'écran d'étape, du cadenas final et de la victoire, reduced motion ; mettre à jour CLAUDE.md
+(dossier `src/components/lock/`, pièges : ids `lock-*`, chaînes/anse) ; agent `relecteur-code` ; PR `Closes #47`.
+Notes étape 4 : `VictoryLock` (`lock/`) remplace le petit cadenas CSS dans `HauntedDoor` (`.lock` garde `lock-fall`, 200 px,
+140 px sur téléphone). Chaînes **devant** le corps et rendues déjà `fallen` (elles tombent dès l'affichage, à 0,3 s) ; anse
+`.victory-lock-shackle` qui saute à 0,2 s (clac de `sound.ts`), jambes longues cachées derrière le corps pour rester engagées.
+`.lock-shackle` / `.lock-body` supprimés de victory.css (conflit réglé). Vérifié en captures Playwright tablette + téléphone.
 Notes étape 3 : `rollDrum` (`padlock.ts`) = angle cumulé, plus court chemin, en avant sur égalité ; `Dial` garde
 `{ digit, angle }` en état (état dérivé pendant le rendu) et pose `--drum-angle` ; `<output class="dial-value">` masqué
 visuellement (lu par lecteurs d'écran et tests). `FinalLock` (`lock/`) : seule `LockDefs` de l'écran, la plaque et le sang

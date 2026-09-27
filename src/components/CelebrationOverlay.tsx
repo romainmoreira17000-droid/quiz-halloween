@@ -29,7 +29,7 @@ export interface CelebrationOverlayProps {
  */
 export function CelebrationOverlay({ digit, onDismiss }: CelebrationOverlayProps) {
   return (
-    <div className="celebration" role="dialog" aria-label="Bravo !" onClick={onDismiss}>
+    <div className="celebration" role="dialog" aria-modal="true" aria-label="Bravo !" onClick={onDismiss}>
       <div className="celebration-bats" aria-hidden="true">
         {BATS.map((f, i) => (
           <svg key={i} className="bat" style={flight(f)} viewBox="0 0 64 24">

@@ -21,7 +21,7 @@ Design validé en chat (chantier « bounded », pas de spec) :
 - [x] 2. StepScreen : message d'attente + nouveau libellé (tests, e2e existant à adapter, README)
 - [x] 3. Hook `useCelebration` + `CelebrationOverlay` + `celebration.css` (tests fake timers)
 - [x] 4. e2e : parcours célébration + layout tablette (20/20 verts) ; vérif visuelle Playwright tablette + téléphone
-- [ ] 5. CLAUDE.md fait ; relecture `relecteur-code` en cours ← reprendre ici (corriger, relancer tests, PR)
+- [x] 5. CLAUDE.md, relecture (aria-modal ajouté), PR ouverte ← attendre le merge de Romain
 
 ## Où on en est
 - [x] Sprints 1 à 15 terminés et en ligne (dernier : contenu réel du cimetière et de la galerie, PR #44).

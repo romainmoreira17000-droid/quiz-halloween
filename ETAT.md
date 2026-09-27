@@ -1,28 +1,20 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 15 partiel : relu, PR ouverte, en attente de merge)
+Dernière mise à jour : 2026-09-27 (sprint 15 partiel mergé, aucun sprint en cours)
 
 ## Sprint en cours
-- **Objectif :** contenu réel des épreuves reçues (cimetière, galerie des portraits) ; les 4 autres restent d'exemple.
-- **Issue :** #43 — Contenu réel : épreuves du cimetière et de la galerie des portraits
-- **Branche :** feat/real-quiz-content
-- **PR :** ouverte (voir `gh pr list`), en attente du merge par Romain
-- Pas de spec ni de plan (sprint bounded, design validé dans la conversation).
+Aucun. Prochain sprint : les 4 épreuves réelles manquantes, dès que Romain les envoie.
 
 ## Où on en est
-- [x] Sprints 1 à 14 terminés et en ligne (dernier : indices progressifs, PR #42).
-- [x] `quiz.yaml` : cimetière (réponse 8, chiffre 8, 3 indices) et galerie (réponse 6, chiffre 6, 3 indices) ; indice du
-  cadenas retiré (il parlait du contenu d'exemple) ; e2e adaptés.
-- [x] Cadenas de l'écran d'étape réduit à 190 px sur tablette : une consigne de 4 lignes tient sans défilement.
-  426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone.
-- [x] Relecture (relecteur-code, Sonnet) : rien de bloquant ; consigne du cimetière à 205 caractères, pile à la limite.
-- [ ] Merge de la PR par Romain ← reprendre ici
-- [ ] Plus tard : les 4 épreuves manquantes (table hantée, saveurs hantées, toilettes scientifiques, invisible mais
-  visible), l'indice du cadenas, la confirmation du code animateur (2710) et de l'ordre du cadenas.
+- [x] Sprints 1 à 15 terminés et en ligne (dernier : contenu réel du cimetière et de la galerie, PR #44).
+- [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
+  ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
+- [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Attendre le merge de la PR par Romain (CI verte), puis `git checkout main && git pull && git branch -d feat/real-quiz-content`.
-Quand un indice de cadenas réel sera écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
+Quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
+condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
+Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)

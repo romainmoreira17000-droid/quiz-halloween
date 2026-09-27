@@ -1,30 +1,36 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 14 : relu, PR ouverte, en attente de merge)
+Dernière mise à jour : 2026-09-27 (sprint 15 partiel : relu, PR ouverte, en attente de merge)
 
 ## Sprint en cours
-- **Objectif :** indices progressifs, jusqu'à 3 par épreuve (5, 8, 11 min), un de plus par appui dans le menu animateur.
-- **Issue :** #41 — Indices progressifs : jusqu'à 3 indices par épreuve
-- **Branche :** feat/progressive-hints
-- **PR :** ouverte (voir `gh pr list`), en attente de la relecture de Romain et de la CI
-- Conception : `docs/superpowers/specs/2026-09-27-indices-progressifs-design.md`
-- Plan : `docs/superpowers/plans/2026-09-27-sprint14-indices-progressifs.md`
+- **Objectif :** contenu réel des épreuves reçues (cimetière, galerie des portraits) ; les 4 autres restent d'exemple.
+- **Issue :** #43 — Contenu réel : épreuves du cimetière et de la galerie des portraits
+- **Branche :** feat/real-quiz-content
+- **PR :** ouverte (voir `gh pr list`), en attente du merge par Romain
+- Pas de spec ni de plan (sprint bounded, design validé dans la conversation).
 
 ## Où on en est
-- [x] Sprints 1 à 13 terminés et en ligne (dernier : menu animateur, PR #39).
-- [x] Cadrage, conception et plan du sprint 14 (validés par Romain).
-- [x] Tâches 1 à 7 : `hints.ts`, config, état/réducteur/relecture, HintButton, branchement + menu animateur, e2e, docs.
-  426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone (fenêtre à 2 indices).
-- [x] Relecture (relecteur-code, Opus) : 0 critique, 1 important corrigé (doc : un déploiement perd les parties en cours
-  car l'empreinte de la config change), 8 mineurs reportés (liste dans la PR).
+- [x] Sprints 1 à 14 terminés et en ligne (dernier : indices progressifs, PR #42).
+- [x] `quiz.yaml` : cimetière (réponse 8, chiffre 8, 3 indices) et galerie (réponse 6, chiffre 6, 3 indices) ; indice du
+  cadenas retiré (il parlait du contenu d'exemple) ; e2e adaptés.
+- [x] Cadenas de l'écran d'étape réduit à 190 px sur tablette : une consigne de 4 lignes tient sans défilement.
+  426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone.
+- [x] Relecture (relecteur-code, Sonnet) : rien de bloquant ; consigne du cimetière à 205 caractères, pile à la limite.
 - [ ] Merge de la PR par Romain ← reprendre ici
-- [ ] Ensuite, sprint 15 `feat/real-quiz-content` : contenu réel (épreuves reçues dans `docs/contenu-epreuves.md`).
+- [ ] Plus tard : les 4 épreuves manquantes (table hantée, saveurs hantées, toilettes scientifiques, invisible mais
+  visible), l'indice du cadenas, la confirmation du code animateur (2710) et de l'ordre du cadenas.
 
 ## Prochaine action concrète
-Attendre le merge de la PR par Romain (CI verte), puis `git checkout main && git pull && git branch -d feat/progressive-hints`,
-et ouvrir le sprint 15 (contenu réel). **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
+Attendre le merge de la PR par Romain (CI verte), puis `git checkout main && git pull && git branch -d feat/real-quiz-content`.
+Quand un indice de cadenas réel sera écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
+**Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 15 (choix de Romain) : sprint partiel, seules 2 épreuves sur 6 reçues ; les autres gardent leur contenu d'exemple
+  marqué « à remplacer » dans `quiz.yaml`.
+- Sprint 15 (choix de Romain) : une consigne de 4 lignes faisait défiler l'écran d'étape de 51 px sur tablette → cadenas
+  réduit (260 → 190 px) plutôt que consignes raccourcies ou texte plus petit. Limite : 4 lignes (≈ 200 caractères).
+- Sprint 15 : le test du voile de l'indice du cadenas ne le vérifie que s'il existe (le quiz n'en a plus pour l'instant).
 - Sprint 14 (exécution) : indices disponibles = max (pas somme) du chrono et de l'animateur ; une vieille sauvegarde avec
   `hintSlot` sans `hintCount` reprend avec 1 indice ; un seul indice dans une étape → fenêtre « Indice » sans numéro.
 - Sprint 14 (cadrage, choix de Romain) : horaires d'indices communs à toutes les épreuves (`indices_apres_minutes: [5, 8, 11]`,

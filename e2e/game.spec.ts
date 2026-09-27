@@ -2,9 +2,9 @@
 import { test, expect, type Page } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// Sample quiz.yaml, by challenge number: title, what the children type, digit earned.
+// Sample quiz.yaml (challenges 1 and 3 are real), by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
-  1: ['La galerie des portraits', '13', 4], 2: ['La table hantée', 'CRAPAUD', 7], 3: ['Le cimetière', '0472', 2],
+  1: ['La galerie des portraits', '6', 6], 2: ['La table hantée', 'CRAPAUD', 7], 3: ['Le cimetière', '8', 8],
   4: ['Les saveurs hantées', '1832', 9], 5: ['Les toilettes scientifiques', "TOILE D'ARAIGNEE", 0], 6: ['Invisible mais visible', 'CITROUILLE', 5],
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
@@ -36,7 +36,7 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   await typeAnswer(page, '1111')
   await expect(page.getByRole('alert')).toBeVisible()
   await typeAnswer(page, '2710')
-  await expect(page.getByRole('status')).toHaveText('Chiffre de l’épreuve : 2')
+  await expect(page.getByRole('status')).toHaveText('Chiffre de l’épreuve : 8')
   await page.getByRole('button', { name: 'Continuer' }).click()
 
   // Slots 3 to 6: challenges 4, 5, 6, then 1.
@@ -49,7 +49,7 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   }
 
   // Padlock code of the sample quiz: challenges in order 3, 1, 6, 2, 5, 4.
-  const CODE = [2, 4, 5, 7, 0, 9]
+  const CODE = [8, 6, 5, 7, 0, 9]
   await expect(page.getByRole('heading', { name: 'La porte du restaurant hanté' })).toBeVisible()
   for (const [i, digit] of CODE.entries()) {
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()

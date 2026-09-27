@@ -79,6 +79,19 @@ describe('animator menu in the game', () => {
     expect(playPinSound).not.toHaveBeenCalled()
     expect(screen.getByRole('heading', { name: /cadenas/i })).toBeInTheDocument()
   })
+  it('lines the tablet up with an earlier start time, in the room of that slot', () => {
+    vi.setSystemTime(new Date(2026, 9, 31, 20, 5))
+    startZombies()
+    expect(screen.getByRole('heading', { name: 'Le grenier' })).toBeInTheDocument()
+    openMenu()
+    const field = screen.getByLabelText('Départ de la partie')
+    expect(field).toHaveValue('20:05')
+    // The other tablets started at 19:48: they are in slot 1 (La crypte for the Zombies), and Le grenier was missed.
+    fireEvent.change(field, { target: { value: '19:48' } })
+    press('Recaler l’heure de départ')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeInTheDocument()
+  })
   it('has no action but the answers on the home screen', () => {
     render(<TeamGame config={config} teamIndex={1} onChangeTeam={vi.fn()} />)
     openMenu()

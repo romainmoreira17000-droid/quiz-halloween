@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { QuizStep } from '../config/types'
 import { SkipNext } from './SkipNext'
+import { StartTime } from './StartTime'
 
 /** Props of AnimatorMenu. Each action is given only when it makes sense on the current screen. */
 export interface AnimatorMenuProps {
@@ -19,6 +20,8 @@ export interface AnimatorMenuProps {
   nextHint?: { number: number; total: number; onShow(): void }
   /** Starts the next slot now (giving the digit on screen if needed), after a confirmation tap. */
   onSkip?(): void
+  /** Start time of a game in progress ("hh:mm") and how to change it (false when refused). */
+  start?: { value: string; onSet(text: string): boolean }
   onClose(): void
 }
 
@@ -28,7 +31,7 @@ export interface AnimatorMenuProps {
  * @param props See AnimatorMenuProps.
  * @returns The menu over the current screen.
  */
-export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, onClose }: AnimatorMenuProps) {
+export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, start, onClose }: AnimatorMenuProps) {
   const close = useRef<HTMLButtonElement>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
@@ -48,6 +51,7 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
           </button>
         )}
         {onSkip && <SkipNext onSkip={run(onSkip)} />}
+        {start && <StartTime value={start.value} onSet={start.onSet} onDone={onClose} />}
         {showAnswers ? (
           <>
             <ol className="animator-answers" aria-label="Solutions">

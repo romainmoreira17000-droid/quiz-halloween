@@ -1,5 +1,5 @@
 /** @file Tests for the animator menu window. */
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { QuizStep } from '../config/types'
 import { AnimatorMenu } from './AnimatorMenu'
@@ -41,6 +41,21 @@ describe('AnimatorMenu', () => {
     expect(screen.getByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Oui, passer à l’épreuve suivante' }))
     expect(onSkip).toHaveBeenCalledOnce()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+  it('changes the start time, and says why a time is refused', async () => {
+    const onSet = vi.fn((text: string) => text !== '21:00')
+    const onClose = vi.fn()
+    render(<AnimatorMenu steps={steps} code={[0, 4]} start={{ value: '20:05', onSet }} onClose={onClose} />)
+    const field = screen.getByLabelText('Départ de la partie')
+    expect(field).toHaveValue('20:05')
+    fireEvent.change(field, { target: { value: '21:00' } })
+    await userEvent.click(screen.getByRole('button', { name: 'Recaler l’heure de départ' }))
+    expect(screen.getByRole('alert')).toHaveTextContent('Cette heure n’est pas encore passée.')
+    expect(onClose).not.toHaveBeenCalled()
+    fireEvent.change(field, { target: { value: '20:00' } })
+    await userEvent.click(screen.getByRole('button', { name: 'Recaler l’heure de départ' }))
+    expect(onSet).toHaveBeenLastCalledWith('20:00')
     expect(onClose).toHaveBeenCalledOnce()
   })
   it('shows the answers and the padlock code on demand', async () => {

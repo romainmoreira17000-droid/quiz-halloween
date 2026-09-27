@@ -4,6 +4,7 @@ import type { QuizConfig } from '../config/types'
 import { quizFingerprint } from '../game/fingerprint'
 import { isPadlockCode, padlockCode } from '../game/padlock'
 import { gamePhase } from '../game/phase'
+import { startAtTimeOfDay } from '../game/startTime'
 import { createGameReducer, earnsDigit, initialGameState, type GameState } from '../game/progress'
 import { clearGame, loadGame, saveGame } from '../services/savedGame'
 
@@ -32,6 +33,8 @@ export interface GameProgress {
   showHint(challenge: number): void
   /** Animator menu: starts the next slot now, giving the digit of `challenge` (on screen) if needed; true when it gave it (the caller plays the clack). */
   animatorSkip(challenge: number): boolean
+  /** Animator menu: moves the start to a time of day ("hh:mm", today); false when refused (not a time, or still to come). */
+  setStart(text: string): boolean
 }
 
 /**
@@ -86,6 +89,14 @@ export function useGameProgress(config: QuizConfig, teamIndex: number): GameProg
       const action = { type: 'animatorSkip', challenge, now: Date.now() } as const
       dispatch(action)
       return reducer(state, action).digits[challenge] !== state.digits[challenge]
+    },
+    setStart: (text) => {
+      const now = Date.now()
+      const startedAt = startAtTimeOfDay(text, now)
+      if (startedAt === null) return false
+      const action = { type: 'setStart', startedAt, now } as const
+      dispatch(action)
+      return reducer(state, action) !== state
     },
   }
 }

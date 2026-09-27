@@ -4,6 +4,7 @@ import { blockSecondsLeft } from '../game/block'
 import { padlockCode } from '../game/padlock'
 import type { GamePhase } from '../game/phase'
 import { hintsAvailable } from '../game/progress'
+import { timeOfDay } from '../game/startTime'
 import type { GameProgress } from '../hooks/useGameProgress'
 import { playPinSound } from '../services/sound'
 import { AnimatorMenu } from './AnimatorMenu'
@@ -21,18 +22,21 @@ export interface TeamAnimatorMenuProps {
 
 /**
  * The menu, with only the actions possible now: solve, unblock and one more hint need a challenge on screen;
- * the skip also works during the wait.
+ * the skip also works during the wait, and the start time can be changed during the whole game.
  * @param props See TeamAnimatorMenuProps.
  * @returns The animator menu.
  */
 export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: TeamAnimatorMenuProps) {
   const { state } = progress
   const code = padlockCode(config.steps, config.padlock.order)
+  // The start time can be fixed on every screen of a game in progress, « Temps écoulé » and padlock included.
+  const start = state.status === 'playing' && state.startedAt !== null
+    ? { value: timeOfDay(state.startedAt), onSet: progress.setStart } : undefined
   if (phase.kind === 'waiting') {
-    return <AnimatorMenu steps={config.steps} code={code} onSkip={() => progress.animatorSkip(phase.challenge)} onClose={onClose} />
+    return <AnimatorMenu steps={config.steps} code={code} onSkip={() => progress.animatorSkip(phase.challenge)} start={start} onClose={onClose} />
   }
   if (phase.kind !== 'challenge' || state.startedAt === null) {
-    return <AnimatorMenu steps={config.steps} code={code} onClose={onClose} />
+    return <AnimatorMenu steps={config.steps} code={code} start={start} onClose={onClose} />
   }
   const { challenge, slot } = phase
   const step = config.steps[challenge]
@@ -45,6 +49,6 @@ export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: Team
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
       nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
       onSkip={() => { if (progress.animatorSkip(challenge)) playPinSound() }}
-      onClose={onClose} />
+      start={start} onClose={onClose} />
   )
 }

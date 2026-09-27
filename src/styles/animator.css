@@ -18,6 +18,13 @@
 .animator-answers b, .animator-code { color: var(--amber); font-variant-numeric: lining-nums; }
 .animator-code { font-size: 30px; font-weight: 700; }
 .animator-warning { margin: 0; font-size: 22px; color: var(--amber); }
+.animator-start { display: grid; gap: 12px; }
+.animator-start label { display: grid; gap: 8px; font-size: 24px; }
+.animator-start input {
+  min-height: 72px; padding: 0 16px; border: 2px solid var(--bronze); border-radius: 16px;
+  background: var(--soot); color: var(--wax); color-scheme: dark;
+  font: 700 36px var(--text-font); font-variant-numeric: lining-nums; text-align: center;
+}
 
 @media (max-width: 600px) {
   .animator-menu .ghost-button, .animator-menu .seal-button { min-height: 64px; font-size: 24px; padding: 0 16px; }
@@ -25,4 +32,6 @@
   .animator-answers li { grid-template-columns: 1fr auto; }
   .animator-answers li > span:first-child { grid-column: 1 / -1; }
   .animator-code { font-size: 24px; }
+  .animator-warning, .animator-start label { font-size: 18px; }
+  .animator-start input { min-height: 60px; font-size: 28px; }
 }

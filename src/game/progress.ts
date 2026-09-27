@@ -48,6 +48,8 @@ export type GameAction =
   | { type: 'showHint'; challenge: number; now: number }
   /** Animator menu, to move every tablet on together: gives the digit of `challenge` if needed, then starts the next slot now. */
   | { type: 'animatorSkip'; challenge: number; now: number }
+  /** Animator menu, to line a late or early tablet up with the others: a new start time, not in the future. */
+  | { type: 'setStart'; startedAt: number; now: number }
 
 /**
  * State before the game starts.
@@ -186,6 +188,10 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
           ? { ...withDigit(state, action.challenge, config.steps[action.challenge].digit), wrongAttempts: 0 } : state
         return { ...solved, startedAt: startForNextSlot(state.startedAt, action.now, config.slotMinutes), blockedUntil: null }
       }
+      case 'setStart':
+        if (state.status !== 'playing' || action.startedAt > action.now) return state
+        // Digits stay (the group earned them); block, wrong tries and early hints belonged to a slot that no longer matches.
+        return { ...state, startedAt: action.startedAt, blockedUntil: null, wrongAttempts: 0, wrongSlot: null, hintSlot: null, hintCount: 0 }
     }
   }
 }

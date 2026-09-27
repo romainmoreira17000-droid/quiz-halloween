@@ -24,6 +24,14 @@ describe('useGameProgress', () => {
   beforeEach(() => { vi.useFakeTimers(); at(0) })
   afterEach(() => vi.useRealTimers())
 
+  it('skips to the next slot in test mode, and the save follows', () => {
+    const { result } = zombies()
+    act(() => result.current.start())
+    at(4)
+    act(() => result.current.skipSlot())
+    expect(result.current.state.startedAt).toBe(START - 11 * MIN)
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}').state.startedAt).toBe(START - 11 * MIN)
+  })
   it('tells whether an answer earns the digit of the challenge on screen', () => {
     const { result } = zombies()
     let right = true

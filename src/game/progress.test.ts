@@ -125,3 +125,23 @@ describe('blocking after a wrong answer', () => {
     expect(blocking(allFound, { type: 'unlock', code: [4, 0], now: 30 * MIN }).blockedUntil).toBeNull()
   })
 })
+
+describe('skipping a slot (test mode)', () => {
+  it('moves the start back to the end of the slot, from a challenge or the wait', () => {
+    expect(reduce(playing, { type: 'skipSlot', now: 4 * MIN })).toEqual({ ...playing, startedAt: -11 * MIN })
+    const found = { ...playing, digits: [null, 0] }
+    expect(reduce(found, { type: 'skipSlot', now: 4 * MIN })).toEqual({ ...found, startedAt: -11 * MIN })
+  })
+  it('does not carry the keyboard block over to the next challenge', () => {
+    const blocked = { ...playing, blockedUntil: 5 * MIN, wrongAttempts: 1, wrongSlot: 0 }
+    expect(reduce(blocked, { type: 'skipSlot', now: 4 * MIN }).blockedUntil).toBeNull()
+  })
+  it('is ignored outside of a challenge: home, time up, padlock, won', () => {
+    expect(reduce(home, { type: 'skipSlot', now: 0 })).toBe(home)
+    const timeUp = { ...playing, digits: [null, null] }
+    expect(reduce(timeUp, { type: 'skipSlot', now: 16 * MIN })).toBe(timeUp)
+    expect(reduce(allFound, { type: 'skipSlot', now: 31 * MIN })).toBe(allFound)
+    const won: GameState = { ...allFound, status: 'won', finishedAt: 31 * MIN }
+    expect(reduce(won, { type: 'skipSlot', now: 32 * MIN })).toBe(won)
+  })
+})

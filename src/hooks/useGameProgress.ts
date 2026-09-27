@@ -22,6 +22,8 @@ export interface GameProgress {
   unlock(code: number[]): boolean
   /** Goes back to the home screen (same team) and deletes the saved game. */
   reset(): void
+  /** Test mode only: ends the current slot now (ignored outside of a challenge or the wait). */
+  skipSlot(): void
 }
 
 /**
@@ -63,5 +65,6 @@ export function useGameProgress(config: QuizConfig, teamIndex: number): GameProg
       return gamePhase(state, config, teamIndex, now).kind === 'padlock' && isPadlockCode(code, entered)
     },
     reset: () => dispatch({ type: 'reset' }),
+    skipSlot: () => dispatch({ type: 'skipSlot', now: Date.now() }),
   }
 }

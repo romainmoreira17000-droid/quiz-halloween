@@ -3,6 +3,8 @@
  * Base styles = final state, keyframes = starting state, so reduced motion shows the end at once.
  */
 .cutaway-lock { width: 300px; height: auto; overflow: visible; }
+/* The blood and the chains spill out of the viewBox: they must never catch a tap meant for the keypad. */
+.cutaway-lock * { pointer-events: none; }
 .lock-pin { transform-box: view-box; }
 .lock-pin--down { transform: translateY(34px); }
 /* 0.45 s: the clack of playPinSound (sound.ts) lands at the end of this fall. */
@@ -17,10 +19,10 @@
 .lock-digit { fill: #6b5a4a; font-family: var(--text-font); font-weight: 700; font-variant-numeric: lining-nums; }
 .lock-digit--found { fill: #f5c46b; }
 
-/* The shackle rises out of the body, then swings on its left leg. */
-.cutaway-lock--open .lock-shackle {
+/* The shackle rises out of the body, then swings on its left leg. Not `.lock-shackle`: victory.css owns that one. */
+.cutaway-lock--open .cutaway-shackle {
   transform: translateY(-24px) rotate(-16deg);
-  transform-box: view-box; transform-origin: 78px 116px;
+  transform-box: view-box; transform-origin: 78px 100px;
   animation: shackle-release .9s .5s both;
 }
 @keyframes shackle-release {

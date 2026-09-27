@@ -31,9 +31,9 @@ export function LockDefs() {
       </radialGradient>
       {/* Noise thresholded into orange patches, kept only where the metal is: rust that eats the iron. */}
       <filter id="lock-rust-grain" x="0" y="0" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency=".06 .1" numOctaves="3" seed="7" result="noise" />
+        <feTurbulence type="fractalNoise" baseFrequency=".16 .22" numOctaves="3" seed="7" result="noise" />
         <feColorMatrix in="noise" type="matrix" result="patches"
-          values="0 0 0 0 .56  0 0 0 0 .25  0 0 0 0 .09  2.6 0 0 0 -1" />
+          values="0 0 0 0 .5  0 0 0 0 .2  0 0 0 0 .07  3 0 0 0 -1.75" />
         <feComposite in="patches" in2="SourceGraphic" operator="in" result="rust" />
         <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="rust" /></feMerge>
       </filter>

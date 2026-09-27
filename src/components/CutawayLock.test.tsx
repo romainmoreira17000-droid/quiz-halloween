@@ -38,6 +38,21 @@ describe('CutawayLock', () => {
       expect(x + width).toBeLessThanOrEqual(256)
     }
   })
+  it('wears rusty iron, crossed chains and blood at the keyhole while shut', () => {
+    const { container } = render(<CutawayLock total={6} foundDigits={[4]} />)
+    expect(container.querySelector('#lock-rust-grain')).not.toBeNull()
+    expect(container.querySelector('.cutaway-body')).toHaveAttribute('filter', 'url(#lock-rust-grain)')
+    expect(container.querySelector('.cutaway-shackle')).not.toBeNull()
+    expect(container.querySelector('.lock-shackle')).toBeNull()
+    expect(container.querySelectorAll('.lock-chain')).toHaveLength(2)
+    expect(container.querySelector('.lock-chains--fallen')).toBeNull()
+    expect(container.querySelector('.cutaway-keyhole')).not.toBeNull()
+    expect(container.querySelectorAll('.blood-drip').length).toBeGreaterThan(0)
+  })
+  it('drops the chains once the lock opens', () => {
+    const { container } = render(<CutawayLock total={2} foundDigits={[1, 2]} />)
+    expect(container.querySelector('.lock-chains--fallen')).not.toBeNull()
+  })
   it('drops the pins of the challenges found, in any order', () => {
     const { container } = render(<CutawayLock total={6} foundDigits={[null, 7, null, null, 2, null]} fallingIndex={4} />)
     expect(screen.getByRole('img', { name: 'Cadenas : 2 goupilles tombées sur 6' })).toBeInTheDocument()

@@ -1,5 +1,6 @@
 /** @file Tablet entry: an animator sets the team first, then that team's game runs. */
 import type { QuizConfig } from '../config/types'
+import { isTestMode } from '../game/testMode'
 import { useTeam } from '../hooks/useTeam'
 import { TeamGame } from './TeamGame'
 import { TeamSetupScreen } from './TeamSetupScreen'
@@ -17,5 +18,5 @@ export function Game({ config }: GameProps) {
   if (teamIndex === null) {
     return <TeamSetupScreen teams={config.teams} animatorCode={config.animatorCode} onChoose={choose} />
   }
-  return <TeamGame config={config} teamIndex={teamIndex} onChangeTeam={forget} />
+  return <TeamGame config={config} teamIndex={teamIndex} onChangeTeam={forget} testMode={isTestMode(window.location.search)} />
 }

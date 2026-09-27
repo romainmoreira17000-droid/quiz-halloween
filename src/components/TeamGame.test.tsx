@@ -25,12 +25,31 @@ const holdResetIcon = () => {
   act(() => vi.advanceTimersByTime(RESET_HOLD_MS))
 }
 // The Zombies (team 1) play Le grenier first, then La crypte.
-const renderZombies = (overrides: Partial<QuizConfig> = {}, onChangeTeam = vi.fn()) =>
-  render(<TeamGame config={{ ...config, ...overrides }} teamIndex={1} onChangeTeam={onChangeTeam} />)
+const renderZombies = (overrides: Partial<QuizConfig> = {}, onChangeTeam = vi.fn(), testMode = false) =>
+  render(<TeamGame config={{ ...config, ...overrides }} teamIndex={1} onChangeTeam={onChangeTeam} testMode={testMode} />)
 
 describe('TeamGame', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => { vi.useRealTimers(); vi.clearAllMocks() })
+
+  it('in test mode, skips to the next challenge; a skipped challenge is time up', () => {
+    renderZombies({}, vi.fn(), true)
+    expect(screen.getByText('Mode test')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Épreuve suivante' })).not.toBeInTheDocument() // home
+    press('Commencer')
+    type('0')
+    press('Épreuve suivante')
+    expect(screen.getByRole('heading', { name: 'La crypte' })).toBeInTheDocument()
+    press('Épreuve suivante')
+    expect(screen.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Épreuve suivante' })).not.toBeInTheDocument()
+  })
+  it('has no test mode by default', () => {
+    renderZombies()
+    press('Commencer')
+    expect(screen.queryByText('Mode test')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Épreuve suivante' })).not.toBeInTheDocument()
+  })
 
   it('shows the team at home, then starts on its own challenge with both clocks', () => {
     renderZombies()

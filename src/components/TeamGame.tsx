@@ -18,6 +18,7 @@ import { HomeScreen } from './HomeScreen'
 import { PadlockScreen } from './PadlockScreen'
 import { ResetControl } from './ResetControl'
 import { StepScreen } from './StepScreen'
+import { TestModeControl } from './TestModeControl'
 import { TimeUpScreen } from './TimeUpScreen'
 import { VictoryScreen } from './VictoryScreen'
 
@@ -28,6 +29,8 @@ export interface TeamGameProps {
   teamIndex: number
   /** Called from the reset window to set the tablet up for another team. */
   onChangeTeam(): void
+  /** App opened with `?test`: shows the badge and the skip button (see testMode.ts). */
+  testMode?: boolean
 }
 
 /**
@@ -35,17 +38,19 @@ export interface TeamGameProps {
  * @param props See TeamGameProps.
  * @returns The current screen, with the reset icon.
  */
-export function TeamGame({ config, teamIndex, onChangeTeam }: TeamGameProps) {
+export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false }: TeamGameProps) {
   const progress = useGameProgress(config, teamIndex)
   // Ticks only while playing: slot changes, clocks and « Temps écoulé » all follow from the time.
   const now = useNow(progress.state.status === 'playing')
   const phase = gamePhase(progress.state, config, teamIndex, now)
+  const canSkip = phase.kind === 'challenge' || phase.kind === 'waiting'
   return (
     <>
       {renderBackdrop(backdropFor(phase, config))}
       {currentScreen({ config, teamIndex, progress, phase, now })}
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
         animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined} />
+      {testMode && <TestModeControl onSkip={canSkip ? progress.skipSlot : undefined} />}
     </>
   )
 }

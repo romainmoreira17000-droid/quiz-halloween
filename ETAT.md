@@ -17,11 +17,11 @@ Design validé en chat (chantier « bounded », pas de spec) :
 - « Changement de salle dans » → « Changement d'épreuve dans ».
 
 Étapes du sprint 16 :
-- [ ] 1. Config : `message_attente` (types, validateQuiz + tests, quiz.yaml commenté)
-- [ ] 2. StepScreen : message d'attente + nouveau libellé (tests, e2e existant à adapter, README)
-- [ ] 3. Hook `useCelebration` + `CelebrationOverlay` + `celebration.css` (tests fake timers)
-- [ ] 4. e2e : parcours célébration + layout tablette ; vérif visuelle Playwright
-- [ ] 5. CLAUDE.md, relecture, PR
+- [x] 1. Config : `message_attente` (types, validateQuiz + tests, quiz.yaml commenté)
+- [x] 2. StepScreen : message d'attente + nouveau libellé (tests, e2e existant à adapter, README)
+- [x] 3. Hook `useCelebration` + `CelebrationOverlay` + `celebration.css` (tests fake timers)
+- [x] 4. e2e : parcours célébration + layout tablette (20/20 verts) ; vérif visuelle Playwright tablette + téléphone
+- [ ] 5. CLAUDE.md fait ; relecture `relecteur-code` en cours ← reprendre ici (corriger, relancer tests, PR)
 
 ## Où on en est
 - [x] Sprints 1 à 15 terminés et en ligne (dernier : contenu réel du cimetière et de la galerie, PR #44).
@@ -30,7 +30,9 @@ Design validé en chat (chantier « bounded », pas de spec) :
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Sprint 16, étape 1 : test rouge dans `src/config/validateQuiz.test.ts` pour `message_attente`.
+Sprint 16 : appliquer les retours de `relecteur-code` (relancer l'agent si la session a été vidée), `npm run test:run`,
+`npm run test:e2e` (arrêter tout `vite preview` sur 4173 avant), puis `gh pr create` (Closes #46).
+Ensuite : sprint 17 = cadenas 3D d'horreur, les deux cadenas (issue #47), à cadrer en brainstorming.
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
@@ -38,6 +40,10 @@ Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 16 (choix de Romain) : grande célébration plein écran ; message d'attente identique dans toutes les salles ;
+  « Changement de salle » → « Changement d'épreuve ».
+- Sprint 16 (exécution) : fond du « Bravo ! » opaque (translucide, on lisait « Chiffre trouvé » sous le gros chiffre) ;
+  célébration déclenchée dans l'écran d'étape (passage non trouvé → trouvé), donc aussi pour « Valider l'épreuve » de l'animateur.
 - Sprint 15 (choix de Romain) : sprint partiel, seules 2 épreuves sur 6 reçues ; les autres gardent leur contenu d'exemple
   marqué « à remplacer » dans `quiz.yaml`.
 - Sprint 15 (choix de Romain) : une consigne de 4 lignes faisait défiler l'écran d'étape de 51 px sur tablette → cadenas

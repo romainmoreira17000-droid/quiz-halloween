@@ -30,3 +30,21 @@ export function isPadlockCode(expected: readonly number[], entered: readonly num
 export function turnDial(digit: number, delta: 1 | -1): number {
   return (digit + delta + 10) % 10
 }
+
+/** Angle between two neighbouring digits on a dial drum (10 faces). */
+export const DRUM_STEP_DEG = 36
+
+/**
+ * Next angle of a dial drum, kept cumulative so that it always rolls the short way:
+ * 9 → 0 keeps going forward instead of spinning back through every digit.
+ * @param angle Current drum angle, in degrees (digit × 36 plus whole turns).
+ * @param from Digit shown now (0–9).
+ * @param to Digit to show (0–9).
+ * @returns The new angle; forward on a tie (5 notches).
+ * @example rollDrum(324, 9, 0) // 360
+ */
+export function rollDrum(angle: number, from: number, to: number): number {
+  const forward = (((to - from) % 10) + 10) % 10
+  const notches = forward > 5 ? forward - 10 : forward
+  return angle + notches * DRUM_STEP_DEG
+}

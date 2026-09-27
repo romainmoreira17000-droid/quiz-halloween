@@ -1,5 +1,5 @@
 /** @file Tests for the padlock code and dial arithmetic. */
-import { isPadlockCode, padlockCode, turnDial } from './padlock'
+import { DRUM_STEP_DEG, isPadlockCode, padlockCode, rollDrum, turnDial } from './padlock'
 
 const steps = [
   { title: 'A', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
@@ -28,5 +28,24 @@ describe('isPadlockCode', () => {
 describe('turnDial', () => {
   it.each([[0, 1, 1], [8, 1, 9], [9, 1, 0], [0, -1, 9], [5, -1, 4]] as const)('%i %i → %i', (digit, delta, expected) => {
     expect(turnDial(digit, delta)).toBe(expected)
+  })
+})
+
+describe('rollDrum', () => {
+  it('rolls one notch forward per digit up', () => {
+    expect(rollDrum(0, 0, 1)).toBe(DRUM_STEP_DEG)
+  })
+  it('keeps rolling the same way from 9 to 0', () => {
+    expect(rollDrum(9 * DRUM_STEP_DEG, 9, 0)).toBe(10 * DRUM_STEP_DEG)
+  })
+  it('rolls back from 0 to 9', () => {
+    expect(rollDrum(0, 0, 9)).toBe(-DRUM_STEP_DEG)
+  })
+  it('stays still when the digit does not change', () => {
+    expect(rollDrum(720, 4, 4)).toBe(720)
+  })
+  it('takes the shortest way, forward on a tie', () => {
+    expect(rollDrum(0, 1, 8)).toBe(-3 * DRUM_STEP_DEG)
+    expect(rollDrum(0, 2, 7)).toBe(5 * DRUM_STEP_DEG)
   })
 })

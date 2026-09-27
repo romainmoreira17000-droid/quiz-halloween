@@ -41,7 +41,8 @@
 .lock-chains--fallen .lock-chain--right { transform: translate(20px, 180px) rotate(25deg); }
 @keyframes chain-fall { from { transform: none; opacity: 1; } 80% { opacity: 1; } }
 
-/* Blood (BloodDrips): the drop swells under its drip, falls and starts again. Still under reduced motion. */
+/* Blood (BloodDrips): the drop swells under its drip, falls and starts again.
+   Reduced motion (base.css) stops it: the drop then stays visible, frozen under its drip. */
 .blood-drop { transform-box: fill-box; transform-origin: 50% 0; animation: drop-bead 6s ease-in infinite; }
 @keyframes drop-bead {
   0% { transform: scale(0); opacity: 1; }

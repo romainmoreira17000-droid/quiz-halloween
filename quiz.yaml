@@ -19,6 +19,11 @@ titre: "Le manoir hanté"
 # images-sources/ puis lancer « npm run images », qui crée le fichier .webp léger.
 fond_accueil: "image-principale.webp"
 
+# Message animé affiché quand une équipe a trouvé son chiffre avant la fin du créneau,
+# en attendant le changement d'épreuve. Le même dans toutes les salles. Facultatif
+# (sans lui, pas de message), texte non vide.
+message_attente: "Profitez-en pour déguster ce qui se trouve sur la table !"
+
 # Texte d'introduction sous le titre. Facultatif.
 intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Réussissez les épreuves pour trouver le code du cadenas !"
 

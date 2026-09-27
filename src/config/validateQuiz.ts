@@ -7,7 +7,7 @@ import { validateTeamSettings } from './validateTeamSettings'
 import type { QuizStep, ValidationResult } from './types'
 
 const ROOT_KEYS = [
-  'titre', 'intro', 'fond_accueil', 'equipes', 'duree_epreuve_minutes', 'indices_apres_minutes', 'blocage_secondes', 'code_animateur',
+  'titre', 'intro', 'fond_accueil', 'message_attente', 'equipes', 'duree_epreuve_minutes', 'indices_apres_minutes', 'blocage_secondes', 'code_animateur',
   'nombre_etapes', 'entree', 'etapes', 'cadenas',
 ] as const
 
@@ -23,6 +23,9 @@ export function validateQuiz(raw: unknown): ValidationResult {
   if (!isNonEmptyString(raw.titre)) errors.push('« titre » est obligatoire et doit être un texte non vide.')
   if (raw.intro !== undefined && typeof raw.intro !== 'string') errors.push('« intro » doit être un texte.')
   if (raw.fond_accueil !== undefined && !isNonEmptyString(raw.fond_accueil)) errors.push('« fond_accueil » doit être un nom de fichier.')
+  if (raw.message_attente !== undefined && !isNonEmptyString(raw.message_attente)) {
+    errors.push('« message_attente » doit être un texte non vide.')
+  }
   const entrance = validateEntrance(raw.entree, errors)
   const countOk = isIntInRange(raw.nombre_etapes, 1, Number.MAX_SAFE_INTEGER)
   if (!countOk) errors.push('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
@@ -56,6 +59,7 @@ export function validateQuiz(raw: unknown): ValidationResult {
     title: raw.titre as string,
     ...(raw.intro !== undefined && { intro: raw.intro as string }),
     ...(raw.fond_accueil !== undefined && { homeBackdrop: raw.fond_accueil as string }),
+    ...(raw.message_attente !== undefined && { waitingMessage: raw.message_attente as string }),
     ...settings,
     stepCount,
     steps: steps as QuizStep[],

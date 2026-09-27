@@ -31,6 +31,8 @@ export interface QuizConfig {
   intro?: string
   /** `fond_accueil`: photo behind the home screen and the wait between two rooms. */
   homeBackdrop?: string
+  /** `message_attente`: shown under the earned digit while the group waits for the next challenge (same in every room). */
+  waitingMessage?: string
   /** Team names, in rotation order: team i starts on challenge i + 1. As many as steps. */
   teams: string[]
   /** Length of one slot in minutes: every team changes room at the same time. */

@@ -1,29 +1,26 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 12 : mode test, en cours)
+Dernière mise à jour : 2026-09-27 (mode test fusionné ; fond de l'épreuve 6 en PR #36)
 
 ## Sprint en cours
-- Sprint 12 : mode test (`?test` + bouton « Épreuve suivante »), issue #33, branche `feat/test-mode`.
-  Plan : `docs/superpowers/plans/2026-09-27-sprint12-mode-test.md`.
-  - [x] 1–4. `skip.ts`, action `skipSlot`, `testMode.ts`, hook (commit « skip to the next slot »)
-  - [x] 5–6. `TestModeControl` + `test-mode.css`, e2e `test-mode.spec.ts` ; vérif visuelle tablette + téléphone
-  - [x] 7. docs (README, CLAUDE.md) ; 383 tests unitaires, 17 e2e, typecheck, lint verts
-  - [x] Relecture (`relecteur-code`) : prêt ; JSDoc de `onSkip` précisée
-  - [ ] PR, CI verte, merge par Romain
+- Fond de l'épreuve 6 : issue #35, PR #36 (`feat/challenge-6-backdrop`), attend CI + merge.
+  Source renommée `invisible mais visible.png`, `npm run images` (180 Ko), `fond` dans `quiz.yaml`.
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
 - [x] Nettoyage (PR #27) : message clair si `images-sources/` manque, virgule du README.
 - [x] Voile sombre derrière les chiffres et l'indice du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
-- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
+- [x] Mode test `?test` + « Épreuve suivante » (issue #33, PR #34 fusionnée le 2026-09-27).
+- [x] 6e image reçue (« Invisible mais visible ») : fond de l'épreuve 6 (issue #35).
+- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve
 
 ## Prochaine action concrète
-Sprint 12 : PR du mode test ouverte, attendre CI + merge de Romain. En parallèle : petite PR du fond de l’épreuve 6
-(`6eme epreuves.png` → renommé `invisible mais visible.png`, `npm run images`, `fond` dans `quiz.yaml`).
-Après le sprint 12 : attendre le contenu réel des épreuves et la 6e image de Romain, puis sprint 13
-(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run images`, `npm run valider`, `e2e/layout.spec.ts`.
+Merger la PR #36, puis attendre le contenu réel des épreuves de Romain et ouvrir le sprint 13
+(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
 
 ## Décisions prises (et pourquoi)
+- Épreuve 6 (issue #35) : source « 6eme epreuves.png » renommée « invisible mais visible.png » (→ `invisible-mais-visible.webp`,
+  même règle de nom que les autres fonds).
 - Sprint 12 (cadrage, choix de Romain) : le saut de créneau sert seulement à tester l'app, pas pendant la soirée
   (une tablette qui avance seule arrive dans une salle occupée et reste décalée). Activation par `?test` dans
   l'adresse : un enfant ne peut pas l'activer en tapotant. Pas de saut sur « Temps écoulé » (il faut le code

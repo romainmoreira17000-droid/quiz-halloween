@@ -1,12 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 14 : tâches 1 à 7 faites, relecture puis PR)
+Dernière mise à jour : 2026-09-27 (sprint 14 : relu, PR ouverte, en attente de merge)
 
 ## Sprint en cours
 - **Objectif :** indices progressifs, jusqu'à 3 par épreuve (5, 8, 11 min), un de plus par appui dans le menu animateur.
 - **Issue :** #41 — Indices progressifs : jusqu'à 3 indices par épreuve
 - **Branche :** feat/progressive-hints
-- **PR :** pas encore ouverte
+- **PR :** ouverte (voir `gh pr list`), en attente de la relecture de Romain et de la CI
 - Conception : `docs/superpowers/specs/2026-09-27-indices-progressifs-design.md`
 - Plan : `docs/superpowers/plans/2026-09-27-sprint14-indices-progressifs.md`
 
@@ -15,11 +15,14 @@ Dernière mise à jour : 2026-09-27 (sprint 14 : tâches 1 à 7 faites, relectur
 - [x] Cadrage, conception et plan du sprint 14 (validés par Romain).
 - [x] Tâches 1 à 7 : `hints.ts`, config, état/réducteur/relecture, HintButton, branchement + menu animateur, e2e, docs.
   426 tests unitaires et 19 e2e verts ; vérifié à l'œil sur tablette et téléphone (fenêtre à 2 indices).
-- [ ] Relecture de la branche (agent `relecteur-code`), puis PR `Closes #41` ← reprendre ici
+- [x] Relecture (relecteur-code, Opus) : 0 critique, 1 important corrigé (doc : un déploiement perd les parties en cours
+  car l'empreinte de la config change), 8 mineurs reportés (liste dans la PR).
+- [ ] Merge de la PR par Romain ← reprendre ici
 - [ ] Ensuite, sprint 15 `feat/real-quiz-content` : contenu réel (épreuves reçues dans `docs/contenu-epreuves.md`).
 
 ## Prochaine action concrète
-Lancer la relecture de la branche, corriger ce qui est important, puis `gh pr create` (Closes #41).
+Attendre le merge de la PR par Romain (CI verte), puis `git checkout main && git pull && git branch -d feat/progressive-hints`,
+et ouvrir le sprint 15 (contenu réel). **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
 - Sprint 14 (exécution) : indices disponibles = max (pas somme) du chrono et de l'animateur ; une vieille sauvegarde avec

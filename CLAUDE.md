@@ -39,7 +39,8 @@ src/game/                  logique pure : time, answer (normalisation chiffres/m
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
                            skip + testMode (mode test : saut de créneau, activé par `?test`)
-src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress
+src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress,
+                           useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée)
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
@@ -47,11 +48,12 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), HintButton (bouton +
                            fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
-                           AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran), ...
+                           AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran),
+                           CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -180,3 +182,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   que les actions possibles à l'écran (validation seulement en `challenge`). Le « clac » est joué dans le tap
   (`animatorSolve` renvoie un booléen). En test, taper le code **dans** la fenêtre (`within(dialog)`) : l'écran d'étape a
   aussi un pavé.
+- **« Bravo ! » et attente** : `useCelebration` ne célèbre que le passage « pas trouvé → trouvé » pendant que l'écran d'étape
+  est affiché (bonne réponse **ou** « Valider l'épreuve » de l'animateur) ; un écran qui s'ouvre déjà trouvé (rechargement)
+  ne rejoue rien. Délai 0,5 s (chute de la goupille) puis 3 s (`CELEBRATION_DELAY_MS`, `CELEBRATION_MS`), fermeture au tap.
+  Fond **opaque** (un voile translucide laissait voir « Chiffre trouvé » sous le gros chiffre). L'overlay est un `dialog`
+  nommé « Bravo ! » : en test, toujours `getByRole('dialog', { name: ... })` si l'écran peut en montrer deux. En e2e avec
+  `page.clock`, le « Bravo ! » n'apparaît qu'après un `fastForward`. `message_attente` (racine du YAML, facultatif, même
+  texte dans toutes les salles) s'affiche sous « Chiffre trouvé », au-dessus de « Changement d'épreuve dans ».

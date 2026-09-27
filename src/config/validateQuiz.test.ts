@@ -34,6 +34,13 @@ describe('validateQuiz', () => {
   it('rejects an empty fond_accueil', () => {
     expect(errorsOf({ ...validRaw(), fond_accueil: '' })).toEqual(['« fond_accueil » doit être un nom de fichier.'])
   })
+  it('maps message_attente to the waiting message', () => {
+    const result = validateQuiz({ ...validRaw(), message_attente: 'Goûtez les bonbons !' })
+    expect(result.ok && result.config.waitingMessage).toBe('Goûtez les bonbons !')
+  })
+  it('rejects an empty message_attente', () => {
+    expect(errorsOf({ ...validRaw(), message_attente: '  ' })).toEqual(['« message_attente » doit être un texte non vide.'])
+  })
   it('rejects fewer steps than nombre_etapes', () => {
     expect(errorsOf({ ...validRaw(), etapes: steps(5) }))
       .toEqual(['« etapes » contient 5 étape(s) alors que « nombre_etapes » vaut 6.'])

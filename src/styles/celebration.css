@@ -1,0 +1,48 @@
+/**
+ * @file « Bravo ! » after a solved challenge (≈ 3 s, CELEBRATION_MS in useCelebration.ts) and the waiting message.
+ * Base styles are the END state and keyframes only describe the start (fill `both`): with reduced motion, base.css
+ * removes animations and the overlay shows at once. Bats reuse `.bat` and `fly-out` from victory.css.
+ */
+.celebration {
+  position: fixed; inset: 0; z-index: 25; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px; text-align: center; cursor: pointer;
+  /* Opaque: a see-through veil left « Chiffre trouvé » showing behind the big digit. */
+  background: radial-gradient(ellipse at 50% 45%, var(--wall), #0c0805 70%);
+  animation: fade-in .3s ease-out both;
+}
+.celebration-bats { position: absolute; inset: 0; pointer-events: none; }
+.celebration-title {
+  font-family: var(--title-font); font-size: 110px; line-height: 1; color: var(--amber);
+  text-shadow: 0 0 32px rgb(242 165 65 / .6);
+  animation: celebrate-pop .6s cubic-bezier(.3, 1.6, .5, 1) .1s both;
+}
+/* The digit grows out of the lock, then keeps glowing like a candle. */
+.celebration-digit {
+  font-family: var(--title-font); font-size: 220px; line-height: 1; color: var(--wax);
+  font-variant-numeric: lining-nums;
+  text-shadow: 0 0 40px rgb(242 165 65 / .9), 0 0 90px rgb(242 165 65 / .5);
+  animation: celebrate-grow .8s ease-out .4s both, candle-glow 1.2s ease-in-out 1.2s infinite alternate;
+}
+.celebration-text { font-size: 32px; color: var(--bronze); animation: rise-in .6s ease-out 1s both; }
+
+@keyframes celebrate-pop { from { opacity: 0; transform: scale(.3); } }
+@keyframes celebrate-grow { from { opacity: 0; transform: translateY(160px) scale(.2); } }
+@keyframes candle-glow { to { text-shadow: 0 0 24px rgb(242 165 65 / .6), 0 0 60px rgb(242 165 65 / .3); } }
+
+/* Waiting message: floats gently and flickers like candlelight. Dark veil: the room photo may be pale behind it. */
+.waiting-message {
+  max-width: 16em; padding: 10px 28px; border-radius: 24px; text-align: center; text-wrap: balance;
+  font-size: 30px; color: var(--wax);
+  background: radial-gradient(ellipse at 50% 50%, rgb(12 8 5 / .8) 55%, rgb(12 8 5 / 0));
+  animation: waiting-float 3s ease-in-out infinite alternate, waiting-flicker 2.3s ease-in-out infinite;
+}
+@keyframes waiting-float { from { transform: translateY(-6px); } to { transform: translateY(6px); } }
+@keyframes waiting-flicker { 50% { text-shadow: 0 0 18px rgb(242 165 65 / .7); } }
+
+@media (max-width: 600px) {
+  .celebration-title { font-size: 72px; }
+  .celebration-digit { font-size: 150px; }
+  .celebration-text { font-size: 24px; }
+  .waiting-message { font-size: 22px; padding: 8px 16px; }
+}

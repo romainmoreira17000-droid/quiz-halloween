@@ -1,16 +1,9 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
+Dernière mise à jour : 2026-09-27 (aucun sprint en cours, en attente du contenu réel des épreuves)
 
 ## Sprint en cours
-- Sprint 13 : menu animateur, issue #38, branche `feat/animator-menu`.
-  Plan : `docs/superpowers/plans/2026-09-27-sprint13-menu-animateur.md`.
-  - [x] 1–3. `hintSlot` + restore tolérant, actions `animatorSolve`/`unblock`/`showHint`, hook
-  - [x] 4–6. bouton « Menu animateur » (ResetDialog), `AnimatorMenu`, `TeamAnimatorMenu`, `animator.css`
-  - [x] 7. e2e `animator-menu.spec.ts` ; vérif visuelle tablette + téléphone ; 403 tests unitaires, 18 e2e verts
-  - [x] 8. docs (README, CLAUDE.md)
-  - [x] Relecture (`relecteur-code`) : prêt ; classe `change-team` renommée `dialog-extra`
-  - [ ] PR, CI verte, merge par Romain
+- Aucun. Dernier sprint fermé : menu animateur (issue #38, PR #39 fusionnée et déployée le 2026-09-27).
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
@@ -18,12 +11,13 @@ Dernière mise à jour : 2026-09-27 (sprint 13 : menu animateur, en cours)
 - [x] Voile sombre derrière les chiffres et l'indice du cadenas (issue #30, PR #31 fusionnée et déployée le 2026-09-27).
 - [x] Mode test `?test` + « Épreuve suivante » (issue #33, PR #34 fusionnée et déployée le 2026-09-27).
 - [x] 6e image reçue (« Invisible mais visible ») : fond de l'épreuve 6 (issue #35, PR #36 fusionnée et déployée le 2026-09-27).
-- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve
+- [x] Menu animateur : valider, débloquer, indice, solutions (issue #38, PR #39 fusionnée et déployée le 2026-09-27).
+- [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve, nouveau code animateur
 
 ## Prochaine action concrète
-Sprint 13 : PR du menu animateur ouverte, attendre CI + merge de Romain.
-Ensuite : contenu réel des épreuves de Romain (et nouveau code animateur) → sprint 14 (`feat/real-quiz-content`) :
-remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
+Attendre le contenu réel des épreuves de Romain (et son nouveau code animateur), puis ouvrir le sprint 14
+(branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run valider`, vérifier la mise en page (`e2e/layout.spec.ts`).
+Attention : changer le code animateur casse les e2e qui tapent 2710 (`e2e/typing.ts`, `animator-menu`, `game`, `test-mode`).
 
 ## Décisions prises (et pourquoi)
 - Sprint 13 (cadrage, choix de Romain) : menu animateur via la fenêtre de ↺ (rien de plus à l'écran pour les enfants),

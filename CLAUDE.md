@@ -146,8 +146,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Clac de goupille** : joué dans le tap « Valider », d'où `answer()` qui renvoie un booléen (comme `unlock()`).
   La chute `pin-fall` (0,45 s, `lock.css`) est calée avec le son de `playPinSound` (`sound.ts`).
 - **Hauteur de l'écran d'étape** : sur tablette (810×1080) il tient pile, sans défilement, grâce au cadenas à
-  260 px et à l'écart de saisie de 12 px (`screens.css`), malgré l'entête à deux compteurs (créneau en gros,
-  total en petit). Toute ligne ajoutée à l'écran d'étape le fera défiler : `e2e/layout.spec.ts` le vérifie
+  190 px et à l'écart de saisie de 12 px (`screens.css`), malgré l'entête à deux compteurs (créneau en gros,
+  total en petit). Place pour une consigne de **4 lignes au plus** (≈ 200 caractères). Toute ligne de plus le fera défiler : `e2e/layout.spec.ts` le vérifie
   (pavé et clavier de lettres).
 - **e2e de la rotation** : `setUpTablet(page, équipe)` en premier dans chaque test (sinon écran de réglage) ;
   `page.clock.fastForward('15:00')` avance d'un créneau. Code animateur du YAML d'exemple : 2710.

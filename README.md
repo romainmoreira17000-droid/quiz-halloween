@@ -35,6 +35,13 @@ avec les autres.
 « Annuler » garde la partie en cours ; « Changer d'équipe » ramène au réglage de la tablette. Si `quiz.yaml` a été modifié entre-temps, la partie
 sauvegardée est ignorée et le jeu revient à l'accueil.
 
+**Tester sans attendre (mode test) :** ouvrir le site avec `?test` à la fin de l'adresse
+(https://romainmoreira17000-droid.github.io/quiz-halloween/?test). Une étiquette rouge « Mode test » s'affiche,
+et le bouton « Épreuve suivante » (en bas à droite) termine tout de suite le créneau en cours. Une épreuve
+passée sans réponse mène à « Temps écoulé » (code animateur), comme en vrai. À ne jamais utiliser pendant la
+soirée : une tablette qui avance seule envoie son équipe dans une salle encore occupée. Pour en sortir, rouvrir
+l'adresse sans `?test`.
+
 Le jeu fonctionne sans connexion une fois le site ouvert une première fois (polices embarquées).
 
 ## Installation

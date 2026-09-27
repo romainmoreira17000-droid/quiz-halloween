@@ -37,7 +37,8 @@ src/config/                types, validateurs purs (checks, validateStep, valida
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
                            rotation (créneau → épreuve), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
-                           restore (contrôle d'un état relu), block (blocage après mauvaise réponse)
+                           restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
+                           skip + testMode (mode test : saut de créneau, activé par `?test`)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
@@ -45,11 +46,11 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
                            ResetControl (ResetButton appui long + ResetDialog), HintButton (bouton +
-                           fenêtre d'indice), ...
+                           fenêtre d'indice), TestModeControl (étiquette + bouton du mode test), ...
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -159,3 +160,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `fond` de l'épreuve pendant l'épreuve et « Temps écoulé », `cadenas.fond` au cadenas et à la victoire ; sans fond, grande salle
   dessinée (façade à l'entrée, rien à l'accueil). `PhotoBackdrop` : `object-fit: cover` + voile sombre (`decor.css`) ; ne jamais
   commiter de PNG lourd dans `public/` (précache PWA : le build casse au-delà de 2 Mo). WebP ≈ 200 Ko via `npm run images`.
+- **Mode test** : `?test` dans l'adresse (lu par `Game` via `isTestMode`), jamais activable depuis l'app. L'action
+  `skipSlot` recule `startedAt` jusqu'à la fin du créneau (`startForNextSlot`) et efface `blockedUntil` (horodaté en
+  absolu, il suivrait sinon au créneau suivant) ; seulement en `challenge`/`waiting`, pas sur « Temps écoulé ».
+  Bouton en bas à droite, dans la bande libre de 96 px, en face de l'icône de remise à zéro. En e2e :
+  `page.goto('./?test')`, sans `page.clock`.

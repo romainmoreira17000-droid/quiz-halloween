@@ -5,8 +5,10 @@ Dernière mise à jour : 2026-09-27 (sprint 12 : mode test, en cours)
 ## Sprint en cours
 - Sprint 12 : mode test (`?test` + bouton « Épreuve suivante »), issue #33, branche `feat/test-mode`.
   Plan : `docs/superpowers/plans/2026-09-27-sprint12-mode-test.md`.
-  - [ ] 1. `skip.ts`  - [ ] 2. action `skipSlot`  - [ ] 3. `testMode.ts`  - [ ] 4. hook
-  - [ ] 5. `TestModeControl` + CSS  - [ ] 6. e2e  - [ ] 7. docs, relecture, PR
+  - [x] 1–4. `skip.ts`, action `skipSlot`, `testMode.ts`, hook (commit « skip to the next slot »)
+  - [x] 5–6. `TestModeControl` + `test-mode.css`, e2e `test-mode.spec.ts` ; vérif visuelle tablette + téléphone
+  - [x] 7. docs (README, CLAUDE.md) ; 383 tests unitaires, 17 e2e, typecheck, lint verts
+  - [ ] Relecture (`relecteur-code`), PR, merge par Romain
 
 ## Où on en est
 - [x] Sprints 1 à 11 terminés et en ligne (PR #25, fonds photo, fusionnée et déployée le 2026-09-27).
@@ -15,7 +17,7 @@ Dernière mise à jour : 2026-09-27 (sprint 12 : mode test, en cours)
 - [ ] Romain : réponses, chiffres, consignes et indices réels de chaque épreuve ; 6e image (« Invisible mais visible »)
 
 ## Prochaine action concrète
-Sprint 12, tâche 1 : test rouge de `startForNextSlot` dans `src/game/skip.test.ts`.
+Sprint 12 : relecture de `feat/test-mode`, puis PR (Closes #33) et merge par Romain.
 Après le sprint 12 : attendre le contenu réel des épreuves et la 6e image de Romain, puis sprint 13
 (branche `feat/real-quiz-content`) : remplir `quiz.yaml`, `npm run images`, `npm run valider`, `e2e/layout.spec.ts`.
 

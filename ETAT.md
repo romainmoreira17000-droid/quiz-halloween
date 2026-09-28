@@ -6,8 +6,9 @@ Dernière mise à jour : 2026-09-28 (sprint 20 : cadenas Halloween, spec écrite
 Sprint 20 — issue #57, branche `feat/halloween-padlock`, pas encore de PR.
 Cadenas en bronze Halloween (image `images-sources/cadenas.jpeg`) pour les 3 cadenas, animés en 3D CSS.
 - [x] Cadrage avec Romain, spec `docs/superpowers/specs/2026-09-28-cadenas-halloween-design.md` écrite.
-- [ ] Relecture de la spec par Romain.
-- [ ] Plan d'implémentation (writing-plans), puis TDD, vérif visuelle Playwright, PR.
+- [x] Spec validée par Romain.
+- [x] Plan écrit : `docs/superpowers/plans/2026-09-28-sprint20-cadenas-halloween.md` (8 tâches).
+- [ ] Choix du mode d'exécution par Romain, puis tâches 1 à 8, relecture, PR.
 
 ## Où on en est
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
@@ -20,7 +21,7 @@ Cadenas en bronze Halloween (image `images-sources/cadenas.jpeg`) pour les 3 cad
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Attendre que Romain valide la spec du sprint 20, puis écrire le plan (`docs/superpowers/plans/`).
+Attendre que Romain valide le plan du sprint 20 et choisisse le mode d'exécution, puis attaquer la tâche 1 du plan.
 
 En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 

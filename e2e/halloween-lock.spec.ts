@@ -38,5 +38,10 @@ test('with reduced motion, the victory shows its text at once and the plunge lay
   await openPadlock(page)
   await expect(page.getByRole('heading', { name: 'La salle du restaurant hanté est ouverte !' })).toBeVisible()
   await expect(page.locator('.victory-lock-3d')).toHaveCSS('opacity', '0')
-  await expect(page.locator('.victory-plunge')).toHaveCSS('pointer-events', 'none')
+  // The invisible layer ends at 14× its size, over the whole screen: a tap on ↺ must still reach ↺.
+  const tapped = await page.locator('.reset-button').evaluate((button) => {
+    const { left, top, width, height } = button.getBoundingClientRect()
+    return document.elementFromPoint(left + width / 2, top + height / 2)?.closest('button') === button
+  })
+  expect(tapped).toBe(true)
 })

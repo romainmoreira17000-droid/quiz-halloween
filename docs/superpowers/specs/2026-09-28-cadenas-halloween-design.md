@@ -28,13 +28,15 @@ Un seul dessin, découpé en petits composants dans `src/components/lock/` (200 
 - `LockDefs` : remplace la peinture rouillée par des dégradés bronze (`lock-bronze`, `lock-bronze-edge`
   pour la tranche, `lock-bone`, `lock-banner`, `lock-sky`, `lock-pumpkin`, `lock-glow`) ; ids toujours `lock-*`.
   `lock-rust`, `lock-rust-grain`, `lock-blood` sont supprimés.
-- `HalloweenLockBody` : le corps en bronze (contour « écusson » arrondi), sa tranche décalée vers le bas
-  pour l'épaisseur, les toiles dans les coins, les deux os sur les côtés, le crâne en bas, la serrure lumineuse,
-  le bandeau en arc avec « HAPPY HALLOWEEN » (`textPath`). Paramétré par la largeur (le cadenas final est plus
-  large) et par un emplacement de fenêtre dans lequel l'appelant met son contenu.
+- `HalloweenLockBody` : le corps en bronze des cadenas SVG (écran d'épreuve et victoire, viewBox `0 0 300 250`),
+  contour « écusson » arrondi, sa tranche décalée vers le bas pour l'épaisseur, les toiles dans les coins, les deux
+  os sur les côtés, le crâne en bas, la serrure lumineuse, le bandeau en arc avec « HAPPY HALLOWEEN » (`textPath`)
+  et la fenêtre, dans laquelle l'appelant met son contenu. Le cadenas final n'utilise pas ce corps : c'est un cadre
+  HTML (voir plus bas), parce qu'il doit grandir avec le nombre de molettes.
 - `LockCrown` : le haut — anse, deux ailes de chauve-souris, citrouille (yeux et bouche lumineux).
-- `NightWindow` : le ciel de la fenêtre (dégradé nuit, lune, château, sorcière), découpé par un `clipPath`
-  rond (écran d'épreuve, victoire) ou ovale (cadenas final).
+- `NightWindow` : le ciel de la fenêtre (dégradé nuit, lune, château, sorcière), découpé par un `clipPath` en
+  hublot aux coins arrondis (écran d'épreuve, victoire) ou en rectangle simple (ciel du cadenas final, dont le cadre
+  HTML arrondit lui-même les coins). Pas de rond parfait : six chiffres lisibles n'y tiennent pas à 190 px.
 - `LockChains` : gardé (acier), plus le petit fantôme pendu à la chaîne de droite.
 - `BloodDrips` et ses tests sont supprimés.
 
@@ -42,9 +44,9 @@ Les trois cadenas :
 
 | Cadenas | Fenêtre | Contenu de la fenêtre |
 |---|---|---|
-| `CutawayLock` (écran d'épreuve) | ronde | ciel + chambre des goupilles + chiffres trouvés |
-| `FinalLock` (cadenas final) | ovale, s'élargit avec les molettes | ciel + molettes-tambours (enfants HTML) |
-| `VictoryLock` (victoire) | ronde | ciel (sert de décor à la plongée) |
+| `CutawayLock` (écran d'épreuve) | hublot arrondi (SVG) | ciel + chambre des goupilles + chiffres trouvés |
+| `FinalLock` (cadenas final) | cadre HTML arrondi (32 px), s'élargit avec les molettes | ciel + molettes-tambours (enfants HTML) |
+| `VictoryLock` (victoire) | hublot arrondi (SVG) | ciel (sert de décor à la plongée) |
 
 Contraintes gardées :
 
@@ -71,9 +73,10 @@ aussi pour « Valider l'épreuve » de l'animateur) — nouvelle classe `cutaway
 
 1. la goupille tombe (0,45 s, « clac » de `playPinSound` inchangé) ;
 2. à l'impact (0,4 s), le cadenas **tressaute sur sa chaîne** : bascule vers l'avant en 3D (`rotateX`) autour
-   de l'anse puis balancier amorti (`rotateZ`), ≈ 1,5 s ; le fantôme ballotte ;
+   de l'anse puis balancier amorti (`rotateZ`), 1,1 s (fini à 1,5 s) ; le fantôme ballotte ;
 3. citrouille et serrure **s'embrasent** (orange vif ≈ 1 s) puis reviennent à leur lueur normale ;
-4. puis le « Bravo ! » plein écran, inchangé (délai 0,5 s + 3 s).
+4. puis le « Bravo ! » plein écran, retardé à **1,5 s** (au lieu de 0,5 s) puis 3 s : son fond opaque cachait le
+   tressautement (décision prise à l'exécution).
 
 Quand toutes les goupilles sont tombées : l'anse se libère et les chaînes tombent, comme aujourd'hui.
 

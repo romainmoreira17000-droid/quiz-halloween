@@ -3,14 +3,14 @@
 Dernière mise à jour : 2026-09-28 (sprint 20 : cadenas Halloween, PR ouverte)
 
 ## Sprint en cours
-Sprint 20 — issue #57, branche `feat/halloween-padlock`, pas encore de PR.
+Sprint 20 — issue #57, branche `feat/halloween-padlock`, PR #58 (CI verte).
 Cadenas en bronze Halloween (image `images-sources/cadenas.jpeg`) pour les 3 cadenas, animés en 3D CSS.
 - [x] Cadrage avec Romain, spec `docs/superpowers/specs/2026-09-28-cadenas-halloween-design.md` écrite.
 - [x] Spec validée par Romain.
 - [x] Plan écrit : `docs/superpowers/plans/2026-09-28-sprint20-cadenas-halloween.md` (8 tâches).
 - [x] Tâches 1 à 8 faites en exécution directe (tests unitaires 484, e2e 24, lint et types verts).
 - [x] Relecture de toute la branche (relecteur-code, Opus) : 0 critique, 2 importants corrigés (test du tap sur ↺, spec alignée).
-- [ ] PR ouverte vers `main`, à relire et fusionner par Romain (pas pendant la soirée).
+- [x] PR #58 ouverte vers `main`, CI verte. [ ] À relire et fusionner par Romain (pas pendant la soirée).
 
 ## Où on en est
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).

@@ -11,7 +11,7 @@ import { Bone, Cobweb, Keyhole, Skull } from './Ornaments'
 /** Outline of the body: straight sides, a crowned top, a rounded point at the bottom. */
 export const LOCK_BODY_PATH = 'M58 98 Q150 84 242 98 Q268 102 268 128 V200 Q268 238 150 248 Q32 238 32 200 V128 Q32 102 58 98 Z'
 /** The window, wide enough for the pins of six challenges with readable digits. */
-export const LOCK_WINDOW = { x: 48, y: 128, width: 204, height: 100 }
+const LOCK_WINDOW = { x: 48, y: 128, width: 204, height: 100 }
 /** Thickness of the lock, shown by the edge under the face. */
 const EDGE = 6
 

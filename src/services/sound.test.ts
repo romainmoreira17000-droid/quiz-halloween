@@ -36,6 +36,14 @@ describe('playVictorySound', () => {
     oscillators.find((o) => o.onended)?.onended?.()
     expect(close).toHaveBeenCalledOnce()
   })
+  it('clacks as the shackle springs (0.9 s), creaks with the doors (2.4 s), moans with the ghosts (3.6 s)', () => {
+    const { ctx, oscillators } = fakeContext()
+    playVictorySound(() => ctx)
+    const starts = (type: string) => oscillators.filter((o) => o.type === type).map((o) => o.start.mock.calls[0]?.[0])
+    expect(starts('square')).toEqual([0.9])
+    expect(starts('sawtooth')).toEqual([2.4])
+    expect(starts('sine')).toContain(3.6)
+  })
   it('stays silent in jsdom with the default context', () => {
     expect(() => playVictorySound()).not.toThrow()
   })

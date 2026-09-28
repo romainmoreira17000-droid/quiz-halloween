@@ -1,6 +1,6 @@
 /**
- * @file Decorative victory animation: the rusty padlock springs open and drops its chains, the double door of the haunted
- * restaurant swings in, candlelight spills out, ghosts and bats escape. Pure markup; timing in victory.css.
+ * @file Decorative victory animation: the bronze padlock turns, opens and the view plunges into its window, then the
+ * double door of the haunted restaurant swings in, candlelight spills out, ghosts and bats escape. Pure markup; timing in victory.css.
  */
 import type { CSSProperties } from 'react'
 import { VictoryLock } from './lock/VictoryLock'
@@ -8,10 +8,10 @@ import { VictoryLock } from './lock/VictoryLock'
 /** Where a flyer ends up, relative to the doorway centre (px), and when it leaves (s). */
 interface Flight { dx: number; dy: number; delay: number }
 
-const GHOSTS: Flight[] = [{ dx: -300, dy: -260, delay: 2.2 }, { dx: 280, dy: -300, delay: 2.6 }, { dx: 40, dy: -420, delay: 3 }]
+const GHOSTS: Flight[] = [{ dx: -300, dy: -260, delay: 3.6 }, { dx: 280, dy: -300, delay: 4 }, { dx: 40, dy: -420, delay: 4.4 }]
 const BATS: Flight[] = [
-  { dx: -380, dy: -80, delay: 2 }, { dx: 360, dy: -140, delay: 2.3 },
-  { dx: -200, dy: -380, delay: 2.8 }, { dx: 220, dy: -360, delay: 3.2 },
+  { dx: -380, dy: -80, delay: 3.4 }, { dx: 360, dy: -140, delay: 3.7 },
+  { dx: -200, dy: -380, delay: 4.2 }, { dx: 220, dy: -360, delay: 4.6 },
 ]
 
 /** @returns Inline style feeding the shared `fly-out` keyframes. */
@@ -31,7 +31,8 @@ export function HauntedDoor() {
         <div className="door door--left" />
         <div className="door door--right" />
       </div>
-      <div className="lock"><VictoryLock /></div>
+      {/* Full-screen layer above the door: the lock grows until its night sky fills the screen. */}
+      <div className="victory-plunge"><VictoryLock /></div>
       {GHOSTS.map((f, i) => (
         <svg key={`g${i}`} className="ghost" style={flight(f)} viewBox="0 0 40 50">
           <path d="M20 2C9 2 2 11 2 22v26l6-5 6 5 6-5 6 5 6-5 6 5V22C38 11 31 2 20 2z" />

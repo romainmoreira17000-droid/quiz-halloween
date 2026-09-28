@@ -62,19 +62,19 @@ export function playVictorySound(createContext: AudioContextFactory = browserCon
   if (!ctx) return
   const t = ctx.currentTime
   // Lock clack as the shackle springs up.
-  const clack = tone(ctx, 'square', t + 0.2, t + 0.28, 0.2)
-  clack.frequency.setValueAtTime(880, t + 0.2)
-  // Hinge creak while the doors swing (1 s → 3 s): a raspy sawtooth whose pitch drifts.
-  const creak = tone(ctx, 'sawtooth', t + 1, t + 3, 0.12, { rate: 18, depth: 30 })
-  creak.frequency.setValueAtTime(80, t + 1)
-  creak.frequency.linearRampToValueAtTime(150, t + 1.8)
-  creak.frequency.linearRampToValueAtTime(100, t + 2.4)
-  creak.frequency.linearRampToValueAtTime(170, t + 3)
+  const clack = tone(ctx, 'square', t + 0.9, t + 0.98, 0.2)
+  clack.frequency.setValueAtTime(880, t + 0.9)
+  // Hinge creak while the doors swing (2.4 s → 4.4 s): a raspy sawtooth whose pitch drifts.
+  const creak = tone(ctx, 'sawtooth', t + 2.4, t + 4.4, 0.12, { rate: 18, depth: 30 })
+  creak.frequency.setValueAtTime(80, t + 2.4)
+  creak.frequency.linearRampToValueAtTime(150, t + 3.2)
+  creak.frequency.linearRampToValueAtTime(100, t + 3.8)
+  creak.frequency.linearRampToValueAtTime(170, t + 4.4)
   // Ghost moan as the ghosts escape.
-  const moan = tone(ctx, 'sine', t + 2.2, t + 4.4, 0.18, { rate: 5, depth: 12 })
-  moan.frequency.setValueAtTime(300, t + 2.2)
-  moan.frequency.linearRampToValueAtTime(520, t + 3.2)
-  moan.frequency.linearRampToValueAtTime(260, t + 4.4)
+  const moan = tone(ctx, 'sine', t + 3.6, t + 5.8, 0.18, { rate: 5, depth: 12 })
+  moan.frequency.setValueAtTime(300, t + 3.6)
+  moan.frequency.linearRampToValueAtTime(520, t + 4.6)
+  moan.frequency.linearRampToValueAtTime(260, t + 5.8)
   // Browsers cap the number of open contexts: release this one when done.
   moan.onended = () => void ctx.close()
 }

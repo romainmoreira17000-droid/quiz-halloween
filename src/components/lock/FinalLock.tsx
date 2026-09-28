@@ -1,51 +1,58 @@
 /**
- * @file Rusty frame of the final padlock: a chained shackle above, an iron body eaten by rust around the dials,
- * blood running from its lower edge. Pure decoration around its children (the dials). Styles in padlock.css.
+ * @file Frame of the final padlock, in the bronze Halloween style: chained shackle, pumpkin and bat wings above
+ * (SVG), then an HTML bronze body (it grows with the number of dials) with the HAPPY HALLOWEEN banner and a
+ * night-sky window holding the dials, cobwebs, bones and a skull. Styles in padlock.css, motion in lock.css.
  */
 import type { ReactNode } from 'react'
-import { BloodDrips, type Drip } from './BloodDrips'
+import { HangingGhost } from './HangingGhost'
 import { LockChains } from './LockChains'
+import { LockCrown, LockShackle } from './LockCrown'
 import { LockDefs } from './LockDefs'
+import { NightWindow } from './NightWindow'
+import { Bone, Cobweb, Skull } from './Ornaments'
 
 /** Props of FinalLock. */
 export interface FinalLockProps {
-  /** What the body holds: the dials. */
+  /** What the window holds: the dials. */
   children: ReactNode
+  /** True after a wrong code: the eyes of the pumpkin and the skull burn red for a moment. */
+  alarmed?: boolean
 }
 
-const SHACKLE = 'M70 110 V92 a80 80 0 0 1 160 0 V110'
 /** The chains cross behind the shackle and hang past its legs. */
 const CHAIN_BOX = { x: 0, y: 6, width: 300, height: 104 }
-const DRIPS: readonly Drip[] = [
-  { x: 72, y: 0, length: 26 }, { x: 208, y: 0, length: 14 }, { x: 250, y: 0, length: 20 },
-]
+/** Sky drawn wider than tall, then cropped to the window (`slice`) whatever the number of dials. */
+const SKY = { x: 0, y: 0, width: 400, height: 140 }
 
 /**
- * The great rusty padlock that the dials open.
+ * The great padlock that the dials open.
  * @param props See FinalLockProps.
- * @returns The lock, with its children inside the body.
+ * @returns The lock, with its children in the window.
  */
-export function FinalLock({ children }: FinalLockProps) {
+export function FinalLock({ children, alarmed = false }: FinalLockProps) {
   return (
-    <div className="final-lock">
-      <svg className="final-lock-shackle" viewBox="0 0 300 110" aria-hidden="true">
-        {/* The only LockDefs of the screen: the plate and the blood below point to these ids too. */}
+    <div className={alarmed ? 'final-lock final-lock--alarmed' : 'final-lock'}>
+      <svg className="final-lock-crown" viewBox="0 0 300 110" aria-hidden="true">
+        {/* The only LockDefs of the screen: the sky and the ornaments below point to these ids too. */}
         <LockDefs />
         <LockChains box={CHAIN_BOX} />
-        <path d={SHACKLE} fill="none" stroke="#120e0b" strokeWidth="30" />
-        <path d={SHACKLE} fill="none" stroke="url(#lock-rust)" strokeWidth="23" filter="url(#lock-rust-grain)" />
-        <path d="M63 110 V92 a87 87 0 0 1 70 -84" fill="none" stroke="#d9a070" strokeOpacity=".35" strokeWidth="3" />
+        <LockShackle className="final-lock-shackle" />
+        <LockCrown />
+        <HangingGhost x={236} y={48} />
       </svg>
       <div className="final-lock-body">
-        {/* Stretched to the body (it grows with the number of dials); a tablet-sized viewBox keeps the rust grain fine. */}
-        <svg className="final-lock-plate" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true">
-          <rect x="5" y="5" width="590" height="250" rx="26" fill="url(#lock-iron)" stroke="url(#lock-rust)" strokeWidth="10"
-            filter="url(#lock-rust-grain)" />
-        </svg>
-        {children}
-        <svg className="final-lock-blood" viewBox="0 0 300 40" aria-hidden="true">
-          <BloodDrips drips={DRIPS} />
-        </svg>
+        <svg className="final-lock-web final-lock-web--left" viewBox="0 0 30 30" aria-hidden="true"><Cobweb x={0} y={0} size={28} /></svg>
+        <svg className="final-lock-web final-lock-web--right" viewBox="0 0 30 30" aria-hidden="true"><Cobweb x={30} y={0} size={28} flip /></svg>
+        <p className="final-lock-banner" aria-hidden="true">HAPPY HALLOWEEN</p>
+        <div className="final-lock-window">
+          <svg className="final-lock-sky" viewBox="0 0 400 140" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <NightWindow box={SKY} shape="plain" />
+          </svg>
+          {children}
+        </div>
+        <svg className="final-lock-bone final-lock-bone--left" viewBox="0 0 12 70" aria-hidden="true"><Bone x={6} y={5} length={60} /></svg>
+        <svg className="final-lock-bone final-lock-bone--right" viewBox="0 0 12 70" aria-hidden="true"><Bone x={6} y={5} length={60} /></svg>
+        <svg className="final-lock-skull" viewBox="0 0 24 26" aria-hidden="true"><Skull cx={12} cy={11} r={9} /></svg>
       </div>
     </div>
   )

@@ -25,10 +25,10 @@
 .hint::after { content: " »"; }
 
 .lock-zone { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-/* Six dials on one row on the tablet: 6 × 96 + 5 × 12 + 2 × 24 = 684 px, within the 714 px of the screen. */
+/* Six dials on one row on the tablet: 6 × 96 + 5 × 12 = 636 px, + window 2 × (12 + 4) + body 2 × (14 + 2) = 700 px, within the 714 px of the screen. */
 .dials { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .dial {
-  position: relative; /* above the rusty plate */
+  position: relative; /* above the night sky */
   display: flex; flex-direction: column; align-items: stretch;
   padding: 4px; border-radius: 18px;
   background: linear-gradient(#3b2817, #20150c);
@@ -70,23 +70,54 @@
   transform: rotateX(calc(-1 * var(--face-angle))) translateZ(var(--drum-r));
 }
 
-/* Final lock (FinalLock): shackle and chains above, rusty plate behind the dials, blood under them. */
+/* Final lock (FinalLock): crown (shackle, pumpkin, wings) over a bronze body whose night window holds the dials. */
 .final-lock { display: flex; flex-direction: column; align-items: center; }
 .final-lock svg { pointer-events: none; overflow: visible; }
-.final-lock-shackle { width: 62%; height: auto; margin-bottom: -2px; }
-.final-lock-body { position: relative; padding: 26px 24px 30px; }
-.final-lock-plate { position: absolute; inset: 0; width: 100%; height: 100%; }
-.final-lock-blood { position: absolute; left: 0; top: calc(100% - 6px); width: 100%; height: auto; }
+/* The pumpkin overlaps the top of the body, as in cadenas.jpeg. */
+.final-lock-crown { position: relative; z-index: 1; width: 400px; height: auto; margin-bottom: -30px; }
+.final-lock-body {
+  position: relative; padding: 18px 14px 36px;
+  border: 2px solid #3a2610; border-radius: 40px 40px 50% 50% / 40px 40px 70px 70px;
+  background: linear-gradient(135deg, #4a3012, #a0712c 30%, #f3d27a 48%, #c9973f 62%, #5a3d17);
+  /* The flat dark shadow under the body is its thickness. */
+  box-shadow: 0 8px 0 #2a1b0b, 0 16px 30px rgb(0 0 0 / .6), inset 0 2px 0 rgb(255 243 196 / .5);
+}
+.final-lock-banner {
+  width: fit-content; margin: 0 auto 10px; padding: 2px 22px; border-radius: 999px;
+  background: #2a1508; border: 2px solid #1a0d05;
+  font-family: var(--text-font); font-size: 24px; font-weight: 800; letter-spacing: .08em;
+  color: #ffb347; text-shadow: 0 0 8px #ff7a1a;
+}
+.final-lock-window {
+  position: relative; overflow: hidden; padding: 12px;
+  border: 4px solid #2a1b0b; border-radius: 32px; box-shadow: inset 0 0 18px rgb(0 0 0 / .8);
+}
+.final-lock-sky { position: absolute; inset: 0; width: 100%; height: 100%; }
+.final-lock-web { position: absolute; top: 6px; width: 44px; height: 44px; }
+.final-lock-web--left { left: 6px; }
+.final-lock-web--right { right: 6px; }
+.final-lock-bone { position: absolute; top: 50%; width: 14px; height: 80px; margin-top: -24px; }
+.final-lock-bone--left { left: 0; }
+.final-lock-bone--right { right: 0; }
+.final-lock-skull { position: absolute; left: 50%; bottom: -18px; width: 40px; height: 44px; margin-left: -20px; }
 .open-button { margin-top: auto; }
 
 @media (max-width: 600px) {
   .recap { grid-template-columns: 1fr; padding: 8px 14px; }
   .hint { font-size: 20px; padding: 10px 14px; }
-  /* Six dials and the lock body must fit one row in the 328 px of a 360 px phone: 6 × 48 + 5 × 4 + 2 × 8 = 324 px. */
   .dials { gap: 4px; flex-wrap: nowrap; }
   .dial { padding: 3px; }
   .dial button { min-height: 52px; font-size: 24px; }
   .dial-window { --face-h: 36px; --drum-r: 55px; width: 38px; height: 64px; perspective: 260px; }
   .dial-face { font-size: 32px; }
-  .final-lock-body { padding: 16px 8px 20px; }
+  /* Six dials and the lock body must fit one row in the 328 px of a 360 px phone:
+     6 × 48 + 5 × 4 = 308 px, + window border 2 × 2 + body 2 × (6 + 1) = 326 px. */
+  .final-lock-crown { width: 200px; margin-bottom: -15px; }
+  .final-lock-body { padding: 12px 6px 26px; border-width: 1px; }
+  .final-lock-banner { font-size: 15px; padding: 1px 14px; margin-bottom: 6px; }
+  .final-lock-window { padding: 6px 0; border-width: 2px; border-radius: 20px; }
+  /* No room for the bones beside six dials on a phone. */
+  .final-lock-bone { display: none; }
+  .final-lock-web { width: 26px; height: 26px; top: 4px; }
+  .final-lock-skull { width: 28px; height: 30px; margin-left: -14px; bottom: -12px; }
 }

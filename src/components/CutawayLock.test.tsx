@@ -38,16 +38,37 @@ describe('CutawayLock', () => {
       expect(x + width).toBeLessThanOrEqual(256)
     }
   })
-  it('wears rusty iron, crossed chains and blood at the keyhole while shut', () => {
+  it('wears the bronze Halloween look: shackle, crown, banner, night window, chains and hanging ghost', () => {
     const { container } = render(<CutawayLock total={6} foundDigits={[4]} />)
-    expect(container.querySelector('#lock-rust-grain')).not.toBeNull()
-    expect(container.querySelector('.cutaway-body')).toHaveAttribute('filter', 'url(#lock-rust-grain)')
     expect(container.querySelector('.cutaway-shackle')).not.toBeNull()
-    expect(container.querySelector('.lock-shackle')).toBeNull()
+    expect(container.querySelector('.lock-crown .lock-pumpkin-face')).not.toBeNull()
+    expect(container.querySelector('.lock-body .lock-banner')).toHaveTextContent('HAPPY HALLOWEEN')
+    expect(container.querySelector('.lock-night')).not.toBeNull()
     expect(container.querySelectorAll('.lock-chain')).toHaveLength(2)
     expect(container.querySelector('.lock-chains--fallen')).toBeNull()
-    expect(container.querySelector('.cutaway-keyhole')).not.toBeNull()
-    expect(container.querySelectorAll('.blood-drip').length).toBeGreaterThan(0)
+    expect(container.querySelector('.lock-hanging-ghost')).not.toBeNull()
+    expect(container.querySelector('.blood-drip')).toBeNull()
+    expect(container.querySelector('[filter="url(#lock-rust-grain)"]')).toBeNull()
+  })
+  it('jolts on its chain only while a pin is falling', () => {
+    const { container, rerender } = render(<CutawayLock total={6} foundDigits={[4]} />)
+    expect(container.querySelector('.cutaway-lock--jolt')).toBeNull()
+    rerender(<CutawayLock total={6} foundDigits={[4]} fallingIndex={0} />)
+    expect(container.querySelector('svg')).toHaveClass('cutaway-lock', 'cutaway-lock--jolt')
+  })
+  it('jolts and opens together when the last pin falls', () => {
+    const { container } = render(<CutawayLock total={2} foundDigits={[1, 2]} fallingIndex={1} />)
+    expect(container.querySelector('svg')).toHaveClass('cutaway-lock--open', 'cutaway-lock--jolt')
+  })
+  it('keeps the digits inside the window', () => {
+    const { container } = render(<CutawayLock total={6} foundDigits={[1, 2, 3, 4, 5, 6]} />)
+    for (const digit of container.querySelectorAll('.lock-digit')) {
+      const x = Number(digit.getAttribute('x'))
+      const y = Number(digit.getAttribute('y'))
+      expect(x).toBeGreaterThan(48)
+      expect(x).toBeLessThan(252)
+      expect(y).toBeLessThanOrEqual(228)
+    }
   })
   it('drops the chains once the lock opens', () => {
     const { container } = render(<CutawayLock total={2} foundDigits={[1, 2]} />)

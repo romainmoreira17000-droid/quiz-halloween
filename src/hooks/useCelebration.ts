@@ -1,8 +1,11 @@
 /** @file Shows the « Bravo ! » celebration for a moment when a challenge gets solved while its screen is open. */
 import { useEffect, useState } from 'react'
 
-/** Delay before the celebration, so the children first see the pin fall with its « clac » (pin-fall in lock.css). */
-export const CELEBRATION_DELAY_MS = 500
+/**
+ * Delay before the celebration, so the children first see the pin fall with its « clac » and the lock jolt on
+ * its chain (pin-fall and lock-jolt in lock.css, done at 1.5 s): the opaque celebration would hide them.
+ */
+export const CELEBRATION_DELAY_MS = 1500
 /** How long the celebration stays on screen; keep in step with the `celebrate-*` animations of celebration.css. */
 export const CELEBRATION_MS = 3000
 

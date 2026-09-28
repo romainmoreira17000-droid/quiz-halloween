@@ -37,7 +37,7 @@ test('the waiting screen, with its message, fits the tablet without scrolling', 
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await typeAnswer(page, '6')
-  await page.clock.fastForward('00:04')
+  await page.clock.fastForward('00:05')
   await expect(page.getByText('Profitez-en pour déguster ce qui se trouve sur la table !')).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
   expect(overflow).toBeLessThanOrEqual(0)

@@ -50,8 +50,11 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
                            AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran) + SkipNext (« Passer à l'épreuve suivante » avec confirmation) + StartTime (« Départ de la partie »),
                            CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
-src/components/lock/       cadenas rouillés : LockDefs (dégradés, bruit, sang ; ids `lock-*`), LockChains, BloodDrips,
-                           FinalLock (cadre du cadenas final), VictoryLock (cadenas qui s'ouvre au début de la victoire)
+src/components/lock/       cadenas Halloween en bronze : LockDefs (dégradés bronze, os, ciel, citrouille ; ids `lock-*`),
+                           Ornaments (Bone, Skull, Cobweb, Keyhole), LockCrown (LockShackle + ailes et citrouille),
+                           LockBanner (« HAPPY HALLOWEEN »), NightWindow (ciel, lune, sorcière, château), HangingGhost,
+                           HalloweenLockBody (corps partagé), LockChains, FinalLock (cadre HTML du cadenas final),
+                           VictoryLock (cadenas de la plongée de victoire)
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
@@ -193,14 +196,19 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   aussi un pavé.
 - **« Bravo ! » et attente** : `useCelebration` ne célèbre que le passage « pas trouvé → trouvé » pendant que l'écran d'étape
   est affiché (bonne réponse **ou** « Valider l'épreuve » de l'animateur) ; un écran qui s'ouvre déjà trouvé (rechargement)
-  ne rejoue rien. Délai 0,5 s (chute de la goupille) puis 3 s (`CELEBRATION_DELAY_MS`, `CELEBRATION_MS`), fermeture au tap.
+  ne rejoue rien. Délai 1,5 s (chute de la goupille puis tressautement du cadenas, que le fond opaque cacherait) puis 3 s (`CELEBRATION_DELAY_MS`, `CELEBRATION_MS`), fermeture au tap.
   Fond **opaque** (un voile translucide laissait voir « Chiffre trouvé » sous le gros chiffre). L'overlay est un `dialog`
   nommé « Bravo ! » : en test, toujours `getByRole('dialog', { name: ... })` si l'écran peut en montrer deux. En e2e avec
   `page.clock`, le « Bravo ! » n'apparaît qu'après un `fastForward`. `message_attente` (racine du YAML, facultatif, même
   texte dans toutes les salles) s'affiche sous « Chiffre trouvé », au-dessus de « Changement d'épreuve dans ».
-- **Cadenas rouillés** (`src/components/lock/`) : les ids SVG partagés sont en `lock-*` (ceux des décors en `hall-*`) ; un seul
-  `LockDefs` par écran, les autres SVG y renvoient. `CutawayLock` garde 190 px (écran d'étape sans défilement). Molettes du
-  cadenas final = tambours 3D : `rollDrum` (`padlock.ts`) donne l'angle cumulé (9 → 0 roule en avant), le tambour est
-  `aria-hidden`, le chiffre reste lu dans l'`<output class="dial-value">` (masqué visuellement). L'ouverture est jouée au
-  **début** de la victoire (`VictoryLock` dans `HauntedDoor`, anse à 0,2 s calée sur le clac de `sound.ts`, chaînes qui
-  tombent à 0,3 s) : pas d'état de partie en plus. Classes de l'anse : `.victory-lock-shackle` (plus de `.lock-shackle` dans victory.css).
+- **Cadenas Halloween** (`src/components/lock/`, sprint 20, style de `images-sources/cadenas.jpeg`) : les ids SVG partagés sont en
+  `lock-*` (ceux des décors en `hall-*`) ; un seul `LockDefs` et un seul `NightWindow` (`lock-window-clip`) par écran. `CutawayLock`
+  garde son viewBox `0 0 300 250` et 190 px (écran d'étape sans défilement) ; `LockShackle` avant `HalloweenLockBody`, `LockCrown`
+  après. Molettes du cadenas final = tambours 3D : `rollDrum` (`padlock.ts`) donne l'angle cumulé (9 → 0 roule en avant), le
+  tambour est `aria-hidden`, le chiffre reste lu dans l'`<output class="dial-value">` (masqué visuellement). Le cadenas final est
+  un cadre HTML (le corps grandit avec les molettes) : 6 molettes tiennent sur 360 px de large (`e2e/halloween-lock.spec.ts`),
+  os masqués sur téléphone. Bonne réponse = `cutaway-lock--jolt` tant que `fallingIndex` est donné (0,4 → 1,5 s, fini avant le
+  « Bravo ! » ; rejoué au rechargement d'un écran trouvé, comme la chute de goupille). Mauvais code = `final-lock--alarmed` (yeux
+  rouges). Victoire = `.victory-plunge` plein écran (`pointer-events: none`, état final invisible) : pivot 0–0,6 s, anse 0,9 s,
+  plongée 1,2–2,4 s, portes 2,4 s, texte 5,6 s, calés sur `sound.ts` ; pas d'état de partie en plus. Les animations CSS ne suivent
+  pas `page.clock` : pour une capture à un instant précis, `document.getAnimations()` + `pause()` + `currentTime`.

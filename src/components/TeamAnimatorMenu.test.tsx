@@ -43,7 +43,7 @@ describe('animator menu in the game', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
     expect(playPinSound).toHaveBeenCalledOnce()
-    act(() => vi.advanceTimersByTime(600))
+    act(() => vi.advanceTimersByTime(1600))
     expect(screen.getByRole('dialog', { name: 'Bravo !' })).toBeInTheDocument()
   })
   it('ends a block, and gives the hints one by one before their time', () => {
@@ -71,7 +71,7 @@ describe('animator menu in the game', () => {
     expect(screen.getByRole('heading', { name: 'La crypte' })).toBeInTheDocument()
     // From the wait too: no clack, the digit is already found.
     type('4')
-    act(() => vi.advanceTimersByTime(4000)) // let « Bravo ! » close
+    act(() => vi.advanceTimersByTime(5000)) // let « Bravo ! » close
     vi.clearAllMocks()
     openMenu()
     press('Passer à l’épreuve suivante')

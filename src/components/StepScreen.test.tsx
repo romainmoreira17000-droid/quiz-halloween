@@ -97,11 +97,13 @@ describe('StepScreen', () => {
     beforeEach(() => vi.useFakeTimers())
     afterEach(() => vi.useRealTimers())
 
-    it('celebrates just after the pin falls, then goes away on its own', () => {
+    it('celebrates once the lock has stopped jolting, then goes away on its own', () => {
       const { rerender } = render(<StepScreen {...base} />)
       rerender(<StepScreen {...base} digits={solved} />)
+      // The pin falls (0.45 s) and the lock jolts on its chain (0.4 s → 1.5 s, lock.css): the opaque « Bravo ! » must not hide it.
+      act(() => vi.advanceTimersByTime(1400))
       expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
-      act(() => vi.advanceTimersByTime(600))
+      act(() => vi.advanceTimersByTime(200))
       expect(screen.getByRole('dialog', { name: 'Bravo !' })).toHaveTextContent('7')
       act(() => vi.advanceTimersByTime(3000))
       expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
@@ -109,13 +111,13 @@ describe('StepScreen', () => {
     it('closes on a tap', () => {
       const { rerender } = render(<StepScreen {...base} />)
       rerender(<StepScreen {...base} digits={solved} />)
-      act(() => vi.advanceTimersByTime(600))
+      act(() => vi.advanceTimersByTime(1600))
       fireEvent.click(screen.getByRole('dialog', { name: 'Bravo !' }))
       expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
     })
     it('does not celebrate again when the screen opens already solved (reload)', () => {
       render(<StepScreen {...base} digits={solved} />)
-      act(() => vi.advanceTimersByTime(600))
+      act(() => vi.advanceTimersByTime(1600))
       expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
     })
   })

@@ -47,7 +47,7 @@ export function PadlockScreen(props: PadlockScreenProps) {
       {/* Changing key on each wrong code remounts the zone, which replays the shake animation. */}
       <div key={wrongAttempts} className={wrongAttempts > 0 ? 'lock-zone shake' : 'lock-zone'}>
         {wrongAttempts > 0 && <p className="wrong-answer" role="alert">{wrongCodeMessage(wrongAttempts)}</p>}
-        <FinalLock>
+        <FinalLock alarmed={wrongAttempts > 0}>
           <div className="dials">
             {code.map((digit, i) => <Dial key={i} position={i + 1} value={digit} onChange={(d) => setDigit(i, d)} />)}
           </div>

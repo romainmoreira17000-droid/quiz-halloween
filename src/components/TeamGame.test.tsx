@@ -76,7 +76,7 @@ describe('TeamGame', () => {
     expect(playPinSound).toHaveBeenCalledOnce()
     expect(screen.getByRole('status')).toHaveTextContent('Chiffre trouvé : 0')
     expect(screen.getByText('Changement d’épreuve dans 15:00')).toBeInTheDocument()
-    wait(0.01)
+    wait(0.03)
     expect(screen.getByRole('dialog', { name: 'Bravo !' })).toHaveTextContent('0')
     wait(0.05)
     expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()

@@ -28,7 +28,7 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 7')
   await expect(page.getByText(/^Changement d’épreuve dans \d\d:\d\d$/)).toBeVisible()
   // The « Bravo ! » comes just after the pin falls and goes away on its own, leaving the waiting message.
-  await page.clock.fastForward('00:01')
+  await page.clock.fastForward('00:02')
   await expect(page.getByRole('dialog', { name: 'Bravo !' })).toContainText('7')
   await page.clock.fastForward('00:03')
   await expect(page.getByRole('dialog', { name: 'Bravo !' })).toBeHidden()

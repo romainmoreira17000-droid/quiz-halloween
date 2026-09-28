@@ -34,6 +34,12 @@ describe('PadlockScreen', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Ouvrir' }))
     expect(onOpen).toHaveBeenCalledWith([0, 9])
   })
+  it('turns the eyes of the lock red only after a wrong code', () => {
+    const { container, rerender } = render(<PadlockScreen {...props} />)
+    expect(container.querySelector('.final-lock--alarmed')).toBeNull()
+    rerender(<PadlockScreen {...props} wrongAttempts={1} />)
+    expect(container.querySelector('.final-lock--alarmed')).not.toBeNull()
+  })
   it('keeps the dials and shows a message after a wrong code', async () => {
     const { rerender } = render(<PadlockScreen {...props} />)
     await userEvent.click(screen.getByRole('button', { name: 'Chiffre 1 : augmenter' }))

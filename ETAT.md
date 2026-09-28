@@ -1,9 +1,13 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-27 (sprints 18, 19 et suite de relecture mergés)
+Dernière mise à jour : 2026-09-28 (sprint 20 : cadenas Halloween, spec écrite)
 
 ## Sprint en cours
-Aucun. Sprints 18 (#51, PR #53), 19 (#52, PR #54) et suite de relecture (PR #55) mergés.
+Sprint 20 — issue #57, branche `feat/halloween-padlock`, pas encore de PR.
+Cadenas en bronze Halloween (image `images-sources/cadenas.jpeg`) pour les 3 cadenas, animés en 3D CSS.
+- [x] Cadrage avec Romain, spec `docs/superpowers/specs/2026-09-28-cadenas-halloween-design.md` écrite.
+- [ ] Relecture de la spec par Romain.
+- [ ] Plan d'implémentation (writing-plans), puis TDD, vérif visuelle Playwright, PR.
 
 ## Où on en est
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
@@ -16,7 +20,9 @@ Aucun. Sprints 18 (#51, PR #53), 19 (#52, PR #54) et suite de relecture (PR #55)
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
 
 ## Prochaine action concrète
-Aucun sprint prévu : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
+Attendre que Romain valide la spec du sprint 20, puis écrire le plan (`docs/superpowers/plans/`).
+
+En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
@@ -24,6 +30,9 @@ Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 20 (cadrage, choix de Romain) : style de `cadenas.jpeg` sur les 3 cadenas (le rouillé du sprint 17 disparaît) ;
+  le cadenas bouge à chaque bonne réponse ; ouverture = « plongée dans la serrure » ; bandeau « HAPPY HALLOWEEN » gardé.
+  SVG + 3D CSS plutôt que Three.js (pas de modèle 3D, poids, tablettes, hors ligne).
 - Suite de relecture : une heure « à venir » tapée dans « Départ de la partie » compte pour hier si c'est à moins de 12 h
   (soirée qui passe minuit), sinon refusée (faute de frappe).
 - Sprint 19 (design) : heure de départ à la minute (écart ≤ 1 min avec les autres tablettes, acceptable) ; possible sur

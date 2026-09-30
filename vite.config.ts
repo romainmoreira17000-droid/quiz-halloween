@@ -33,5 +33,7 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/test/setup.ts',
     include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
+    // Unit tests never reach the real Supabase, even with a .env.local on this PC.
+    env: { VITE_SUPABASE_URL: '', VITE_SUPABASE_ANON_KEY: '' },
   },
 })

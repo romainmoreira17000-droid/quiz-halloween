@@ -25,9 +25,11 @@ test('the padlock recap and hint have a dark veil behind them', async ({ page })
   const recap = page.getByRole('list', { name: 'Chiffres trouvés' })
   await expect(recap).toBeVisible()
   expect(await backgroundAlpha(recap)).toBeGreaterThanOrEqual(0.6)
-  // The padlock hint is optional and the quiz has none until its real text is written.
   const hint = page.locator('.padlock .hint')
-  if (await hint.count() > 0) expect(await backgroundAlpha(hint)).toBeGreaterThanOrEqual(0.6)
+  await expect(hint).toBeVisible()
+  expect(await backgroundAlpha(hint)).toBeGreaterThanOrEqual(0.6)
+  // The hint is a rhyme: its line breaks must survive in the page.
+  expect(await hint.evaluate((el) => getComputedStyle(el).whiteSpace)).toBe('pre-line')
   const overflowX = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflowX).toBeLessThanOrEqual(0)
 })

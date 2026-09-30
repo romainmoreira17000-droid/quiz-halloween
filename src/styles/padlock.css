@@ -20,7 +20,8 @@
 }
 .recap b { font-size: 42px; font-weight: 700; color: var(--amber); font-variant-numeric: lining-nums; }
 
-.hint { font-size: 26px; color: var(--bronze); max-width: 24em; }
+/* pre-line keeps the line breaks of a rhyme written over several lines in quiz.yaml. */
+.hint { font-size: 26px; color: var(--bronze); max-width: 24em; white-space: pre-line; }
 .hint::before { content: "« "; }
 .hint::after { content: " »"; }
 

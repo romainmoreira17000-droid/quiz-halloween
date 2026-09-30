@@ -1,34 +1,34 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-28 (sprint 20 : cadenas Halloween, PR ouverte)
+Dernière mise à jour : 2026-09-30 (sprint 21 : contenu réel, épreuves de l'addition et du jackpot)
 
 ## Sprint en cours
-Sprint 20 — issue #57, branche `feat/halloween-padlock`, PR #58 (CI verte).
-Cadenas en bronze Halloween (image `images-sources/cadenas.jpeg`) pour les 3 cadenas, animés en 3D CSS.
-- [x] Cadrage avec Romain, spec `docs/superpowers/specs/2026-09-28-cadenas-halloween-design.md` écrite.
-- [x] Spec validée par Romain.
-- [x] Plan écrit : `docs/superpowers/plans/2026-09-28-sprint20-cadenas-halloween.md` (8 tâches).
-- [x] Tâches 1 à 8 faites en exécution directe (tests unitaires 484, e2e 24, lint et types verts).
-- [x] Relecture de toute la branche (relecteur-code, Opus) : 0 critique, 2 importants corrigés (test du tap sur ↺, spec alignée).
-- [x] PR #58 ouverte vers `main`, CI verte. [ ] À relire et fusionner par Romain (pas pendant la soirée).
+Sprint 21 — issue #59, branche `feat/real-quiz-content-2`, PR à ouvrir.
+`quiz.yaml` mis à jour d'après le PDF « Déroulé de la soirée halloween » (résumé dans `docs/contenu-epreuves.md`).
+- [x] « L'addition » (fond table hantée, 3) et « Le jackpot funèbre » (fond saveurs hantées, 9) à la place des exemples.
+- [x] Indices du cimetière et de la galerie alignés sur le PDF ; invisible mais visible → chiffre 4.
+- [x] Ordre du cadenas = ordre du PDF `[3, 1, 5, 2, 4, 6]` → code 8 6 0 3 9 4 (0 provisoire des toilettes).
+- [x] Titre « Le restaurant des ombres », intro, titre du cadenas et message de victoire.
+- [x] e2e alignés ; unitaires 484, e2e 24, lint et types verts.
+- [ ] Relecture, PR, fusion par Romain.
 
 ## Où on en est
+- [x] Sprint 20 (#57) : cadenas Halloween en bronze, mergé (PR #58).
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
 - [x] Sprint 19 (#52) : « Départ de la partie » (recaler une tablette décalée), mergé (PR #54).
 - [x] Suite de relecture, mergée (PR #55) : bouton « Annuler » de la confirmation du saut,
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
-- [ ] Contenu réel des 4 autres épreuves (table hantée, saveurs hantées, toilettes scientifiques, invisible mais visible)
-  ← en attente du texte de Romain (texte, 3 indices, solution, chiffre gagné).
-- [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710) et l'ordre du cadenas `[3, 1, 6, 2, 5, 4]`.
+- [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
+  (épreuve 6, chiffre 4) ← en attente du texte de Romain.
+- [ ] Horaires des indices : le PDF dit « à 10 min », l'app garde 5, 8 et 11 min ← question posée à Romain.
+- [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Attendre que Romain fusionne la PR du sprint 20, puis `git checkout main && git pull && git branch -d feat/halloween-padlock`
-et tester sur une vraie tablette via GitHub Pages (chauffe, rendu iPad de la lueur et de la plongée).
-Petites retouches notées par la relecture, à faire plus tard si Romain le souhaite : commentaires « rusty » restants
+Relecture `relecteur-code`, push, `gh pr create` (Closes #59).
+Puis tester sur une vraie tablette via GitHub Pages après fusion (pas pendant la soirée).
+Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
-
-En parallèle : attendre le texte des 4 épreuves restantes et l'indice du cadenas (voir ci-dessous).
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.

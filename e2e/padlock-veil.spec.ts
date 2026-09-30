@@ -3,7 +3,7 @@ import { test, expect, type Locator } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières play challenges 1 to 6 in order; answers of the sample quiz.yaml.
-const ANSWERS = ['6', 'CRAPAUD', '8', '1832', "TOILE D'ARAIGNEE", 'CITROUILLE']
+const ANSWERS = ['6', '3', '8', '9', "TOILE D'ARAIGNEE", 'CITROUILLE']
 
 /** Alpha of the element's background colour (0 when transparent). */
 const backgroundAlpha = (locator: Locator) => locator.evaluate((el) => {

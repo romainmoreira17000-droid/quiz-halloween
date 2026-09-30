@@ -4,8 +4,8 @@ import { setUpTablet, typeAnswer } from './typing.js'
 
 // Each team starts on its own challenge: every title (some wrap on two lines) with both keyboards.
 const FIRST_CHALLENGES = [
-  ['Sorcières', 'La galerie des portraits'], ['Zombies', 'La table hantée'], ['Fantômes', 'Le cimetière'],
-  ['Loups-garous', 'Les saveurs hantées'], ['Squelettes', 'Les toilettes scientifiques'], ['Momies', 'Invisible mais visible'],
+  ['Sorcières', 'La galerie des portraits'], ['Zombies', "L'addition"], ['Fantômes', 'Le cimetière'],
+  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Les toilettes scientifiques'], ['Momies', 'Invisible mais visible'],
 ] as const
 for (const [team, title] of FIRST_CHALLENGES) {
   test(`the « ${title} » screen fits the tablet without scrolling`, async ({ page }) => {

@@ -14,12 +14,12 @@ async function reachPadlock(page: Page): Promise<void> {
     await typeAnswer(page, '2710')
     await page.getByRole('button', { name: 'Continuer' }).click()
   }
-  await expect(page.getByRole('heading', { name: 'La porte du restaurant hanté' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres' })).toBeVisible()
 }
 
 /** Dials the code of the sample quiz and opens. */
 async function openPadlock(page: Page): Promise<void> {
-  for (const [i, digit] of [8, 6, 5, 7, 0, 9].entries()) {
+  for (const [i, digit] of [8, 6, 0, 3, 9, 4].entries()) {
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()
   }
   await page.getByRole('button', { name: 'Ouvrir' }).click()
@@ -36,7 +36,7 @@ test('with reduced motion, the victory shows its text at once and the plunge lay
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await reachPadlock(page)
   await openPadlock(page)
-  await expect(page.getByRole('heading', { name: 'La salle du restaurant hanté est ouverte !' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres est ouverte !' })).toBeVisible()
   await expect(page.locator('.victory-lock-3d')).toHaveCSS('opacity', '0')
   // The invisible layer ends at 14× its size, over the whole screen: a tap on ↺ must still reach ↺.
   const tapped = await page.locator('.reset-button').evaluate((button) => {

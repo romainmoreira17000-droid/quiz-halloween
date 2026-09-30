@@ -11,7 +11,7 @@
 #  - toute clé inconnue (faute de frappe) est signalée.
 
 # Titre affiché sur l'écran d'accueil. Obligatoire, texte non vide.
-titre: "Le manoir hanté"
+titre: "Le restaurant des ombres"
 
 # Fond d'écran de l'accueil et de l'attente entre deux salles. Facultatif : nom d'un
 # fichier placé dans public/images/ (sans fond : décor sombre à l'accueil, grande salle
@@ -25,7 +25,7 @@ fond_accueil: "image-principale.webp"
 message_attente: "Profitez-en pour déguster ce qui se trouve sur la table !"
 
 # Texte d'introduction sous le titre. Facultatif.
-intro: "Des fantômes ont verrouillé la salle du restaurant hanté. Réussissez les épreuves pour trouver le code du cadenas !"
+intro: "Bienvenue au restaurant des ombres ! Pour en sortir, résolvez les 6 épreuves : chacune vous donne un chiffre du code qui ouvre le cadenas de la porte."
 
 # Noms des équipes, dans l'ordre de rotation. Obligatoire.
 # Il faut autant d'équipes que d'étapes (nombre_etapes) : chaque équipe fait toutes les
@@ -100,17 +100,19 @@ etapes:
     indices:
       - "La réponse est un nombre pair."
       - "Pensez à votre équipe… moins le chef, il reste la moitié du groupe."
-      - "Les yeux des portraits vous donnent la réponse."
+      - "Calculez : 104 ÷ 4 − 20."
 
-  # Épreuves 2, 4, 5 et 6 : contenu d'exemple, à remplacer par le contenu réel.
-
-  - titre: "La table hantée"
+  # Salle de la table hantée : les codes sont cachés sous les assiettes et sous les chaises.
+  - titre: "L'addition"
     fond: "table-hantee.webp"
-    consigne: "Goûtez la potion les yeux bandés. Quel animal la sorcière a-t-elle mis dedans ?"
-    type_reponse: mots
-    reponse: "Crapaud"
-    chiffre: 7
-    indices: ["Un animal qui vit près des mares.", "Il est vert et saute.", "Il fait « croa »."]
+    consigne: "Installez-vous à votre place au buffet. Pour payer l'addition, ne vous préoccupez pas du dessus de la table : regardez plutôt dessous. Tapez le chiffre trouvé."
+    type_reponse: chiffres
+    reponse: "3"
+    chiffre: 3
+    indices:
+      - "Mettez en lumière les assiettes."
+      - "Les chaises peuvent parler."
+      - "Faites concorder la vaisselle et les chaises, puis remettez tout dans le bon ordre."
 
   # Le cadenas physique du cercueil s'ouvre avec 2806 (date cachée, 28/06) ; dans
   # l'app, les enfants tapent le chiffre trouvé dans le cercueil.
@@ -121,18 +123,24 @@ etapes:
     reponse: "8"
     chiffre: 8
     indices:
-      - "La réponse se trouve sur le cercueil… mais tout dépend de la lumière."
-      - "Cherchez une lumière qui permet de révéler ce qui est invisible."
-      - "Utilisez la lampe à lumière noire."
+      - "La réponse est sur le cercueil, mais tout dépend de la couleur de l'éclairage."
+      - "Il faut utiliser la lampe à lumière noire."
+      - "La raison de sa mort vous donnera la réponse."
 
-  - titre: "Les saveurs hantées"
+  # Salle des saveurs hantées. Solution : 7 − 5 + 7 = 9.
+  - titre: "Le jackpot funèbre"
     fond: "saveurs-hantees.webp"
-    consigne: "Additionnez les années gravées sur les trois tombes à citrouille."
+    consigne: "Rendez-vous devant la machine « à sous » cis. Devant chaque vitrail, accrochez bien votre trippe « Aïe ». Gare au remue-ménage : remue-méninges garanti, et l'opération sera savoureuse !"
     type_reponse: chiffres
-    reponse: "1832"
+    reponse: "9"
     chiffre: 9
-    indices: ["Il y a trois années : posez l'addition sur une feuille."]
+    indices:
+      - "Les mathématiques sont systématiques."
+      - "Chaque souci a son symbole."
+      - "Ouvrez les yeux, et réapprenez vos calculs mentaux."
 
+  # Épreuves des toilettes et d'invisible mais visible : contenu d'exemple, à remplacer.
+  # Le chiffre des toilettes (0) est provisoire : il n'est pas encore choisi.
   - titre: "Les toilettes scientifiques"
     fond: "toilettes-scientifiques.webp"
     consigne: "Qu'a tissé l'araignée géante au-dessus de la malle ?"
@@ -146,15 +154,16 @@ etapes:
     consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
     type_reponse: mots
     reponse: "Citrouille"
-    chiffre: 5
+    chiffre: 4
 
 # Cadenas final. Section entière facultative.
 cadenas:
   # Ordre dans lequel les chiffres des étapes forment le code.
   # Facultatif (par défaut : 1, 2, 3...). S'il est donné, il doit contenir
   # chaque numéro d'étape de 1 à nombre_etapes, une seule fois.
-  # Ici : chiffre de l'étape 3, puis de l'étape 1, puis 6, 2, 5 et 4.
-  ordre: [3, 1, 6, 2, 5, 4]
+  # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), toilettes (5),
+  # addition (2), jackpot (4), invisible mais visible (6).
+  ordre: [3, 1, 5, 2, 4, 6]
 
   # Indice affiché près du cadenas. Facultatif, texte. Absent pour l'instant :
   # à écrire quand toutes les épreuves réelles seront là.
@@ -165,8 +174,8 @@ cadenas:
 
   # Titre de l'écran du cadenas. Facultatif, texte non vide
   # (par défaut : « Le cadenas »).
-  titre: "La porte du restaurant hanté"
+  titre: "La porte du restaurant des ombres"
 
   # Message affiché quand le cadenas s'ouvre. Facultatif, texte non vide
   # (par défaut : « Le cadenas est ouvert ! »).
-  message_victoire: "La salle du restaurant hanté est ouverte !"
+  message_victoire: "La porte du restaurant des ombres est ouverte !"

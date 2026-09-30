@@ -34,3 +34,35 @@ Indices :
 3. Les yeux des portraits vous donnent la réponse.
 
 Solution : **6** yeux mobiles ; réponse tapée **6** ; chiffre gagné : **6**.
+
+## Déroulé de la soirée (PDF reçu le 2026-09-30)
+
+Ordre du déroulé et du code du cadenas : 1 cimetière (8), 2 galerie (6), 3 toilettes scientifiques (chiffre à choisir),
+4 addition (3), 5 jackpot funèbre (9), 6 invisible mais visible (4). Nom du lieu : « le restaurant des ombres ».
+Indices prévus « à 10 min » dans le PDF (choix de Romain : 8, 10 et 13 min).
+
+### L'addition (salle de la table hantée) — 4e chiffre
+
+Texte : Votre code pour payer l'addition. Installez-vous à votre place au buffet. Ne vous préoccupez pas du dessus mais
+regardez plutôt dessous. (Codes à faire sous les assiettes et sous les chaises.)
+
+Indices : 1. Mettez en lumière les assiettes. 2. Les chaises peuvent parler. 3. Faites concorder la vaisselle et les
+chaises et remettez tout dans le bon ordre.
+
+Solution : réponse tapée **3** ; chiffre gagné : **3**.
+
+### Le jackpot funèbre (salle des saveurs hantées) — 5e chiffre
+
+Texte : Rendez-vous à présent devant notre machine « à sous » cis. Devant chaque vitrail accrochez bien votre trippe
+« Aïe ». Gare au remue-ménage, il va y avoir du remue-méninges, et l'opération pourrait s'avérer savoureuse.
+
+Indices : 1. Les mathématiques sont systématiques. 2. Chaque souci a son symbole. 3. Ouvrez les yeux, et réapprenez vos
+calculs mentaux.
+
+Solution : 7 − 5 + 7 = **9** ; réponse tapée **9** ; chiffre gagné : **9**.
+
+### Compléments du PDF sur les épreuves déjà en place
+
+- Cimetière : indices réécrits (couleur de l'éclairage, lampe à lumière noire, « la raison de sa mort » = corde nouée
+  en 8 autour du cou, idée de décor de Romain).
+- Galerie : 3e indice « = 104/4-20 ».

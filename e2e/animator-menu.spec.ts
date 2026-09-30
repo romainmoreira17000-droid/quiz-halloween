@@ -37,7 +37,7 @@ test('an animator unblocks, shows the hint, solves the challenge and reads the a
   await openMenu(page)
   await page.getByRole('button', { name: 'Voir les solutions' }).click()
   await expect(page.getByRole('list', { name: 'Solutions' })).toContainText('La galerie des portraits')
-  await expect(page.getByText('Code du cadenas : 8 6 5 7 0 9')).toBeVisible()
+  await expect(page.getByText('Code du cadenas : 8 6 0 3 9 4')).toBeVisible()
   await page.getByRole('button', { name: 'Valider l’épreuve « La galerie des portraits »' }).click()
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
 })
@@ -54,7 +54,7 @@ test('an animator moves the group on to the next challenge, giving the digit of 
   await expect(page.getByText('À faire sur toutes les tablettes, sinon les équipes se croisent.')).toBeVisible()
   await page.getByRole('button', { name: 'Oui, passer à l’épreuve suivante' }).click()
   // « Temps écoulé » would come first if the digit of the skipped challenge were still missing.
-  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: "L'addition" })).toBeVisible()
   await expect(page.getByText('Temps écoulé')).toHaveCount(0)
 })
 
@@ -73,5 +73,5 @@ test('an animator lines a late tablet up with the start time of the others', asy
   await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
   await typeAnswer(page, '2710')
   await page.getByRole('button', { name: 'Continuer' }).click()
-  await expect(page.getByRole('heading', { name: 'La table hantée' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: "L'addition" })).toBeVisible()
 })

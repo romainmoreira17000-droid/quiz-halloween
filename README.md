@@ -3,7 +3,7 @@
 Escape game d'Halloween pour les enfants du Centre de Loisirs : 6 équipes, une tablette par équipe.
 Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 minutes. À chaque épreuve, les
 enfants tapent la bonne réponse (code en chiffres ou mot) et gagnent un chiffre ; les chiffres
-ouvrent le cadenas final de la porte du restaurant hanté.
+ouvrent le cadenas final de la porte du restaurant des ombres.
 
 En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 
@@ -17,7 +17,7 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
-   À 5, 8 puis 11 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : une goupille du cadenas tombe, un grand « Bravo ! »
+   À 8, 10 puis 13 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : une goupille du cadenas tombe, un grand « Bravo ! »
    montre le chiffre gagné (3 s, ou un tap pour le fermer), puis le message d'attente de `message_attente`
    (« Profitez-en pour déguster… ») et « Changement d'épreuve dans … » jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».

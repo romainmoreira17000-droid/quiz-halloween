@@ -4,8 +4,8 @@ import { setUpTablet, typeAnswer } from './typing.js'
 
 // Each team starts on its own challenge: every title (some wrap on two lines) with both keyboards.
 const FIRST_CHALLENGES = [
-  ['Sorcières', 'La galerie des portraits'], ['Zombies', 'La table hantée'], ['Fantômes', 'Le cimetière'],
-  ['Loups-garous', 'Les saveurs hantées'], ['Squelettes', 'Les toilettes scientifiques'], ['Momies', 'Invisible mais visible'],
+  ['Sorcières', 'La galerie des portraits'], ['Zombies', "L'addition"], ['Fantômes', 'Le cimetière'],
+  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Les toilettes scientifiques'], ['Momies', 'Invisible mais visible'],
 ] as const
 for (const [team, title] of FIRST_CHALLENGES) {
   test(`the « ${title} » screen fits the tablet without scrolling`, async ({ page }) => {
@@ -25,7 +25,7 @@ test('the step screen still fits the tablet once the three hints are out', async
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await page.clock.fastForward('11:00')
+  await page.clock.fastForward('13:00')
   await expect(page.getByRole('button', { name: 'Voir les indices (3/3)' })).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
   expect(overflow).toBeLessThanOrEqual(0)

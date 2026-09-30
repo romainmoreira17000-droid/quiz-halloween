@@ -5,7 +5,7 @@ Dernière mise à jour : 2026-09-30 (sprint 23 : spec du tableau de bord à dist
 ## Sprint en cours
 Sprint 23 (#65), branche `feat/remote-board` : tableau de bord animateur à distance, **lecture seule** (Supabase,
 code de soirée vérifié par la base, relecture toutes les 5 s). Spec : `docs/superpowers/specs/2026-09-30-remote-board-design.md`.
-Étapes : [x] cadrage validé, [x] spec écrite, [ ] relecture de la spec par Romain, [ ] plan (writing-plans), [ ] code TDD,
+Étapes : [x] cadrage validé, [x] spec écrite, [x] spec validée par Romain, [x] plan écrit (`docs/superpowers/plans/2026-09-30-remote-board.md`, 12 tâches), [ ] choix du mode d'exécution, [ ] code TDD,
 [ ] projet Supabase + migration + code de soirée (accord de Romain), [ ] auditeur-supabase, [ ] PR.
 Sprint 2 prévu ensuite : actions à distance (valider, débloquer, indice, passer à la suivante pour tous, départ commun).
 
@@ -26,7 +26,7 @@ En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisi
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Romain relit la spec du sprint 23 ; s'il valide, écrire le plan avec writing-plans.
+Romain relit le plan du sprint 23 et choisit le mode d'exécution, puis tâche 1 du plan.
 Avant : Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
 Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

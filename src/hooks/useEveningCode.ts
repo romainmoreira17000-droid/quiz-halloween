@@ -1,5 +1,5 @@
 /** @file Evening code of the remote board on this device: read once, changed by an animator. */
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { loadEveningCode, saveEveningCode } from '../services/savedEveningCode'
 
 /**
@@ -8,9 +8,10 @@ import { loadEveningCode, saveEveningCode } from '../services/savedEveningCode'
  */
 export function useEveningCode(): [string | null, (code: string) => void] {
   const [code, setCode] = useState(loadEveningCode)
-  const change = (next: string) => {
+  // Stable identity: the board calls it from an effect.
+  const change = useCallback((next: string) => {
     saveEveningCode(next)
     setCode(loadEveningCode())
-  }
+  }, [])
   return [code, change]
 }

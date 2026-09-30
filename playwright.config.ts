@@ -13,5 +13,8 @@ export default defineConfig({
     url: 'http://localhost:4173/quiz-halloween/',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // A fake Supabase address, intercepted by page.route in remote-board.spec.ts: e2e never reach a real server.
+    // Variables already set win over .env.local in Vite, so a local .env.local does not leak in.
+    env: { VITE_SUPABASE_URL: 'https://board.e2e.test', VITE_SUPABASE_ANON_KEY: 'e2e-anon-key' },
   },
 })

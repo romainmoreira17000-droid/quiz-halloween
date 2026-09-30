@@ -1,20 +1,13 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-30 (sprint 21 : contenu réel, épreuves de l'addition et du jackpot)
+Dernière mise à jour : 2026-09-30 (sprint 21 mergé et déployé)
 
 ## Sprint en cours
-Sprint 21 — issue #59, branche `feat/real-quiz-content-2`, PR à ouvrir.
-`quiz.yaml` mis à jour d'après le PDF « Déroulé de la soirée halloween » (résumé dans `docs/contenu-epreuves.md`).
-- [x] « L'addition » (fond table hantée, 3) et « Le jackpot funèbre » (fond saveurs hantées, 9) à la place des exemples.
-- [x] Indices du cimetière et de la galerie alignés sur le PDF ; invisible mais visible → chiffre 4.
-- [x] Ordre du cadenas = ordre du PDF `[3, 1, 5, 2, 4, 6]` → code 8 6 0 3 9 4 (0 provisoire des toilettes).
-- [x] Titre « Le restaurant des ombres », intro, titre du cadenas et message de victoire.
-- [x] Indices à 8, 10 et 13 min (choix de Romain, le PDF disait « à 10 min »).
-- [x] e2e alignés ; unitaires 484, e2e 24, lint et types verts.
-- [x] Relecture (relecteur-code, Sonnet) : prête pour la PR, README corrigé (nom du lieu).
-- [ ] PR ouverte, fusion par Romain (pas pendant la soirée).
+Aucun. En attente du contenu des toilettes scientifiques et d'invisible mais visible.
 
 ## Où on en est
+- [x] Sprint 21 (#59) : contenu réel (l'addition, le jackpot funèbre, indices à 8/10/13 min, code du cadenas
+  8 6 0 3 9 4 avec le 0 provisoire des toilettes), mergé et déployé (PR #60).
 - [x] Sprint 20 (#57) : cadenas Halloween en bronze, mergé (PR #58).
 - [x] Sprint 18 (#51) : « Passer à l'épreuve suivante », mergé (PR #53).
 - [x] Sprint 19 (#52) : « Départ de la partie » (recaler une tablette décalée), mergé (PR #54).
@@ -26,12 +19,12 @@ Sprint 21 — issue #59, branche `feat/real-quiz-content-2`, PR à ouvrir.
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Attendre que Romain fusionne la PR du sprint 21, puis `git checkout main && git pull && git branch -d feat/real-quiz-content-2`.
-Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint). Tester sur une vraie tablette via GitHub Pages après fusion (pas pendant la soirée).
+Tester le sprint 21 sur une vraie tablette via GitHub Pages (pas pendant la soirée).
+Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
-Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-2`,
+Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-3`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
 Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.

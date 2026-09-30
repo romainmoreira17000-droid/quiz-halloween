@@ -9,8 +9,10 @@ Sprint 21 — issue #59, branche `feat/real-quiz-content-2`, PR à ouvrir.
 - [x] Indices du cimetière et de la galerie alignés sur le PDF ; invisible mais visible → chiffre 4.
 - [x] Ordre du cadenas = ordre du PDF `[3, 1, 5, 2, 4, 6]` → code 8 6 0 3 9 4 (0 provisoire des toilettes).
 - [x] Titre « Le restaurant des ombres », intro, titre du cadenas et message de victoire.
+- [x] Indices à 8, 10 et 13 min (choix de Romain, le PDF disait « à 10 min »).
 - [x] e2e alignés ; unitaires 484, e2e 24, lint et types verts.
-- [ ] Relecture, PR, fusion par Romain.
+- [x] Relecture (relecteur-code, Sonnet) : prête pour la PR, README corrigé (nom du lieu).
+- [ ] PR ouverte, fusion par Romain (pas pendant la soirée).
 
 ## Où on en est
 - [x] Sprint 20 (#57) : cadenas Halloween en bronze, mergé (PR #58).
@@ -21,12 +23,11 @@ Sprint 21 — issue #59, branche `feat/real-quiz-content-2`, PR à ouvrir.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
   (épreuve 6, chiffre 4) ← en attente du texte de Romain.
-- [ ] Horaires des indices : le PDF dit « à 10 min », l'app garde 5, 8 et 11 min ← question posée à Romain.
 - [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Relecture `relecteur-code`, push, `gh pr create` (Closes #59).
-Puis tester sur une vraie tablette via GitHub Pages après fusion (pas pendant la soirée).
+Attendre que Romain fusionne la PR du sprint 21, puis `git checkout main && git pull && git branch -d feat/real-quiz-content-2`.
+Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint). Tester sur une vraie tablette via GitHub Pages après fusion (pas pendant la soirée).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 

@@ -25,7 +25,7 @@ test('the step screen still fits the tablet once the three hints are out', async
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await page.clock.fastForward('11:00')
+  await page.clock.fastForward('13:00')
   await expect(page.getByRole('button', { name: 'Voir les indices (3/3)' })).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
   expect(overflow).toBeLessThanOrEqual(0)

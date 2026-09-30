@@ -39,7 +39,7 @@ Solution : **6** yeux mobiles ; réponse tapée **6** ; chiffre gagné : **6**.
 
 Ordre du déroulé et du code du cadenas : 1 cimetière (8), 2 galerie (6), 3 toilettes scientifiques (chiffre à choisir),
 4 addition (3), 5 jackpot funèbre (9), 6 invisible mais visible (4). Nom du lieu : « le restaurant des ombres ».
-Indices prévus « à 10 min » dans le PDF (l'app garde 5, 8 et 11 min : à confirmer par Romain).
+Indices prévus « à 10 min » dans le PDF (choix de Romain : 8, 10 et 13 min).
 
 ### L'addition (salle de la table hantée) — 4e chiffre
 

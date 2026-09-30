@@ -39,10 +39,10 @@ equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "M
 # nombre_etapes × duree_epreuve_minutes.
 duree_epreuve_minutes: 15
 
-# Minutes après le début de chaque épreuve où s'active chaque indice : le 1er à 5 min,
-# le 2e à 8 min… Obligatoire, nombres entiers en croissant, plus petits que
+# Minutes après le début de chaque épreuve où s'active chaque indice : le 1er à 8 min,
+# le 2e à 10 min… Obligatoire, nombres entiers en croissant, plus petits que
 # duree_epreuve_minutes. Une épreuve a au plus autant d'indices que d'horaires.
-indices_apres_minutes: [5, 8, 11]
+indices_apres_minutes: [8, 10, 13]
 
 # Après une mauvaise réponse à une épreuve, la saisie est bloquée pendant ce nombre de
 # secondes : les enfants doivent chercher au lieu de tenter au hasard. Obligatoire,

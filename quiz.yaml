@@ -165,9 +165,13 @@ cadenas:
   # addition (2), jackpot (4), invisible mais visible (6).
   ordre: [3, 1, 5, 2, 4, 6]
 
-  # Indice affiché près du cadenas. Facultatif, texte. Absent pour l'instant :
-  # à écrire quand toutes les épreuves réelles seront là.
-  # indice: "..."
+  # Indice affiché près du cadenas. Facultatif, texte. Les retours à la ligne
+  # sont gardés à l'écran (« |- » en YAML). La comptine donne l'ordre des salles.
+  indice: |-
+    D'abord chez les morts qui dorment sous la terre,
+    puis face aux portraits qui vous suivent des yeux ;
+    aux toilettes ensuite, l'addition, le jackpot d'enfer,
+    et ce qu'on ne voit pas vient fermer le jeu.
 
   # Fond d'écran du cadenas et de la victoire. Facultatif (voir « fond_accueil »).
   fond: "sortie-du-restaurant.webp"

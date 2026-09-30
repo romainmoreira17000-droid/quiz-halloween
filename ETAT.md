@@ -1,9 +1,11 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-30 (sprint 21 mergé et déployé)
+Dernière mise à jour : 2026-09-30 (sprint 22 : PR ouverte, en attente du merge)
 
 ## Sprint en cours
-Aucun. En attente du contenu des toilettes scientifiques et d'invisible mais visible.
+Sprint 22 (#62) : indice du cadenas final (comptine de l'ordre des salles), branche `feat/padlock-hint`.
+Fait : comptine dans `quiz.yaml`, retours à la ligne gardés (`white-space: pre-line`), test e2e sans `if`, tests verts.
+Reste : relecture, PR, merge par Romain.
 
 ## Où on en est
 - [x] Sprint 21 (#59) : contenu réel (l'addition, le jackpot funèbre, indices à 8/10/13 min, code du cadenas
@@ -16,20 +18,22 @@ Aucun. En attente du contenu des toilettes scientifiques et d'invisible mais vis
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
   (épreuve 6, chiffre 4) ← en attente du texte de Romain.
-- [ ] Indice du cadenas à écrire ; confirmer le code animateur (2710).
+- [x] Indice du cadenas : comptine B choisie par Romain (sprint 22).
+- [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Tester le sprint 21 sur une vraie tablette via GitHub Pages (pas pendant la soirée).
+Faire merger la PR du sprint 22 par Romain, puis tester sur une vraie tablette via GitHub Pages (pas pendant la soirée).
 Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
 Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-3`,
 condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
-Quand l'indice du cadenas est écrit, retirer le `if` de `e2e/padlock-veil.spec.ts`.
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 22 (choix de Romain) : 720 ordres possibles pour le code, donc une énigme sur l'écran du cadenas (comptine rimée,
+  niveau moyen) qui suit l'ordre des salles ; les chiffres par salle sont déjà rappelés dans la liste au-dessus.
 - Sprint 20 (cadrage, choix de Romain) : style de `cadenas.jpeg` sur les 3 cadenas (le rouillé du sprint 17 disparaît) ;
   le cadenas bouge à chaque bonne réponse ; ouverture = « plongée dans la serrure » ; bandeau « HAPPY HALLOWEEN » gardé.
   SVG + 3D CSS plutôt que Three.js (pas de modèle 3D, poids, tablettes, hors ligne).

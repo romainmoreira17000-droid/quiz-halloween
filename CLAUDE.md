@@ -209,6 +209,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   un cadre HTML (le corps grandit avec les molettes) : 6 molettes tiennent sur 360 px de large (`e2e/halloween-lock.spec.ts`),
   os masqués sur téléphone. Bonne réponse = `cutaway-lock--jolt` tant que `fallingIndex` est donné (0,4 → 1,5 s, fini avant le
   « Bravo ! » ; rejoué au rechargement d'un écran trouvé, comme la chute de goupille). Mauvais code = `final-lock--alarmed` (yeux
-  rouges). Victoire = `.victory-plunge` plein écran (`pointer-events: none`, état final invisible) : pivot 0–0,6 s, anse 0,9 s,
+  rouges). L'indice du cadenas (`cadenas.indice`, bloc `|-` en YAML) garde ses retours à la ligne (`.hint` en
+  `white-space: pre-line`) : c'est la comptine qui donne l'ordre des salles. Victoire = `.victory-plunge` plein écran (`pointer-events: none`, état final invisible) : pivot 0–0,6 s, anse 0,9 s,
   plongée 1,2–2,4 s, portes 2,4 s, texte 5,6 s, calés sur `sound.ts` ; pas d'état de partie en plus. Les animations CSS ne suivent
   pas `page.clock` : pour une capture à un instant précis, `document.getAnimations()` + `pause()` + `currentTime`.

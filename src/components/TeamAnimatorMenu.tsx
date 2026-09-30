@@ -4,6 +4,7 @@ import { blockSecondsLeft } from '../game/block'
 import { padlockCode } from '../game/padlock'
 import type { GamePhase } from '../game/phase'
 import { hintsAvailable } from '../game/progress'
+import { syncStatusLabel, type SyncStatus } from '../game/syncStatus'
 import { timeOfDay } from '../game/startTime'
 import type { GameProgress } from '../hooks/useGameProgress'
 import { playPinSound } from '../services/sound'
@@ -17,6 +18,8 @@ export interface TeamAnimatorMenuProps {
   phase: GamePhase
   /** Current time in ms (the ticking clock of TeamGame). */
   now: number
+  /** Remote follow-up of the tablet, shown on top of the menu. */
+  sync: SyncStatus
   onClose(): void
 }
 
@@ -26,17 +29,18 @@ export interface TeamAnimatorMenuProps {
  * @param props See TeamAnimatorMenuProps.
  * @returns The animator menu.
  */
-export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: TeamAnimatorMenuProps) {
+export function TeamAnimatorMenu({ config, progress, phase, now, sync, onClose }: TeamAnimatorMenuProps) {
   const { state } = progress
+  const remote = syncStatusLabel(sync, now)
   const code = padlockCode(config.steps, config.padlock.order)
   // The start time can be fixed on every screen of a game in progress, « Temps écoulé » and padlock included.
   const start = state.status === 'playing' && state.startedAt !== null
     ? { value: timeOfDay(state.startedAt), onSet: progress.setStart } : undefined
   if (phase.kind === 'waiting') {
-    return <AnimatorMenu steps={config.steps} code={code} onSkip={() => progress.animatorSkip(phase.challenge)} start={start} onClose={onClose} />
+    return <AnimatorMenu steps={config.steps} code={code} onSkip={() => progress.animatorSkip(phase.challenge)} start={start} remote={remote} onClose={onClose} />
   }
   if (phase.kind !== 'challenge' || state.startedAt === null) {
-    return <AnimatorMenu steps={config.steps} code={code} start={start} onClose={onClose} />
+    return <AnimatorMenu steps={config.steps} code={code} start={start} remote={remote} onClose={onClose} />
   }
   const { challenge, slot } = phase
   const step = config.steps[challenge]
@@ -49,6 +53,6 @@ export function TeamAnimatorMenu({ config, progress, phase, now, onClose }: Team
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
       nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
       onSkip={() => { if (progress.animatorSkip(challenge)) playPinSound() }}
-      start={start} onClose={onClose} />
+      start={start} remote={remote} onClose={onClose} />
   )
 }

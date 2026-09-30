@@ -111,3 +111,10 @@
   .letter { padding: 14px 18px 20px; }
   .letter::after { right: -6px; bottom: -10px; width: 40px; height: 40px; }
 }
+
+/* Remote board code on the setup screen: typed once by an animator, native keyboard. */
+.evening-code { display: grid; gap: 8px; width: min(100%, 520px); font-size: 24px; }
+.evening-code input {
+  min-height: 64px; padding: 0 16px; border: 2px solid var(--bronze); border-radius: 16px;
+  background: var(--soot); color: var(--wax); font: 700 28px var(--text-font); text-align: center;
+}

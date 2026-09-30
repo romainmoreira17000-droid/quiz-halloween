@@ -22,6 +22,8 @@ export interface AnimatorMenuProps {
   onSkip?(): void
   /** Start time of a game in progress ("hh:mm") and how to change it (false when refused). */
   start?: { value: string; onSet(text: string): boolean }
+  /** State of the remote follow-up (see syncStatusLabel), shown under the title. */
+  remote?: string
   onClose(): void
 }
 
@@ -31,7 +33,7 @@ export interface AnimatorMenuProps {
  * @param props See AnimatorMenuProps.
  * @returns The menu over the current screen.
  */
-export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, start, onClose }: AnimatorMenuProps) {
+export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, start, remote, onClose }: AnimatorMenuProps) {
   const close = useRef<HTMLButtonElement>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
@@ -42,6 +44,7 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
       <div className="reset-dialog animator-menu" role="dialog" aria-modal="true" aria-labelledby="animator-title"
         onKeyDown={(event) => { if (event.key === 'Escape') onClose() }}>
         <h2 id="animator-title">Menu animateur</h2>
+        {remote && <p className="animator-remote">Suivi à distance : {remote}</p>}
         {nothing && <p>Rien à débloquer sur cet écran.</p>}
         {onSolve && <button type="button" className="seal-button" onClick={run(onSolve)}>Valider l’épreuve « {challengeTitle} »</button>}
         {onUnblock && <button type="button" className="ghost-button" onClick={run(onUnblock)}>Débloquer la saisie</button>}

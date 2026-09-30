@@ -82,4 +82,8 @@ describe('AnimatorMenu', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Fermer' }))
     expect(onClose).toHaveBeenCalledTimes(2)
   })
+  it('shows the remote follow-up line when given', () => {
+    render(<AnimatorMenu steps={steps} code={[0, 4]} remote="hors ligne depuis 2 min" onClose={vi.fn()} />)
+    expect(screen.getByText('Suivi à distance : hors ligne depuis 2 min')).toBeInTheDocument()
+  })
 })

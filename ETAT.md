@@ -1,13 +1,12 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-30 (sprint 22 : PR ouverte, en attente du merge)
+Dernière mise à jour : 2026-09-30 (sprint 22 mergé et déployé)
 
 ## Sprint en cours
-Sprint 22 (#62) : indice du cadenas final (comptine de l'ordre des salles), branche `feat/padlock-hint`.
-Fait : comptine dans `quiz.yaml`, retours à la ligne gardés (`white-space: pre-line`), test e2e sans `if`, tests verts.
-Reste : relecture, PR, merge par Romain.
+Aucun. Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
 
 ## Où on en est
+- [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).
 - [x] Sprint 21 (#59) : contenu réel (l'addition, le jackpot funèbre, indices à 8/10/13 min, code du cadenas
   8 6 0 3 9 4 avec le 0 provisoire des toilettes), mergé et déployé (PR #60).
 - [x] Sprint 20 (#57) : cadenas Halloween en bronze, mergé (PR #58).
@@ -17,12 +16,11 @@ Reste : relecture, PR, merge par Romain.
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
 - [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
-  (épreuve 6, chiffre 4) ← en attente du texte de Romain.
-- [x] Indice du cadenas : comptine B choisie par Romain (sprint 22).
+  (épreuve 6, chiffre 4), avec jusqu'à 3 indices chacune ← Romain l'envoie avant vendredi 2026-10-02.
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Faire merger la PR du sprint 22 par Romain, puis tester sur une vraie tablette via GitHub Pages (pas pendant la soirée).
+Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
 Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.

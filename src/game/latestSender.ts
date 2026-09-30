@@ -10,7 +10,7 @@ export function createLatestSender<T>(send: (value: T) => Promise<void>): (value
   let waiting: { value: T } | null = null
   const run = (value: T) => {
     busy = true
-    void send(value).finally(() => {
+    void send(value).catch(() => {}).finally(() => {
       busy = false
       const next = waiting
       waiting = null

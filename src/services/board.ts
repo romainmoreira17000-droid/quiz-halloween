@@ -23,6 +23,18 @@ export interface BoardApi {
 /** SQLSTATE raised by the SQL functions for a wrong evening code (invalid_password). */
 const REFUSED = '28P01'
 
+/** A call not answered after this long counts as failed: fetch has no timeout, and a hung one would block the sender. */
+export const CALL_TIMEOUT_MS = 10_000
+
+/** Rejects after `ms`; `cancel` clears the timer so nothing leaks once the call settled. */
+function timeoutAfter(ms: number): { promise: Promise<never>; cancel: () => void } {
+  let id: ReturnType<typeof setTimeout> | undefined
+  const promise = new Promise<never>((_, reject) => { id = setTimeout(() => reject(new Error('timeout')), ms) })
+  // Nobody awaits it once the rpc wins the race; without this the late rejection would be unhandled.
+  promise.catch(() => {})
+  return { promise, cancel: () => clearTimeout(id) }
+}
+
 /**
  * Builds the board calls on a Supabase client.
  * @param client Client, or null (remote board off).
@@ -32,13 +44,16 @@ const REFUSED = '28P01'
 export function createBoardApi(client: RpcClient | null, clock: () => number = Date.now): BoardApi {
   const call = async (fn: string, args: Record<string, unknown>): Promise<{ result: BoardCallResult; data: unknown }> => {
     if (!client) return { result: 'failed', data: null }
+    const timeout = timeoutAfter(CALL_TIMEOUT_MS)
     try {
-      const { data, error } = await client.rpc(fn, args)
+      const { data, error } = await Promise.race([client.rpc(fn, args), timeout.promise])
       if (!error) return { result: 'ok', data }
       return { result: error.code === REFUSED ? 'refused' : 'failed', data: null }
     } catch {
       // No network, DNS, CORS...: the game goes on, the next heartbeat retries.
       return { result: 'failed', data: null }
+    } finally {
+      timeout.cancel()
     }
   }
   return {

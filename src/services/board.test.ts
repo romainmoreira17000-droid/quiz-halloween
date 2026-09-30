@@ -1,5 +1,5 @@
 /** @file Tests for the remote board service: result of each call, never an exception. */
-import { createBoardApi, type RpcClient } from './board'
+import { CALL_TIMEOUT_MS, createBoardApi, type RpcClient } from './board'
 
 const client = (answer: Awaited<ReturnType<RpcClient['rpc']>> | Error) => ({
   rpc: vi.fn(() => (answer instanceof Error ? Promise.reject(answer) : Promise.resolve(answer))),
@@ -31,6 +31,18 @@ describe('createBoardApi', () => {
   it('never throws, even when the client throws at once', async () => {
     const throwing: RpcClient = { rpc: () => { throw new Error('boom') } }
     expect(await createBoardApi(throwing).reset('x')).toBe('failed')
+  })
+  it('gives up on a call that never settles, and leaves no timer behind', async () => {
+    vi.useFakeTimers()
+    try {
+      const hung: RpcClient = { rpc: () => new Promise(() => {}) }
+      const pending = createBoardApi(hung).read('x')
+      await vi.advanceTimersByTimeAsync(CALL_TIMEOUT_MS)
+      expect(await pending).toEqual({ result: 'failed', snapshot: null })
+      expect(vi.getTimerCount()).toBe(0)
+      await createBoardApi(client({ data: null, error: null })).reset('x')
+      expect(vi.getTimerCount()).toBe(0)
+    } finally { vi.useRealTimers() }
   })
   it('resets the board', async () => {
     const fake = client({ data: null, error: null })

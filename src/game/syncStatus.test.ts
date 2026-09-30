@@ -8,6 +8,12 @@ describe('afterPush', () => {
     expect(afterPush({ kind: 'connected' }, 'failed', 5)).toEqual({ kind: 'failing', since: 5 })
     expect(afterPush({ kind: 'failing', since: 5 }, 'failed', 90)).toEqual({ kind: 'failing', since: 5 })
   })
+  it('returns the same object when nothing changes', () => {
+    const connected = { kind: 'connected' } as const
+    const refused = { kind: 'refused' } as const
+    expect(afterPush(connected, 'ok', 9)).toBe(connected)
+    expect(afterPush(refused, 'refused', 9)).toBe(refused)
+  })
 })
 
 describe('syncStatusLabel', () => {

@@ -21,7 +21,7 @@ interface Payload { team: string; fingerprint: string; state: unknown; code: str
 
 /**
  * Keeps the remote board up to date with this tablet. Failures never reach the game.
- * @param input See BoardSyncInput.
+ * @param input See BoardSyncInput; pass the reducer state itself, never a new object per render.
  * @param api Board calls (a fake in tests).
  * @returns Status for the animator menu.
  */

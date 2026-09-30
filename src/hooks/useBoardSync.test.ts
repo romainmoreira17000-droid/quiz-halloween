@@ -8,7 +8,7 @@ const fakeApi = (result: 'ok' | 'refused' | 'failed' = 'ok', enabled = true) => 
   const api: BoardApi = { enabled, push, read: vi.fn(), reset: vi.fn() }
   return { api, push }
 }
-// One object per scenario: a new object per render would look like a change and send in a loop.
+// One object per scenario: the hook reads a new state object as a change, so one built per render would send in a loop.
 const STATE = { n: 1 }
 const input = (state: unknown, code: string | null = 'CODE-123') => ({ team: 'Zombies', fingerprint: 'fp', state, code })
 

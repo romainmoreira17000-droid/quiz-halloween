@@ -19,4 +19,14 @@ describe('createLatestSender', () => {
     send(4)
     await vi.waitFor(() => expect(sent).toEqual([1, 3, 4]))
   })
+  it('keeps going after a send that rejects', async () => {
+    const sent: number[] = []
+    const send = createLatestSender<number>((value) => {
+      sent.push(value)
+      return value === 1 ? Promise.reject(new Error('boom')) : Promise.resolve()
+    })
+    send(1)
+    send(2)
+    await vi.waitFor(() => expect(sent).toEqual([1, 2]))
+  })
 })

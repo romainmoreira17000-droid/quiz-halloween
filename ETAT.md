@@ -1,9 +1,15 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-09-30 (sprint 22 mergé et déployé)
+Dernière mise à jour : 2026-09-30 (sprint 23 : spec du tableau de bord à distance écrite)
 
 ## Sprint en cours
-Aucun. Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
+Sprint 23 (#65), branche `feat/remote-board` : tableau de bord animateur à distance, **lecture seule** (Supabase,
+code de soirée vérifié par la base, relecture toutes les 5 s). Spec : `docs/superpowers/specs/2026-09-30-remote-board-design.md`.
+Étapes : [x] cadrage validé, [x] spec écrite, [ ] relecture de la spec par Romain, [ ] plan (writing-plans), [ ] code TDD,
+[ ] projet Supabase + migration + code de soirée (accord de Romain), [ ] auditeur-supabase, [ ] PR.
+Sprint 2 prévu ensuite : actions à distance (valider, débloquer, indice, passer à la suivante pour tous, départ commun).
+
+En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
 
 ## Où on en est
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).
@@ -20,7 +26,8 @@ Aucun. Romain envoie le contenu des toilettes scientifiques et d'invisible mais 
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
+Romain relit la spec du sprint 23 ; s'il valide, écrire le plan avec writing-plans.
+Avant : Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
 Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.

@@ -24,6 +24,14 @@ describe('createBoardApi', () => {
   it('counts an unreadable board as a failure', async () => {
     expect(await createBoardApi(client({ data: 'nope', error: null })).read('x')).toEqual({ result: 'failed', snapshot: null })
   })
+  it('gives no snapshot when the read is refused or fails', async () => {
+    expect(await createBoardApi(client({ data: null, error: { code: '28P01', message: 'invalid evening code' } })).read('x')).toEqual({ result: 'refused', snapshot: null })
+    expect(await createBoardApi(client(new TypeError('Failed to fetch'))).read('x')).toEqual({ result: 'failed', snapshot: null })
+  })
+  it('never throws, even when the client throws at once', async () => {
+    const throwing: RpcClient = { rpc: () => { throw new Error('boom') } }
+    expect(await createBoardApi(throwing).reset('x')).toBe('failed')
+  })
   it('resets the board', async () => {
     const fake = client({ data: null, error: null })
     expect(await createBoardApi(fake).reset('CODE-123')).toBe('ok')

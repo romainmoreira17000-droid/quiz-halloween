@@ -27,7 +27,8 @@ En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisi
 
 ## Prochaine action concrète
 Mise en ligne du sprint 23 (section « Mise en ligne » à la fin du plan), **chaque étape avec l'accord de Romain** :
-1. créer le projet Supabase (Paris `eu-west-3`, gratuit) + `supabase link` ; 2. `supabase db push` ;
+~~1. projet Supabase~~ fait le 2026-10-01 : `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz`, Paris, relié par `supabase link` ;
+2. `supabase db push` ;
 3. Romain règle le code de soirée (README) ; 4. `.env.local` + `BOARD_CODE=... npm run check:board -- --full` ;
 5. agents `auditeur-supabase` (Opus) et `relecteur-code` ; 6. `gh variable set` ; 7. PR (`Closes #65`), merge par Romain ;
 8. essai en vrai (deux tablettes + un téléphone).

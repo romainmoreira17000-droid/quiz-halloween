@@ -1,4 +1,4 @@
-/** @file Validates the `finale` flag of the steps: at most one final challenge, played by every team together, without hints. */
+/** @file Validates the `finale` flag of the steps: at most one final challenge, played by every team together. */
 import { isObject } from './checks'
 
 /** @returns « 1, 3 et 4 » for [1, 3, 4]. */
@@ -18,10 +18,8 @@ export function validateFinal(rawSteps: unknown, errors: string[]): number | und
   rawSteps.forEach((raw, i) => {
     if (!isObject(raw) || raw.finale === undefined) return
     if (typeof raw.finale !== 'boolean') errors.push(`étape ${i + 1} : « finale » doit valoir true ou false.`)
-    if (raw.finale !== true) return
-    finals.push(i)
-    // Every team plays the final together in one room: animators give the hints aloud.
-    if (raw.indices !== undefined) errors.push(`étape ${i + 1} : la finale n'a pas d'indices (les animateurs les donnent).`)
+    // Its hints, if any, unlock like the other challenges': at the same minutes, on every tablet at once.
+    if (raw.finale === true) finals.push(i)
   })
   if (finals.length > 1) {
     errors.push(`« finale » : une seule étape peut être la finale (étapes ${frenchList(finals.map((i) => i + 1))}).`)

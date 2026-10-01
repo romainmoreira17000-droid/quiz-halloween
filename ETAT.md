@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 24 : spec et plan écrits, code pas commencé)
+Dernière mise à jour : 2026-10-01 (sprint 24 : code fini, tests verts, relecture en cours)
 
 ## Sprint en cours
 Sprint 24 (#68), branche `feat/common-final` : **épreuve finale commune**. « Invisible mais visible » (`finale: true`)
@@ -8,7 +8,7 @@ se joue par toutes les équipes ensemble au 6e créneau, après la rotation des 
 Sorcières et Momies partagent un poste) ; pas d'indices sur la tablette (les animateurs les donnent) ; bonne réponse →
 « Bravo ! » puis cadenas tout de suite. Wifi faible dans la salle : parcours complet vérifié hors ligne en e2e.
 Spec : `docs/superpowers/specs/2026-10-01-common-final-design.md`. Plan : `docs/superpowers/plans/2026-10-01-common-final.md` (7 tâches).
-Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [ ] choix du mode d'exécution, [ ] tâches 1 à 7, [ ] relecture, [ ] PR.
+Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [x] tâches 1 à 7 (exécution native, 587 tests unitaires + 29 e2e verts, dont `e2e/offline.spec.ts`), [ ] relecture (relecteur-code, Opus), [ ] PR.
 Ce sprint reprend aussi l'`ETAT.md` de la PR #67 (docs seule) : la #67 peut être fermée sans merge.
 
 En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
@@ -30,7 +30,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Romain relit le plan et choisit le mode d'exécution ; puis Task 1 du plan (rotation avec finale, `src/game/rotation.ts`).
+Corriger les retours de la relecture, puis ouvrir la PR (`Closes #68`) ; fermer la PR #67 sans merge. Merge = accord de Romain.
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

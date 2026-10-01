@@ -1,12 +1,16 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 24 mergé et en ligne)
+Dernière mise à jour : 2026-10-01 (sprint 25 ouvert)
 
 ## Sprint en cours
-Aucun. Sprint 24 (#68, épreuve finale commune « Invisible mais visible » au 6e créneau) mergé le 2026-10-01 (PR #69)
-et déployé (le site en ligne contient la finale). La PR #67 (docs) est à fermer sans merge : son contenu est ici.
+Sprint 25 (#71), branche `feat/real-quiz-content-3` : contenu réel des épreuves 3 et 6 (PDF « Déroulé de la soirée
+halloween (2) » du 2026-10-01). Code du cadenas : 8 6 9 3 9 4.
+Étapes :
+- [ ] Le validateur accepte des indices sur la finale (TDD : validateFinal + test d'intégration de la finale).
+- [ ] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
+  chiffre 4, 3 indices) ; `docs/contenu-epreuves.md` et CLAUDE.md à jour.
+- [ ] Vérifs (tests, typecheck, build, e2e, mise en page sur tablette), relecture, PR.
 
-En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
@@ -37,6 +41,9 @@ condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écr
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 25 (choix de Romain) : la finale a ses 3 indices dans l'app (mêmes horaires 8/10/13 min, sur toutes les tablettes
+  à la fois), au lieu de les dire à voix haute ; les enfants tapent **4** (pavé) ; l'épreuve 3 s'appelle « Le laboratoire
+  machiavélique » (la comptine garde « aux toilettes », c'est toujours la même salle).
 - Sprint 24 (choix de Romain) : tout le monde est dans la même salle, la 6e épreuve se joue ensemble en dernier ; chaque
   équipe tape la réponse sur sa tablette ; cadenas dès la finale trouvée (pas d'attente de fin de créneau).
 - Sprint 24 (relecture) : plus de chrono d'épreuve sur le cadenas atteint pendant la finale (il n'a pas de limite) ;

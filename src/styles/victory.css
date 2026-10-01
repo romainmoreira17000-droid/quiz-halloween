@@ -66,7 +66,7 @@
   background: radial-gradient(ellipse at 50% 50%, rgb(12 8 5 / .85) 55%, rgb(12 8 5 / 0));
   animation: rise-in .8s ease-out 5.6s both;
 }
-.victory h2 { font-size: 56px; max-width: 12em; text-wrap: balance; }
+.victory h2 { font-size: 44px; max-width: 15em; text-wrap: balance; }
 .meeting-point { font-size: 34px; color: var(--amber); font-variant-numeric: lining-nums; }
 
 @keyframes fade-in { from { opacity: 0; } }
@@ -95,6 +95,6 @@
   .victory-lock-3d { width: 240px; }
   .victory-text { padding: 12px 4px 16px; }
   .doorway { border-radius: 130px 130px 6px 6px; }
-  .victory h2 { font-size: 36px; }
+  .victory h2 { font-size: 30px; }
   .meeting-point { font-size: 26px; }
 }

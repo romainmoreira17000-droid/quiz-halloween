@@ -5,7 +5,7 @@ import { setUpTablet, typeAnswer } from './typing.js'
 // Each team starts on its own rotating challenge: every title (some wrap on two lines).
 const FIRST_CHALLENGES = [
   ['Sorcières', 'La galerie des portraits'], ['Zombies', "L'addition"], ['Fantômes', 'Le cimetière'],
-  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Le laboratoire machiavélique'],
+  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Les toilettes scientifiques'],
 ] as const
 for (const [team, title] of FIRST_CHALLENGES) {
   test(`the « ${title} » screen fits the tablet without scrolling`, async ({ page }) => {

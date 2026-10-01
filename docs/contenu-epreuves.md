@@ -65,7 +65,7 @@ Solution : 7 − 5 + 7 = **9** ; réponse tapée **9** ; chiffre gagné : **9**.
 
 Code du cadenas : **8 6 9 3 9 4**.
 
-### Le laboratoire machiavélique (salle des toilettes scientifiques) — 3e chiffre
+### Les toilettes scientifiques (salle des toilettes scientifiques) — 3e chiffre
 
 Texte : Si vous ne voulez pas mourir asphyxié, ne restez pas trop long sur le trône. Soyez observateur, derrière chaque
 scientifique se trouve le bon dosage. (Affiches de scientifiques, fausses pistes, tubes à essai, pipettes, colorants.)

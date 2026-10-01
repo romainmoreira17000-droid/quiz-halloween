@@ -5,7 +5,7 @@ import { setUpTablet, typeAnswer } from './typing.js'
 // The Sorcières rotate through challenges 1 to 5 of quiz.yaml, then play the final.
 const ROTATION = [
   ['La galerie des portraits', '6'], ["L'addition", '3'], ['Le cimetière', '8'],
-  ['Le jackpot funèbre', '9'], ['Le laboratoire machiavélique', '9'],
+  ['Le jackpot funèbre', '9'], ['Les toilettes scientifiques', '9'],
 ] as const
 // Padlock order 3, 1, 5, 2, 4, 6.
 const CODE = [8, 6, 9, 3, 9, 4]
@@ -34,5 +34,5 @@ test('a whole game plays offline once the app was loaded', async ({ page, contex
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()
   }
   await page.getByRole('button', { name: 'Ouvrir' }).click()
-  await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres est ouverte !' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Bravo ! Vous avez déchiffré toutes les épreuves/ })).toBeVisible()
 })

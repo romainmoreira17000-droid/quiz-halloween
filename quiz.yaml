@@ -31,10 +31,10 @@ intro: "Bienvenue au restaurant des ombres ! Pour en sortir, résolvez les 6 ép
 # Au moins une équipe par épreuve en rotation (les étapes sauf la finale) : chaque équipe
 # fait toutes les épreuves en commençant par une épreuve différente (la 1re équipe par
 # l'épreuve 1, la 2e par l'épreuve 2...). Avec plus d'équipes que d'épreuves en rotation,
-# certaines partagent un poste (ici Sorcières et Momies, toujours ensemble).
+# certaines partageraient un poste : ici 5 équipes pour 5 épreuves, chacune seule dans sa salle.
 # Noms non vides et tous différents.
 # Un animateur choisit l'équipe de chaque tablette avant la soirée.
-equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "Momies"]
+equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes"]
 
 # Durée d'une épreuve, en minutes. Obligatoire, nombre entier supérieur à 0.
 # Toutes les équipes changent de salle en même temps. Durée totale de la partie :
@@ -157,7 +157,7 @@ etapes:
 
   # Salle des toilettes scientifiques. Doses derrière les scientifiques :
   # 1 orange + 2 jaunes + 2 rouges + 3 verts + 1 bleu = 9.
-  - titre: "Le laboratoire machiavélique"
+  - titre: "Les toilettes scientifiques"
     fond: "toilettes-scientifiques.webp"
     consigne: "Si vous ne voulez pas mourir asphyxiés, ne restez pas trop longtemps sur le trône. Soyez observateurs : derrière chaque scientifique se trouve le bon dosage. Tapez le chiffre trouvé."
     type_reponse: chiffres
@@ -189,8 +189,8 @@ cadenas:
   # Ordre dans lequel les chiffres des étapes forment le code.
   # Facultatif (par défaut : 1, 2, 3...). S'il est donné, il doit contenir
   # chaque numéro d'étape de 1 à nombre_etapes, une seule fois.
-  # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), laboratoire des
-  # toilettes (5), addition (2), jackpot (4), invisible mais visible (6) → code 8 6 9 3 9 4.
+  # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), toilettes
+  # scientifiques (5), addition (2), jackpot (4), invisible mais visible (6) → code 8 6 9 3 9 4.
   ordre: [3, 1, 5, 2, 4, 6]
 
   # Indice affiché près du cadenas. Facultatif, texte. Les retours à la ligne
@@ -210,4 +210,4 @@ cadenas:
 
   # Message affiché quand le cadenas s'ouvre. Facultatif, texte non vide
   # (par défaut : « Le cadenas est ouvert ! »).
-  message_victoire: "La porte du restaurant des ombres est ouverte !"
+  message_victoire: "Bravo ! Vous avez déchiffré toutes les épreuves du restaurant des ombres. Les fantômes s'inclinent, la porte s'ouvre… et le festin vous attend !"

@@ -36,7 +36,7 @@ test('with reduced motion, the victory shows its text at once and the plunge lay
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await reachPadlock(page)
   await openPadlock(page)
-  await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres est ouverte !' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Bravo ! Vous avez déchiffré toutes les épreuves/ })).toBeVisible()
   await expect(page.locator('.victory-lock-3d')).toHaveCSS('opacity', '0')
   // The invisible layer ends at 14× its size, over the whole screen: a tap on ↺ must still reach ↺.
   const tapped = await page.locator('.reset-button').evaluate((button) => {

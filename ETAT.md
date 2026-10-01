@@ -1,24 +1,23 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 27 en cours, sprint 26 en PR)
+Dernière mise à jour : 2026-10-01 (sprint 27 en PR, sprint 26 mergé)
 
 ## Sprint en cours
-Sprint 27 (#76), branche `feat/story-between-challenges` (partie de `main` **sans** le sprint 26) : récit entre les
-épreuves. Champ `recit` par étape (`QuizStep.story`), affiché sous « Chiffre trouvé » au-dessus de « Profitez-en… »
-(gardé), aussi après le code animateur de « Temps écoulé » ; celui de la finale en haut de l'écran du cadenas. Textes de
-Romain dans quiz.yaml (cimetière précisé : « Le fantôme de Palissy soupire : « … » »). Fait et vérifié (598 tests
-unitaires puis 601 après relecture, 32 e2e, captures tablette et téléphone), relu (récit masqué sur la finale gardée pendant son « Bravo ! », helper `finalStory`). PR ouverte, à merger après la #75 (remettre la branche à jour depuis main avant).
+Sprint 27 (#76, PR #77), branche `feat/story-between-challenges` : récit entre les épreuves. Champ `recit` par étape
+(`QuizStep.story`), affiché sous « Chiffre trouvé » au-dessus de « Profitez-en… » (gardé), aussi après le code animateur de
+« Temps écoulé » ; celui de la finale en haut de l'écran du cadenas. Textes de Romain dans quiz.yaml. Fait, vérifié et relu
+(récit masqué sur la finale gardée pendant son « Bravo ! », helper `finalStory`). Branche remise à jour depuis `main` après le
+merge de la #75 (seul conflit : ETAT.md). Reste : merge de la #77 par Romain (hors soirée).
 
-Sprint 26 (#74, PR #75, branche `feat/content-tweaks`) : toilettes scientifiques, message de victoire, 5 équipes (Momies
-retirées) ; relu, en attente du merge par Romain. Le merger avant la PR du sprint 27 : la branche du 27 devra alors être
-remise à jour depuis `main` (conflits attendus dans ETAT.md, peut-être quiz.yaml et layout.spec.ts : le titre
-« Le laboratoire machiavélique » y est encore utilisé).
+Sprint 26 (#74, PR #75) mergé le 2026-10-01 : toilettes scientifiques, message de victoire, 5 équipes (Momies retirées).
+Après déploiement, régler à nouveau l'équipe de chaque tablette.
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
-- [ ] Sprint 27 (#76) : récit entre les épreuves (PR ouverte, après la #75).
-- [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes (PR #75, à merger).
+- [ ] Sprint 27 (#76) : récit entre les épreuves (PR #77, à merger).
+- [x] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes, mergé (PR #75).
+- [x] Sprint 25 (#71) : laboratoire et finale, mergé (PR #72).
 - [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).
@@ -33,7 +32,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Vérifier que le site en ligne montre « Le laboratoire machiavélique ». Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
+Merge de la PR #77 par Romain, puis vérifier que le site en ligne montre « Les toilettes scientifiques » et les récits. Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

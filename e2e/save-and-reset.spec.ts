@@ -45,19 +45,19 @@ async function holdResetIcon(page: Page): Promise<void> {
 test('a reset keeps the team of the tablet', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
-  await setUpTablet(page, 'Momies')
+  await setUpTablet(page, 'Squelettes')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
   await holdResetIcon(page)
   await confirmReset(page)
-  await expect(page.getByText('Équipe des Momies')).toBeVisible()
+  await expect(page.getByText('Équipe des Squelettes')).toBeVisible()
   await page.reload()
-  await expect(page.getByText('Équipe des Momies')).toBeVisible()
+  await expect(page.getByText('Équipe des Squelettes')).toBeVisible()
 })
 
 test('changing the team asks for the animator code again', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
-  await setUpTablet(page, 'Momies')
+  await setUpTablet(page, 'Squelettes')
   await holdResetIcon(page)
   await page.getByRole('button', { name: 'Changer d’équipe' }).click()
   await expect(page.getByRole('heading', { name: 'Réglage de la tablette' })).toBeVisible()

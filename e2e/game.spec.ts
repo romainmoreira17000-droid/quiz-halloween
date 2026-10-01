@@ -41,7 +41,7 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
   await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
   await typeAnswer(page, '1111')
   await expect(page.getByRole('alert')).toBeVisible()
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await expect(page.getByRole('status')).toHaveText('Chiffre de l’épreuve : 8')
   await page.getByRole('button', { name: 'Continuer' }).click()
 

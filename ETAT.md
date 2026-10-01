@@ -29,7 +29,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [x] Suite de relecture, mergée (PR #55) : bouton « Annuler » de la confirmation du saut,
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
-- [ ] Confirmer le code animateur (2710).
+- [x] Code animateur : 1717 (choix de Romain le 2026-10-01, #79).
 
 ## Prochaine action concrète
 Merge de la PR #77 par Romain, puis vérifier que le site en ligne montre « Les toilettes scientifiques » et les récits. Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).

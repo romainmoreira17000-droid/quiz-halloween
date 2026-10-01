@@ -22,7 +22,7 @@ test('with ?test, the skip button walks through the rotation up to the final', a
   await skip.click()
   await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
   await expect(skip).toBeHidden()
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await page.getByRole('button', { name: 'Continuer' }).click()
 
   for (const [title, answer] of CHALLENGES.slice(1, 5)) {

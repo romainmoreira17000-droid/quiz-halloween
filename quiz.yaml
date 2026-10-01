@@ -55,7 +55,7 @@ blocage_secondes: 60
 # Code animateur : sert à régler l'équipe d'une tablette et à donner le chiffre d'une
 # épreuve pas trouvée à temps. Obligatoire, de 4 à 8 chiffres. Ne jamais le dire devant
 # les enfants. Attention : ce fichier est public, comme les réponses.
-code_animateur: "2710"
+code_animateur: "1717"
 
 # Nombre d'étapes. Obligatoire, entier supérieur ou égal à 1.
 # Doit être égal au nombre d'étapes listées sous « etapes ».

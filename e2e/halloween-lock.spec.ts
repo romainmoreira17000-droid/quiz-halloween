@@ -11,7 +11,7 @@ async function reachPadlock(page: Page): Promise<void> {
   for (let slot = 0; slot < 6; slot++) {
     await page.clock.fastForward('15:00')
     await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
-    await typeAnswer(page, '2710')
+    await typeAnswer(page, '1717')
     await page.getByRole('button', { name: 'Continuer' }).click()
   }
   await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres' })).toBeVisible()

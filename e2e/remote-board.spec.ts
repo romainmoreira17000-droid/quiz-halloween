@@ -19,7 +19,7 @@ async function setUpWithCode(page: Page, team: string, pushes: Push[]): Promise<
     await reply(route, 200, null)
   })
   await page.goto('./')
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await page.getByLabel('Code de soirée (facultatif)').fill('CITROUILLE-42')
   await page.getByRole('button', { name: team, exact: true }).click()
 }
@@ -66,7 +66,7 @@ test('the board goes back to the code form when the evening code is refused', as
 test('a tablet without network plays on and tells the animator', async ({ page }) => {
   await page.route(`${RPC}push_team_state`, (route) => route.abort('internetdisconnected'))
   await page.goto('./')
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await page.getByLabel('Code de soirée (facultatif)').fill('CITROUILLE-42')
   await page.getByRole('button', { name: 'Sorcières', exact: true }).click()
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()

@@ -27,6 +27,13 @@ describe('PadlockScreen', () => {
     expect(screen.getByRole('heading', { name: 'La porte du restaurant' })).toBeInTheDocument()
     expect(screen.getByText('Le grenier d’abord')).toBeInTheDocument()
   })
+  it('tells the story of the final under the title, only when there is one', () => {
+    const { unmount } = render(<PadlockScreen {...props} />)
+    expect(document.querySelector('.story')).toBeNull()
+    unmount()
+    render(<PadlockScreen {...props} story="Les monstres ôtent leurs masques." />)
+    expect(screen.getByText('Les monstres ôtent leurs masques.')).toHaveClass('story')
+  })
   it('sends the dial digits when "Ouvrir" is pressed', async () => {
     const onOpen = vi.fn()
     render(<PadlockScreen {...props} onOpen={onOpen} />)

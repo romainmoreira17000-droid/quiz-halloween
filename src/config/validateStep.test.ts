@@ -19,6 +19,13 @@ describe('validateStep', () => {
     expect(run({ ...valid, fond: 'cimetiere.webp' }).step?.backdrop).toBe('cimetiere.webp')
     expect(run(valid).step).not.toHaveProperty('backdrop')
   })
+  it('maps recit to the story, and leaves it out when absent', () => {
+    expect(run({ ...valid, recit: 'Le fantôme soupire.' }).step?.story).toBe('Le fantôme soupire.')
+    expect(run(valid).step).not.toHaveProperty('story')
+  })
+  it.each(['', '  ', 3])('rejects recit %j', (recit) => {
+    expect(run({ ...valid, recit }).errors).toEqual(['étape 3 : « recit » doit être un texte non vide.'])
+  })
   it('rejects an empty fond', () => {
     expect(run({ ...valid, fond: '' }).errors).toEqual(['étape 3 : « fond » doit être un nom de fichier.'])
   })

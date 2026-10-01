@@ -4,7 +4,7 @@ import type { QuizStep } from './types'
 import { validateAnswer } from './validateAnswer'
 
 // `finale` is checked across the steps by validateFinal (only one final).
-const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indices', 'fond', 'finale'] as const
+const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indices', 'fond', 'finale', 'recit'] as const
 
 /**
  * Validates a raw step, pushing French messages into `errors`.
@@ -26,6 +26,7 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
   if (!isIntInRange(raw.chiffre, 0, 9)) errors.push(`${prefix}« chiffre » doit être un chiffre entier entre 0 et 9.`)
   if (raw.image !== undefined && !isNonEmptyString(raw.image)) errors.push(`${prefix}« image » doit être un nom de fichier.`)
   if (raw.fond !== undefined && !isNonEmptyString(raw.fond)) errors.push(`${prefix}« fond » doit être un nom de fichier.`)
+  if (raw.recit !== undefined && !isNonEmptyString(raw.recit)) errors.push(`${prefix}« recit » doit être un texte non vide.`)
   if (raw.indices !== undefined && !(Array.isArray(raw.indices) && raw.indices.every(isNonEmptyString))) {
     errors.push(`${prefix}« indices » doit être une liste de textes non vides.`)
   }
@@ -47,5 +48,6 @@ export function validateStep(raw: unknown, stepNumber: number, errors: string[])
     digit: raw.chiffre as number,
     ...(Array.isArray(raw.indices) && raw.indices.length > 0 && { hints: raw.indices as string[] }),
     ...(raw.fond !== undefined && { backdrop: raw.fond as string }),
+    ...(raw.recit !== undefined && { story: raw.recit as string }),
   }
 }

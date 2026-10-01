@@ -1,4 +1,4 @@
-/** @file Shown when a slot ended without its digit: an animator types the code, the tablet shows the digit, then the group goes on. */
+/** @file Shown when a slot ended without its digit: an animator types the code, the tablet shows the digit and the story of the room, then the group goes on. */
 import { useState, type ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { isAnimatorCode } from '../game/answer'
@@ -41,6 +41,8 @@ export function TimeUpScreen({ header, step, animatorCode, onUnlock }: TimeUpScr
       ) : (
         <div className="answer-zone">
           <p className="found" role="status">Chiffre de l’épreuve : <b>{step.digit}</b></p>
+          {/* The group still gets its piece of the story: every piece is needed before the final. */}
+          {step.story && <p className="story">{step.story}</p>}
           <button type="button" className="seal-button" onClick={() => onUnlock(code)}>Continuer</button>
         </div>
       )}

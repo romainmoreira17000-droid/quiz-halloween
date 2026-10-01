@@ -1,4 +1,4 @@
-/** @file Final padlock: digits found, optional hint, one dial per step inside the rusty lock and an "Ouvrir" button. */
+/** @file Final padlock: story of the final, digits found, optional hint, one dial per step inside the rusty lock and an "Ouvrir" button. */
 import { useState, type ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { wrongCodeMessage } from '../game/messages'
@@ -18,6 +18,8 @@ export interface PadlockScreenProps {
   steps: readonly QuizStep[]
   /** Digit per step; all known once the padlock shows. */
   foundDigits: readonly (number | null)[]
+  /** `recit` of the final: it goes straight to the padlock, so its story is told here. */
+  story?: string
   /** `cadenas.indice`, if any. */
   hint?: string
   /** Wrong codes so far. */
@@ -32,7 +34,7 @@ export interface PadlockScreenProps {
  * @returns The padlock screen.
  */
 export function PadlockScreen(props: PadlockScreenProps) {
-  const { header, title = DEFAULT_PADLOCK_TITLE, steps, foundDigits, hint, wrongAttempts, onOpen } = props
+  const { header, title = DEFAULT_PADLOCK_TITLE, story, steps, foundDigits, hint, wrongAttempts, onOpen } = props
   // Dial positions are local: they survive a wrong code (only the shake zone remounts).
   const [code, setCode] = useState(() => steps.map(() => 0))
   const setDigit = (index: number, digit: number) => setCode((current) => current.map((d, i) => (i === index ? digit : d)))
@@ -40,6 +42,7 @@ export function PadlockScreen(props: PadlockScreenProps) {
     <main className="screen padlock">
       {header}
       <h2>{title}</h2>
+      {story && <p className="story">{story}</p>}
       <ul className="recap" aria-label="Chiffres trouvés">
         {steps.map((step, i) => <li key={i}><span>{step.title}</span><b>{foundDigits[i]}</b></li>)}
       </ul>

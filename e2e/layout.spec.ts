@@ -44,14 +44,19 @@ test('the step screen still fits the tablet once the three hints are out', async
   expect(overflow).toBeLessThanOrEqual(0)
 })
 
-test('the waiting screen, with its message, fits the tablet without scrolling', async ({ page }) => {
-  await page.clock.install()
-  await page.goto('./')
-  await setUpTablet(page, 'Sorcières')
-  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  await typeAnswer(page, '6')
-  await page.clock.fastForward('00:05')
-  await expect(page.getByText('Profitez-en pour déguster ce qui se trouve sur la table !')).toBeVisible()
-  const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
-  expect(overflow).toBeLessThanOrEqual(0)
-})
+// Answer of each team's first challenge, in FIRST_CHALLENGES order: every room's story is checked once.
+const FIRST_ANSWERS = ['6', '3', '8', '9', '9']
+for (const [i, [team, title]] of FIRST_CHALLENGES.entries()) {
+  test(`the « ${title} » waiting screen, with its story and message, fits the tablet without scrolling`, async ({ page }) => {
+    await page.clock.install()
+    await page.goto('./')
+    await setUpTablet(page, team)
+    await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+    await typeAnswer(page, FIRST_ANSWERS[i])
+    await page.clock.fastForward('00:05')
+    await expect(page.getByText('Profitez-en pour déguster ce qui se trouve sur la table !')).toBeVisible()
+    await expect(page.locator('.story')).toBeVisible()
+    const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
+    expect(overflow).toBeLessThanOrEqual(0)
+  })
+}

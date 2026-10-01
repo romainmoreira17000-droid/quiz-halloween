@@ -16,6 +16,8 @@ export interface QuizStep {
   hints?: string[]
   /** `fond`: photo shown behind the screen while the group is in this room; drawn great hall without it. */
   backdrop?: string
+  /** `recit`: piece of the story the room's spirit tells once the digit is earned (readable in any order). */
+  story?: string
 }
 
 /** Final padlock: order in which step digits are entered (always filled, default 1..N) and optional texts. */

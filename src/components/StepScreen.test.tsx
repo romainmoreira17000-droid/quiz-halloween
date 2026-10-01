@@ -65,6 +65,16 @@ describe('StepScreen', () => {
     render(<StepScreen {...base} waitingMessage="Goûtez les bonbons !" />)
     expect(screen.queryByText('Goûtez les bonbons !')).not.toBeInTheDocument()
   })
+  it('tells the story of the room above the waiting message once the digit is found', () => {
+    const step = { ...base.step, story: 'Le fantôme soupire.' }
+    render(<StepScreen {...base} step={step} digits={[4, 7, null, null, null, null]} waitingMessage="Goûtez les bonbons !" />)
+    const story = screen.getByText('Le fantôme soupire.')
+    expect(story.compareDocumentPosition(screen.getByText('Goûtez les bonbons !')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+  it('keeps the story hidden while the digit is not found', () => {
+    render(<StepScreen {...base} step={{ ...base.step, story: 'Le fantôme soupire.' }} />)
+    expect(screen.queryByText('Le fantôme soupire.')).not.toBeInTheDocument()
+  })
   it('announces the padlock during the last slot', () => {
     render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} nextLabel="Le cadenas final dans" />)
     expect(screen.getByText('Le cadenas final dans 04:12')).toBeInTheDocument()

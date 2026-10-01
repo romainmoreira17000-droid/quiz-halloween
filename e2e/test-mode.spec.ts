@@ -37,6 +37,8 @@ test('with ?test, the skip button walks through the rotation up to the final', a
   await typeAnswer(page, finalAnswer)
   await page.getByRole('dialog', { name: 'Bravo !' }).click()
   await expect(page.getByRole('list', { name: 'Chiffres trouvés' })).toBeVisible()
+  // The final goes straight to the padlock: its story is told there.
+  await expect(page.getByText(/Les monstres ôtent leurs masques/)).toBeVisible()
   await expect(skip).toBeHidden()
   await expect(page.getByText('Mode test')).toBeVisible()
 })

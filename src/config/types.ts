@@ -33,7 +33,7 @@ export interface QuizConfig {
   homeBackdrop?: string
   /** `message_attente`: shown under the earned digit while the group waits for the next challenge (same in every room). */
   waitingMessage?: string
-  /** Team names, in rotation order: team i starts on challenge i + 1. As many as steps. */
+  /** Team names, in rotation order: team i starts on rotating challenge i + 1. At least one per rotating challenge. */
   teams: string[]
   /** Length of one slot in minutes: every team changes room at the same time. */
   slotMinutes: number
@@ -45,6 +45,8 @@ export interface QuizConfig {
   animatorCode: string
   stepCount: number
   steps: QuizStep[]
+  /** `finale: true` on a step: 0-based challenge every team plays together in the last slot; absent without one. */
+  finalStep?: number
   padlock: PadlockConfig
   /** `entree` section, absent when the game starts directly on step 1. */
   entrance?: EntranceConfig

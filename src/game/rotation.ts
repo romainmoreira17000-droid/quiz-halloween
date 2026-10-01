@@ -1,13 +1,23 @@
-/** @file Rotation of the teams across the challenges: never two teams on the same challenge in the same slot. */
+/**
+ * @file Rotation of the teams across the challenges: each team starts on a different one; with a final challenge
+ * (`finale: true`), every team plays it together in the last slot, after the rotation of the others.
+ */
 
 /**
- * Challenge a team plays during a slot: each team starts one challenge further than the previous team.
- * @param teamIndex 0-based team, in quiz.yaml order.
+ * Challenge a team plays during a slot: each team starts one rotating challenge further than the previous team;
+ * once every rotating challenge is played, every team plays the final together.
+ * @param teamIndex 0-based team, in quiz.yaml order (teams beyond the rotating challenges share a post).
  * @param slot 0-based slot.
- * @param count Number of challenges (equal to the number of teams).
+ * @param count Number of challenges, final included.
+ * @param finalStep 0-based final challenge, played by everyone in the last slot.
  * @returns 0-based challenge.
- * @example challengeAt(1, 5, 6) // 0: the Zombies end on challenge 1
+ * @example challengeAt(1, 4, 6, 5) // 0: the Zombies end the rotation on challenge 1, then play the final
  */
-export function challengeAt(teamIndex: number, slot: number, count: number): number {
-  return (teamIndex + slot) % count
+export function challengeAt(teamIndex: number, slot: number, count: number, finalStep?: number): number {
+  if (finalStep === undefined) return (teamIndex + slot) % count
+  const rotating = count - 1
+  if (slot >= rotating) return finalStep
+  const position = (teamIndex + slot) % rotating
+  // Positions from the final on shift by one: the final is not part of the rotation.
+  return position < finalStep ? position : position + 1
 }

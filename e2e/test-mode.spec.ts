@@ -2,13 +2,13 @@
 import { test, expect } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// The Sorcières play challenges 1 to 6 in order; answers of the sample quiz.yaml.
+// The Sorcières play challenges 1 to 5 in order, then the common final (6); answers of the sample quiz.yaml.
 const CHALLENGES = [
   ['La galerie des portraits', '6'], ["L'addition", '3'], ['Le cimetière', '8'],
   ['Le jackpot funèbre', '9'], ['Les toilettes scientifiques', "TOILE D'ARAIGNEE"], ['Invisible mais visible', 'CITROUILLE'],
 ] as const
 
-test('with ?test, the skip button walks through the rotation up to the padlock', async ({ page }) => {
+test('with ?test, the skip button walks through the rotation up to the final', async ({ page }) => {
   await page.goto('./?test')
   await setUpTablet(page, 'Sorcières')
   await expect(page.getByText('Mode test')).toBeVisible()
@@ -25,12 +25,17 @@ test('with ?test, the skip button walks through the rotation up to the padlock',
   await typeAnswer(page, '2710')
   await page.getByRole('button', { name: 'Continuer' }).click()
 
-  for (const [title, answer] of CHALLENGES.slice(1)) {
+  for (const [title, answer] of CHALLENGES.slice(1, 5)) {
     await expect(page.getByRole('heading', { name: title })).toBeVisible()
     await typeAnswer(page, answer)
     await expect(page.getByRole('status')).toHaveText(/^Chiffre trouvé/)
     await skip.click()
   }
+  // The found final leads to the padlock by itself, after its « Bravo ! ».
+  const [finalTitle, finalAnswer] = CHALLENGES[5]
+  await expect(page.getByRole('heading', { name: finalTitle })).toBeVisible()
+  await typeAnswer(page, finalAnswer)
+  await page.getByRole('dialog', { name: 'Bravo !' }).click()
   await expect(page.getByRole('list', { name: 'Chiffres trouvés' })).toBeVisible()
   await expect(skip).toBeHidden()
   await expect(page.getByText('Mode test')).toBeVisible()

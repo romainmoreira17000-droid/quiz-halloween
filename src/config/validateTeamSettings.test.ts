@@ -34,9 +34,15 @@ describe('validateTeamSettings', () => {
     expect(run({ ...valid, equipes: ['Zombies', ' Zombies'] }).errors)
       .toEqual(['« equipes » : « Zombies » apparaît plusieurs fois.'])
   })
-  it('needs one team per step', () => {
+  it('needs at least one team per rotating challenge', () => {
     expect(run(valid, 3).errors)
-      .toEqual(['« equipes » contient 2 équipe(s) alors que « nombre_etapes » vaut 3 : il faut une équipe par épreuve.'])
+      .toEqual(["« equipes » contient 2 équipe(s) alors qu'il y a 3 épreuve(s) en rotation : il faut au moins une équipe par épreuve."])
+  })
+  it('lets several teams share a post', () => {
+    expect(run(valid, 1).errors).toEqual([])
+  })
+  it('accepts any team count when only the final is left', () => {
+    expect(run(valid, 0).errors).toEqual([])
   })
   it('skips the count check without a valid step count', () => {
     expect(run(valid, null).errors).toEqual([])

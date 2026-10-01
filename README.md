@@ -13,17 +13,21 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    toucher le nom de l'équipe. La tablette garde son équipe, même après une remise à zéro.
 2. **Accueil :** « Équipe des … » et le bouton « Commencer ». Toutes les tablettes doivent être
    lancées en même temps : les créneaux de 15 minutes sont comptés depuis « Commencer ».
-3. **Épreuves :** l'équipe e fait, au créneau c, l'épreuve (e + c) modulo 6 : chaque équipe fait les
-   6 épreuves, jamais deux équipes sur la même en même temps. En haut : « Épreuve 3/6 », le temps du
+3. **Épreuves :** créneaux 1 à 5, les épreuves en rotation : chaque équipe les fait toutes en
+   commençant par une épreuve différente (avec 6 équipes pour 5 postes, Sorcières et Momies partagent
+   un poste). Créneau 6 : l'**épreuve finale** (`finale: true`, « Invisible mais visible »), jouée par
+   toutes les équipes ensemble, sans indice sur la tablette (les animateurs les donnent à voix haute) ;
+   sa bonne réponse mène au cadenas juste après le « Bravo ! ». En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
    À 8, 10 puis 13 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : une goupille du cadenas tombe, un grand « Bravo ! »
    montre le chiffre gagné (3 s, ou un tap pour le fermer), puis le message d'attente de `message_attente`
-   (« Profitez-en pour déguster… ») et « Changement d'épreuve dans … » jusqu'à la fin du créneau.
+   (« Profitez-en pour déguster… ») et « Changement d'épreuve dans … » (« L'épreuve finale dans … » au 5e
+   créneau) jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
    L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
    l'épreuve du créneau en cours.
-5. **Cadenas :** après le dernier créneau, N molettes à régler dans l'ordre de `cadenas.ordre`. Le
+5. **Cadenas :** après la finale (ou le dernier créneau), N molettes à régler dans l'ordre de `cadenas.ordre`. Le
    bon code ouvre la porte (animation + son) et donne rendez-vous à la vraie porte du restaurant.
 
 La partie est gardée sur la tablette : si la page se recharge (ou si la tablette se met en veille),
@@ -146,6 +150,10 @@ normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d
 
 **Le soir :**
 
+- **Wifi faible :** ouvrir l'app sur chaque tablette **avec le wifi, avant la soirée**, et la laisser ouverte.
+  Ensuite tout le jeu marche sans réseau (seul le suivi à distance s'arrête, la tablette continue).
+- Lancer toutes les tablettes en même temps (sinon « Départ de la partie » dans le menu animateur) : la finale
+  commence au même moment partout.
 - Au réglage de chaque tablette, taper le code de soirée dans « Code de soirée (facultatif) ».
 - Sur le téléphone de l'animateur, ouvrir `https://romainmoreira17000-droid.github.io/quiz-halloween/?animateur`
   et taper le même code.

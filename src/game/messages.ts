@@ -40,3 +40,16 @@ export function wrongAnswerMessage(attempt: number): string {
 export function wrongCodeMessage(attempt: number): string {
   return cycle(WRONG_CODE_MESSAGES, attempt)
 }
+
+/**
+ * Words before the countdown on a solved challenge.
+ * @param slot 0-based slot on screen.
+ * @param stepCount Number of challenges (final included).
+ * @param finalStep Final challenge, when the quiz has one.
+ * @returns French label, followed on screen by the time left.
+ */
+export function waitingLabel(slot: number, stepCount: number, finalStep?: number): string {
+  if (slot === stepCount - 1) return 'Le cadenas final dans'
+  if (finalStep !== undefined && slot === stepCount - 2) return 'L’épreuve finale dans'
+  return 'Changement d’épreuve dans'
+}

@@ -38,3 +38,28 @@ describe('gamePhase', () => {
     expect(gamePhase(playing(none), rules, 1, -5000)).toEqual({ kind: 'challenge', slot: 0, challenge: 1 })
   })
 })
+
+describe('gamePhase with a final challenge', () => {
+  // 3 challenges, challenge 0 is the final: team 1 plays 2, 1, then the final 0.
+  const final = { stepCount: 3, slotMinutes: 15, finalStep: 0 }
+  const fin = (digits: (number | null)[], minutes: number) => gamePhase(playing(digits), final, 1, minutes * MIN)
+  it('plays the rotation first', () => {
+    expect(fin(none, 0)).toEqual({ kind: 'challenge', slot: 0, challenge: 2 })
+    expect(fin([null, null, 5], 15)).toEqual({ kind: 'challenge', slot: 1, challenge: 1 })
+  })
+  it('plays the final in the last slot', () => {
+    expect(fin([null, 7, 5], 30)).toEqual({ kind: 'challenge', slot: 2, challenge: 0 })
+  })
+  it('opens the padlock as soon as the final is found, before the slot ends', () => {
+    expect(fin([4, 7, 5], 31)).toEqual({ kind: 'padlock' })
+  })
+  it('still waits for the next post once a rotating challenge is found', () => {
+    expect(fin([null, null, 5], 5)).toEqual({ kind: 'waiting', slot: 0, challenge: 2 })
+  })
+  it('asks for an animator when the final is missed', () => {
+    expect(fin([null, 7, 5], 45)).toEqual({ kind: 'timeUp', challenge: 0 })
+  })
+  it('asks for an earlier missed challenge before the padlock', () => {
+    expect(fin([4, null, 5], 31)).toEqual({ kind: 'timeUp', challenge: 1 })
+  })
+})

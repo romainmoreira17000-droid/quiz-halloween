@@ -28,9 +28,11 @@ message_attente: "Profitez-en pour déguster ce qui se trouve sur la table !"
 intro: "Bienvenue au restaurant des ombres ! Pour en sortir, résolvez les 6 épreuves : chacune vous donne un chiffre du code qui ouvre le cadenas de la porte."
 
 # Noms des équipes, dans l'ordre de rotation. Obligatoire.
-# Il faut autant d'équipes que d'étapes (nombre_etapes) : chaque équipe fait toutes les
-# épreuves en commençant par une épreuve différente (la 1re équipe par l'épreuve 1, la 2e
-# par l'épreuve 2...). Noms non vides et tous différents.
+# Au moins une équipe par épreuve en rotation (les étapes sauf la finale) : chaque équipe
+# fait toutes les épreuves en commençant par une épreuve différente (la 1re équipe par
+# l'épreuve 1, la 2e par l'épreuve 2...). Avec plus d'équipes que d'épreuves en rotation,
+# certaines partagent un poste (ici Sorcières et Momies, toujours ensemble).
+# Noms non vides et tous différents.
 # Un animateur choisit l'équipe de chaque tablette avant la soirée.
 equipes: ["Sorcières", "Zombies", "Fantômes", "Loups-garous", "Squelettes", "Momies"]
 
@@ -90,6 +92,9 @@ nombre_etapes: 6
 #   indices       facultatif, liste de textes non vides : les indices que les enfants débloquent
 #                 un par un aux minutes de « indices_apres_minutes » ; sans indices, pas de
 #                 bouton « Indice »
+#   finale        facultatif, true sur une seule étape : l'épreuve que toutes les équipes
+#                 jouent ensemble au dernier créneau, après la rotation des autres ; pas
+#                 d'« indices » (les animateurs les donnent). Sa bonne réponse ouvre le cadenas.
 etapes:
   - titre: "La galerie des portraits"
     fond: "galerie-des-portraits.webp"
@@ -150,6 +155,8 @@ etapes:
     indices: ["Elle est faite de fils et attrape les mouches."]
 
   - titre: "Invisible mais visible"
+    # Épreuve finale : tout le monde la joue ensemble au 6e créneau.
+    finale: true
     fond: "invisible-mais-visible.webp"
     consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
     type_reponse: mots

@@ -1,17 +1,21 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 23 : code et documentation terminés, reste la mise en ligne)
+Dernière mise à jour : 2026-10-01 (sprint 24 : relu, corrigé, PR ouverte)
 
 ## Sprint en cours
-Sprint 23 (#65), branche `feat/remote-board` : tableau de bord animateur à distance, **lecture seule** (Supabase,
-code de soirée vérifié par la base, relecture toutes les 5 s). Spec : `docs/superpowers/specs/2026-09-30-remote-board-design.md`.
-Étapes : [x] cadrage validé, [x] spec écrite, [x] spec validée par Romain, [x] plan écrit (`docs/superpowers/plans/2026-09-30-remote-board.md`, 12 tâches), [x] code TDD (tâches 1 à 11, 546 tests verts), [x] documentation (tâche 12),
-[ ] projet Supabase + migration + code de soirée (accord de Romain), [ ] auditeur-supabase, [ ] PR.
-Sprint 2 prévu ensuite : actions à distance (valider, débloquer, indice, passer à la suivante pour tous, départ commun).
+Sprint 24 (#68), branche `feat/common-final` : **épreuve finale commune**. « Invisible mais visible » (`finale: true`)
+se joue par toutes les équipes ensemble au 6e créneau, après la rotation des 5 autres épreuves (6 équipes pour 5 postes :
+Sorcières et Momies partagent un poste) ; pas d'indices sur la tablette (les animateurs les donnent) ; bonne réponse →
+« Bravo ! » puis cadenas tout de suite. Wifi faible dans la salle : parcours complet vérifié hors ligne en e2e.
+Spec : `docs/superpowers/specs/2026-10-01-common-final-design.md`. Plan : `docs/superpowers/plans/2026-10-01-common-final.md` (7 tâches).
+Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [x] tâches 1 à 7 (exécution native, 587 tests unitaires + 29 e2e verts, dont `e2e/offline.spec.ts`), [x] relecture (relecteur-code, Opus) et corrections (589 tests unitaires + 28 e2e verts), [x] PR ouverte.
+Ce sprint reprend aussi l'`ETAT.md` de la PR #67 (docs seule) : la #67 peut être fermée sans merge.
 
 En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
+Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
+- [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).
 - [x] Sprint 21 (#59) : contenu réel (l'addition, le jackpot funèbre, indices à 8/10/13 min, code du cadenas
   8 6 0 3 9 4 avec le 0 provisoire des toilettes), mergé et déployé (PR #60).
@@ -26,19 +30,9 @@ En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisi
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Mise en ligne du sprint 23 (section « Mise en ligne » à la fin du plan), **chaque étape avec l'accord de Romain** :
-~~1. projet Supabase~~ fait le 2026-10-01 : `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz`, Paris, relié par `supabase link` ;
-~~2. `supabase db push`~~ fait le 2026-10-01 (conseiller sécurité : seulement les alertes attendues, tables sans policy et
-3 fonctions appelables par anon, voulues : le code de soirée les garde ; `check_evening_code` bien fermée) ;
-~~3. code de soirée~~ réglé le 2026-10-01 (tiré au hasard, donné à Romain, jamais écrit dans le dépôt) ;
-~~4. `check:board -- --full`~~ « Tout est bon. » le 2026-10-01 (24 vérifications) ;
-~~5. relectures~~ faites le 2026-10-01 : corrigés (erreur de « Nouvelle soirée » affichée, boutons du tableau sur téléphone,
-chiffres du pied de page, `.env*` ignorés, notes README) ; migration `evening_code_lock` (verrou contre les essais en parallèle)
-poussée le 2026-10-01 ; code de soirée remplacé par un code de 4 mots (donné à Romain), `check:board --full` refait : « Tout est bon. » ; ~~6. `gh variable set`~~ fait ; ~~7. PR~~ ouverte : #66 (`Closes #65`) → **merge par Romain** (jamais un soir de jeu), puis
-`git checkout main && git pull && git branch -d feat/remote-board` ;
-8. essai en vrai (deux tablettes + un téléphone).
-Avant : Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
-Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
+Romain teste la PR et donne son accord pour merger (déploiement automatique, **avant** la soirée, jamais pendant) ; fermer la PR #67 sans merge (son ETAT.md est repris ici).
+Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
+`check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
@@ -47,6 +41,12 @@ condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écr
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 24 (choix de Romain) : tout le monde est dans la même salle, la 6e épreuve se joue ensemble en dernier ; chaque
+  équipe tape la réponse sur sa tablette ; cadenas dès la finale trouvée (pas d'attente de fin de créneau).
+- Sprint 24 (relecture) : plus de chrono d'épreuve sur le cadenas atteint pendant la finale (il n'a pas de limite) ;
+  « Passer au cadenas » au lieu de « Passer à l'épreuve suivante » dans le menu animateur pendant la finale.
+- Sprint 24 (design) : l'écran de la finale reste affiché le temps du « Bravo ! » (`useFinaleHold`), sinon la chute de
+  goupille et le « Bravo ! » disparaîtraient avec le passage immédiat au cadenas.
 - Sprint 22 (choix de Romain) : 720 ordres possibles pour le code, donc une énigme sur l'écran du cadenas (comptine rimée,
   niveau moyen) qui suit l'ordre des salles ; les chiffres par salle sont déjà rappelés dans la liste au-dessus.
 - Sprint 20 (cadrage, choix de Romain) : style de `cadenas.jpeg` sur les 3 cadenas (le rouillé du sprint 17 disparaît) ;

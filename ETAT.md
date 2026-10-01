@@ -10,7 +10,8 @@ halloween (2) » du 2026-10-01). Code du cadenas : 8 6 9 3 9 4.
 - [x] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
   chiffre 4, 3 indices) ; `docs/contenu-epreuves.md`, CLAUDE.md et les 7 specs e2e à jour.
 - [x] Vérifs : 590 tests unitaires, typecheck, lint, 28 e2e verts ; captures tablette du laboratoire et de la finale OK.
-- [ ] Relecture (`relecteur-code`), puis PR.
+- [x] Relecture (`relecteur-code`) : rien de bloquant ; README et commentaires e2e « sample quiz » corrigés.
+- [ ] PR ouverte, à faire merger par Romain.
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
@@ -35,7 +36,7 @@ Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
-Sprint 25 : finir la relecture, ouvrir la PR, la faire merger par Romain (consignes à faire valider).
+Sprint 25 : Romain relit les consignes et merge la PR (le merge déploie : jamais pendant la soirée).
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)

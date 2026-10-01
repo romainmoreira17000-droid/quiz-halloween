@@ -28,7 +28,7 @@ test('a 3-second press on the reset icon, then the animator code, restarts the g
   await expect(page.getByRole('button', { name: 'Commencer', exact: true })).toBeVisible()
 })
 
-/** « Recommencer », then the animator code of the sample quiz, asked while a game is under way. */
+/** « Recommencer », then the animator code of the quiz, asked while a game is under way. */
 async function confirmReset(page: Page): Promise<void> {
   const dialog = page.getByRole('dialog', { name: 'Recommencer la partie ?' })
   await dialog.getByRole('button', { name: 'Recommencer', exact: true }).click()

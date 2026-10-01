@@ -17,7 +17,7 @@ async function reachPadlock(page: Page): Promise<void> {
   await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres' })).toBeVisible()
 }
 
-/** Dials the code of the sample quiz and opens. */
+/** Dials the code of the quiz and opens. */
 async function openPadlock(page: Page): Promise<void> {
   for (const [i, digit] of [8, 6, 9, 3, 9, 4].entries()) {
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()

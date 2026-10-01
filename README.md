@@ -16,7 +16,7 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 3. **Épreuves :** créneaux 1 à 5, les épreuves en rotation : chaque équipe les fait toutes en
    commençant par une épreuve différente (avec 6 équipes pour 5 postes, Sorcières et Momies partagent
    un poste). Créneau 6 : l'**épreuve finale** (`finale: true`, « Invisible mais visible »), jouée par
-   toutes les équipes ensemble, sans indice sur la tablette (les animateurs les donnent à voix haute) ;
+   toutes les équipes ensemble, avec ses indices aux mêmes minutes que les autres épreuves ;
    sa bonne réponse mène au cadenas juste après le « Bravo ! ». En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).

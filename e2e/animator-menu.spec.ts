@@ -2,7 +2,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-/** Long press on ↺, « Menu animateur », then the animator code of the sample quiz in the window. */
+/** Long press on ↺, « Menu animateur », then the animator code of the quiz in the window. */
 async function openMenu(page: Page): Promise<void> {
   const icon = page.getByRole('button', { name: 'Recommencer la partie (appui long)' })
   await icon.hover()

@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// The Sorcières rotate through challenges 1 to 5 of the sample quiz.yaml, then play the final.
+// The Sorcières rotate through challenges 1 to 5 of quiz.yaml, then play the final.
 const ROTATION = [
   ['La galerie des portraits', '6'], ["L'addition", '3'], ['Le cimetière', '8'],
   ['Le jackpot funèbre', '9'], ['Le laboratoire machiavélique', '9'],

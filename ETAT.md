@@ -1,17 +1,11 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 25 ouvert)
+Dernière mise à jour : 2026-10-01 (sprint 25 mergé)
 
 ## Sprint en cours
-Sprint 25 (#71), branche `feat/real-quiz-content-3` : contenu réel des épreuves 3 et 6 (PDF « Déroulé de la soirée
-halloween (2) » du 2026-10-01). Code du cadenas : 8 6 9 3 9 4.
-Étapes :
-- [x] Le validateur accepte des indices sur la finale (TDD : validateFinal + test d'intégration de la finale).
-- [x] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
-  chiffre 4, 3 indices) ; `docs/contenu-epreuves.md`, CLAUDE.md et les 7 specs e2e à jour.
-- [x] Vérifs : 590 tests unitaires, typecheck, lint, 28 e2e verts ; captures tablette du laboratoire et de la finale OK.
-- [x] Relecture (`relecteur-code`) : rien de bloquant ; README et commentaires e2e « sample quiz » corrigés.
-- [ ] PR ouverte, à faire merger par Romain.
+Aucun. Sprint 25 (#71, contenu réel du laboratoire machiavélique et de la finale, avec ses indices ; code du cadenas
+8 6 9 3 9 4) mergé le 2026-10-01 (PR #72). Le déploiement n'a pas été suivi par Claude : vérifier sur le site que le
+laboratoire et la finale sont en ligne.
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
@@ -30,7 +24,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
+Vérifier que le site en ligne montre « Le laboratoire machiavélique ». Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

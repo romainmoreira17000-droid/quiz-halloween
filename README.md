@@ -151,6 +151,9 @@ normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d
   et taper le même code.
 - Sur chaque tablette, la ligne « Suivi à distance » du menu animateur dit si l'envoi marche.
 - « Nouvelle soirée » (sur le tableau) vide le tableau avant un nouveau groupe.
+- **En fin de soirée** : « Nouvelle soirée » pour ne rien laisser dans la base, puis changer le code de soirée avant la
+  suivante (il reste enregistré sur les tablettes).
+- **Jamais de prénoms d'enfants comme noms d'équipe** dans `quiz.yaml` : les noms d'équipe sont envoyés à la base.
 
 ## Déploiement
 

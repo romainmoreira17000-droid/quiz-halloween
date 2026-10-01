@@ -224,7 +224,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   pas `page.clock` : pour une capture à un instant précis, `document.getAnimations()` + `pause()` + `currentTime`.
 - **Suivi à distance** (sprint 23, `?animateur`) : tables `team_status` et `evening_secret` en RLS **sans aucune policy** (et
   `revoke all` pour anon) ; tout passe par les fonctions `security definer` `push_team_state` / `read_board` / `reset_board`
-  (paramètres `p_*`), qui vérifient le code de soirée (bcrypt) ; mauvais code = SQLSTATE `28P01` (+ 0,5 s d'attente), 12 équipes
+  (paramètres `p_*`), qui vérifient le code de soirée (bcrypt) ; mauvais code = SQLSTATE `28P01` (+ 0,5 s d'attente, sous un verrou global `pg_advisory_xact_lock` : les essais en parallèle
+  ne vont pas plus vite ; un compteur d'échecs ne marcherait pas, le `raise` annule la transaction), 12 équipes
   au plus, état ≤ 2 Ko. Le code de soirée n'est **jamais** dans le dépôt (réglé à la main dans l'éditeur SQL, voir README).
   Sans `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`, le suivi est désactivé et le jeu marche comme avant. En test unitaire,
   `vite.config.ts` vide ces variables ; en e2e, `playwright.config.ts` pointe sur `https://board.e2e.test` (intercepté par

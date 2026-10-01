@@ -45,6 +45,14 @@ test('a tablet sends its game and the animator board shows it', async ({ page, c
   await expect(board.getByRole('article', { name: 'Zombies' })).toContainText('Aucune nouvelle')
   const overflow = await board.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
   expect(overflow).toBeLessThanOrEqual(0)
+  // `.board` hides horizontal overflow, so check each button of the confirmation fits the phone, on one line.
+  await board.getByRole('button', { name: 'Nouvelle soirée' }).click()
+  for (const name of ['Effacer le tableau', 'Annuler']) {
+    const box = (await board.getByRole('button', { name }).boundingBox())!
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(360)
+    expect(box.height).toBeLessThanOrEqual(72)
+  }
 })
 
 test('the board goes back to the code form when the evening code is refused', async ({ page }) => {

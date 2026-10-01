@@ -194,12 +194,17 @@ cadenas:
   ordre: [3, 1, 5, 2, 4, 6]
 
   # Indice affiché près du cadenas. Facultatif, texte. Les retours à la ligne
-  # sont gardés à l'écran (« |- » en YAML). La comptine donne l'ordre des salles.
+  # sont gardés à l'écran (« |- » en YAML). La comptine donne l'ordre des salles
+  # par allusions, sans les nommer (leurs titres sont déjà dans la liste au-dessus) :
+  # potier = Palissy (cimetière), yeux peints = galerie, savants = toilettes
+  # scientifiques, sous la table = addition, symboles = jackpot, monstres = finale.
   indice: |-
-    D'abord chez les morts qui dorment sous la terre,
-    puis face aux portraits qui vous suivent des yeux ;
-    aux toilettes ensuite, l'addition, le jackpot d'enfer,
-    et ce qu'on ne voit pas vient fermer le jeu.
+    Commence où dort un potier sous la pierre,
+    puis où des yeux peints épient tes manières ;
+    retiens ton souffle au milieu des savants,
+    paie sous la table, sans regarder devant ;
+    fais rouler les symboles jusqu'à la fortune,
+    puis démasque les monstres au clair de lune.
 
   # Fond d'écran du cadenas et de la victoire. Facultatif (voir « fond_accueil »).
   fond: "sortie-du-restaurant.webp"

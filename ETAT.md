@@ -30,7 +30,8 @@ Mise en ligne du sprint 23 (section « Mise en ligne » à la fin du plan), **ch
 ~~1. projet Supabase~~ fait le 2026-10-01 : `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz`, Paris, relié par `supabase link` ;
 ~~2. `supabase db push`~~ fait le 2026-10-01 (conseiller sécurité : seulement les alertes attendues, tables sans policy et
 3 fonctions appelables par anon, voulues : le code de soirée les garde ; `check_evening_code` bien fermée) ;
-3. Romain règle le code de soirée (README) ; 4. `.env.local` + `BOARD_CODE=... npm run check:board -- --full` ;
+~~3. code de soirée~~ réglé le 2026-10-01 (tiré au hasard, donné à Romain, jamais écrit dans le dépôt) ;
+~~4. `check:board -- --full`~~ « Tout est bon. » le 2026-10-01 (24 vérifications) ;
 5. agents `auditeur-supabase` (Opus) et `relecteur-code` ; 6. `gh variable set` ; 7. PR (`Closes #65`), merge par Romain ;
 8. essai en vrai (deux tablettes + un téléphone).
 Avant : Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.

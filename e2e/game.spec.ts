@@ -2,10 +2,10 @@
 import { test, expect, type Page } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// Sample quiz.yaml (challenges 1 to 4 are real), by challenge number: title, what the children type, digit earned.
+// Real quiz.yaml, by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
   1: ['La galerie des portraits', '6', 6], 2: ["L'addition", '3', 3], 3: ['Le cimetière', '8', 8],
-  4: ['Le jackpot funèbre', '9', 9], 5: ['Les toilettes scientifiques', "TOILE D'ARAIGNEE", 0], 6: ['Invisible mais visible', 'CITROUILLE', 4],
+  4: ['Le jackpot funèbre', '9', 9], 5: ['Le laboratoire machiavélique', '9', 9], 6: ['Invisible mais visible', '4', 4],
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
 
@@ -55,18 +55,18 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
     await nextSlot(page)
   }
 
-  // Slot 6: the common final, without hint button; once found, the « Bravo ! » then the padlock, before the slot ends.
+  // Slot 6: the common final, with its hints like the others; once found, the « Bravo ! » then the padlock, before the slot ends.
   const [title, answer, digit] = CHALLENGES[6]
   await expect(page.getByRole('heading', { name: title })).toBeVisible()
-  await expect(page.getByRole('button', { name: /indice/i })).toBeHidden()
+  await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
   await typeAnswer(page, answer)
   await expect(page.getByRole('status')).toHaveText(`Chiffre trouvé : ${digit}`)
   await page.clock.fastForward('00:02')
   await expect(page.getByRole('dialog', { name: 'Bravo !' })).toContainText(String(digit))
   await page.clock.fastForward('00:03')
 
-  // Padlock code of the sample quiz: challenges in order 3, 1, 5, 2, 4, 6.
-  const CODE = [8, 6, 0, 3, 9, 4]
+  // Padlock code of the quiz: challenges in order 3, 1, 5, 2, 4, 6.
+  const CODE = [8, 6, 9, 3, 9, 4]
   await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres' })).toBeVisible()
   for (const [i, digit] of CODE.entries()) {
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()

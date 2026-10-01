@@ -1,8 +1,8 @@
 # Contenu réel des épreuves (reçu de Romain)
 
-Texte brut reçu le 2026-09-27, à condenser pour `quiz.yaml` au sprint 15 (consignes de 3-4 lignes, sans parler de
-l'épreuve d'avant : chaque équipe tourne dans un ordre différent). Épreuves manquantes : table hantée, saveurs hantées,
-toilettes scientifiques, invisible mais visible ; code animateur à confirmer.
+Texte brut reçu à partir du 2026-09-27, condensé pour `quiz.yaml` (consignes de 3-4 lignes, sans parler de l'épreuve
+d'avant : chaque équipe tourne dans un ordre différent). Les 6 épreuves sont complètes depuis le sprint 25 ; code
+animateur à confirmer.
 
 ## Le cimetière — 1er chiffre du cadenas
 
@@ -60,6 +60,31 @@ Indices : 1. Les mathématiques sont systématiques. 2. Chaque souci a son symbo
 calculs mentaux.
 
 Solution : 7 − 5 + 7 = **9** ; réponse tapée **9** ; chiffre gagné : **9**.
+
+## Déroulé final (PDF « Déroulé de la soirée halloween (2) », reçu le 2026-10-01)
+
+Code du cadenas : **8 6 9 3 9 4**.
+
+### Le laboratoire machiavélique (salle des toilettes scientifiques) — 3e chiffre
+
+Texte : Si vous ne voulez pas mourir asphyxié, ne restez pas trop long sur le trône. Soyez observateur, derrière chaque
+scientifique se trouve le bon dosage. (Affiches de scientifiques, fausses pistes, tubes à essai, pipettes, colorants.)
+
+Indices : 1. Soyez attentifs aux chiffres colorés. 2. Pour les doses, faites la correspondance couleur numéro. 3. La
+solution sera l'addition des doses (« addiction » dans le PDF, faute de frappe corrigée).
+
+Solution : 1 orange + 2 jaunes + 2 rouges + 3 verts + 1 bleu = **9** ; réponse tapée **9** ; chiffre gagné : **9**.
+
+### Invisible mais visible (finale commune) — 6e chiffre
+
+Texte : Dirigez-vous vers vos ennemis qui deviendront peut-être vos amis. (Étiquettes collantes sur six hôtes, avec un
+code et une lettre : Q-U-A-T-R-E.)
+
+Indices : 1. 6 de vos hôtes ont un petit truc en plus. 2. Les indices sont codés à gauche ou à droite. 3. Pour trouver le
+dernier chiffre, il vous faudra jouer à des chiffres et des lettres.
+
+Solution : QUATRE → réponse tapée **4** (pavé, choix de Romain) ; chiffre gagné : **4**. Indices dans l'app, aux mêmes
+minutes que les autres épreuves (choix de Romain).
 
 ### Compléments du PDF sur les épreuves déjà en place
 

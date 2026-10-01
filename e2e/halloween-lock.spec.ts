@@ -19,7 +19,7 @@ async function reachPadlock(page: Page): Promise<void> {
 
 /** Dials the code of the sample quiz and opens. */
 async function openPadlock(page: Page): Promise<void> {
-  for (const [i, digit] of [8, 6, 0, 3, 9, 4].entries()) {
+  for (const [i, digit] of [8, 6, 9, 3, 9, 4].entries()) {
     for (let n = 0; n < digit; n++) await page.getByRole('button', { name: `Chiffre ${i + 1} : augmenter` }).click()
   }
   await page.getByRole('button', { name: 'Ouvrir' }).click()

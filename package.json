@@ -15,11 +15,13 @@
     "typecheck": "tsc -b",
     "valider": "tsx scripts/valider.ts",
     "prebuild": "npm run valider",
-    "images": "tsx scripts/images.ts"
+    "images": "tsx scripts/images.ts",
+    "check:board": "tsx --env-file=.env.local scripts/check-board-security.ts"
   },
   "dependencies": {
     "@fontsource/alegreya": "^5.3.0",
     "@fontsource/im-fell-english-sc": "^5.3.0",
+    "@supabase/supabase-js": "^2.117.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "yaml": "^2.9.1"

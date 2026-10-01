@@ -22,14 +22,16 @@ Conception : `docs/superpowers/specs/2026-09-21-quiz-halloween-design.md` (quiz 
 - Vite 8 + React 19 + TypeScript, vite-plugin-pwa (manifest, service worker et icônes PNG
   générés depuis `public/icon.svg` via `pwa-assets.config.ts`).
 - Tests : Vitest 5 + Testing Library + jsdom ; Playwright (chromium, vue tablette 810×1080).
-- **Pas de Supabase ni de backend** : aucune donnée à stocker ou partager, zéro donnée personnelle.
-  La progression est gardée dans le localStorage de la tablette.
+- **Supabase seulement pour le suivi à distance** (sprint 23) : table `team_status` (nom d'équipe + état de partie,
+  aucune donnée personnelle). La partie reste dans le localStorage de la tablette, qui joue sans réseau.
 
 ## Structure
 ```
 quiz.yaml                  paramètres du quiz (clés en français, commentées)
 public/images/             images des étapes (`image:`) et fonds photo WebP (`fond`, `fond_accueil`, `cadenas.fond`)
 images-sources/            illustrations PNG d'origine de Romain (gitignoré, converties par `npm run images`)
+supabase/                  config.toml + migrations/ (base du suivi à distance)
+scripts/check-board-security.ts  vérifie la base avec la clé anon, comme un intrus (`npm run check:board`)
 scripts/valider.ts         CLI du validateur (tsx), lancé en prebuild
 scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifié par `slug.ts`, sources choisies par `sources.ts`
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
@@ -38,9 +40,12 @@ src/game/                  logique pure : time, answer (normalisation chiffres/m
                            rotation (créneau → épreuve), hints (déblocage des indices), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
-                           skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »)
+                           skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »),
+                           suivi à distance : boardSnapshot (lecture de `read_board`), boardClock (horloge commune), boardCard
+                           (contenu d'une carte d'équipe), boardMode (`?animateur`), syncStatus, latestSender (envois un par un)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress,
-                           useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée)
+                           useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée),
+                           useBoardSync (envoi de l'état de la tablette), useBoard (relecture du tableau toutes les 5 s), useEveningCode
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
@@ -50,6 +55,8 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            fenêtre d'indice), TestModeControl (étiquette + bouton du mode test),
                            AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran) + SkipNext (« Passer à l'épreuve suivante » avec confirmation) + StartTime (« Départ de la partie »),
                            CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
+src/components/board/      tableau animateur à distance (`?animateur`) : BoardScreen (porte : code de soirée), BoardCodeForm,
+                           BoardView, BoardHeader, TeamCard, NewEvening (« Nouvelle soirée » avec confirmation)
 src/components/lock/       cadenas Halloween en bronze : LockDefs (dégradés bronze, os, ciel, citrouille ; ids `lock-*`),
                            Ornaments (Bone, Skull, Cobweb, Keyhole), LockCrown (LockShackle + ailes et citrouille),
                            LockBanner (« HAPPY HALLOWEEN »), NightWindow (ciel, lune, sorcière, château), HangingGhost,
@@ -57,8 +64,9 @@ src/components/lock/       cadenas Halloween en bronze : LockDefs (dégradés br
                            VictoryLock (cadenas de la plongée de victoire)
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
-src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame et savedTeam (seuls accès au localStorage)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration
+src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame, savedTeam et savedEveningCode (seuls accès au localStorage),
+                           supabaseClient + board (seuls accès à Supabase, appels coupés au bout de 10 s)
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, board
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -74,6 +82,7 @@ npm run typecheck    # vérification des types
 npm run images       # convertit images-sources/ en WebP dans public/images/
 npm run valider      # vérifie quiz.yaml + images (aussi en prebuild)
 npm run build        # build de production dans dist/
+BOARD_CODE=... npm run check:board   # sécurité de la base du suivi à distance (-- --full avant la soirée)
 ```
 
 ## Déploiement
@@ -213,3 +222,14 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   `white-space: pre-line`) : c'est la comptine qui donne l'ordre des salles. Victoire = `.victory-plunge` plein écran (`pointer-events: none`, état final invisible) : pivot 0–0,6 s, anse 0,9 s,
   plongée 1,2–2,4 s, portes 2,4 s, texte 5,6 s, calés sur `sound.ts` ; pas d'état de partie en plus. Les animations CSS ne suivent
   pas `page.clock` : pour une capture à un instant précis, `document.getAnimations()` + `pause()` + `currentTime`.
+- **Suivi à distance** (sprint 23, `?animateur`) : tables `team_status` et `evening_secret` en RLS **sans aucune policy** (et
+  `revoke all` pour anon) ; tout passe par les fonctions `security definer` `push_team_state` / `read_board` / `reset_board`
+  (paramètres `p_*`), qui vérifient le code de soirée (bcrypt) ; mauvais code = SQLSTATE `28P01` (+ 0,5 s d'attente, sous un verrou global `pg_advisory_xact_lock` : les essais en parallèle
+  ne vont pas plus vite ; un compteur d'échecs ne marcherait pas, le `raise` annule la transaction), 12 équipes
+  au plus, état ≤ 2 Ko. Le code de soirée n'est **jamais** dans le dépôt (réglé à la main dans l'éditeur SQL, voir README).
+  Sans `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`, le suivi est désactivé et le jeu marche comme avant. En test unitaire,
+  `vite.config.ts` vide ces variables ; en e2e, `playwright.config.ts` pointe sur `https://board.e2e.test` (intercepté par
+  `page.route`, faux Supabase). Envois un par un (`createLatestSender` : seul le dernier état en attente part). La carte
+  recalcule tout avec `gamePhase` sur l'horloge du serveur (`server_now`) et exige la même empreinte de quiz que le tableau
+  (sinon « Version différente ») ; un état `home` = « Pas commencé ». Pas de `supabase gen types` (écart assumé) : trois
+  fonctions seulement, réponses vérifiées à l'exécution par `parseBoard`.

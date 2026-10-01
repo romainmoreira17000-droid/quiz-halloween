@@ -1,14 +1,17 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
-import { useState, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
 import { backdropFor, type Backdrop } from '../game/backdrop'
 import { blockSecondsLeft } from '../game/block'
+import { quizFingerprint } from '../game/fingerprint'
 import { gamePhase, type GamePhase } from '../game/phase'
 import { secondsBeforeNextHint } from '../game/hints'
 import { hintsAvailable, wrongAttemptsIn } from '../game/progress'
 import { remainingSeconds, slotTiming } from '../game/time'
+import { useBoardSync } from '../hooks/useBoardSync'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { useNow } from '../hooks/useNow'
+import { boardApi, type BoardApi } from '../services/board'
 import { playPinSound, playVictorySound } from '../services/sound'
 import { HallBackdrop } from './decor/HallBackdrop'
 import { PhotoBackdrop } from './decor/PhotoBackdrop'
@@ -33,6 +36,10 @@ export interface TeamGameProps {
   onChangeTeam(): void
   /** App opened with `?test`: shows the badge and the skip button (see testMode.ts). */
   testMode?: boolean
+  /** Evening code of the remote board, null: nothing is sent. */
+  eveningCode?: string | null
+  /** Remote board calls (a fake in tests). */
+  api?: BoardApi
 }
 
 /**
@@ -40,8 +47,11 @@ export interface TeamGameProps {
  * @param props See TeamGameProps.
  * @returns The current screen, with the reset icon.
  */
-export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false }: TeamGameProps) {
+export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false, eveningCode = null, api = boardApi }: TeamGameProps) {
   const progress = useGameProgress(config, teamIndex)
+  const fingerprint = useMemo(() => quizFingerprint(config), [config])
+  // The reducer state itself: a new object per render would make the tablet push every second.
+  const sync = useBoardSync({ team: config.teams[teamIndex], fingerprint, state: progress.state, code: eveningCode }, api)
   // Ticks only while playing: slot changes, clocks and « Temps écoulé » all follow from the time.
   const now = useNow(progress.state.status === 'playing')
   const phase = gamePhase(progress.state, config, teamIndex, now)
@@ -54,7 +64,7 @@ export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false }: 
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
         animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined}
         menu={{ code: config.animatorCode, onOpen: () => setMenuOpen(true) }} />
-      {menuOpen && <TeamAnimatorMenu config={config} progress={progress} phase={phase} now={now} onClose={() => setMenuOpen(false)} />}
+      {menuOpen && <TeamAnimatorMenu config={config} progress={progress} phase={phase} now={now} sync={sync} onClose={() => setMenuOpen(false)} />}
       {testMode && <TestModeControl onSkip={canSkip ? progress.skipSlot : undefined} />}
     </>
   )

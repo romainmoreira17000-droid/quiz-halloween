@@ -1,6 +1,8 @@
 /** @file Tests for the tablet entry: team setup first, then the team's game. */
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
+import type { BoardApi } from '../services/board'
+import { EVENING_CODE_KEY } from '../services/savedEveningCode'
 import { TEAM_KEY } from '../services/savedTeam'
 import { Game } from './Game'
 import { RESET_HOLD_MS } from './ResetButton'
@@ -39,5 +41,16 @@ describe('Game', () => {
     act(() => vi.advanceTimersByTime(RESET_HOLD_MS))
     press('Changer d’équipe')
     expect(screen.getByRole('heading', { name: 'Réglage de la tablette' })).toBeInTheDocument()
+  })
+  it('saves the evening code and sends the game of the chosen team', async () => {
+    const push = vi.fn(() => Promise.resolve('ok' as const))
+    const api: BoardApi = { enabled: true, push, read: vi.fn(), reset: vi.fn() }
+    render(<Game config={config} api={api} />)
+    for (const digit of '2710') press(digit)
+    press('Valider')
+    fireEvent.change(screen.getByLabelText('Code de soirée (facultatif)'), { target: { value: ' CITROUILLE-42 ' } })
+    press('Zombies')
+    expect(localStorage.getItem(EVENING_CODE_KEY)).toBe('CITROUILLE-42')
+    await vi.waitFor(() => expect(push).toHaveBeenCalledWith('CITROUILLE-42', 'Zombies', expect.any(String), expect.objectContaining({ status: 'home' })))
   })
 })

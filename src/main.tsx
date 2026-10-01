@@ -18,6 +18,7 @@ import './styles/reset.css'
 import './styles/hint.css'
 import './styles/test-mode.css'
 import './styles/animator.css'
+import './styles/board.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(

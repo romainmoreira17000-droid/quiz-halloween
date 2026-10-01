@@ -68,7 +68,7 @@ src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : Ha
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame, savedTeam et savedEveningCode (seuls accès au localStorage),
                            supabaseClient + board (seuls accès à Supabase, appels coupés au bout de 10 s)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, board
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, story, board
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
@@ -243,3 +243,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   rendu**, pas dans un effet : une image de cadenas démonterait `StepScreen`). Pas de « Bravo ! » après « Passer à l'épreuve
   suivante » (créneau dépassé) ni au rechargement. En e2e, les Zombies jouent 2, 3, 4, 5, 1 puis 6 ; la finale se teste en
   `?test` avec les Sorcières (`e2e/offline.spec.ts` : parcours complet hors ligne, après `navigator.serviceWorker.ready`).
+- **Récit** (sprint 27, `recit` d'étape → `QuizStep.story`, facultatif) : morceau d'histoire affiché (`.story`, `story.css`, voile
+  sombre) sous « Chiffre trouvé » et au-dessus de `message_attente`, aussi après le code animateur de « Temps écoulé » ; celui de
+  la finale est sur l'écran du cadenas (la finale y passe tout de suite). Chaque équipe tourne dans son ordre : un récit doit se
+  comprendre seul. Écran d'attente de chaque salle sans défilement sur tablette : `e2e/layout.spec.ts`.

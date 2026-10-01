@@ -35,4 +35,10 @@ describe('TimeUpScreen', () => {
     await press('Continuer')
     expect(onUnlock).toHaveBeenCalledWith('2710')
   })
+  it('tells the story of the room with the digit given by the animator', async () => {
+    render(<TimeUpScreen header={null} step={{ ...step, story: 'Le fantôme soupire.' }} animatorCode="2710" onUnlock={vi.fn()} />)
+    expect(screen.queryByText('Le fantôme soupire.')).not.toBeInTheDocument()
+    await typeCode('2710')
+    expect(screen.getByText('Le fantôme soupire.')).toBeInTheDocument()
+  })
 })

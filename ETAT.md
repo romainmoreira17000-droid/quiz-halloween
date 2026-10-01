@@ -1,15 +1,24 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 25 mergé)
+Dernière mise à jour : 2026-10-01 (sprint 27 en cours, sprint 26 en PR)
 
 ## Sprint en cours
-Aucun. Sprint 25 (#71, contenu réel du laboratoire machiavélique et de la finale, avec ses indices ; code du cadenas
-8 6 9 3 9 4) mergé le 2026-10-01 (PR #72). Le déploiement n'a pas été suivi par Claude : vérifier sur le site que le
-laboratoire et la finale sont en ligne.
+Sprint 27 (#76), branche `feat/story-between-challenges` (partie de `main` **sans** le sprint 26) : récit entre les
+épreuves. Champ `recit` par étape (`QuizStep.story`), affiché sous « Chiffre trouvé » au-dessus de « Profitez-en… »
+(gardé), aussi après le code animateur de « Temps écoulé » ; celui de la finale en haut de l'écran du cadenas. Textes de
+Romain dans quiz.yaml (cimetière précisé : « Le fantôme de Palissy soupire : « … » »). Fait et vérifié (598 tests
+unitaires, 32 e2e, captures tablette et téléphone) ; reste : relecture, PR, merge par Romain.
+
+Sprint 26 (#74, PR #75, branche `feat/content-tweaks`) : toilettes scientifiques, message de victoire, 5 équipes (Momies
+retirées) ; relu, en attente du merge par Romain. Le merger avant la PR du sprint 27 : la branche du 27 devra alors être
+remise à jour depuis `main` (conflits attendus dans ETAT.md, peut-être quiz.yaml et layout.spec.ts : le titre
+« Le laboratoire machiavélique » y est encore utilisé).
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
+- [ ] Sprint 27 (#76) : récit entre les épreuves (PR à ouvrir).
+- [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes (PR #75, à merger).
 - [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).

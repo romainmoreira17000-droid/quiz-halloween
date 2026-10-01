@@ -21,13 +21,14 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
    d'encouragement s'affiche et la saisie est bloquée une minute (« Nouvelle réponse possible dans 00:42 »).
    À 8, 10 puis 13 minutes, un nouvel indice se débloque : le bouton « Voir l'indice (1/3) » du parchemin les montre, numérotés. Bonne réponse : une goupille du cadenas tombe, un grand « Bravo ! »
-   montre le chiffre gagné (3 s, ou un tap pour le fermer), puis le message d'attente de `message_attente`
+   montre le chiffre gagné (3 s, ou un tap pour le fermer), puis le morceau d'histoire de l'épreuve (`recit`,
+   lisible dans n'importe quel ordre), le message d'attente de `message_attente`
    (« Profitez-en pour déguster… ») et « Changement d'épreuve dans … » (« L'épreuve finale dans … » au 5e
    créneau) jusqu'à la fin du créneau.
 4. **Épreuve pas trouvée à temps :** au créneau suivant, « Temps écoulé : appelez un animateur ».
-   L'animateur tape son code : le chiffre de l'épreuve s'affiche, puis « Continuer » mène à
+   L'animateur tape son code : le chiffre de l'épreuve et son `recit` s'affichent, puis « Continuer » mène à
    l'épreuve du créneau en cours.
-5. **Cadenas :** après la finale (ou le dernier créneau), N molettes à régler dans l'ordre de `cadenas.ordre`. Le
+5. **Cadenas :** après la finale (ou le dernier créneau), le `recit` de la finale en haut de l'écran, puis N molettes à régler dans l'ordre de `cadenas.ordre`. Le
    bon code ouvre la porte (animation + son) et donne rendez-vous à la vraie porte du restaurant.
 
 La partie est gardée sur la tablette : si la page se recharge (ou si la tablette se met en veille),

@@ -132,6 +132,7 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
       const open = (code: number[]) => { if (unlock(code)) playVictorySound() }
       return (
         <PadlockScreen header={header} title={config.padlock.title} steps={config.steps} foundDigits={state.digits}
+          story={config.finalStep === undefined ? undefined : config.steps[config.finalStep].story}
           hint={config.padlock.hint} wrongAttempts={wrongAttemptsIn(state, stepCount)} onOpen={open} />
       )
     }

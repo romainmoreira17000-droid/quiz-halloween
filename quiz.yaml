@@ -92,6 +92,11 @@ nombre_etapes: 6
 #   indices       facultatif, liste de textes non vides : les indices que les enfants débloquent
 #                 un par un aux minutes de « indices_apres_minutes » ; sans indices, pas de
 #                 bouton « Indice »
+#   recit         facultatif, texte non vide : le morceau d'histoire que l'esprit de la salle
+#                 confie quand le chiffre est gagné (affiché sous « Chiffre trouvé », aussi
+#                 après « Temps écoulé » ; celui de la finale s'affiche sur l'écran du cadenas).
+#                 Chaque équipe passe dans un ordre différent : chaque morceau doit se
+#                 comprendre seul, dans n'importe quel ordre.
 #   finale        facultatif, true sur une seule étape : l'épreuve que toutes les équipes
 #                 jouent ensemble au dernier créneau, après la rotation des autres ; ses
 #                 indices arrivent aux mêmes minutes que les autres. Sa bonne réponse ouvre le cadenas.
@@ -102,6 +107,7 @@ etapes:
     type_reponse: chiffres
     reponse: "6"
     chiffre: 6
+    recit: "Les portraits ferment enfin les yeux. Ce sont d'anciens clients du chef : ils n'ont jamais trouvé la sortie. Vous, vous êtes sur la bonne voie."
     indices:
       - "La réponse est un nombre pair."
       - "Pensez à votre équipe… moins le chef, il reste la moitié du groupe."
@@ -114,6 +120,7 @@ etapes:
     type_reponse: chiffres
     reponse: "3"
     chiffre: 3
+    recit: "L'addition est réglée ! Dans sa cuisine, le chef grogne : il comptait vous garder pour le dessert…"
     indices:
       - "Mettez en lumière les assiettes."
       - "Les chaises peuvent parler."
@@ -127,6 +134,7 @@ etapes:
     type_reponse: chiffres
     reponse: "8"
     chiffre: 8
+    recit: "Le fantôme de Palissy soupire : « Merci, je vais enfin dormir en paix. Méfiez-vous du chef : il n'a jamais laissé un client partir sans payer… »"
     indices:
       - "La réponse est sur le cercueil, mais tout dépend de la couleur de l'éclairage."
       - "Il faut utiliser la lampe à lumière noire."
@@ -139,6 +147,7 @@ etapes:
     type_reponse: chiffres
     reponse: "9"
     chiffre: 9
+    recit: "Jackpot ! La machine crache votre chiffre et un ticket froissé : « Le dernier secret se cache sur ceux qui vous font peur. »"
     indices:
       - "Les mathématiques sont systématiques."
       - "Chaque souci a son symbole."
@@ -152,6 +161,7 @@ etapes:
     type_reponse: chiffres
     reponse: "9"
     chiffre: 9
+    recit: "Les scientifiques ouvrent la fenêtre : vous avez survécu aux vapeurs ! Ils murmurent que les monstres du restaurant ne sont pas si méchants…"
     indices:
       - "Soyez attentifs aux chiffres colorés."
       - "Pour les doses, faites la correspondance entre couleur et numéro."
@@ -166,6 +176,7 @@ etapes:
     type_reponse: chiffres
     reponse: "4"
     chiffre: 4
+    recit: "Les monstres ôtent leurs masques : vos ennemis sont devenus vos amis. Il ne reste plus que la porte du chef !"
     indices:
       - "Six de vos hôtes ont un petit truc en plus."
       - "Les indices sont codés à gauche ou à droite."

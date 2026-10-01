@@ -1,4 +1,4 @@
-/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then a « Bravo ! », the earned digit, the waiting message and the time before the next challenge. */
+/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then a « Bravo ! », the earned digit, the story of the room, the waiting message and the time before the next challenge. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { formatClock } from '../game/time'
@@ -63,6 +63,7 @@ export function StepScreen(props: StepScreenProps) {
       {solved ? (
         <div className="answer-zone">
           <p className="found" role="status">Chiffre trouvé : <b>{digit}</b></p>
+          {step.story && <p className="story">{step.story}</p>}
           {waitingMessage && <p className="waiting-message">{waitingMessage}</p>}
           {nextLabel && <p className="next-room">{nextLabel} {formatClock(secondsLeft)}</p>}
         </div>

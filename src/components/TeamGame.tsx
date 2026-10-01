@@ -10,6 +10,7 @@ import { waitingLabel } from '../game/messages'
 import { hintsAvailable, wrongAttemptsIn } from '../game/progress'
 import { remainingSeconds, slotTiming } from '../game/time'
 import { useBoardSync } from '../hooks/useBoardSync'
+import { useFinaleHold } from '../hooks/useFinaleHold'
 import { useGameProgress, type GameProgress } from '../hooks/useGameProgress'
 import { useNow } from '../hooks/useNow'
 import { boardApi, type BoardApi } from '../services/board'
@@ -56,12 +57,15 @@ export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false, ev
   // Ticks only while playing: slot changes, clocks and « Temps écoulé » all follow from the time.
   const now = useNow(progress.state.status === 'playing')
   const phase = gamePhase(progress.state, config, teamIndex, now)
+  const { startedAt } = progress.state
+  const inFinalSlot = startedAt !== null && slotTiming(startedAt, Math.max(now, startedAt), config.slotMinutes).slot < config.stepCount
+  const hold = useFinaleHold(phase, config.finalStep, inFinalSlot)
   const canSkip = phase.kind === 'challenge' || phase.kind === 'waiting'
   const [menuOpen, setMenuOpen] = useState(false)
   return (
     <>
       {renderBackdrop(backdropFor(phase, config))}
-      {currentScreen({ config, teamIndex, progress, phase, now })}
+      {currentScreen({ config, teamIndex, progress, phase, now, hold })}
       <ResetControl onReset={progress.reset} onChangeTeam={onChangeTeam}
         animatorCode={progress.state.status === 'playing' ? config.animatorCode : undefined}
         menu={{ code: config.animatorCode, onOpen: () => setMenuOpen(true) }} />
@@ -82,10 +86,14 @@ function renderBackdrop(backdrop: Backdrop): ReactNode {
   }
 }
 
-interface ScreenInput { config: QuizConfig; teamIndex: number; progress: GameProgress; phase: GamePhase; now: number }
+interface ScreenInput {
+  config: QuizConfig; teamIndex: number; progress: GameProgress; phase: GamePhase; now: number
+  /** The found final stays on screen during its « Bravo ! » (useFinaleHold). */
+  hold: { held: boolean; release(): void }
+}
 
 /** Screen matching the phase. */
-function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput): ReactNode {
+function currentScreen({ config, teamIndex, progress, phase, now, hold }: ScreenInput): ReactNode {
   const { state, start, enter, answer, giveDigit, unlock } = progress
   if (phase.kind === 'entrance' && config.entrance) {
     return <EntranceScreen entrance={config.entrance} wrongAttempts={wrongAttemptsIn(state, null)} onSubmit={enter} />
@@ -105,6 +113,15 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
     <GameHeader slot={slot} total={stepCount} solved={state.digits.filter((d) => d !== null).length}
       slotSeconds={timing.secondsLeft} totalSeconds={remainingSeconds(state.startedAt, at, stepCount * slotMinutes)} />
   )
+  if (hold.held && config.finalStep !== undefined) {
+    // Same element type and key as the challenge case: the step screen stays mounted and plays its « Bravo ! ».
+    const step = config.steps[config.finalStep]
+    return (
+      <StepScreen key={config.finalStep} header={header} step={step} challenge={config.finalStep} digits={state.digits}
+        wrongAttempts={0} secondsLeft={timing.secondsLeft} nextLabel={null} blockSecondsLeft={0} hintsAvailable={0}
+        secondsToNextHint={null} onSubmit={() => {}} onCelebrationEnd={hold.release} />
+    )
+  }
   switch (phase.kind) {
     case 'won':
       return <VictoryScreen header={header} message={config.padlock.victoryMessage} />

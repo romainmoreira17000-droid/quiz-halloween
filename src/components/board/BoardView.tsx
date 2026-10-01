@@ -1,5 +1,5 @@
 /** @file The animator board once the code is known: header, one card per team, freshness and « Nouvelle soirée ». */
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { QuizConfig } from '../../config/types'
 import { boardCards } from '../../game/boardCard'
 import { boardClock } from '../../game/boardClock'
@@ -31,6 +31,14 @@ export function BoardView({ config, code, api, onRefused }: BoardViewProps) {
   const fingerprint = useMemo(() => quizFingerprint(config), [config])
   useEffect(() => { if (feed.last === 'refused') onRefused() }, [feed.last, onRefused])
   const { cards, reference } = boardCards(config, fingerprint, feed.snapshot, now)
+  const [eraseFailed, setEraseFailed] = useState(false)
+  // Waits for the answer: a silent failure would let the animator believe the board was emptied.
+  const erase = async () => {
+    setEraseFailed(false)
+    const result = await api.reset(code)
+    if (result === 'refused') onRefused()
+    else setEraseFailed(result === 'failed')
+  }
   const age = feed.okAt === null ? null : Math.max(0, Math.floor((now - feed.okAt) / 1000))
   return (
     <main className="screen board">
@@ -40,7 +48,8 @@ export function BoardView({ config, code, api, onRefused }: BoardViewProps) {
         <p role="status">
           {feed.last === 'failed' ? 'Connexion perdue, nouvelle tentative…' : age === null ? 'Connexion…' : `Mis à jour il y a ${age} s`}
         </p>
-        <NewEvening onConfirm={() => void api.reset(code)} />
+        {eraseFailed && <p className="board-error" role="alert">Effacement impossible, réessaie.</p>}
+        <NewEvening onConfirm={() => void erase()} />
       </footer>
     </main>
   )

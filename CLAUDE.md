@@ -246,4 +246,4 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Récit** (sprint 27, `recit` d'étape → `QuizStep.story`, facultatif) : morceau d'histoire affiché (`.story`, `story.css`, voile
   sombre) sous « Chiffre trouvé » et au-dessus de `message_attente`, aussi après le code animateur de « Temps écoulé » ; celui de
   la finale est sur l'écran du cadenas (la finale y passe tout de suite). Chaque équipe tourne dans son ordre : un récit doit se
-  comprendre seul. Écran d'attente de chaque salle sans défilement sur tablette : `e2e/layout.spec.ts`.
+  comprendre seul, en 160 caractères environ (pas de plafond au validateur). Écran d'attente de chaque salle sans défilement sur tablette : `e2e/layout.spec.ts`.

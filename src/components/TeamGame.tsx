@@ -8,6 +8,7 @@ import { gamePhase, type GamePhase } from '../game/phase'
 import { secondsBeforeNextHint } from '../game/hints'
 import { waitingLabel } from '../game/messages'
 import { hintsAvailable, wrongAttemptsIn } from '../game/progress'
+import { finalStory } from '../game/story'
 import { remainingSeconds, slotTiming } from '../game/time'
 import { useBoardSync } from '../hooks/useBoardSync'
 import { useFinaleHold } from '../hooks/useFinaleHold'
@@ -117,7 +118,8 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
   )
   if (hold.held && config.finalStep !== undefined) {
     // Same element type and key as the challenge case: the step screen stays mounted and plays its « Bravo ! ».
-    const step = config.steps[config.finalStep]
+    // No story here: the padlock tells it right after the « Bravo ! » (it would show twice, once behind the overlay).
+    const step = { ...config.steps[config.finalStep], story: undefined }
     return (
       <StepScreen key={config.finalStep} header={header} step={step} challenge={config.finalStep} digits={state.digits}
         wrongAttempts={0} secondsLeft={timing.secondsLeft} nextLabel={null} blockSecondsLeft={0} hintsAvailable={0}
@@ -132,7 +134,7 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
       const open = (code: number[]) => { if (unlock(code)) playVictorySound() }
       return (
         <PadlockScreen header={header} title={config.padlock.title} steps={config.steps} foundDigits={state.digits}
-          story={config.finalStep === undefined ? undefined : config.steps[config.finalStep].story}
+          story={finalStory(config)}
           hint={config.padlock.hint} wrongAttempts={wrongAttemptsIn(state, stepCount)} onOpen={open} />
       )
     }

@@ -97,6 +97,8 @@ nombre_etapes: 6
 #                 après « Temps écoulé » ; celui de la finale s'affiche sur l'écran du cadenas).
 #                 Chaque équipe passe dans un ordre différent : chaque morceau doit se
 #                 comprendre seul, dans n'importe quel ordre.
+#                 Deux phrases courtes (160 caractères environ) : au-delà, l'écran
+#                 d'attente défile sur tablette.
 #   finale        facultatif, true sur une seule étape : l'épreuve que toutes les équipes
 #                 jouent ensemble au dernier créneau, après la rotation des autres ; ses
 #                 indices arrivent aux mêmes minutes que les autres. Sa bonne réponse ouvre le cadenas.

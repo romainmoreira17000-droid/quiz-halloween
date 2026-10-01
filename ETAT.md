@@ -7,7 +7,7 @@ Sprint 27 (#76), branche `feat/story-between-challenges` (partie de `main` **san
 épreuves. Champ `recit` par étape (`QuizStep.story`), affiché sous « Chiffre trouvé » au-dessus de « Profitez-en… »
 (gardé), aussi après le code animateur de « Temps écoulé » ; celui de la finale en haut de l'écran du cadenas. Textes de
 Romain dans quiz.yaml (cimetière précisé : « Le fantôme de Palissy soupire : « … » »). Fait et vérifié (598 tests
-unitaires, 32 e2e, captures tablette et téléphone) ; reste : relecture, PR, merge par Romain.
+unitaires puis 601 après relecture, 32 e2e, captures tablette et téléphone), relu (récit masqué sur la finale gardée pendant son « Bravo ! », helper `finalStory`). PR ouverte, à merger après la #75 (remettre la branche à jour depuis main avant).
 
 Sprint 26 (#74, PR #75, branche `feat/content-tweaks`) : toilettes scientifiques, message de victoire, 5 équipes (Momies
 retirées) ; relu, en attente du merge par Romain. Le merger avant la PR du sprint 27 : la branche du 27 devra alors être
@@ -17,7 +17,7 @@ remise à jour depuis `main` (conflits attendus dans ETAT.md, peut-être quiz.ya
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
-- [ ] Sprint 27 (#76) : récit entre les épreuves (PR à ouvrir).
+- [ ] Sprint 27 (#76) : récit entre les épreuves (PR ouverte, après la #75).
 - [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes (PR #75, à merger).
 - [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).

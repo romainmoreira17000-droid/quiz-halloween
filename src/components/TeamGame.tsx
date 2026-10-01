@@ -6,6 +6,7 @@ import { blockSecondsLeft } from '../game/block'
 import { quizFingerprint } from '../game/fingerprint'
 import { gamePhase, type GamePhase } from '../game/phase'
 import { secondsBeforeNextHint } from '../game/hints'
+import { waitingLabel } from '../game/messages'
 import { hintsAvailable, wrongAttemptsIn } from '../game/progress'
 import { remainingSeconds, slotTiming } from '../game/time'
 import { useBoardSync } from '../hooks/useBoardSync'
@@ -129,7 +130,7 @@ function currentScreen({ config, teamIndex, progress, phase, now }: ScreenInput)
       return (
         <StepScreen key={phase.challenge} header={header} step={config.steps[phase.challenge]} challenge={phase.challenge}
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
-          isLastSlot={phase.slot === stepCount - 1} blockSecondsLeft={blocked}
+          nextLabel={waitingLabel(phase.slot, stepCount, config.finalStep)} blockSecondsLeft={blocked}
           hintsAvailable={shown} secondsToNextHint={secondsBeforeNextHint(timing.secondsLeft, slotMinutes, config.hintTimes, shown)}
           waitingMessage={config.waitingMessage} onSubmit={submit} />
       )

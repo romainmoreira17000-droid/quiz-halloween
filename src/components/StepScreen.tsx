@@ -21,8 +21,10 @@ export interface StepScreenProps {
   wrongAttempts: number
   /** Seconds before every group changes room (shown once the digit is found). */
   secondsLeft: number
-  /** Last slot: the padlock comes next, not another room. */
-  isLastSlot: boolean
+  /** Words before the countdown once solved (see waitingLabel); null hides it (the final, before the padlock). */
+  nextLabel: string | null
+  /** Called when the « Bravo ! » is closed by a tap. */
+  onCelebrationEnd?: () => void
   /** Seconds before a new answer is accepted after a wrong one (0 = free). */
   blockSecondsLeft: number
   /** Hints of the step unlocked now; unused when the step has no hint. */
@@ -41,10 +43,10 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, isLastSlot, blockSecondsLeft, hintsAvailable, secondsToNextHint, waitingMessage, onSubmit } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, nextLabel, blockSecondsLeft, hintsAvailable, secondsToNextHint, waitingMessage, onSubmit, onCelebrationEnd } = props
   const digit = digits[challenge]
   const solved = digit !== null
-  const celebration = useCelebration(solved)
+  const celebration = useCelebration(solved, onCelebrationEnd)
   return (
     <main className="screen step">
       {header}
@@ -62,7 +64,7 @@ export function StepScreen(props: StepScreenProps) {
         <div className="answer-zone">
           <p className="found" role="status">Chiffre trouvé : <b>{digit}</b></p>
           {waitingMessage && <p className="waiting-message">{waitingMessage}</p>}
-          <p className="next-room">{isLastSlot ? 'Le cadenas final dans' : 'Changement d’épreuve dans'} {formatClock(secondsLeft)}</p>
+          {nextLabel && <p className="next-room">{nextLabel} {formatClock(secondsLeft)}</p>}
         </div>
       ) : (
         <AnswerZone kind={step.answer.kind} wrongAttempts={wrongAttempts} blockedSeconds={blockSecondsLeft} onSubmit={onSubmit} />

@@ -7,7 +7,7 @@ import { WRONG_ANSWER_MESSAGES } from '../game/messages'
 const base: StepScreenProps = {
   header: <header>entête</header>,
   step: { title: 'Le chaudron', instruction: 'Combien d’yeux ?', answer: { kind: 'digits', value: '7' }, digit: 7 },
-  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, isLastSlot: false, blockSecondsLeft: 0, hintsAvailable: 0, secondsToNextHint: null,
+  challenge: 1, digits: [4, null, null, null, null, null], wrongAttempts: 0, secondsLeft: 252, nextLabel: 'Changement d’épreuve dans', blockSecondsLeft: 0, hintsAvailable: 0, secondsToNextHint: null,
   onSubmit: () => {},
 }
 
@@ -66,9 +66,17 @@ describe('StepScreen', () => {
     expect(screen.queryByText('Goûtez les bonbons !')).not.toBeInTheDocument()
   })
   it('announces the padlock during the last slot', () => {
-    render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} isLastSlot />)
+    render(<StepScreen {...base} digits={[4, 7, 1, 2, 0, 9]} nextLabel="Le cadenas final dans" />)
     expect(screen.getByText('Le cadenas final dans 04:12')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /Cadenas ouvert/ })).toBeInTheDocument()
+  })
+  it('announces the final', () => {
+    render(<StepScreen {...base} digits={[4, 7, null, null, null, null]} nextLabel="L’épreuve finale dans" />)
+    expect(screen.getByText('L’épreuve finale dans 04:12')).toBeInTheDocument()
+  })
+  it('shows no countdown without a label (the final, before the padlock)', () => {
+    render(<StepScreen {...base} digits={[4, 7, null, null, null, null]} nextLabel={null} />)
+    expect(screen.queryByText(/dans \d\d:\d\d/)).not.toBeInTheDocument()
   })
   it('blocks the keyboard after a wrong answer', () => {
     render(<StepScreen {...base} wrongAttempts={1} blockSecondsLeft={59} />)
@@ -114,6 +122,14 @@ describe('StepScreen', () => {
       act(() => vi.advanceTimersByTime(1600))
       fireEvent.click(screen.getByRole('dialog', { name: 'Bravo !' }))
       expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()
+    })
+    it('tells when the « Bravo ! » is closed by a tap', () => {
+      const onCelebrationEnd = vi.fn()
+      const { rerender } = render(<StepScreen {...base} onCelebrationEnd={onCelebrationEnd} />)
+      rerender(<StepScreen {...base} digits={solved} onCelebrationEnd={onCelebrationEnd} />)
+      act(() => vi.advanceTimersByTime(1600))
+      fireEvent.click(screen.getByRole('dialog', { name: 'Bravo !' }))
+      expect(onCelebrationEnd).toHaveBeenCalledOnce()
     })
     it('does not celebrate again when the screen opens already solved (reload)', () => {
       render(<StepScreen {...base} digits={solved} />)

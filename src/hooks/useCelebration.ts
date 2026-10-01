@@ -14,9 +14,10 @@ export const CELEBRATION_MS = 3000
  * Only a change from "not solved" to "solved" celebrates: a screen that opens already solved
  * (tablet reloaded while waiting) stays quiet.
  * @param solved Whether the challenge of the screen has its digit.
+ * @param onEnd Called when the celebration is closed by a tap (not when it goes away on its own).
  * @returns `shown`, true while the celebration is on screen, and `dismiss` to close it early.
  */
-export function useCelebration(solved: boolean): { shown: boolean; dismiss(): void } {
+export function useCelebration(solved: boolean, onEnd?: () => void): { shown: boolean; dismiss(): void } {
   // Solved state when the screen opened; a digit is never taken back, so `solved` flips at most once.
   const [solvedAtOpen] = useState(solved)
   const [shown, setShown] = useState(false)
@@ -26,5 +27,5 @@ export function useCelebration(solved: boolean): { shown: boolean; dismiss(): vo
     const hide = setTimeout(() => setShown(false), CELEBRATION_DELAY_MS + CELEBRATION_MS)
     return () => { clearTimeout(show); clearTimeout(hide) }
   }, [solved, solvedAtOpen])
-  return { shown, dismiss: () => setShown(false) }
+  return { shown, dismiss: () => { setShown(false); onEnd?.() } }
 }

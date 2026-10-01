@@ -10,7 +10,8 @@ Chaque équipe récupère un chiffre par salle. Avec les 6 chiffres, on ouvre la
 
 ## Les équipes
 
-6 équipes de 5 enfants + 2 adultes : **Sorcières, Zombies, Fantômes, Loups-garous, Squelettes, Momies**.
+5 équipes (6 enfants + 2 adultes) : **Sorcières, Zombies, Fantômes, Loups-garous, Squelettes**. Une seule équipe par
+salle à chaque créneau (choix de Romain, 2026-10-01 : les Momies sont retirées).
 Chaque équipe a sa tablette (image de l'équipe collée au dos).
 
 ## Planning
@@ -32,12 +33,14 @@ l'équipe guident les enfants vers la salle suivante.
 
 | Créneau | 20h15 | 20h30 | 20h45 | 21h00 | 21h15 | 21h30 |
 |---|---|---|---|---|---|---|
-| Sorcières | 1 | 2 | 3 | 4 | 5 | 6 |
-| Zombies | 2 | 3 | 4 | 5 | 6 | 1 |
-| Fantômes | 3 | 4 | 5 | 6 | 1 | 2 |
-| Loups-garous | 4 | 5 | 6 | 1 | 2 | 3 |
-| Squelettes | 5 | 6 | 1 | 2 | 3 | 4 |
-| Momies | 6 | 1 | 2 | 3 | 4 | 5 |
+| Sorcières | 1 | 2 | 3 | 4 | 5 | 6 (tous) |
+| Zombies | 2 | 3 | 4 | 5 | 1 | 6 (tous) |
+| Fantômes | 3 | 4 | 5 | 1 | 2 | 6 (tous) |
+| Loups-garous | 4 | 5 | 1 | 2 | 3 | 6 (tous) |
+| Squelettes | 5 | 1 | 2 | 3 | 4 | 6 (tous) |
+
+Numéros des épreuves de `quiz.yaml` : 1 galerie, 2 addition, 3 cimetière, 4 jackpot funèbre, 5 toilettes
+scientifiques, 6 « Invisible mais visible » (finale jouée par tout le monde ensemble).
 
 La tablette affiche toute seule la bonne épreuve : pas besoin d'imprimer ce tableau pour les enfants.
 

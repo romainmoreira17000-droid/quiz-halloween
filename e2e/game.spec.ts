@@ -9,7 +9,7 @@ const CHALLENGES: Record<number, readonly [string, string, number]> = {
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
 
-test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the padlock', async ({ page }) => {
+test('the Zombies play challenges 2 to 5 and 1, then the common final, get help on one, and open the padlock', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
@@ -45,14 +45,25 @@ test('the Zombies play challenges 2 to 6 then 1, get help on one, and open the p
   await expect(page.getByRole('status')).toHaveText('Chiffre de l’épreuve : 8')
   await page.getByRole('button', { name: 'Continuer' }).click()
 
-  // Slots 3 to 6: challenges 4, 5, 6, then 1.
-  for (const number of [4, 5, 6, 1]) {
+  // Slots 3 to 5: challenges 4, 5, then 1; the waiting screen of slot 5 announces the final.
+  for (const number of [4, 5, 1]) {
     const [title, answer, digit] = CHALLENGES[number]
     await expect(page.getByRole('heading', { name: title })).toBeVisible()
     await typeAnswer(page, answer)
     await expect(page.getByRole('status')).toHaveText(`Chiffre trouvé : ${digit}`)
+    if (number === 1) await expect(page.getByText(/^L’épreuve finale dans \d\d:\d\d$/)).toBeVisible()
     await nextSlot(page)
   }
+
+  // Slot 6: the common final, without hint button; once found, the « Bravo ! » then the padlock, before the slot ends.
+  const [title, answer, digit] = CHALLENGES[6]
+  await expect(page.getByRole('heading', { name: title })).toBeVisible()
+  await expect(page.getByRole('button', { name: /indice/i })).toBeHidden()
+  await typeAnswer(page, answer)
+  await expect(page.getByRole('status')).toHaveText(`Chiffre trouvé : ${digit}`)
+  await page.clock.fastForward('00:02')
+  await expect(page.getByRole('dialog', { name: 'Bravo !' })).toContainText(String(digit))
+  await page.clock.fastForward('00:03')
 
   // Padlock code of the sample quiz: challenges in order 3, 1, 5, 2, 4, 6.
   const CODE = [8, 6, 0, 3, 9, 4]

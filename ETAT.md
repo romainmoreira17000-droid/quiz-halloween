@@ -1,12 +1,11 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (comptine du cadenas plus difficile, PR ouverte)
+Dernière mise à jour : 2026-10-01 (comptine du cadenas plus difficile, mergée)
 
 ## Sprint en cours
-Comptine du cadenas final trop facile (#81), branche `fix/harder-padlock-rhyme` : `cadenas.indice` réécrit par
+Aucun. Comptine du cadenas final (#81, PR #82) mergée et déployée le 2026-10-01 : `cadenas.indice` réécrit par
 allusions (potier = cimetière, yeux peints = galerie, savants = toilettes, sous la table = addition, symboles = jackpot,
-monstres = finale), sans nom de salle (choix de Romain). Tests verts, écran vérifié. Reste : Romain relit et merge la PR
-(le merge déploie : jamais pendant la soirée).
+monstres = finale), sans nom de salle (choix de Romain : l'ancienne nommait les salles, trop facile).
 
 Sprint 27 (#76, PR #77) mergé le 2026-10-01 : récit entre les épreuves (champ `recit`, `QuizStep.story`).
 

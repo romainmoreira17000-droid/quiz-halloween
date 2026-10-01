@@ -1,20 +1,16 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 24 : relu, corrigé, PR ouverte)
+Dernière mise à jour : 2026-10-01 (sprint 24 mergé et en ligne)
 
 ## Sprint en cours
-Sprint 24 (#68), branche `feat/common-final` : **épreuve finale commune**. « Invisible mais visible » (`finale: true`)
-se joue par toutes les équipes ensemble au 6e créneau, après la rotation des 5 autres épreuves (6 équipes pour 5 postes :
-Sorcières et Momies partagent un poste) ; pas d'indices sur la tablette (les animateurs les donnent) ; bonne réponse →
-« Bravo ! » puis cadenas tout de suite. Wifi faible dans la salle : parcours complet vérifié hors ligne en e2e.
-Spec : `docs/superpowers/specs/2026-10-01-common-final-design.md`. Plan : `docs/superpowers/plans/2026-10-01-common-final.md` (7 tâches).
-Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [x] tâches 1 à 7 (exécution native, 587 tests unitaires + 29 e2e verts, dont `e2e/offline.spec.ts`), [x] relecture (relecteur-code, Opus) et corrections (589 tests unitaires + 28 e2e verts), [x] PR ouverte.
-Ce sprint reprend aussi l'`ETAT.md` de la PR #67 (docs seule) : la #67 peut être fermée sans merge.
+Aucun. Sprint 24 (#68, épreuve finale commune « Invisible mais visible » au 6e créneau) mergé le 2026-10-01 (PR #69)
+et déployé (le site en ligne contient la finale). La PR #67 (docs) est à fermer sans merge : son contenu est ici.
 
 En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
+- [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).
 - [x] Sprint 21 (#59) : contenu réel (l'addition, le jackpot funèbre, indices à 8/10/13 min, code du cadenas
@@ -30,7 +26,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Romain teste la PR et donne son accord pour merger (déploiement automatique, **avant** la soirée, jamais pendant) ; fermer la PR #67 sans merge (son ETAT.md est repris ici).
+Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

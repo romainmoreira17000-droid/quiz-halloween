@@ -32,7 +32,7 @@ test('a 3-second press on the reset icon, then the animator code, restarts the g
 async function confirmReset(page: Page): Promise<void> {
   const dialog = page.getByRole('dialog', { name: 'Recommencer la partie ?' })
   await dialog.getByRole('button', { name: 'Recommencer', exact: true }).click()
-  for (const key of ['2', '7', '1', '0', 'Valider']) await dialog.getByRole('button', { name: key, exact: true }).click()
+  for (const key of ['1', '7', '1', '7', 'Valider']) await dialog.getByRole('button', { name: key, exact: true }).click()
 }
 
 async function holdResetIcon(page: Page): Promise<void> {

@@ -11,7 +11,7 @@ async function openMenu(page: Page): Promise<void> {
   await page.mouse.up()
   await page.getByRole('button', { name: 'Menu animateur' }).click()
   const dialog = page.getByRole('dialog')
-  for (const key of ['2', '7', '1', '0', 'Valider']) await dialog.getByRole('button', { name: key, exact: true }).click()
+  for (const key of ['1', '7', '1', '7', 'Valider']) await dialog.getByRole('button', { name: key, exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Menu animateur' })).toBeVisible()
 }
 
@@ -71,7 +71,7 @@ test('an animator lines a late tablet up with the start time of the others', asy
   await page.getByLabel('Départ de la partie').fill('19:48')
   await page.getByRole('button', { name: 'Recaler l’heure de départ' }).click()
   await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await page.getByRole('button', { name: 'Continuer' }).click()
   await expect(page.getByRole('heading', { name: "L'addition" })).toBeVisible()
 })

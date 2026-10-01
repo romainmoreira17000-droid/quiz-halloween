@@ -18,6 +18,6 @@ export async function typeAnswer(page: Page, text: string): Promise<void> {
  * @param team Team name from quiz.yaml.
  */
 export async function setUpTablet(page: Page, team: string): Promise<void> {
-  await typeAnswer(page, '2710')
+  await typeAnswer(page, '1717')
   await page.getByRole('button', { name: team, exact: true }).click()
 }

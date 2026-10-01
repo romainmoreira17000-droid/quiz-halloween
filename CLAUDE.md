@@ -168,7 +168,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   total en petit). Place pour une consigne de **4 lignes au plus** (≈ 200 caractères). Toute ligne de plus le fera défiler : `e2e/layout.spec.ts` le vérifie
   (pavé et clavier de lettres).
 - **e2e de la rotation** : `setUpTablet(page, équipe)` en premier dans chaque test (sinon écran de réglage) ;
-  `page.clock.fastForward('15:00')` avance d'un créneau. Code animateur du YAML d'exemple : 2710.
+  `page.clock.fastForward('15:00')` avance d'un créneau. Code animateur du YAML : 1717.
 - **Blocage** : `blockedUntil` (timestamp) dans l'état sauvegardé, plafonné à la fin du créneau (`blockEnd`) ; le
   réducteur ignore toute réponse pendant le blocage (ni bonne ni mauvaise) et `earnsDigit` renvoie false (pas de
   « clac »). Le décompte remplace la réponse tapée dans l'`<output>` (pas de ligne en plus). Seulement sur les épreuves.

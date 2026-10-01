@@ -5,8 +5,8 @@ Dernière mise à jour : 2026-10-01 (sprint 26 en cours)
 ## Sprint en cours
 Sprint 26 (#74), branche `feat/content-tweaks` : « Les toilettes scientifiques » (au lieu du laboratoire machiavélique),
 message de victoire « Bravo ! Vous avez déchiffré… le festin vous attend ! » (titre de la victoire passé de 56 à 44 px pour
-tenir sur tablette sans défilement), 5 équipes (Momies retirées). Fait et vérifié (590 tests unitaires, 28 e2e) ; reste :
-relecture, PR, merge par Romain.
+tenir sur tablette sans défilement), 5 équipes (Momies retirées). Fait et vérifié (590 tests unitaires, 28 e2e), relu ; PR #75 ouverte. Reste :
+merge par Romain (hors soirée), puis régler à nouveau l'équipe de chaque tablette.
 
 Sprint suivant prévu : **récit entre les épreuves** (champ `recit` par épreuve, affiché sur l'écran d'attente après le
 « Bravo ! », au-dessus ou en plus de « Profitez-en pour déguster… » qu'on garde). Textes validés par Romain le 2026-10-01 :
@@ -22,7 +22,7 @@ finale (elle passe directement au cadenas), et si une épreuve donnée par l'ani
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
-- [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes (PR à ouvrir).
+- [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes : PR #75 ouverte, relue, à merger par Romain.
 - [x] Sprint 25 (#71) : laboratoire et finale, mergé (PR #72).
 - [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).

@@ -13,7 +13,7 @@ export async function typeAnswer(page: Page, text: string): Promise<void> {
 }
 
 /**
- * Sets the tablet up as an animator would: animator code of the sample quiz, then the team.
+ * Sets the tablet up as an animator would: animator code of the quiz, then the team.
  * @param page Playwright page showing the setup screen.
  * @param team Team name from quiz.yaml.
  */

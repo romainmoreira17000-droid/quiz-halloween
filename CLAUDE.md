@@ -236,7 +236,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   (sinon « Version différente ») ; un état `home` = « Pas commencé ». Pas de `supabase gen types` (écart assumé) : trois
   fonctions seulement, réponses vérifiées à l'exécution par `parseBoard`.
 - **Finale commune** (sprint 24, `finale: true` → `QuizConfig.finalStep`, index 0-based) : `challengeAt` fait tourner les
-  autres épreuves puis donne la finale à tous au dernier créneau ; une seule finale, sans `indices` (validateFinal) ; il faut
+  autres épreuves puis donne la finale à tous au dernier créneau ; une seule finale (validateFinal), avec ses `indices` comme
+  les autres (sprint 25 : mêmes horaires, toutes les tablettes en même temps) ; il faut
   **au moins** une équipe par épreuve en rotation (plus d'équipes = postes partagés). `gamePhase` passe au cadenas **dès** la
   finale trouvée ; `useFinaleHold` garde alors l'écran de la finale le temps du « Bravo ! » (passage détecté **pendant le
   rendu**, pas dans un effet : une image de cadenas démonterait `StepScreen`). Pas de « Bravo ! » après « Passer à l'épreuve

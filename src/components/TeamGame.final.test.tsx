@@ -13,7 +13,7 @@ const config: QuizConfig = {
   title: 'Le manoir hanté', teams: ['Sorcières', 'Zombies'], slotMinutes: 15, hintTimes: [10], blockSeconds: 0, animatorCode: '2710', stepCount: 2,
   steps: [
     { title: 'La crypte', instruction: 'a', answer: { kind: 'digits', value: '4' }, digit: 4 },
-    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0 },
+    { title: 'Le grenier', instruction: 'b', answer: { kind: 'digits', value: '0' }, digit: 0, hints: ['Sous la poutre'] },
   ],
   finalStep: 1,
   padlock: { order: [2, 1] },
@@ -57,6 +57,13 @@ describe('TeamGame with a common final', () => {
     expect(padlockShown()).toBeInTheDocument()
     // The padlock has no time limit: no slot clock running down while the children turn the dials.
     expect(screen.queryByRole('timer', { name: 'Temps restant pour l’épreuve' })).not.toBeInTheDocument()
+  })
+  it('unlocks the hints of the final with the clock, like the other challenges', () => {
+    reachFinal(0)
+    expect(screen.queryByRole('button', { name: /Voir l’indice/ })).not.toBeInTheDocument()
+    wait(10 * MIN)
+    press('Voir l’indice')
+    expect(screen.getByRole('dialog')).toHaveTextContent('Sous la poutre')
   })
   it('opens the padlock at once when the « Bravo ! » is tapped', () => {
     reachFinal(0)

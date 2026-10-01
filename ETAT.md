@@ -1,12 +1,18 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 24 mergé et en ligne)
+Dernière mise à jour : 2026-10-01 (sprint 25 ouvert)
 
 ## Sprint en cours
-Aucun. Sprint 24 (#68, épreuve finale commune « Invisible mais visible » au 6e créneau) mergé le 2026-10-01 (PR #69)
-et déployé (le site en ligne contient la finale). La PR #67 (docs) est à fermer sans merge : son contenu est ici.
+Sprint 25 (#71), branche `feat/real-quiz-content-3` : contenu réel des épreuves 3 et 6 (PDF « Déroulé de la soirée
+halloween (2) » du 2026-10-01). Code du cadenas : 8 6 9 3 9 4.
+Étapes :
+- [x] Le validateur accepte des indices sur la finale (TDD : validateFinal + test d'intégration de la finale).
+- [x] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
+  chiffre 4, 3 indices) ; `docs/contenu-epreuves.md`, CLAUDE.md et les 7 specs e2e à jour.
+- [x] Vérifs : 590 tests unitaires, typecheck, lint, 28 e2e verts ; captures tablette du laboratoire et de la finale OK.
+- [x] Relecture (`relecteur-code`) : rien de bloquant ; README et commentaires e2e « sample quiz » corrigés.
+- [ ] PR ouverte, à faire merger par Romain.
 
-En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
@@ -21,22 +27,22 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [x] Suite de relecture, mergée (PR #55) : bouton « Annuler » de la confirmation du saut,
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
-- [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
-  (épreuve 6, chiffre 4), avec jusqu'à 3 indices chacune ← Romain l'envoie avant vendredi 2026-10-02.
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
 Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
-`check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
+`check:board -- --full`).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
-Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-3`,
-condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
+Sprint 25 : Romain relit les consignes et merge la PR (le merge déploie : jamais pendant la soirée).
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- Sprint 25 (choix de Romain) : la finale a ses 3 indices dans l'app (mêmes horaires 8/10/13 min, sur toutes les tablettes
+  à la fois), au lieu de les dire à voix haute ; les enfants tapent **4** (pavé) ; l'épreuve 3 s'appelle « Le laboratoire
+  machiavélique » (la comptine garde « aux toilettes », c'est toujours la même salle).
 - Sprint 24 (choix de Romain) : tout le monde est dans la même salle, la 6e épreuve se joue ensemble en dernier ; chaque
   équipe tape la réponse sur sa tablette ; cadenas dès la finale trouvée (pas d'attente de fin de créneau).
 - Sprint 24 (relecture) : plus de chrono d'épreuve sur le cadenas atteint pendant la finale (il n'a pas de limite) ;

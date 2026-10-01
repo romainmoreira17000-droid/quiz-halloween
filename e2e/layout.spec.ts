@@ -1,11 +1,11 @@
-/** @file The challenge screens fit a 810×1080 tablet without scrolling, with the digits and the letters keyboards. */
+/** @file The challenge screens fit a 810×1080 tablet without scrolling (every answer of the quiz is typed on the keypad). */
 import { test, expect } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// Each team starts on its own rotating challenge: every title (some wrap on two lines) with both keyboards.
+// Each team starts on its own rotating challenge: every title (some wrap on two lines).
 const FIRST_CHALLENGES = [
   ['Sorcières', 'La galerie des portraits'], ['Zombies', "L'addition"], ['Fantômes', 'Le cimetière'],
-  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Les toilettes scientifiques'],
+  ['Loups-garous', 'Le jackpot funèbre'], ['Squelettes', 'Le laboratoire machiavélique'],
 ] as const
 for (const [team, title] of FIRST_CHALLENGES) {
   test(`the « ${title} » screen fits the tablet without scrolling`, async ({ page }) => {
@@ -19,16 +19,16 @@ for (const [team, title] of FIRST_CHALLENGES) {
   })
 }
 
-test('the common final screen fits the tablet without scrolling, without hint button', async ({ page }) => {
+test('the common final screen, with its hint button, fits the tablet without scrolling', async ({ page }) => {
   await page.goto('./?test')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
-  for (const answer of ['6', '3', '8', '9', "TOILE D'ARAIGNEE"]) {
+  for (const answer of ['6', '3', '8', '9', '9']) {
     await typeAnswer(page, answer)
     await page.getByRole('button', { name: 'Épreuve suivante' }).click()
   }
   await expect(page.getByRole('heading', { name: 'Invisible mais visible' })).toBeVisible()
-  await expect(page.getByRole('button', { name: /indice/i })).toBeHidden()
+  await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
   expect(overflow).toBeLessThanOrEqual(0)
 })

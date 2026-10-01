@@ -93,8 +93,8 @@ nombre_etapes: 6
 #                 un par un aux minutes de « indices_apres_minutes » ; sans indices, pas de
 #                 bouton « Indice »
 #   finale        facultatif, true sur une seule étape : l'épreuve que toutes les équipes
-#                 jouent ensemble au dernier créneau, après la rotation des autres ; pas
-#                 d'« indices » (les animateurs les donnent). Sa bonne réponse ouvre le cadenas.
+#                 jouent ensemble au dernier créneau, après la rotation des autres ; ses
+#                 indices arrivent aux mêmes minutes que les autres. Sa bonne réponse ouvre le cadenas.
 etapes:
   - titre: "La galerie des portraits"
     fond: "galerie-des-portraits.webp"
@@ -144,32 +144,40 @@ etapes:
       - "Chaque souci a son symbole."
       - "Ouvrez les yeux, et réapprenez vos calculs mentaux."
 
-  # Épreuves des toilettes et d'invisible mais visible : contenu d'exemple, à remplacer.
-  # Le chiffre des toilettes (0) est provisoire : il n'est pas encore choisi.
-  - titre: "Les toilettes scientifiques"
+  # Salle des toilettes scientifiques. Doses derrière les scientifiques :
+  # 1 orange + 2 jaunes + 2 rouges + 3 verts + 1 bleu = 9.
+  - titre: "Le laboratoire machiavélique"
     fond: "toilettes-scientifiques.webp"
-    consigne: "Qu'a tissé l'araignée géante au-dessus de la malle ?"
-    type_reponse: mots
-    reponse: "Toile d'araignée"
-    chiffre: 0
-    indices: ["Elle est faite de fils et attrape les mouches."]
+    consigne: "Si vous ne voulez pas mourir asphyxiés, ne restez pas trop longtemps sur le trône. Soyez observateurs : derrière chaque scientifique se trouve le bon dosage. Tapez le chiffre trouvé."
+    type_reponse: chiffres
+    reponse: "9"
+    chiffre: 9
+    indices:
+      - "Soyez attentifs aux chiffres colorés."
+      - "Pour les doses, faites la correspondance entre couleur et numéro."
+      - "La solution sera l'addition des doses."
 
+  # Épreuve finale : tout le monde la joue ensemble au 6e créneau. Six des hôtes portent
+  # une étiquette avec un code et une lettre : Q-U-A-T-R-E.
   - titre: "Invisible mais visible"
-    # Épreuve finale : tout le monde la joue ensemble au 6e créneau.
     finale: true
     fond: "invisible-mais-visible.webp"
-    consigne: "Quel légume orange le chef creuse-t-il pour Halloween ?"
-    type_reponse: mots
-    reponse: "Citrouille"
+    consigne: "Dirigez-vous vers vos ennemis… qui deviendront peut-être vos amis. Tapez le chiffre trouvé."
+    type_reponse: chiffres
+    reponse: "4"
     chiffre: 4
+    indices:
+      - "Six de vos hôtes ont un petit truc en plus."
+      - "Les indices sont codés à gauche ou à droite."
+      - "Pour trouver le dernier chiffre, il vous faudra jouer aux chiffres et aux lettres."
 
 # Cadenas final. Section entière facultative.
 cadenas:
   # Ordre dans lequel les chiffres des étapes forment le code.
   # Facultatif (par défaut : 1, 2, 3...). S'il est donné, il doit contenir
   # chaque numéro d'étape de 1 à nombre_etapes, une seule fois.
-  # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), toilettes (5),
-  # addition (2), jackpot (4), invisible mais visible (6).
+  # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), laboratoire des
+  # toilettes (5), addition (2), jackpot (4), invisible mais visible (6) → code 8 6 9 3 9 4.
   ordre: [3, 1, 5, 2, 4, 6]
 
   # Indice affiché près du cadenas. Facultatif, texte. Les retours à la ligne

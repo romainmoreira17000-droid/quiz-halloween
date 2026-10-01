@@ -2,10 +2,10 @@
 import { test, expect } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-// The Sorcières play challenges 1 to 5 in order, then the common final (6); answers of the sample quiz.yaml.
+// The Sorcières play challenges 1 to 5 in order, then the common final (6); answers of quiz.yaml.
 const CHALLENGES = [
   ['La galerie des portraits', '6'], ["L'addition", '3'], ['Le cimetière', '8'],
-  ['Le jackpot funèbre', '9'], ['Les toilettes scientifiques', "TOILE D'ARAIGNEE"], ['Invisible mais visible', 'CITROUILLE'],
+  ['Le jackpot funèbre', '9'], ['Le laboratoire machiavélique', '9'], ['Invisible mais visible', '4'],
 ] as const
 
 test('with ?test, the skip button walks through the rotation up to the final', async ({ page }) => {

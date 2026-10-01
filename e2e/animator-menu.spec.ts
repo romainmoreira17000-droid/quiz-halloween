@@ -2,7 +2,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { setUpTablet, typeAnswer } from './typing.js'
 
-/** Long press on ↺, « Menu animateur », then the animator code of the sample quiz in the window. */
+/** Long press on ↺, « Menu animateur », then the animator code of the quiz in the window. */
 async function openMenu(page: Page): Promise<void> {
   const icon = page.getByRole('button', { name: 'Recommencer la partie (appui long)' })
   await icon.hover()
@@ -37,7 +37,7 @@ test('an animator unblocks, shows the hint, solves the challenge and reads the a
   await openMenu(page)
   await page.getByRole('button', { name: 'Voir les solutions' }).click()
   await expect(page.getByRole('list', { name: 'Solutions' })).toContainText('La galerie des portraits')
-  await expect(page.getByText('Code du cadenas : 8 6 0 3 9 4')).toBeVisible()
+  await expect(page.getByText('Code du cadenas : 8 6 9 3 9 4')).toBeVisible()
   await page.getByRole('button', { name: 'Valider l’épreuve « La galerie des portraits »' }).click()
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
 })

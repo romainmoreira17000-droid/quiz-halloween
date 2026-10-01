@@ -55,6 +55,8 @@ describe('TeamGame with a common final', () => {
     expect(screen.getByRole('dialog', { name: 'Bravo !' })).toHaveTextContent('0')
     wait(CELEBRATION_MS)
     expect(padlockShown()).toBeInTheDocument()
+    // The padlock has no time limit: no slot clock running down while the children turn the dials.
+    expect(screen.queryByRole('timer', { name: 'Temps restant pour l’épreuve' })).not.toBeInTheDocument()
   })
   it('opens the padlock at once when the « Bravo ! » is tapped', () => {
     reachFinal(0)
@@ -75,8 +77,8 @@ describe('TeamGame with a common final', () => {
   it('goes straight to the padlock when an animator skips the final', () => {
     reachFinal(0)
     openMenu()
-    press('Passer à l’épreuve suivante')
-    press('Oui, passer à l’épreuve suivante')
+    press('Passer au cadenas')
+    press('Oui, passer au cadenas')
     expect(padlockShown()).toBeInTheDocument()
     wait(CELEBRATION_DELAY_MS)
     expect(screen.queryByRole('dialog', { name: 'Bravo !' })).not.toBeInTheDocument()

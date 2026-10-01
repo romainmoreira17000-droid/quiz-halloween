@@ -30,8 +30,10 @@ export function validateQuiz(raw: unknown): ValidationResult {
   const entrance = validateEntrance(raw.entree, errors)
   const countOk = isIntInRange(raw.nombre_etapes, 1, Number.MAX_SAFE_INTEGER)
   if (!countOk) errors.push('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
+  const beforeFinal = errors.length
   const finalStep = validateFinal(raw.etapes, errors)
-  const rotationCount = countOk ? (raw.nombre_etapes as number) - (finalStep === undefined ? 0 : 1) : null
+  // A wrong `finale` leaves the rotation unknown: counting teams against it would add a misleading message.
+  const rotationCount = countOk && errors.length === beforeFinal ? (raw.nombre_etapes as number) - (finalStep === undefined ? 0 : 1) : null
   const settings = validateTeamSettings(raw, rotationCount, errors)
 
   const steps: (QuizStep | null)[] = []

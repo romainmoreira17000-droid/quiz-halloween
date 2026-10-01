@@ -1,6 +1,6 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 24 : code fini, tests verts, relecture en cours)
+Dernière mise à jour : 2026-10-01 (sprint 24 : relu, corrigé, PR ouverte)
 
 ## Sprint en cours
 Sprint 24 (#68), branche `feat/common-final` : **épreuve finale commune**. « Invisible mais visible » (`finale: true`)
@@ -8,7 +8,7 @@ se joue par toutes les équipes ensemble au 6e créneau, après la rotation des 
 Sorcières et Momies partagent un poste) ; pas d'indices sur la tablette (les animateurs les donnent) ; bonne réponse →
 « Bravo ! » puis cadenas tout de suite. Wifi faible dans la salle : parcours complet vérifié hors ligne en e2e.
 Spec : `docs/superpowers/specs/2026-10-01-common-final-design.md`. Plan : `docs/superpowers/plans/2026-10-01-common-final.md` (7 tâches).
-Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [x] tâches 1 à 7 (exécution native, 587 tests unitaires + 29 e2e verts, dont `e2e/offline.spec.ts`), [ ] relecture (relecteur-code, Opus), [ ] PR.
+Étapes : [x] cadrage validé, [x] spec validée par Romain, [x] plan écrit, [x] tâches 1 à 7 (exécution native, 587 tests unitaires + 29 e2e verts, dont `e2e/offline.spec.ts`), [x] relecture (relecteur-code, Opus) et corrections (589 tests unitaires + 28 e2e verts), [x] PR ouverte.
 Ce sprint reprend aussi l'`ETAT.md` de la PR #67 (docs seule) : la #67 peut être fermée sans merge.
 
 En parallèle : Romain envoie le contenu des toilettes scientifiques et d'invisible mais visible avant vendredi 2026-10-02.
@@ -30,7 +30,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Corriger les retours de la relecture, puis ouvrir la PR (`Closes #68`) ; fermer la PR #67 sans merge. Merge = accord de Romain.
+Romain teste la PR et donne son accord pour merger (déploiement automatique, **avant** la soirée, jamais pendant) ; fermer la PR #67 sans merge (son ETAT.md est repris ici).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
@@ -43,6 +43,8 @@ condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écr
 ## Décisions prises (et pourquoi)
 - Sprint 24 (choix de Romain) : tout le monde est dans la même salle, la 6e épreuve se joue ensemble en dernier ; chaque
   équipe tape la réponse sur sa tablette ; cadenas dès la finale trouvée (pas d'attente de fin de créneau).
+- Sprint 24 (relecture) : plus de chrono d'épreuve sur le cadenas atteint pendant la finale (il n'a pas de limite) ;
+  « Passer au cadenas » au lieu de « Passer à l'épreuve suivante » dans le menu animateur pendant la finale.
 - Sprint 24 (design) : l'écran de la finale reste affiché le temps du « Bravo ! » (`useFinaleHold`), sinon la chute de
   goupille et le « Bravo ! » disparaîtraient avec le passage immédiat au cadenas.
 - Sprint 22 (choix de Romain) : 720 ordres possibles pour le code, donc une énigme sur l'écran du cadenas (comptine rimée,

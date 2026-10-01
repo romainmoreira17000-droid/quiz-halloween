@@ -20,6 +20,8 @@ export interface AnimatorMenuProps {
   nextHint?: { number: number; total: number; onShow(): void }
   /** Starts the next slot now (giving the digit on screen if needed), after a confirmation tap. */
   onSkip?(): void
+  /** Where the skip leads (see SkipNext), « au cadenas » on the final. */
+  skipTarget?: string
   /** Start time of a game in progress ("hh:mm") and how to change it (false when refused). */
   start?: { value: string; onSet(text: string): boolean }
   /** State of the remote follow-up (see syncStatusLabel), shown under the title. */
@@ -33,7 +35,7 @@ export interface AnimatorMenuProps {
  * @param props See AnimatorMenuProps.
  * @returns The menu over the current screen.
  */
-export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, start, remote, onClose }: AnimatorMenuProps) {
+export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, nextHint, onSkip, skipTarget, start, remote, onClose }: AnimatorMenuProps) {
   const close = useRef<HTMLButtonElement>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   useEffect(() => { close.current?.focus() }, [])
@@ -53,7 +55,7 @@ export function AnimatorMenu({ steps, code, challengeTitle, onSolve, onUnblock, 
             Débloquer l’indice suivant ({nextHint.number}/{nextHint.total})
           </button>
         )}
-        {onSkip && <SkipNext onSkip={run(onSkip)} />}
+        {onSkip && <SkipNext onSkip={run(onSkip)} target={skipTarget} />}
         {start && <StartTime value={start.value} onSet={start.onSet} onDone={onClose} />}
         {showAnswers ? (
           <>

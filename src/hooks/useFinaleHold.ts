@@ -13,18 +13,19 @@ function phaseKey(phase: GamePhase): string {
  * once (gamePhase), which would unmount the step screen and its celebration.
  * @param phase Phase derived from the clock.
  * @param finalStep Final challenge of the quiz, if any.
- * @param inFinalSlot Whether the clock is still in the final's slot (false after « Passer à l'épreuve suivante »,
- *   which gives the digit without any « Bravo ! »).
+ * @param slotsNotOver Whether the last slot is still running (false after « Passer au cadenas », which gives the
+ *   digit without any « Bravo ! »).
  * @returns `held` while the final screen must stay, and `release` to show the padlock early (« Bravo ! » tapped).
  */
-export function useFinaleHold(phase: GamePhase, finalStep: number | undefined, inFinalSlot: boolean): { held: boolean; release(): void } {
+export function useFinaleHold(phase: GamePhase, finalStep: number | undefined, slotsNotOver: boolean): { held: boolean; release(): void } {
   const key = phaseKey(phase)
   const [previous, setPrevious] = useState(key)
   const [held, setHeld] = useState(false)
   // Checked during render, not in an effect: one frame of padlock would unmount the step screen and its « Bravo ! ».
   if (key !== previous) {
     setPrevious(key)
-    if (finalStep !== undefined && previous === `challenge:${finalStep}` && key === 'padlock' && inFinalSlot) setHeld(true)
+    // Any other change (reset, new start time) drops the hold: the final must only ever stand in for the padlock.
+    setHeld(finalStep !== undefined && previous === `challenge:${finalStep}` && key === 'padlock' && slotsNotOver)
   }
   useEffect(() => {
     if (!held) return

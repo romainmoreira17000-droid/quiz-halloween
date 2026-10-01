@@ -34,6 +34,12 @@ describe('validateQuiz', () => {
     const result = validateQuiz(raw)
     expect(result.ok && result.config.finalStep).toBe(5)
   })
+  it('reports a quoted finale once, without a team count message', () => {
+    const raw = validRaw()
+    ;(raw.etapes as Record<string, unknown>[])[5].finale = 'true'
+    raw.equipes = teams(5)
+    expect(errorsOf(raw)).toEqual(['étape 6 : « finale » doit valoir true ou false.'])
+  })
   it('has no finalStep without a final', () => {
     const result = validateQuiz(validRaw())
     expect(result.ok && 'finalStep' in result.config).toBe(false)

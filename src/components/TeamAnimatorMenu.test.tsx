@@ -61,7 +61,8 @@ describe('animator menu in the game', () => {
     expect(screen.getByRole('button', { name: 'Voir les indices (2/2)' })).toBeEnabled()
     openMenu()
     expect(screen.queryByRole('button', { name: /Débloquer l’indice/ })).not.toBeInTheDocument()
-  })
+  // Four menu openings with their long press: over the default 5 s when the whole suite loads the machine.
+  }, 15_000)
   it('moves on to the next challenge, giving the digit of the unsolved one', () => {
     startZombies()
     openMenu()

@@ -53,6 +53,8 @@ export function TeamAnimatorMenu({ config, progress, phase, now, sync, onClose }
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
       nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
       onSkip={() => { if (progress.animatorSkip(challenge)) playPinSound() }}
+      // There is no challenge after the final: the skip gives its digit and opens the padlock.
+      skipTarget={challenge === config.finalStep ? 'au cadenas' : undefined}
       start={start} remote={remote} onClose={onClose} />
   )
 }

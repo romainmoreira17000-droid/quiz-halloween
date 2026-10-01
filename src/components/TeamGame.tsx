@@ -58,8 +58,8 @@ export function TeamGame({ config, teamIndex, onChangeTeam, testMode = false, ev
   const now = useNow(progress.state.status === 'playing')
   const phase = gamePhase(progress.state, config, teamIndex, now)
   const { startedAt } = progress.state
-  const inFinalSlot = startedAt !== null && slotTiming(startedAt, Math.max(now, startedAt), config.slotMinutes).slot < config.stepCount
-  const hold = useFinaleHold(phase, config.finalStep, inFinalSlot)
+  const slotsNotOver = startedAt !== null && slotTiming(startedAt, Math.max(now, startedAt), config.slotMinutes).slot < config.stepCount
+  const hold = useFinaleHold(phase, config.finalStep, slotsNotOver)
   const canSkip = phase.kind === 'challenge' || phase.kind === 'waiting'
   const [menuOpen, setMenuOpen] = useState(false)
   return (
@@ -108,7 +108,9 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
   // `now` may lag one tick behind « Commencer »: never show a time before the start.
   const at = Math.max(now, state.startedAt)
   const timing = slotTiming(state.startedAt, at, slotMinutes)
-  const slot = phase.kind !== 'won' && timing.slot < stepCount ? timing.slot : null
+  // The padlock has no time limit, even when reached early by the final: no slot clocks there (but during the « Bravo ! »).
+  const atPadlock = phase.kind === 'padlock' && !hold.held
+  const slot = phase.kind !== 'won' && !atPadlock && timing.slot < stepCount ? timing.slot : null
   const header = (
     <GameHeader slot={slot} total={stepCount} solved={state.digits.filter((d) => d !== null).length}
       slotSeconds={timing.secondsLeft} totalSeconds={remainingSeconds(state.startedAt, at, stepCount * slotMinutes)} />

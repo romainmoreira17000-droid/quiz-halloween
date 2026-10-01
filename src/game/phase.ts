@@ -33,10 +33,11 @@ export type GamePhase =
  * @param config Number of challenges and slot length.
  * @param teamIndex 0-based team of the tablet.
  * @param now Current timestamp in ms.
- * @returns The phase; a missed challenge comes first (earliest in play order), then the current slot.
+ * @returns The phase; a missed challenge comes first (earliest in play order), then the current slot; a found final opens
+ *   the padlock right away.
  */
 export function gamePhase(
-  state: PhaseInput, config: Pick<QuizConfig, 'stepCount' | 'slotMinutes'>, teamIndex: number, now: number,
+  state: PhaseInput, config: Pick<QuizConfig, 'stepCount' | 'slotMinutes' | 'finalStep'>, teamIndex: number, now: number,
 ): GamePhase {
   // Spelled out explicitly: a plain `{ kind: state.status }` does not narrow to the union above.
   if (state.status === 'home') return { kind: 'home' }
@@ -44,13 +45,15 @@ export function gamePhase(
   if (state.status === 'won') return { kind: 'won' }
   // A playing save always has a start time (restoreGameState checks it); this keeps the type narrow.
   if (state.startedAt === null) return { kind: 'home' }
-  const { stepCount } = config
+  const { stepCount, finalStep } = config
   const { slot } = slotTiming(state.startedAt, now, config.slotMinutes)
   for (let past = 0; past < Math.min(slot, stepCount); past++) {
-    const challenge = challengeAt(teamIndex, past, stepCount)
+    const challenge = challengeAt(teamIndex, past, stepCount, finalStep)
     if (state.digits[challenge] === null) return { kind: 'timeUp', challenge }
   }
   if (slot >= stepCount) return { kind: 'padlock' }
-  const challenge = challengeAt(teamIndex, slot, stepCount)
-  return state.digits[challenge] === null ? { kind: 'challenge', slot, challenge } : { kind: 'waiting', slot, challenge }
+  const challenge = challengeAt(teamIndex, slot, stepCount, finalStep)
+  if (state.digits[challenge] === null) return { kind: 'challenge', slot, challenge }
+  // No post to move to after the final: earlier slots all have their digit (checked above), so open the padlock.
+  return challenge === finalStep ? { kind: 'padlock' } : { kind: 'waiting', slot, challenge }
 }

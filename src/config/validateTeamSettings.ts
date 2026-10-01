@@ -29,7 +29,7 @@ function hintTimeErrors(raw: unknown, slotMinutes: number | null): string[] {
 }
 
 /** @returns French messages about the `equipes` list. */
-function teamErrors(raw: unknown, stepCount: number | null): string[] {
+function teamErrors(raw: unknown, rotationCount: number | null): string[] {
   if (!Array.isArray(raw)) return ['« equipes » est obligatoire et doit être une liste de noms.']
   const errors: string[] = []
   raw.forEach((name, i) => {
@@ -38,10 +38,9 @@ function teamErrors(raw: unknown, stepCount: number | null): string[] {
   const names = raw.filter(isNonEmptyString).map((name) => name.trim())
   new Set(names.filter((name, i) => names.indexOf(name) !== i))
     .forEach((name) => errors.push(`« equipes » : « ${name} » apparaît plusieurs fois.`))
-  // The rotation gives each team a different first challenge: with more teams than challenges two
-  // teams would share a room, with fewer a room would stay empty every slot.
-  if (stepCount !== null && raw.length !== stepCount) {
-    errors.push(`« equipes » contient ${raw.length} équipe(s) alors que « nombre_etapes » vaut ${stepCount} : il faut une équipe par épreuve.`)
+  // Every team is in the same room: several teams may share a post, but a post nobody visits would be wasted.
+  if (rotationCount !== null && raw.length < rotationCount) {
+    errors.push(`« equipes » contient ${raw.length} équipe(s) alors qu'il y a ${rotationCount} épreuve(s) en rotation : il faut au moins une équipe par épreuve.`)
   }
   return errors
 }
@@ -49,13 +48,14 @@ function teamErrors(raw: unknown, stepCount: number | null): string[] {
 /**
  * Validates the game settings found at the root of the quiz, pushing French messages into `errors`.
  * @param raw Root mapping of the YAML.
- * @param stepCount Validated `nombre_etapes`, or null when it is invalid (the team count is then not checked).
+ * @param rotationCount Rotating challenges (`nombre_etapes` minus the final), or null when `nombre_etapes` is invalid
+ *   (the team count is then not checked).
  * @param errors Accumulator shared with the other validators.
  * @returns The settings (team names trimmed), or null if at least one is wrong.
  */
-export function validateTeamSettings(raw: RawObject, stepCount: number | null, errors: string[]): TeamSettings | null {
+export function validateTeamSettings(raw: RawObject, rotationCount: number | null, errors: string[]): TeamSettings | null {
   const before = errors.length
-  errors.push(...teamErrors(raw.equipes, stepCount))
+  errors.push(...teamErrors(raw.equipes, rotationCount))
   const slotOk = isIntInRange(raw.duree_epreuve_minutes, 1, Number.MAX_SAFE_INTEGER)
   if (!slotOk) errors.push('« duree_epreuve_minutes » doit être un nombre entier supérieur à 0.')
   errors.push(...hintTimeErrors(raw.indices_apres_minutes, slotOk ? (raw.duree_epreuve_minutes as number) : null))

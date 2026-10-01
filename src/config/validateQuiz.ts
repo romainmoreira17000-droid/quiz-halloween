@@ -1,6 +1,7 @@
 /** @file Validates the whole quiz document and builds the typed QuizConfig. */
 import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './checks'
 import { validateEntrance } from './validateEntrance'
+import { validateFinal } from './validateFinal'
 import { validatePadlock } from './validatePadlock'
 import { validateStep } from './validateStep'
 import { validateTeamSettings } from './validateTeamSettings'
@@ -29,7 +30,9 @@ export function validateQuiz(raw: unknown): ValidationResult {
   const entrance = validateEntrance(raw.entree, errors)
   const countOk = isIntInRange(raw.nombre_etapes, 1, Number.MAX_SAFE_INTEGER)
   if (!countOk) errors.push('« nombre_etapes » doit être un nombre entier supérieur ou égal à 1.')
-  const settings = validateTeamSettings(raw, countOk ? (raw.nombre_etapes as number) : null, errors)
+  const finalStep = validateFinal(raw.etapes, errors)
+  const rotationCount = countOk ? (raw.nombre_etapes as number) - (finalStep === undefined ? 0 : 1) : null
+  const settings = validateTeamSettings(raw, rotationCount, errors)
 
   const steps: (QuizStep | null)[] = []
   if (!Array.isArray(raw.etapes)) {
@@ -63,6 +66,7 @@ export function validateQuiz(raw: unknown): ValidationResult {
     ...settings,
     stepCount,
     steps: steps as QuizStep[],
+    ...(finalStep !== undefined && { finalStep }),
     padlock,
     ...(entrance && { entrance }),
   } }

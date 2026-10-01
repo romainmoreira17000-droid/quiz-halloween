@@ -3,7 +3,8 @@ import { isIntInRange, isNonEmptyString, isObject, unknownKeyErrors } from './ch
 import type { QuizStep } from './types'
 import { validateAnswer } from './validateAnswer'
 
-const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indices', 'fond'] as const
+// `finale` is checked across the steps by validateFinal (only one final).
+const STEP_KEYS = ['titre', 'consigne', 'image', 'type_reponse', 'reponse', 'chiffre', 'indices', 'fond', 'finale'] as const
 
 /**
  * Validates a raw step, pushing French messages into `errors`.

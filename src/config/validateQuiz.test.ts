@@ -27,6 +27,17 @@ describe('validateQuiz', () => {
       padlock: { order: [1, 2, 3, 4, 5, 6], hint: 'Chut' },
     } })
   })
+  it('maps finale to finalStep and counts teams against the rotation', () => {
+    const raw = validRaw()
+    ;(raw.etapes as Record<string, unknown>[])[5].finale = true
+    raw.equipes = teams(5)
+    const result = validateQuiz(raw)
+    expect(result.ok && result.config.finalStep).toBe(5)
+  })
+  it('has no finalStep without a final', () => {
+    const result = validateQuiz(validRaw())
+    expect(result.ok && 'finalStep' in result.config).toBe(false)
+  })
   it('maps fond_accueil to the home backdrop', () => {
     const result = validateQuiz({ ...validRaw(), fond_accueil: 'accueil.webp' })
     expect(result.ok && result.config.homeBackdrop).toBe('accueil.webp')

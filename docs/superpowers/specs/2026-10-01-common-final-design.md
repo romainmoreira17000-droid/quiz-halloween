@@ -42,6 +42,12 @@ finale donne son chiffre puis mène au cadenas ; « Départ de la partie » gard
   `StepScreen` reçoit `nextLabel` à la place de `isLastSlot` (« Le cadenas final dans » reste pour un quiz sans finale).
 - Tableau animateur : rien à faire, il passe par `gamePhase`.
 
+## Écran de la finale pendant le « Bravo ! »
+`gamePhase` passe au cadenas dès la finale trouvée : l'écran d'étape disparaîtrait avec sa chute de goupille et son
+« Bravo ! ». `useFinaleHold` détecte, pendant le rendu, le passage « finale en cours → cadenas » dans le créneau de la finale
+(bonne réponse ou « Valider l'épreuve ») et garde l'écran de la finale 4,5 s (ou jusqu'au tap sur le « Bravo ! »). Après
+« Passer à l'épreuve suivante » (créneau dépassé) ou un rechargement : cadenas direct.
+
 ## Hors ligne
 L'app est déjà une PWA (précache Workbox) et la partie vit dans le localStorage ; le suivi à distance échoue en silence.
 Nouveau test e2e : après un premier chargement, `context.setOffline(true)`, rechargement, puis parcours complet

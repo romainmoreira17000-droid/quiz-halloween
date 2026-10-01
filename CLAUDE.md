@@ -2,8 +2,10 @@
 
 ## But
 Escape game d'Halloween pour 6 équipes d'enfants du Centre de Loisirs, une tablette par équipe.
-Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 min comptés depuis « Commencer »
-(équipe e, créneau c → épreuve (e+c) mod 6). À chaque épreuve, les enfants tapent la bonne réponse
+Les équipes tournent entre les épreuves réelles, par créneaux de 15 min comptés depuis « Commencer »
+(sans finale : équipe e, créneau c → épreuve (e+c) mod 6). Sprint 24 : « Invisible mais visible » est la **finale**
+(`finale: true`), jouée par toutes les équipes ensemble au 6e créneau, après la rotation des 5 autres (tout le monde est
+dans la même salle ; 6 équipes pour 5 postes : Sorcières et Momies ensemble). À chaque épreuve, les enfants tapent la bonne réponse
 (chiffres ou mots), ce qui donne un chiffre (0–9) ; une épreuve pas trouvée à temps donne son chiffre
 avec le code animateur. Les chiffres ouvrent un cadenas final qui déclenche une animation. L'équipe
 de la tablette est réglée par un animateur (code animateur). Jusqu'à 3 indices par épreuve (débloqués un par un
@@ -37,14 +39,14 @@ scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifi�
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
-                           rotation (créneau → épreuve), hints (déblocage des indices), phase (écran dérivé de l'horloge),
+                           rotation (créneau → épreuve, finale commune), hints (déblocage des indices), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
                            skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »),
                            suivi à distance : boardSnapshot (lecture de `read_board`), boardClock (horloge commune), boardCard
                            (contenu d'une carte d'équipe), boardMode (`?animateur`), syncStatus, latestSender (envois un par un)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress,
-                           useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée),
+                           useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée), useFinaleHold (finale gardée à l'écran pendant son « Bravo ! »),
                            useBoardSync (envoi de l'état de la tablette), useBoard (relecture du tableau toutes les 5 s), useEveningCode
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
@@ -233,3 +235,10 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   recalcule tout avec `gamePhase` sur l'horloge du serveur (`server_now`) et exige la même empreinte de quiz que le tableau
   (sinon « Version différente ») ; un état `home` = « Pas commencé ». Pas de `supabase gen types` (écart assumé) : trois
   fonctions seulement, réponses vérifiées à l'exécution par `parseBoard`.
+- **Finale commune** (sprint 24, `finale: true` → `QuizConfig.finalStep`, index 0-based) : `challengeAt` fait tourner les
+  autres épreuves puis donne la finale à tous au dernier créneau ; une seule finale, sans `indices` (validateFinal) ; il faut
+  **au moins** une équipe par épreuve en rotation (plus d'équipes = postes partagés). `gamePhase` passe au cadenas **dès** la
+  finale trouvée ; `useFinaleHold` garde alors l'écran de la finale le temps du « Bravo ! » (passage détecté **pendant le
+  rendu**, pas dans un effet : une image de cadenas démonterait `StepScreen`). Pas de « Bravo ! » après « Passer à l'épreuve
+  suivante » (créneau dépassé) ni au rechargement. En e2e, les Zombies jouent 2, 3, 4, 5, 1 puis 6 ; la finale se teste en
+  `?test` avec les Sorcières (`e2e/offline.spec.ts` : parcours complet hors ligne, après `navigator.serviceWorker.ready`).

@@ -1,9 +1,14 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprints 26 et 27 mergés)
+Dernière mise à jour : 2026-10-01 (comptine du cadenas plus difficile, PR ouverte)
 
 ## Sprint en cours
-Aucun. Sprint 27 (#76, PR #77) mergé le 2026-10-01 : récit entre les épreuves (champ `recit`, `QuizStep.story`).
+Comptine du cadenas final trop facile (#81), branche `fix/harder-padlock-rhyme` : `cadenas.indice` réécrit par
+allusions (potier = cimetière, yeux peints = galerie, savants = toilettes, sous la table = addition, symboles = jackpot,
+monstres = finale), sans nom de salle (choix de Romain). Tests verts, écran vérifié. Reste : Romain relit et merge la PR
+(le merge déploie : jamais pendant la soirée).
+
+Sprint 27 (#76, PR #77) mergé le 2026-10-01 : récit entre les épreuves (champ `recit`, `QuizStep.story`).
 
 Sprint 26 (#74, PR #75) mergé le 2026-10-01 : toilettes scientifiques, message de victoire, 5 équipes (Momies retirées).
 Après déploiement, régler à nouveau l'équipe de chaque tablette.

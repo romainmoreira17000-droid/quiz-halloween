@@ -59,7 +59,7 @@ npm install
 npx playwright install chromium   # pour les tests de parcours
 ```
 
-Aucune variable d'environnement n'est nécessaire (pas de backend).
+Aucune variable d'environnement n'est nécessaire pour jouer. Seul le suivi à distance en demande deux (voir plus bas).
 
 ## Commandes
 
@@ -72,6 +72,7 @@ Aucune variable d'environnement n'est nécessaire (pas de backend).
 | `npm run images` | Convertit les illustrations de `images-sources/` en WebP légers dans `public/images/` |
 | `npm run valider` | Vérifie `quiz.yaml` et ses images (lancé aussi avant chaque build) |
 | `npm run build` | Build de production dans `dist/` |
+| `npm run check:board` | Vérifie la sécurité de la base du suivi à distance (voir plus bas) |
 
 ## Modifier le quiz
 
@@ -117,6 +118,39 @@ Un `quiz.yaml` invalide bloque la publication (le build échoue). En local (`npm
 affiche la même liste d'erreurs à la place du jeu.
 
 **Attention :** le dépôt est public, les solutions sont donc lisibles par tous.
+
+## Suivi à distance (tableau animateur)
+
+Pendant la soirée, un animateur suit les 6 équipes depuis son téléphone : épreuve en cours, chiffres trouvés,
+mauvaises réponses, temps restant. Le tableau est en **lecture seule** : les actions (valider, débloquer…) se font
+toujours sur la tablette. Chaque tablette envoie son état à une petite base Supabase ; elle continue à jouer
+normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d'équipe et l'état de la partie.
+
+**Réglages (une fois) :**
+
+1. Copier `.env.example` en `.env.local` et y mettre l'URL du projet Supabase et sa clé `anon` (publique).
+2. Donner les mêmes valeurs au site en ligne :
+   `gh variable set VITE_SUPABASE_URL` puis `gh variable set VITE_SUPABASE_ANON_KEY`.
+   Sans ces variables, le suivi à distance est simplement désactivé.
+3. Choisir le **code de soirée** (8 caractères au moins, jamais écrit dans le dépôt) et le régler dans l'éditeur SQL
+   de Supabase :
+
+   ```sql
+   insert into public.evening_secret (id, code_hash)
+   values (1, extensions.crypt('LE-CODE-DE-LA-SOIREE', extensions.gen_salt('bf')))
+   on conflict (id) do update set code_hash = excluded.code_hash;
+   ```
+
+4. Vérifier que la base est bien fermée : `BOARD_CODE=le-code npm run check:board`. Avant la soirée, la version
+   complète `BOARD_CODE=le-code npm run check:board -- --full` remplit aussi 12 équipes de test puis vide le tableau.
+
+**Le soir :**
+
+- Au réglage de chaque tablette, taper le code de soirée dans « Code de soirée (facultatif) ».
+- Sur le téléphone de l'animateur, ouvrir `https://romainmoreira17000-droid.github.io/quiz-halloween/?animateur`
+  et taper le même code.
+- Sur chaque tablette, la ligne « Suivi à distance » du menu animateur dit si l'envoi marche.
+- « Nouvelle soirée » (sur le tableau) vide le tableau avant un nouveau groupe.
 
 ## Déploiement
 

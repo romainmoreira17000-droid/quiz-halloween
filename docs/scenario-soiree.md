@@ -76,7 +76,7 @@ La tablette affiche toute seule la bonne épreuve : pas besoin d'imprimer ce tab
 4. Dans le cercueil : une carte avec la réponse (⚠️ nombre ou mot à choisir), à taper sur la tablette.
 
 **À préparer :** cercueil (carton peint), cadenas à code, bougie blanche, craies/fusains, carte réponse,
-lampe d'ambiance. Prévoir de quoi effacer ou un couvercle de rechange (6 équipes frottent le même).
+lampe d'ambiance. Prévoir de quoi effacer ou un couvercle de rechange (5 équipes frottent le même).
 
 **Image sur la tablette (facultative) :** un cercueil fermé par un cadenas.
 
@@ -108,7 +108,7 @@ des yeux peints qui ne comptent pas. ⚠️ nombre total d'yeux à décider.
 
 ---
 
-## Épreuve 3 — Le laboratoire (épreuve scientifique)
+## Épreuve 3 — Le laboratoire (devenu « Les toilettes scientifiques », épreuve 5 de quiz.yaml)
 
 **Principe :** la recette de la potion du chef est écrite en code. Une fois déchiffrée et réalisée, la
 potion change de couleur, et la couleur donne la réponse.
@@ -122,7 +122,7 @@ potion change de couleur, et la couleur donne la réponse.
 
 **À préparer :** jus de chou rouge (préparé à l'avance), vinaigre blanc, bicarbonate, gobelets
 transparents, cuillères, recette codée, clé des symboles, tableau des couleurs, essuie-tout. Assez de
-matériel pour 6 équipes. Les enfants ne boivent rien.
+matériel pour 5 équipes. Les enfants ne boivent rien.
 
 **Image sur la tablette (facultative) :** un grimoire ouvert sur une recette.
 

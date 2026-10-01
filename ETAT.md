@@ -34,7 +34,7 @@ Mise en ligne du sprint 23 (section « Mise en ligne » à la fin du plan), **ch
 ~~4. `check:board -- --full`~~ « Tout est bon. » le 2026-10-01 (24 vérifications) ;
 ~~5. relectures~~ faites le 2026-10-01 : corrigés (erreur de « Nouvelle soirée » affichée, boutons du tableau sur téléphone,
 chiffres du pied de page, `.env*` ignorés, notes README) ; migration `evening_code_lock` (verrou contre les essais en parallèle)
-écrite, **pas encore poussée** (accord de Romain) ; proposer un code de soirée plus long (4 mots) ; 6. `gh variable set` ; 7. PR (`Closes #65`), merge par Romain ;
+poussée le 2026-10-01 ; code de soirée remplacé par un code de 4 mots (donné à Romain), `check:board --full` refait : « Tout est bon. » ; 6. `gh variable set` ; 7. PR (`Closes #65`), merge par Romain ;
 8. essai en vrai (deux tablettes + un téléphone).
 Avant : Romain montre l'app en ligne (sprints 21 et 22) ; attendre son contenu des deux dernières épreuves.
 Ensuite : contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).

@@ -28,7 +28,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
-Vérifier que le site en ligne montre « Les toilettes scientifiques » et les récits. Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
+Site en ligne vérifié le 2026-10-01 (build `index-BnlkB8IJ.js` : « Les toilettes scientifiques » et récits présents). Sur une tablette déjà ouverte, le service worker sert d'abord l'ancien build puis se met à jour tout seul (`autoUpdate`) : ouvrir l'app avec le wifi et recharger une fois. Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants

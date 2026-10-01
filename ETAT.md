@@ -6,10 +6,11 @@ Dernière mise à jour : 2026-10-01 (sprint 25 ouvert)
 Sprint 25 (#71), branche `feat/real-quiz-content-3` : contenu réel des épreuves 3 et 6 (PDF « Déroulé de la soirée
 halloween (2) » du 2026-10-01). Code du cadenas : 8 6 9 3 9 4.
 Étapes :
-- [ ] Le validateur accepte des indices sur la finale (TDD : validateFinal + test d'intégration de la finale).
-- [ ] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
-  chiffre 4, 3 indices) ; `docs/contenu-epreuves.md` et CLAUDE.md à jour.
-- [ ] Vérifs (tests, typecheck, build, e2e, mise en page sur tablette), relecture, PR.
+- [x] Le validateur accepte des indices sur la finale (TDD : validateFinal + test d'intégration de la finale).
+- [x] `quiz.yaml` : épreuve 3 « Le laboratoire machiavélique » (réponse 9, chiffre 9, 3 indices) ; finale (réponse 4,
+  chiffre 4, 3 indices) ; `docs/contenu-epreuves.md`, CLAUDE.md et les 7 specs e2e à jour.
+- [x] Vérifs : 590 tests unitaires, typecheck, lint, 28 e2e verts ; captures tablette du laboratoire et de la finale OK.
+- [ ] Relecture (`relecteur-code`), puis PR.
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
@@ -25,19 +26,16 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [x] Suite de relecture, mergée (PR #55) : bouton « Annuler » de la confirmation du saut,
   « Rien à débloquer » masqué quand l'heure de départ est modifiable, heure d'avant minuit acceptée après minuit.
 - [x] Sprints 1 à 17 terminés et en ligne (dernier : cadenas 3D d'horreur, rouille, chaînes et sang, PR #49).
-- [ ] Contenu réel des toilettes scientifiques (épreuve 3 du PDF, chiffre encore inconnu) et d'invisible mais visible
-  (épreuve 6, chiffre 4), avec jusqu'à 3 indices chacune ← Romain l'envoie avant vendredi 2026-10-02.
 - [ ] Confirmer le code animateur (2710).
 
 ## Prochaine action concrète
 Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
-`check:board -- --full`) ; contenu des toilettes et d'invisible mais visible quand Romain l'envoie (nouveau sprint).
+`check:board -- --full`).
 Petites retouches notées par la relecture du sprint 20, plus tard si Romain le souhaite : commentaires « rusty » restants
 (LockChains, PadlockScreen), fenêtre du cadenas collée aux molettes sur téléphone, tests qui figent des coordonnées exactes.
 
-Plus tard, quand Romain envoie les épreuves : les ajouter à `docs/contenu-epreuves.md`, ouvrir un sprint `feat/real-quiz-content-3`,
-condenser chaque consigne en 4 lignes au plus (≈ 200 caractères, sinon l'écran d'étape défile sur tablette), les faire valider.
+Sprint 25 : finir la relecture, ouvrir la PR, la faire merger par Romain (consignes à faire valider).
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)

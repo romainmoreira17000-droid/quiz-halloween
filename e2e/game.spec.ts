@@ -5,7 +5,7 @@ import { setUpTablet, typeAnswer } from './typing.js'
 // Real quiz.yaml, by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
   1: ['La galerie des portraits', '6', 6], 2: ["L'addition", '3', 3], 3: ['Le cimetière', '8', 8],
-  4: ['Le jackpot funèbre', '9', 9], 5: ['Le laboratoire machiavélique', '9', 9], 6: ['Invisible mais visible', '4', 4],
+  4: ['Le jackpot funèbre', '9', 9], 5: ['Les toilettes scientifiques', '9', 9], 6: ['Invisible mais visible', '4', 4],
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
 
@@ -73,6 +73,6 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
     await expect(page.getByLabel(`Chiffre ${i + 1}`, { exact: true })).toHaveText(String(digit))
   }
   await page.getByRole('button', { name: 'Ouvrir' }).click()
-  await expect(page.getByRole('heading', { name: 'La porte du restaurant des ombres est ouverte !' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Bravo ! Vous avez déchiffré toutes les épreuves/ })).toBeVisible()
   await expect(page.getByText('Rendez-vous à la porte du restaurant !')).toBeVisible()
 })

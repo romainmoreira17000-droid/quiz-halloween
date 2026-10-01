@@ -1,11 +1,11 @@
 # CLAUDE.md — quiz-halloween
 
 ## But
-Escape game d'Halloween pour 6 équipes d'enfants du Centre de Loisirs, une tablette par équipe.
+Escape game d'Halloween pour 5 équipes d'enfants du Centre de Loisirs, une tablette par équipe.
 Les équipes tournent entre les épreuves réelles, par créneaux de 15 min comptés depuis « Commencer »
 (sans finale : équipe e, créneau c → épreuve (e+c) mod 6). Sprint 24 : « Invisible mais visible » est la **finale**
 (`finale: true`), jouée par toutes les équipes ensemble au 6e créneau, après la rotation des 5 autres (tout le monde est
-dans la même salle ; 6 équipes pour 5 postes : Sorcières et Momies ensemble). À chaque épreuve, les enfants tapent la bonne réponse
+dans la même salle ; 5 équipes pour 5 postes : chaque équipe seule dans sa salle ; avec plus d'équipes, des postes seraient partagés). À chaque épreuve, les enfants tapent la bonne réponse
 (chiffres ou mots), ce qui donne un chiffre (0–9) ; une épreuve pas trouvée à temps donne son chiffre
 avec le code animateur. Les chiffres ouvrent un cadenas final qui déclenche une animation. L'équipe
 de la tablette est réglée par un animateur (code animateur). Jusqu'à 3 indices par épreuve (débloqués un par un

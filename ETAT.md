@@ -1,15 +1,29 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (sprint 25 mergé)
+Dernière mise à jour : 2026-10-01 (sprint 26 en cours)
 
 ## Sprint en cours
-Aucun. Sprint 25 (#71, contenu réel du laboratoire machiavélique et de la finale, avec ses indices ; code du cadenas
-8 6 9 3 9 4) mergé le 2026-10-01 (PR #72). Le déploiement n'a pas été suivi par Claude : vérifier sur le site que le
-laboratoire et la finale sont en ligne.
+Sprint 26 (#74), branche `feat/content-tweaks` : « Les toilettes scientifiques » (au lieu du laboratoire machiavélique),
+message de victoire « Bravo ! Vous avez déchiffré… le festin vous attend ! » (titre de la victoire passé de 56 à 44 px pour
+tenir sur tablette sans défilement), 5 équipes (Momies retirées). Fait et vérifié (590 tests unitaires, 28 e2e), relu ; PR #75 ouverte. Reste :
+merge par Romain (hors soirée), puis régler à nouveau l'équipe de chaque tablette.
+
+Sprint suivant prévu : **récit entre les épreuves** (champ `recit` par épreuve, affiché sur l'écran d'attente après le
+« Bravo ! », au-dessus ou en plus de « Profitez-en pour déguster… » qu'on garde). Textes validés par Romain le 2026-10-01 :
+- Cimetière : « Merci, je vais enfin dormir en paix. Méfiez-vous du chef : il n'a jamais laissé un client partir sans payer… »
+- Galerie : « Les portraits ferment enfin les yeux. Ce sont d'anciens clients du chef : ils n'ont jamais trouvé la sortie. Vous, vous êtes sur la bonne voie. »
+- Addition : « L'addition est réglée ! Dans sa cuisine, le chef grogne : il comptait vous garder pour le dessert… »
+- Jackpot : « Jackpot ! La machine crache votre chiffre et un ticket froissé : “Le dernier secret se cache sur ceux qui vous font peur.” »
+- Toilettes : « Les scientifiques ouvrent la fenêtre : vous avez survécu aux vapeurs ! Ils murmurent que les monstres du restaurant ne sont pas si méchants… »
+- Finale : « Les monstres ôtent leurs masques : vos ennemis sont devenus vos amis. Il ne reste plus que la porte du chef ! »
+Morceaux lisibles dans n'importe quel ordre (chaque équipe tourne dans un ordre différent). À cadrer : où afficher celui de la
+finale (elle passe directement au cadenas), et si une épreuve donnée par l'animateur montre aussi son récit.
 
 Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du suivi à distance en cours de son côté.
 
 ## Où on en est
+- [ ] Sprint 26 (#74) : toilettes scientifiques, message de victoire, 5 équipes : PR #75 ouverte, relue, à merger par Romain.
+- [x] Sprint 25 (#71) : laboratoire et finale, mergé (PR #72).
 - [x] Sprint 24 (#68) : épreuve finale commune après la rotation, test hors ligne, mergé et déployé (PR #69).
 - [x] Sprint 23 (#65) : suivi des équipes à distance (`?animateur`, Supabase), mergé et déployé (PR #66).
 - [x] Sprint 22 (#62) : comptine de l'indice du cadenas final, mergé et déployé (PR #63).

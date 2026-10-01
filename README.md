@@ -1,6 +1,6 @@
 # Quiz Halloween
 
-Escape game d'Halloween pour les enfants du Centre de Loisirs : 6 équipes, une tablette par équipe.
+Escape game d'Halloween pour les enfants du Centre de Loisirs : 5 équipes, une tablette par équipe.
 Les équipes tournent entre 6 épreuves réelles, par créneaux de 15 minutes. À chaque épreuve, les
 enfants tapent la bonne réponse (code en chiffres ou mot) et gagnent un chiffre ; les chiffres
 ouvrent le cadenas final de la porte du restaurant des ombres.
@@ -14,8 +14,8 @@ En ligne : https://romainmoreira17000-droid.github.io/quiz-halloween/
 2. **Accueil :** « Équipe des … » et le bouton « Commencer ». Toutes les tablettes doivent être
    lancées en même temps : les créneaux de 15 minutes sont comptés depuis « Commencer ».
 3. **Épreuves :** créneaux 1 à 5, les épreuves en rotation : chaque équipe les fait toutes en
-   commençant par une épreuve différente (avec 6 équipes pour 5 postes, Sorcières et Momies partagent
-   un poste). Créneau 6 : l'**épreuve finale** (`finale: true`, « Invisible mais visible »), jouée par
+   commençant par une épreuve différente (5 équipes pour 5 postes :
+   chaque équipe est seule dans sa salle). Créneau 6 : l'**épreuve finale** (`finale: true`, « Invisible mais visible »), jouée par
    toutes les équipes ensemble, avec ses indices aux mêmes minutes que les autres épreuves ;
    sa bonne réponse mène au cadenas juste après le « Bravo ! ». En haut : « Épreuve 3/6 », le temps du
    créneau en gros et le temps total en petit. Mauvaise réponse : l'écran tremble, un message
@@ -125,7 +125,7 @@ affiche la même liste d'erreurs à la place du jeu.
 
 ## Suivi à distance (tableau animateur)
 
-Pendant la soirée, un animateur suit les 6 équipes depuis son téléphone : épreuve en cours, chiffres trouvés,
+Pendant la soirée, un animateur suit les 5 équipes depuis son téléphone : épreuve en cours, chiffres trouvés,
 mauvaises réponses, temps restant. Le tableau est en **lecture seule** : les actions (valider, débloquer…) se font
 toujours sur la tablette. Chaque tablette envoie son état à une petite base Supabase ; elle continue à jouer
 normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d'équipe et l'état de la partie.

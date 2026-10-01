@@ -14,3 +14,28 @@ describe('challengeAt', () => {
     for (const team of SIX) expect(new Set(SIX.map((slot) => challengeAt(team, slot, 6))).size).toBe(6)
   })
 })
+
+describe('challengeAt with a final challenge', () => {
+  it('rotates the other challenges, then everyone plays the final', () => {
+    expect(SIX.map((slot) => challengeAt(1, slot, 6, 5) + 1)).toEqual([2, 3, 4, 5, 1, 6])
+  })
+  it('gives every team each rotating challenge once, then the final', () => {
+    for (const team of SIX) {
+      const order = SIX.map((slot) => challengeAt(team, slot, 6, 5))
+      expect(new Set(order.slice(0, 5))).toEqual(new Set([0, 1, 2, 3, 4]))
+      expect(order[5]).toBe(5)
+    }
+  })
+  it('puts at most two of six teams on a rotating challenge', () => {
+    for (const slot of [0, 1, 2, 3, 4]) {
+      const posts = SIX.map((team) => challengeAt(team, slot, 6, 5))
+      for (const post of new Set(posts)) expect(posts.filter((p) => p === post).length).toBeLessThanOrEqual(2)
+    }
+  })
+  it('skips a final placed in the middle of the list', () => {
+    expect(SIX.map((slot) => challengeAt(0, slot, 6, 2))).toEqual([0, 1, 3, 4, 5, 2])
+  })
+  it('plays only the final when it is the only challenge', () => {
+    expect(challengeAt(3, 0, 1, 0)).toBe(0)
+  })
+})

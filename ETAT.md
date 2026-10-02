@@ -3,7 +3,11 @@
 Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, mergé et déployé)
 
 ## Sprint en cours
-Aucun. **Sprint A du tableau animateur** (#84, PR #85) mergé et déployé le 2026-10-02 (build `index-DxARfOHK.js`). **Soirée le 13 octobre** : tout doit être
+**Raccourci « Tableau animateur »** (#87, branche `feat/board-app-shortcut`) : appui long sur l'icône de l'appli installée →
+`?animateur` (`manifest.shortcuts`). Fait et testé (e2e 34/34) ; PR à merger, puis Romain désinstalle/réinstalle l'appli sur
+son Android pour voir le raccourci.
+
+Précédent : Aucun. **Sprint A du tableau animateur** (#84, PR #85) mergé et déployé le 2026-10-02 (build `index-DxARfOHK.js`). **Soirée le 13 octobre** : tout doit être
 mergé et essayé sur les vraies tablettes et le téléphone (Android) vers le 10 octobre.
 Spec `docs/superpowers/specs/2026-10-02-board-details-alerts-design.md`, plan `docs/superpowers/plans/2026-10-02-board-details-alerts.md`.
 - [x] Tâches 1 à 7 : cartes (chiffres dans l'ordre de passage, solution masquée, indices lus), panneau Solutions, alertes

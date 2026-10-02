@@ -24,6 +24,14 @@ export default defineConfig({
         display: 'standalone',
         start_url: BASE,
         scope: BASE,
+        // The installed app always opens on start_url: a long press on its icon is the only way into the board.
+        shortcuts: [{
+          name: 'Tableau animateur',
+          short_name: 'Tableau',
+          description: 'Suivi des équipes pendant la soirée',
+          url: `${BASE}?animateur`,
+          icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }],
+        }],
       },
       workbox: { globPatterns: ['**/*.{js,css,html,svg,png,webp,jpg,woff2}'] },
     }),

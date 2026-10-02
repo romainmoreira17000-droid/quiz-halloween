@@ -156,6 +156,9 @@ normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d
   Garder le tableau **au premier plan** (écran éteint ou autre appli = plus d'alertes), le téléphone branché si possible.
   Chaque carte montre les chiffres trouvés, la solution de l'épreuve en cours (« Voir la solution ») et les indices déjà lus ;
   le panneau « Solutions » en bas donne toutes les réponses et le code du cadenas.
+- **Appli installée sur le téléphone** : toucher l'icône ouvre le jeu ; **appui long sur l'icône → « Tableau animateur »**
+  ouvre le tableau. Une appli installée avant ce raccourci ne le montre qu'après l'avoir désinstallée puis réinstallée
+  (Chrome → menu ⋮ → « Installer l'application »).
 
 - **Wifi faible :** ouvrir l'app sur chaque tablette **avec le wifi, avant la soirée**, et la laisser ouverte.
   Ensuite tout le jeu marche sans réseau (seul le suivi à distance s'arrête, la tablette continue).

@@ -1,6 +1,7 @@
 /** @file Integration tests: the way to each room (« Dirigez-vous vers ») and the next challenge on the waiting screen. */
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
+import { RESET_HOLD_MS } from './ResetButton'
 import { TeamGame } from './TeamGame'
 
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
@@ -57,6 +58,18 @@ describe('TeamGame, way to the rooms', () => {
     expect(screen.getByRole('button', { name: 'Nous sommes arrivés' })).toBeInTheDocument()
     press('Nous sommes arrivés')
     expect(screen.getByText('Comptez les os.')).toBeInTheDocument()
+  })
+  it('offers no riddle help from the animator menu on the way, only the skip and the start time', () => {
+    renderZombies()
+    press('Commencer')
+    fireEvent.pointerDown(screen.getByRole('button', { name: 'Recommencer la partie (appui long)' }))
+    act(() => vi.advanceTimersByTime(RESET_HOLD_MS))
+    press('Menu animateur')
+    const dialog = within(screen.getByRole('dialog'))
+    for (const key of ['2', '7', '1', '0', 'Valider']) fireEvent.click(dialog.getByRole('button', { name: key }))
+    expect(screen.queryByRole('button', { name: /^Valider l’épreuve/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /indice/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Passer à l’épreuve suivante/ })).toBeInTheDocument()
   })
   it('announces no next challenge in the last slot', () => {
     renderZombies()

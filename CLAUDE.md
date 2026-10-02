@@ -265,7 +265,8 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   (« Maintenant, dirigez-vous vers : <titre> » + « Nous sommes arrivés ») remplace l'écran d'étape tant que
   `isOnTheWay(phase, arrivedSlot)` : la phase reste `challenge` (tableau animateur et menu animateur inchangés), seul
   `arrivedSlot` (état sauvegardé, absent avant #90 → null) dit si l'équipe est arrivée ; l'action `arrive` nomme son créneau.
-  Chrono et indices tournent pendant le trajet. L'écran d'attente annonce `nextChallenge` (« Prochaine épreuve : … », `.next-step`),
+  Chrono et indices tournent pendant le trajet. Menu animateur pendant le trajet : ni « Valider l'épreuve » ni indice (énigme
+  cachée), seulement « Passer » et l'heure de départ ; `setStart` remet `arrivedSlot` à null. L'écran d'attente annonce `nextChallenge` (« Prochaine épreuve : … », `.next-step`),
   rien au dernier créneau. Nom = titre de l'épreuve (pas de champ `salle`). En test : `arriveIfAsked` (`src/test/arrive.ts`,
   appelé par `press`/`wait` des anciens tests) et `arriveIfAsked(page)` en e2e (`typing.ts`, aussi appelé par `typeAnswer`).
   L'écran d'attente des toilettes scientifiques tient à 4 px près sur tablette : `.next-step` a un padding vertical de 2 px.

@@ -37,6 +37,9 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
     return known.every((d) => d === null) && startedAt === null && finishedAt === null ? { ...fresh, status: 'entrance' } : null
   }
   if (!isTime(startedAt)) return null
-  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot, hintCount: hintSlot === null ? 0 : hintCount, arrivedSlot } : null
+  if (status === 'playing') {
+    if (finishedAt !== null) return null
+    return { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot, hintCount: hintSlot === null ? 0 : hintCount, arrivedSlot }
+  }
   return isTime(finishedAt) && known.every(isDigit) ? { ...fresh, status: 'won', startedAt, finishedAt } : null
 }

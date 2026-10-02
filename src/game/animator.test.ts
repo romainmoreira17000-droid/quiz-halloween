@@ -86,7 +86,7 @@ describe('animatorSkip', () => {
 
 describe('setStart', () => {
   it('moves the start, keeping the digits and forgetting what belonged to the old slot', () => {
-    const helped = { ...blocked, digits: [null, 0], hintSlot: 0, hintCount: 2 }
+    const helped = { ...blocked, digits: [null, 0], hintSlot: 0, hintCount: 2, arrivedSlot: 1 }
     expect(reduce(helped, { type: 'setStart', startedAt: -20 * MIN, now: 2 * MIN }))
       .toEqual({ ...playing, digits: [null, 0], startedAt: -20 * MIN })
   })

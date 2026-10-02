@@ -181,8 +181,12 @@ export function createGameReducer(config: QuizConfig, teamIndex: number) {
       }
       case 'setStart':
         if (state.status !== 'playing' || action.startedAt > action.now) return state
-        // Digits stay (the group earned them); block, wrong tries and early hints belonged to a slot that no longer matches.
-        return { ...state, startedAt: action.startedAt, blockedUntil: null, wrongAttempts: 0, wrongSlot: null, hintSlot: null, hintCount: 0 }
+        // Digits stay (the group earned them); block, wrong tries, early hints and arrival belonged to a slot that no longer
+        // matches: kept, an arrival in a later slot would skip the way to that room once the clock gets there again.
+        return {
+          ...state, startedAt: action.startedAt, blockedUntil: null, wrongAttempts: 0, wrongSlot: null, hintSlot: null, hintCount: 0,
+          arrivedSlot: null,
+        }
     }
   }
 }

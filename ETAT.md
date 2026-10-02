@@ -14,10 +14,11 @@ Dernière mise à jour : 2026-10-02 (sprint « Dirigez-vous vers » ouvert)
 - [x] Écran TravelScreen + ligne « Prochaine épreuve » + branchement TeamGame
 - [x] Tests existants et e2e mis à jour (taper « Nous sommes arrivés »), nouvel e2e (653 unitaires, 34 e2e verts)
 - [x] Vérif navigateur (tablette 810×1080 + téléphone 360), docs (CLAUDE.md)
-- [ ] Relecture (relecteur-code), PR
+- [x] Relecture (relecteur-code) : `setStart` remet l'arrivée à zéro, menu animateur sans « Valider » ni indice pendant le trajet
+- [ ] PR ouverte, merge par Romain
 
 ## Prochaine action concrète
-Relecture par l'agent `relecteur-code`, puis PR vers main (Closes #90).
+Romain relit et merge la PR du sprint #90. Ensuite : nettoyage de branche, ETAT.md à vider.
 
 ## Sprint précédent
 Aucun. **Raccourci « Tableau animateur »** (#87, PR #88) mergé et déployé le 2026-10-02 : appui long sur l'icône de l'appli

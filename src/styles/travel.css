@@ -6,7 +6,7 @@
 
 /* The backdrop photos can be light: the line gets its own dark veil, like the story. */
 .next-step {
-  margin: 0; padding: 8px 24px; border-radius: 12px; font-size: 28px; color: var(--wax);
+  margin: 0; padding: 2px 20px; border-radius: 12px; font-size: 28px; color: var(--wax);
   background: rgb(12 8 5 / .78);
 }
 .next-step b { color: var(--amber); }

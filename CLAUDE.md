@@ -39,7 +39,7 @@ scripts/images.ts          CLI de conversion PNG → WebP (sharp), nom simplifi�
 src/config/                types, validateurs purs (checks, validateStep, validatePadlock,
                            validateQuiz), parseQuiz (YAML), images (CLI), loadQuiz (import ?raw)
 src/game/                  logique pure : time, answer (normalisation chiffres/mots), messages, padlock,
-                           rotation (créneau → épreuve, finale commune), hints (déblocage des indices), phase (écran dérivé de l'horloge),
+                           rotation (créneau → épreuve, finale commune, `nextChallenge`), arrival (trajet vers la salle), hints (déblocage des indices, `hintsAvailable`), phase (écran dérivé de l'horloge),
                            progress (réducteur de partie), fingerprint (empreinte du quiz),
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
                            skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »),
@@ -50,7 +50,7 @@ src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la t
                            useBoardSync (envoi de l'état de la tablette), useBoard (relecture du tableau toutes les 5 s), useBoardAlerts (bandeau et sonnerie), useWakeLock (écran
                            allumé), useEveningCode
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
-                           un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
+                           un composant par écran (TeamSetupScreen, TravelScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
                            réponse partagée par StepScreen et EntranceScreen), Dial, HauntedDoor,
                            CutawayLock (cadenas en coupe de l'écran d'étape, une goupille par épreuve),
@@ -70,8 +70,8 @@ src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : Ha
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame, savedTeam et savedEveningCode (seuls accès au localStorage),
                            supabaseClient + board (seuls accès à Supabase, appels coupés au bout de 10 s), notify (son + vibration de l'animateur)
-src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, story, board
-src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
+src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, story, travel, board
+src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test) ; arrive.ts (tape « Nous sommes arrivés »)
 e2e/                       parcours Playwright
 .github/workflows/         ci.yml (PR) et deploy.yml (push sur main)
 docs/superpowers/          spec et plans des sprints
@@ -174,7 +174,7 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
 - **Blocage** : `blockedUntil` (timestamp) dans l'état sauvegardé, plafonné à la fin du créneau (`blockEnd`) ; le
   réducteur ignore toute réponse pendant le blocage (ni bonne ni mauvaise) et `earnsDigit` renvoie false (pas de
   « clac »). Le décompte remplace la réponse tapée dans l'`<output>` (pas de ligne en plus). Seulement sur les épreuves.
-- **Indices** : `hintsAvailable` (`progress.ts`) = le **max** (pas la somme) entre les indices débloqués par le chrono du
+- **Indices** : `hintsAvailable` (`hints.ts`) = le **max** (pas la somme) entre les indices débloqués par le chrono du
   créneau (`hintsUnlockedByClock`) et ceux donnés par l'animateur dans ce créneau (`hintCount` si `hintSlot` = créneau),
   plafonné au nombre d'indices de l'étape. Horaires communs à toutes les épreuves ; le validateur refuse une étape avec plus
   d'indices que d'horaires. Anciennes clés `indice_apres_minutes` / `indice` d'étape : message « remplacée par ». Un seul
@@ -261,3 +261,11 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   sombre) sous « Chiffre trouvé » et au-dessus de `message_attente`, aussi après le code animateur de « Temps écoulé » ; celui de
   la finale est sur l'écran du cadenas (la finale y passe tout de suite). Chaque équipe tourne dans son ordre : un récit doit se
   comprendre seul, en 160 caractères environ (pas de plafond au validateur). Écran d'attente de chaque salle sans défilement sur tablette : `e2e/layout.spec.ts`.
+- **Trajet vers la salle** (#90) : à chaque nouveau créneau (le 1er après « Commencer » et la finale compris), `TravelScreen`
+  (« Maintenant, dirigez-vous vers : <titre> » + « Nous sommes arrivés ») remplace l'écran d'étape tant que
+  `isOnTheWay(phase, arrivedSlot)` : la phase reste `challenge` (tableau animateur et menu animateur inchangés), seul
+  `arrivedSlot` (état sauvegardé, absent avant #90 → null) dit si l'équipe est arrivée ; l'action `arrive` nomme son créneau.
+  Chrono et indices tournent pendant le trajet. L'écran d'attente annonce `nextChallenge` (« Prochaine épreuve : … », `.next-step`),
+  rien au dernier créneau. Nom = titre de l'épreuve (pas de champ `salle`). En test : `arriveIfAsked` (`src/test/arrive.ts`,
+  appelé par `press`/`wait` des anciens tests) et `arriveIfAsked(page)` en e2e (`typing.ts`, aussi appelé par `typeAnswer`).
+  L'écran d'attente des toilettes scientifiques tient à 4 px près sur tablette : `.next-step` a un padding vertical de 2 px.

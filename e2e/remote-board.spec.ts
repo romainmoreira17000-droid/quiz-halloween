@@ -1,6 +1,6 @@
 /** @file Remote board: a tablet sends its game, the animator's phone shows it; a tablet without network plays on. */
 import { test, expect, type Page, type Route } from '@playwright/test'
-import { typeAnswer } from './typing.js'
+import { arriveIfAsked, typeAnswer } from './typing.js'
 
 const RPC = 'https://board.e2e.test/rest/v1/rpc/'
 type Push = { p_code: string; p_team: string; p_fingerprint: string; p_state: { status: string } }
@@ -28,6 +28,7 @@ test('a tablet sends its game and the animator board shows it', async ({ page, c
   const pushes: Push[] = []
   await setUpWithCode(page, 'Sorcières', pushes)
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect.poll(() => pushes.at(-1)?.p_state.status).toBe('playing')
   const last = pushes.at(-1)!
   expect(last).toMatchObject({ p_code: 'CITROUILLE-42', p_team: 'Sorcières' })
@@ -70,6 +71,7 @@ test('a tablet without network plays on and tells the animator', async ({ page }
   await page.getByLabel('Code de soirée (facultatif)').fill('CITROUILLE-42')
   await page.getByRole('button', { name: 'Sorcières', exact: true }).click()
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
   await typeAnswer(page, '6')
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
@@ -79,6 +81,7 @@ test('the board rings when a team runs out of time, and shows the solutions', as
   const pushes: Push[] = []
   await setUpWithCode(page, 'Sorcières', pushes)
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect.poll(() => pushes.at(-1)?.p_state.status).toBe('playing')
   const last = pushes.at(-1)!
   const board = await context.newPage()

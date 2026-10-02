@@ -1,12 +1,13 @@
 /** @file A team is blocked for a minute after a wrong answer, then reads its three hints at 8, 10 and 13 minutes. */
 import { test, expect } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 test('a wrong answer blocks the keyboard for a minute and the three hints unlock at 8, 10 and 13 minutes', async ({ page }) => {
   await page.clock.install()
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: "L'addition" })).toBeVisible()
   await expect(page.getByRole('button', { name: /^Indice dans (08:00|07:5\d)$/ })).toBeDisabled()
 

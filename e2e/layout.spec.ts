@@ -1,6 +1,6 @@
 /** @file The challenge screens fit a 810×1080 tablet without scrolling (every answer of the quiz is typed on the keypad). */
 import { test, expect } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 // Each team starts on its own rotating challenge: every title (some wrap on two lines).
 const FIRST_CHALLENGES = [
@@ -12,6 +12,7 @@ for (const [team, title] of FIRST_CHALLENGES) {
     await page.goto('./')
     await setUpTablet(page, team)
     await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+    await arriveIfAsked(page)
     await expect(page.getByRole('heading', { name: title })).toBeVisible()
     await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
     const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
@@ -23,10 +24,12 @@ test('the common final screen, with its hint button, fits the tablet without scr
   await page.goto('./?test')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   for (const answer of ['6', '3', '8', '9', '9']) {
     await typeAnswer(page, answer)
     await page.getByRole('button', { name: 'Épreuve suivante' }).click()
   }
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: 'Invisible mais visible' })).toBeVisible()
   await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
@@ -38,6 +41,7 @@ test('the step screen still fits the tablet once the three hints are out', async
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await page.clock.fastForward('13:00')
   await expect(page.getByRole('button', { name: 'Voir les indices (3/3)' })).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight)
@@ -52,6 +56,7 @@ for (const [i, [team, title]] of FIRST_CHALLENGES.entries()) {
     await page.goto('./')
     await setUpTablet(page, team)
     await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+    await arriveIfAsked(page)
     await typeAnswer(page, FIRST_ANSWERS[i])
     await page.clock.fastForward('00:05')
     await expect(page.getByText('Profitez-en pour déguster ce qui se trouve sur la table !')).toBeVisible()

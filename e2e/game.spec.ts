@@ -1,6 +1,6 @@
 /** @file Critical path of an evening: a team plays its rotation, gets help on a missed challenge, and opens the padlock. */
 import { test, expect, type Page } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 // Real quiz.yaml, by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
@@ -16,8 +16,10 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
   await expect(page.getByText('Équipe des Zombies')).toBeVisible()
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
 
-  // Slot 1: challenge 2, after a wrong try.
+  // Slot 1: the tablet sends the group to challenge 2 (its riddle only once there), solved after a wrong try.
+  await expect(page.getByText('Maintenant, dirigez-vous vers :')).toBeVisible()
   await expect(page.getByRole('heading', { name: "L'addition" })).toBeVisible()
+  await page.getByRole('button', { name: 'Nous sommes arrivés' }).click()
   await expect(page.getByRole('timer', { name: 'Temps restant pour l’épreuve' })).toHaveText('15:00')
   await expect(page.getByRole('timer', { name: 'Temps total restant' })).toHaveText('90:00')
   await typeAnswer(page, '1')
@@ -27,6 +29,7 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
   await typeAnswer(page, '3')
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 3')
   await expect(page.getByText(/^Changement d’épreuve dans \d\d:\d\d$/)).toBeVisible()
+  await expect(page.locator('.next-step')).toHaveText('Prochaine épreuve : Le cimetière')
   // The « Bravo ! » comes just after the pin falls and goes away on its own, leaving the waiting message.
   await page.clock.fastForward('00:02')
   await expect(page.getByRole('dialog', { name: 'Bravo !' })).toContainText('3')
@@ -58,6 +61,7 @@ test('the Zombies play challenges 2 to 5 and 1, then the common final, get help 
   // Slot 6: the common final, with its hints like the others; once found, the « Bravo ! » then the padlock, before the slot ends.
   const [title, answer, digit] = CHALLENGES[6]
   await expect(page.getByRole('heading', { name: title })).toBeVisible()
+  await arriveIfAsked(page)
   await expect(page.getByRole('button', { name: /^Indice dans/ })).toBeVisible()
   await typeAnswer(page, answer)
   await expect(page.getByRole('status')).toHaveText(`Chiffre trouvé : ${digit}`)

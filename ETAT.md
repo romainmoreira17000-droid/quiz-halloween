@@ -10,13 +10,14 @@ Dernière mise à jour : 2026-10-02 (sprint « Dirigez-vous vers » ouvert)
   bouton « Nous sommes arrivés », l'énigme ensuite ; chrono et indices continuent ;
 - état `arrivedSlot` (créneau où l'équipe est arrivée), action `arrive` qui nomme son créneau ; nom = titre de l'épreuve
   (pas de champ `salle` : l'empreinte du quiz ne change pas).
-- [ ] Logique (état, réducteur, relecture, prochaine épreuve) en TDD
-- [ ] Écran TravelScreen + ligne « Prochaine épreuve » + branchement TeamGame
-- [ ] Tests existants et e2e mis à jour (taper « Nous sommes arrivés »), nouvel e2e
-- [ ] Vérif navigateur (tablette + téléphone), docs (CLAUDE.md), relecture, PR
+- [x] Logique (état, réducteur, relecture, prochaine épreuve) en TDD
+- [x] Écran TravelScreen + ligne « Prochaine épreuve » + branchement TeamGame
+- [x] Tests existants et e2e mis à jour (taper « Nous sommes arrivés »), nouvel e2e (653 unitaires, 34 e2e verts)
+- [x] Vérif navigateur (tablette 810×1080 + téléphone 360), docs (CLAUDE.md)
+- [ ] Relecture (relecteur-code), PR
 
 ## Prochaine action concrète
-Test rouge : `arrive` dans `progress.test.ts`.
+Relecture par l'agent `relecteur-code`, puis PR vers main (Closes #90).
 
 ## Sprint précédent
 Aucun. **Raccourci « Tableau animateur »** (#87, PR #88) mergé et déployé le 2026-10-02 : appui long sur l'icône de l'appli

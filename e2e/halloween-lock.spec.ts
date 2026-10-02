@@ -1,6 +1,6 @@
 /** @file The bronze padlocks: the final lock fits a phone, and the victory plunge never hides the text nor blocks a tap. */
 import { test, expect, type Page } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 /** Zombies miss every challenge: an animator gives each digit on « Temps écoulé », then the padlock shows. */
 async function reachPadlock(page: Page): Promise<void> {
@@ -8,6 +8,7 @@ async function reachPadlock(page: Page): Promise<void> {
   await page.goto('./')
   await setUpTablet(page, 'Zombies')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   for (let slot = 0; slot < 6; slot++) {
     await page.clock.fastForward('15:00')
     await expect(page.getByRole('heading', { name: 'Temps écoulé : appelez un animateur' })).toBeVisible()

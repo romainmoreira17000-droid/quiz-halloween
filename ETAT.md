@@ -1,8 +1,24 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, mergé et déployé)
+Dernière mise à jour : 2026-10-02 (sprint « Dirigez-vous vers » ouvert)
 
 ## Sprint en cours
+**Écran « Dirigez-vous vers » entre deux épreuves** (#90), branche `feat/go-to-next-room`. Design validé par Romain en chat
+(sprint borné, pas de spec) :
+- écran d'attente : « Prochaine épreuve : <titre> » au-dessus du compte à rebours (pas avant le cadenas) ;
+- à chaque nouveau créneau (1er après « Commencer » et finale compris) : « Maintenant, dirigez-vous vers : <TITRE> » +
+  bouton « Nous sommes arrivés », l'énigme ensuite ; chrono et indices continuent ;
+- état `arrivedSlot` (créneau où l'équipe est arrivée), action `arrive` qui nomme son créneau ; nom = titre de l'épreuve
+  (pas de champ `salle` : l'empreinte du quiz ne change pas).
+- [ ] Logique (état, réducteur, relecture, prochaine épreuve) en TDD
+- [ ] Écran TravelScreen + ligne « Prochaine épreuve » + branchement TeamGame
+- [ ] Tests existants et e2e mis à jour (taper « Nous sommes arrivés »), nouvel e2e
+- [ ] Vérif navigateur (tablette + téléphone), docs (CLAUDE.md), relecture, PR
+
+## Prochaine action concrète
+Test rouge : `arrive` dans `progress.test.ts`.
+
+## Sprint précédent
 Aucun. **Raccourci « Tableau animateur »** (#87, PR #88) mergé et déployé le 2026-10-02 : appui long sur l'icône de l'appli
 installée → `?animateur` (`manifest.shortcuts`). Romain doit désinstaller/réinstaller l'appli sur son Android pour le voir.
 Reste avant la soirée du 13 : `check:board -- --full` (Romain, avec son code), essai du réseau sur le lieu si possible.

@@ -246,6 +246,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   au retour. « Muette » seulement pour une tablette en jeu (pas `home`, `won`, `otherVersion` : elle dort peut-être). Son + vibration seulement après « Activer les alertes » (geste, bip de test) ; Wake Lock redemandé
   au retour sur la page. Bandeau en `aria-live` (pas `role="alert"`, déjà pris par l'échec de « Nouvelle soirée ») : en test,
   `getByRole('list', { name: 'Alertes' })`. Wake Lock absent en Playwright headless → « Garde l'écran allumé ».
+- **Raccourci d'appli** (#87) : une appli installée s'ouvre toujours sur `start_url` (le jeu) ; le tableau passe par
+  `manifest.shortcuts` (`vite.config.ts`, appui long sur l'icône Android). Chrome ne relit le manifeste d'une appli installée
+  que rarement : après un changement, désinstaller puis réinstaller. Vérifié par `e2e/app-shortcut.spec.ts`.
 - **Finale commune** (sprint 24, `finale: true` → `QuizConfig.finalStep`, index 0-based) : `challengeAt` fait tourner les
   autres épreuves puis donne la finale à tous au dernier créneau ; une seule finale (validateFinal), avec ses `indices` comme
   les autres (sprint 25 : mêmes horaires, toutes les tablettes en même temps) ; il faut

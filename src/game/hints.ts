@@ -1,4 +1,7 @@
 /** @file Progressive hints: when each hint of a challenge unlocks, by the slot clock or by an animator. */
+import type { QuizConfig } from '../config/types'
+import type { GameState } from './progress'
+import { slotTiming } from './time'
 
 const elapsedSeconds = (slotSecondsLeft: number, slotMinutes: number) => slotMinutes * 60 - slotSecondsLeft
 
@@ -52,4 +55,21 @@ export function availableHints(
   // The max, not the sum: a hint given early is the same hint the clock unlocks later.
   const given = animator.slot === slot ? animator.count : 0
   return Math.min(total, Math.max(byClock, given))
+}
+
+/**
+ * Hints of the challenge available now, unlocked by the slot clock or given by an animator in this slot.
+ * @param state Game state.
+ * @param config Validated quiz.
+ * @param challenge 0-based challenge on screen.
+ * @param slot Slot on screen.
+ * @param now Current timestamp in ms.
+ * @returns Between 0 and the number of hints of the step.
+ */
+export function hintsAvailable(state: GameState, config: QuizConfig, challenge: number, slot: number, now: number): number {
+  const total = config.steps[challenge].hints?.length ?? 0
+  if (state.startedAt === null) return 0
+  const { secondsLeft } = slotTiming(state.startedAt, now, config.slotMinutes)
+  const byClock = hintsUnlockedByClock(secondsLeft, config.slotMinutes, config.hintTimes)
+  return availableHints(byClock, { slot: state.hintSlot, count: state.hintCount }, slot, total)
 }

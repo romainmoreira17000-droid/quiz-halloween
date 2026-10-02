@@ -1,6 +1,7 @@
 /** @file Tests for the animator menu actions of the game reducer: solve, unblock, show the hint. */
 import type { QuizConfig } from '../config/types'
-import { createGameReducer, hintsAvailable, initialGameState, type GameState } from './progress'
+import { hintsAvailable } from './hints'
+import { createGameReducer, initialGameState, type GameState } from './progress'
 
 const MIN = 60_000
 const config: QuizConfig = {

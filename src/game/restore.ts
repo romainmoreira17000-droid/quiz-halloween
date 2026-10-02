@@ -17,12 +17,14 @@ const isDigit = (value: unknown): value is number =>
  */
 export function restoreGameState(value: unknown, stepCount: number): GameState | null {
   if (typeof value !== 'object' || value === null) return null
-  const { status, digits, startedAt, finishedAt, blockedUntil, hintSlot = null } = value as Record<string, unknown>
+  const { status, digits, startedAt, finishedAt, blockedUntil, hintSlot = null, arrivedSlot = null } = value as Record<string, unknown>
   if (typeof status !== 'string' || !RESUMABLE.includes(status)) return null
   // A save without the field comes from an older game format: nothing to resume.
   if (blockedUntil !== null && !isTime(blockedUntil)) return null
   // Missing is fine (saved before the animator menu): games under way on the evening must survive the update.
   if (hintSlot !== null && !isCount(hintSlot)) return null
+  // Missing before « Dirigez-vous » (#90): the group is shown the way to its current room once more.
+  if (arrivedSlot !== null && !isCount(arrivedSlot)) return null
   const { hintCount = hintSlot !== null ? 1 : 0 } = value as Record<string, unknown>
   // Missing too before sprint 14 (one hint shown per slot at most). Only a safety net: that sprint changed the shape of
   // QuizConfig, so its fingerprint too, and older saves are dropped by loadGame before they get here.
@@ -35,6 +37,6 @@ export function restoreGameState(value: unknown, stepCount: number): GameState |
     return known.every((d) => d === null) && startedAt === null && finishedAt === null ? { ...fresh, status: 'entrance' } : null
   }
   if (!isTime(startedAt)) return null
-  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot, hintCount: hintSlot === null ? 0 : hintCount } : null
+  if (status === 'playing') return finishedAt === null ? { ...fresh, status: 'playing', startedAt, blockedUntil, hintSlot, hintCount: hintSlot === null ? 0 : hintCount, arrivedSlot } : null
   return isTime(finishedAt) && known.every(isDigit) ? { ...fresh, status: 'won', startedAt, finishedAt } : null
 }

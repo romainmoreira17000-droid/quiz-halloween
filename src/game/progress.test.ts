@@ -21,7 +21,7 @@ const atEntrance: GameState = { ...home, status: 'entrance' }
 
 describe('game reducer', () => {
   it('starts on the home screen, with no digit', () => {
-    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0 })
+    expect(home).toEqual({ status: 'home', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 0, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0, arrivedSlot: null })
   })
   it('records the start time, once', () => {
     expect(reduce(home, { type: 'start', now: 0 })).toEqual(playing)
@@ -143,5 +143,20 @@ describe('skipping a slot (test mode)', () => {
     expect(reduce(allFound, { type: 'skipSlot', now: 31 * MIN })).toBe(allFound)
     const won: GameState = { ...allFound, status: 'won', finishedAt: 31 * MIN }
     expect(reduce(won, { type: 'skipSlot', now: 32 * MIN })).toBe(won)
+  })
+})
+
+describe('arrive', () => {
+  it('records that the group reached the room of the slot on screen', () => {
+    expect(reduce(playing, { type: 'arrive', slot: 0, now: MIN })).toEqual({ ...playing, arrivedSlot: 0 })
+    // Slot 1 needs the digit of slot 0, or « Temps écoulé » comes first.
+    const firstFound = { ...playing, digits: [null, 0] }
+    expect(reduce(firstFound, { type: 'arrive', slot: 1, now: 16 * MIN })).toEqual({ ...firstFound, arrivedSlot: 1 })
+  })
+  it('ignores a tap meant for another slot (right at the change of slot) and every other screen', () => {
+    expect(reduce(playing, { type: 'arrive', slot: 0, now: 16 * MIN })).toBe(playing)
+    expect(reduce(home, { type: 'arrive', slot: 0, now: 0 })).toBe(home)
+    const found = { ...playing, digits: [null, 0] }
+    expect(reduce(found, { type: 'arrive', slot: 0, now: MIN })).toBe(found)
   })
 })

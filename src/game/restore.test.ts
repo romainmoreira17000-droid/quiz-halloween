@@ -2,9 +2,9 @@
 import { restoreGameState } from './restore'
 
 // Two-challenge quiz in every case.
-const playing = { status: 'playing', digits: [null, 0], startedAt: 1000, finishedAt: null, wrongAttempts: 3, wrongSlot: 0, blockedUntil: 90_000, hintSlot: 1, hintCount: 2 }
-const won = { status: 'won', digits: [4, 0], startedAt: 1000, finishedAt: 5000, wrongAttempts: 0, wrongSlot: 2, blockedUntil: null, hintSlot: null, hintCount: 0 }
-const entrance = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 2, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0 }
+const playing = { status: 'playing', digits: [null, 0], startedAt: 1000, finishedAt: null, wrongAttempts: 3, wrongSlot: 0, blockedUntil: 90_000, hintSlot: 1, hintCount: 2, arrivedSlot: 0 }
+const won = { status: 'won', digits: [4, 0], startedAt: 1000, finishedAt: 5000, wrongAttempts: 0, wrongSlot: 2, blockedUntil: null, hintSlot: null, hintCount: 0, arrivedSlot: null }
+const entrance = { status: 'entrance', digits: [null, null], startedAt: null, finishedAt: null, wrongAttempts: 2, wrongSlot: null, blockedUntil: null, hintSlot: null, hintCount: 0, arrivedSlot: null }
 const cleared = { wrongAttempts: 0, wrongSlot: null }
 
 describe('restoreGameState', () => {
@@ -18,6 +18,10 @@ describe('restoreGameState', () => {
   it('restores a sprint 13 save (one hint shown, no count) with that hint', () => {
     const { hintCount: _dropped, ...older } = playing
     expect(restoreGameState(older, 2)).toEqual({ ...playing, ...cleared, hintCount: 1 })
+  })
+  it('restores a save from before « Dirigez-vous » as not arrived yet', () => {
+    const { arrivedSlot: _dropped, ...older } = playing
+    expect(restoreGameState(older, 2)).toEqual({ ...playing, ...cleared, arrivedSlot: null })
   })
   it('restores the victory and the entrance', () => {
     expect(restoreGameState(won, 2)).toEqual({ ...won, ...cleared })
@@ -45,6 +49,8 @@ describe('restoreGameState', () => {
     ['negative hint slot', { ...playing, hintSlot: -1 }],
     ['hint count as text', { ...playing, hintCount: '1' }],
     ['negative hint count', { ...playing, hintCount: -1 }],
+    ['arrived slot as text', { ...playing, arrivedSlot: '0' }],
+    ['decimal arrived slot', { ...playing, arrivedSlot: 0.5 }],
   ])('rejects %s', (_label, value) => {
     expect(restoreGameState(value, 2)).toBeNull()
   })

@@ -3,9 +3,10 @@
 Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, mergé et déployé)
 
 ## Sprint en cours
-**Raccourci « Tableau animateur »** (#87, branche `feat/board-app-shortcut`) : appui long sur l'icône de l'appli installée →
-`?animateur` (`manifest.shortcuts`). Fait et testé (e2e 34/34) ; PR à merger, puis Romain désinstalle/réinstalle l'appli sur
-son Android pour voir le raccourci.
+Aucun. **Raccourci « Tableau animateur »** (#87, PR #88) mergé et déployé le 2026-10-02 : appui long sur l'icône de l'appli
+installée → `?animateur` (`manifest.shortcuts`). Romain doit désinstaller/réinstaller l'appli sur son Android pour le voir.
+Reste avant la soirée du 13 : `check:board -- --full` (Romain, avec son code), essai du réseau sur le lieu si possible.
+Sprint B (actions à distance) : non lancé, Romain est satisfait du tableau actuel.
 
 Précédent : Aucun. **Sprint A du tableau animateur** (#84, PR #85) mergé et déployé le 2026-10-02 (build `index-DxARfOHK.js`). **Soirée le 13 octobre** : tout doit être
 mergé et essayé sur les vraies tablettes et le téléphone (Android) vers le 10 octobre.

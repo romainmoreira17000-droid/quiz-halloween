@@ -67,6 +67,26 @@ describe('boardCards', () => {
     expect(at(39_000, 0)).toMatchObject({ silentSeconds: 61, freshness: 'late' })
     expect(at(40_000, 61_000)).toMatchObject({ silentSeconds: 121, freshness: 'silent' })
   })
+  it('lists the digits in the team play order and frames the challenge in play', () => {
+    // Zombies (team 1) start on challenge 2 (Le grenier), then play challenge 1.
+    expect(card([entry('Zombies', playing({ digits: [4, null] }))], MIN, 'Zombies').track).toEqual([
+      { title: 'Le grenier', digit: null, current: true },
+      { title: 'La crypte', digit: 4, current: false },
+    ])
+  })
+  it('gives an unseen team its play order, empty', () => {
+    expect(card([], 0, 'Zombies').track).toEqual([
+      { title: 'Le grenier', digit: null, current: false },
+      { title: 'La crypte', digit: null, current: false },
+    ])
+  })
+  it('gives the solution and the hints seen of the challenge in play', () => {
+    expect(card([entry('Sorcières', playing())], 6 * MIN)).toMatchObject({ solution: { answer: '4', digit: 4 }, hintTexts: ['h1'] })
+  })
+  it('gives the solution of the missed challenge on « time up », none while waiting', () => {
+    expect(card([entry('Sorcières', playing())], 16 * MIN)).toMatchObject({ solution: { answer: '4', digit: 4 }, hintTexts: [] })
+    expect(card([entry('Sorcières', playing({ digits: [4, null] }))], MIN).solution).toBeNull()
+  })
   it('flags a tablet that started out of step with the others', () => {
     const teams = [entry('Sorcières', playing()), entry('Zombies', playing({ startedAt: 3 * MIN }))]
     const { cards, reference } = boardCards(config, FP, snap(teams), 5 * MIN)

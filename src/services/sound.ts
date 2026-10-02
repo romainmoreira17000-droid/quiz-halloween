@@ -1,5 +1,5 @@
 /**
- * @file Victory sound (lock clack, door creak, ghost moan) and pin clack, synthesised with Web Audio:
+ * @file Victory sound (lock clack, door creak, ghost moan), pin clack and the animator's alert beeps, synthesised with Web Audio:
  * no audio file to host or license, and it works offline. Timings match victory.css and lock.css.
  */
 
@@ -93,4 +93,19 @@ export function playPinSound(createContext: AudioContextFactory = browserContext
   clack.frequency.setValueAtTime(1200, t + 0.4)
   clack.frequency.exponentialRampToValueAtTime(500, t + 0.47)
   clack.onended = () => void ctx.close()
+}
+
+/**
+ * Plays two short beeps for the animator board. Phones allow it once the page was tapped (« Activer les alertes »).
+ * Silent (never throws) when audio is unavailable.
+ * @param createContext Audio context factory, replaced in tests.
+ */
+export function playAlertSound(createContext: AudioContextFactory = browserContext): void {
+  const ctx = openContext(createContext)
+  if (!ctx) return
+  const t = ctx.currentTime
+  tone(ctx, 'triangle', t, t + 0.25, 0.35).frequency.setValueAtTime(880, t)
+  const second = tone(ctx, 'triangle', t + 0.35, t + 0.6, 0.35)
+  second.frequency.setValueAtTime(660, t + 0.35)
+  second.onended = () => void ctx.close()
 }

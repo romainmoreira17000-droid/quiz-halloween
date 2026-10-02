@@ -1,11 +1,12 @@
 /** @file What one team's card shows on the animator board, derived from its last news the way a tablet derives its screen. */
-import type { QuizConfig } from '../config/types'
+import type { QuizConfig, QuizStep } from '../config/types'
 import { blockSecondsLeft } from './block'
 import { referenceStart, startOffsetMinutes } from './boardClock'
 import type { BoardEntry, BoardSnapshot } from './boardSnapshot'
 import { gamePhase } from './phase'
 import { hintsAvailable, wrongAttemptsIn, type GameState } from './progress'
 import { restoreGameState } from './restore'
+import { challengeAt } from './rotation'
 import { slotTiming } from './time'
 
 /** Seconds without news after which a card turns orange (two missed 30 s heartbeats). */
@@ -15,6 +16,12 @@ export const SILENT_AFTER_S = 120
 
 export type CardStatus = 'unseen' | 'otherVersion' | 'home' | 'entrance' | 'challenge' | 'waiting' | 'timeUp' | 'padlock' | 'won'
 export type Freshness = 'fresh' | 'late' | 'silent'
+
+/** One box per slot of a team, in the order it plays the challenges. */
+export interface TrackBox { title: string; digit: number | null; current: boolean }
+
+/** What a team must type, and the digit it earns. */
+export interface CardSolution { answer: string; digit: number }
 
 /** Everything a team card shows. */
 export interface TeamCardView {
@@ -26,6 +33,12 @@ export interface TeamCardView {
   slotSecondsLeft: number | null
   /** One per challenge: digit known. */
   found: boolean[]
+  /** One box per slot, in the team's play order; the challenge in play (or missed) is `current`. */
+  track: TrackBox[]
+  /** Solution of the challenge in play (challenge) or missed (timeUp), null otherwise. */
+  solution: CardSolution | null
+  /** Texts of the hints available to the team (challenge only). */
+  hintTexts: string[]
   /** Seconds of keyboard block left (challenge only). */
   blockedSeconds: number
   /** Wrong tries in the current slot (challenge only). */
@@ -40,6 +53,16 @@ export interface TeamCardView {
   silentSeconds: number | null
   freshness: Freshness | null
 }
+
+/** One box per slot, in the order this team plays the challenges. */
+function trackOf(config: QuizConfig, teamIndex: number, digits: readonly (number | null)[], current: number | null): TrackBox[] {
+  return Array.from({ length: config.stepCount }, (_, slot) => {
+    const challenge = challengeAt(teamIndex, slot, config.stepCount, config.finalStep)
+    return { title: config.steps[challenge].title, digit: digits[challenge] ?? null, current: challenge === current }
+  })
+}
+
+const solutionOf = (step: QuizStep): CardSolution => ({ answer: step.answer.value, digit: step.digit })
 
 const isCount = (value: unknown): value is number => typeof value === 'number' && Number.isInteger(value) && value >= 0
 
@@ -79,6 +102,7 @@ export function boardCards(config: QuizConfig, fingerprint: string, snapshot: Bo
   const cards = config.teams.map((team, teamIndex): TeamCardView => {
     const blank: TeamCardView = {
       team, status: 'unseen', challengeTitle: null, slotSecondsLeft: null, found: Array.from({ length: config.stepCount }, () => false),
+      track: trackOf(config, teamIndex, [], null), solution: null, hintTexts: [],
       blockedSeconds: 0, wrongAttempts: 0, hints: null, offsetMinutes: null, finishedAt: null, silentSeconds: null, freshness: null,
     }
     const row = rows[teamIndex]
@@ -96,11 +120,15 @@ function playingCard(state: GameState, config: QuizConfig, teamIndex: number, no
   const phase = gamePhase(state, config, teamIndex, now)
   const offsetMinutes = state.status === 'playing' && state.startedAt !== null && reference !== null
     ? startOffsetMinutes(state.startedAt, reference) : null
-  const base = { found, offsetMinutes }
+  const current = phase.kind === 'challenge' || phase.kind === 'waiting' || phase.kind === 'timeUp' ? phase.challenge : null
+  const base = { found, offsetMinutes, track: trackOf(config, teamIndex, state.digits, current) }
   switch (phase.kind) {
     case 'home': case 'entrance': case 'padlock': return { ...base, status: phase.kind }
     case 'won': return { ...base, status: 'won', finishedAt: state.finishedAt }
-    case 'timeUp': return { ...base, status: 'timeUp', challengeTitle: config.steps[phase.challenge].title }
+    case 'timeUp': {
+      const step = config.steps[phase.challenge]
+      return { ...base, status: 'timeUp', challengeTitle: step.title, solution: solutionOf(step) }
+    }
     case 'waiting':
     case 'challenge': {
       const step = config.steps[phase.challenge]
@@ -108,9 +136,10 @@ function playingCard(state: GameState, config: QuizConfig, teamIndex: number, no
       const common = { ...base, status: phase.kind, challengeTitle: step.title, slotSecondsLeft }
       if (phase.kind === 'waiting') return common
       const total = step.hints?.length ?? 0
+      const shown = total > 0 ? hintsAvailable(state, config, phase.challenge, phase.slot, now) : 0
       return {
         ...common, blockedSeconds: blockSecondsLeft(state.blockedUntil, now), wrongAttempts: wrongAttemptsIn(state, phase.slot),
-        hints: total > 0 ? { shown: hintsAvailable(state, config, phase.challenge, phase.slot, now), total } : null,
+        hints: total > 0 ? { shown, total } : null, solution: solutionOf(step), hintTexts: step.hints?.slice(0, shown) ?? [],
       }
     }
   }

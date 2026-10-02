@@ -1,5 +1,5 @@
-/** @file Tests for the synthesised sounds: victory and pin clack (fake Web Audio context). */
-import { playPinSound, playVictorySound } from './sound'
+/** @file Tests for the synthesised sounds: victory, pin clack and animator alert (fake Web Audio context). */
+import { playAlertSound, playPinSound, playVictorySound } from './sound'
 
 function fakeParam() {
   return { value: 0, setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() }
@@ -58,6 +58,20 @@ describe('playPinSound', () => {
     playPinSound(() => ctx)
     expect(oscillators.map((o) => o.type)).toEqual(['square'])
     oscillators[0].onended?.()
+    expect(close).toHaveBeenCalledOnce()
+  })
+})
+
+describe('playAlertSound', () => {
+  it('does nothing without Web Audio, or when it is blocked', () => {
+    expect(() => playAlertSound(() => null)).not.toThrow()
+    expect(() => playAlertSound(() => { throw new Error('blocked') })).not.toThrow()
+  })
+  it('plays two beeps, then releases the audio context', () => {
+    const { ctx, close, oscillators } = fakeContext()
+    playAlertSound(() => ctx)
+    expect(oscillators.filter((o) => o.start.mock.calls.length > 0)).toHaveLength(2)
+    oscillators.find((o) => o.onended)?.onended?.()
     expect(close).toHaveBeenCalledOnce()
   })
 })

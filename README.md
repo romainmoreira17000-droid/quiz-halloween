@@ -151,6 +151,12 @@ normalement si le réseau tombe. Aucune donnée personnelle : seulement le nom d
 
 **Le soir :**
 
+- Sur le téléphone de l'animateur, toucher **Activer les alertes** (un bip de test sonne) : le téléphone sonne et vibre quand
+  une équipe est en « Temps écoulé », fait 3 mauvaises réponses, ou que sa tablette ne donne plus de nouvelles depuis 2 min.
+  Garder le tableau **au premier plan** (écran éteint ou autre appli = plus d'alertes), le téléphone branché si possible.
+  Chaque carte montre les chiffres trouvés, la solution de l'épreuve en cours (« Voir la solution ») et les indices déjà lus ;
+  le panneau « Solutions » en bas donne toutes les réponses et le code du cadenas.
+
 - **Wifi faible :** ouvrir l'app sur chaque tablette **avec le wifi, avant la soirée**, et la laisser ouverte.
   Ensuite tout le jeu marche sans réseau (seul le suivi à distance s'arrête, la tablette continue).
 - Lancer toutes les tablettes en même temps (sinon « Départ de la partie » dans le menu animateur) : la finale

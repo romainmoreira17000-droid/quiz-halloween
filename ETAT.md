@@ -1,16 +1,17 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, #84)
+Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, mergé et déployé)
 
 ## Sprint en cours
-**Sprint A du tableau animateur** (#84, branche `feat/board-details-alerts`). **Soirée le 13 octobre** : tout doit être
+Aucun. **Sprint A du tableau animateur** (#84, PR #85) mergé et déployé le 2026-10-02 (build `index-DxARfOHK.js`). **Soirée le 13 octobre** : tout doit être
 mergé et essayé sur les vraies tablettes et le téléphone (Android) vers le 10 octobre.
 Spec `docs/superpowers/specs/2026-10-02-board-details-alerts-design.md`, plan `docs/superpowers/plans/2026-10-02-board-details-alerts.md`.
 - [x] Tâches 1 à 7 : cartes (chiffres dans l'ordre de passage, solution masquée, indices lus), panneau Solutions, alertes
   (Temps écoulé, tablette muette, 3 mauvaises réponses : son + vibration + bandeau « Vu » + carte rouge), « Activer les alertes »
   (bip de test + écran gardé allumé), e2e, vérification visuelle 360 et 810 px, docs.
 - [x] Relecture finale (relecteur-code, Opus) : 3 points importants corrigés. PR #85 ouverte.
-- [ ] Romain merge #85 (CI verte ; jamais pendant la soirée), puis essai sur son Android (bip, vibration, écran allumé).
+- [x] PR #85 mergée (CI verte) et déployée.
+- [ ] Romain essaie sur son Android : bip, vibration, écran allumé ; une tablette en `?test` qui rate un créneau doit faire sonner.
 - Sprint B (actions à distance : valider, indice, débloquer, passer) : seulement s'il reste le temps de l'essayer avant le 13.
 
 Précédent : comptine du cadenas final (#81, PR #82) mergée et déployée le 2026-10-01 : `cadenas.indice` réécrit par
@@ -42,7 +43,7 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [x] Code animateur : 1717 (choix de Romain le 2026-10-01, #79).
 
 ## Prochaine action concrète
-PR #85 ouverte, en attente du merge par Romain. Après le merge : Romain ouvre `?animateur` sur son Android, touche « Activer les alertes »
+Romain ouvre `?animateur` sur son Android, touche « Activer les alertes »
 et vérifie le bip, la vibration et que l'écran ne se met pas en veille.
 
 Avant (toujours valable) :

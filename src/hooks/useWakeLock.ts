@@ -19,10 +19,15 @@ export function useWakeLock(wanted: boolean): WakeLockStatus {
     let sentinel: WakeLockSentinel | null = null
     const request = () => {
       if (document.hidden) return
-      navigator.wakeLock.request('screen').then(
-        (lock) => { if (cancelled) void lock.release(); else { sentinel = lock; setStatus('on') } },
-        () => { if (!cancelled) setStatus('refused') },
-      )
+      try {
+        navigator.wakeLock.request('screen').then(
+          (lock) => { if (cancelled) void lock.release(); else { sentinel = lock; setStatus('on') } },
+          () => { if (!cancelled) setStatus('refused') },
+        )
+      } catch {
+        // Some browsers throw at once instead of rejecting: the board must stay up.
+        setStatus('refused')
+      }
     }
     request()
     const onVisible = () => { if (!document.hidden) request() }

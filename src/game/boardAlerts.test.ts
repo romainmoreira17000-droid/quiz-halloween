@@ -25,6 +25,12 @@ describe('activeAlerts', () => {
     expect(activeAlerts([silent], false)).toEqual([])
     expect(activeAlerts([card({ freshness: 'late' })], true)).toEqual([])
   })
+  it('ignores the silence of a tablet that is not playing (asleep at home, put down after the victory)', () => {
+    for (const status of ['home', 'won', 'otherVersion'] as const) {
+      expect(activeAlerts([card({ status, freshness: 'silent', silentSeconds: 300 })], true)).toEqual([])
+    }
+    expect(activeAlerts([card({ status: 'padlock', freshness: 'silent', silentSeconds: 300 })], true)).toHaveLength(1)
+  })
   it('raises 3 wrong answers in the slot, not 2', () => {
     expect(activeAlerts([card({ wrongAttempts: 2 })], true)).toEqual([])
     expect(activeAlerts([card({ wrongAttempts: 4 })], true)).toEqual([

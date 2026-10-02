@@ -21,6 +21,10 @@ describe('useWakeLock', () => {
     unmount()
     expect(release).toHaveBeenCalled()
   })
+  it('says « unavailable » when the request throws at once, without crashing the board', () => {
+    setWakeLock(() => { throw new Error('not allowed') })
+    expect(renderHook(() => useWakeLock(true)).result.current).toBe('unavailable')
+  })
   it('says « unavailable » without the API or when it is refused', async () => {
     expect(renderHook(() => useWakeLock(true)).result.current).toBe('unavailable')
     setWakeLock(() => Promise.reject(new Error('battery saver')))

@@ -7,7 +7,7 @@ import type { TeamCardView } from '../game/boardCard'
 export interface BoardAlertsOptions {
   /** The board has read the database at least once (before, every card is blank). */
   ready: boolean
-  /** See activeAlerts. */
+  /** See activeAlerts. While false, nothing is compared: the clocks of the cards run on old news. */
   online: boolean
   /** Rings and vibrates; called once per change that brings new needs. */
   onNew(): void
@@ -39,13 +39,15 @@ export function useBoardAlerts(cards: readonly TeamCardView[], options: BoardAle
   // Declared first, so it runs before the effect below in the same commit.
   useEffect(() => { latest.current = { active, onNew: options.onNew } })
   useEffect(() => {
-    if (!options.ready) return
+    // A stale board (phone back from sleep, network lost) would ring false « time up » and, once back, ring the
+    // silent tablets again: keep the previous alerts and the banner as they are until it reads again.
+    if (!options.ready || !options.online) return
     const now = latest.current.active
     const fresh = newAlerts(previous.current, now)
     previous.current = now
     setPending((list) => [...list.filter((alert) => now.some((still) => still.key === alert.key)), ...fresh])
     if (fresh.length > 0) latest.current.onNew()
-  }, [signature, options.ready])
+  }, [signature, options.ready, options.online])
   return {
     pending,
     alertTeams: new Set(active.map((alert) => alert.team)),

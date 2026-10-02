@@ -1,10 +1,13 @@
 /** @file Which teams need an animator now, and which of those needs are new since the previous read of the board. */
-import type { TeamCardView } from './boardCard'
+import type { CardStatus, TeamCardView } from './boardCard'
 
 /** Wrong answers in one slot after which a team probably needs help. */
 export const ALERT_WRONG_ATTEMPTS = 3
 /** Age of the last good read after which the board itself is stale: every tablet would look silent. */
 export const BOARD_FRESH_MS = 15_000
+
+/** Statuses of a tablet in a game: only then does its silence mean trouble (at home or after the victory, it may just sleep). */
+const PLAYING: readonly CardStatus[] = ['entrance', 'challenge', 'waiting', 'timeUp', 'padlock']
 
 /** timeUp: an animator must give the digit; silent: no news from the tablet; wrong: many wrong answers. */
 export type AlertKind = 'timeUp' | 'silent' | 'wrong'
@@ -25,7 +28,7 @@ export function activeAlerts(cards: readonly TeamCardView[], online: boolean): B
       alerts.push({ key: `${card.team}|${kind}|${detail}`, team: card.team, kind, text: `${card.team} : ${text}` })
     const title = card.challengeTitle ?? ''
     if (card.status === 'timeUp') add('timeUp', title, `Temps écoulé (${title})`)
-    if (online && card.freshness === 'silent') add('silent', '', 'plus de nouvelles depuis 2 min')
+    if (online && card.freshness === 'silent' && PLAYING.includes(card.status)) add('silent', '', 'plus de nouvelles depuis 2 min')
     // Fixed text: the key stays the same while the count goes up, so the banner line does not change either.
     if (card.status === 'challenge' && card.wrongAttempts >= ALERT_WRONG_ATTEMPTS) {
       add('wrong', title, `${ALERT_WRONG_ATTEMPTS} mauvaises réponses (${title})`)

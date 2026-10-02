@@ -241,8 +241,9 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   l'épreuve en cours masquée (`CardSolution`, `key` = titre : se referme au changement d'épreuve), texte des indices vus, panneau
   « Solutions » replié (code du cadenas par `padlockCode`). Alertes : Temps écoulé, tablette `silent`, 3 mauvaises réponses
   (`ALERT_WRONG_ATTEMPTS`) ; une clé par besoin (`newAlerts` compare les clés : sonne une fois), **rien ne sonne au premier tableau**,
-  et pas d'alerte « muette » si le tableau n'a pas lu depuis 15 s (`BOARD_FRESH_MS` : sinon un téléphone sorti de veille ferait
-  sonner toutes les tablettes). Son + vibration seulement après « Activer les alertes » (geste, bip de test) ; Wake Lock redemandé
+  et **aucune comparaison** tant que le tableau n'a pas lu depuis 15 s (`BOARD_FRESH_MS`, `online`) : un téléphone sorti de veille
+  ferait sinon sonner de faux « Temps écoulé » (horloges calculées sur de vieilles nouvelles) et resonner les tablettes muettes
+  au retour. « Muette » seulement pour une tablette en jeu (pas `home`, `won`, `otherVersion` : elle dort peut-être). Son + vibration seulement après « Activer les alertes » (geste, bip de test) ; Wake Lock redemandé
   au retour sur la page. Bandeau en `aria-live` (pas `role="alert"`, déjà pris par l'échec de « Nouvelle soirée ») : en test,
   `getByRole('list', { name: 'Alertes' })`. Wake Lock absent en Playwright headless → « Garde l'écran allumé ».
 - **Finale commune** (sprint 24, `finale: true` → `QuizConfig.finalStep`, index 0-based) : `challengeAt` fait tourner les

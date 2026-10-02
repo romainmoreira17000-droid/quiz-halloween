@@ -8,9 +8,11 @@ const card = (over: Partial<TeamCardView>): TeamCardView => ({
   solution: null, hintTexts: [], blockedSeconds: 0, wrongAttempts: 0, hints: null, offsetMinutes: null, finishedAt: null,
   silentSeconds: 3, freshness: 'fresh', ...over,
 })
+interface Props { cards: TeamCardView[]; ready: boolean; online?: boolean }
 const setup = (first: TeamCardView[], ready = true) => {
   const onNew = vi.fn()
-  const hook = renderHook(({ cards, ready }) => useBoardAlerts(cards, { ready, online: true, onNew }), { initialProps: { cards: first, ready } })
+  const initialProps: Props = { cards: first, ready }
+  const hook = renderHook(({ cards, ready, online = true }: Props) => useBoardAlerts(cards, { ready, online, onNew }), { initialProps })
   return { ...hook, onNew }
 }
 
@@ -36,6 +38,24 @@ describe('useBoardAlerts', () => {
     act(() => result.current.dismiss(result.current.pending[0].key))
     expect(result.current.pending).toEqual([])
     expect(result.current.alertTeams.has('Zombies')).toBe(true)
+  })
+  it('rings nothing while the board is stale (phone back from sleep): its clocks run on old news', () => {
+    const { result, rerender, onNew } = setup([card({})])
+    rerender({ cards: [card({ status: 'timeUp' })], ready: true, online: false })
+    expect(onNew).not.toHaveBeenCalled()
+    rerender({ cards: [card({ status: 'waiting' })], ready: true, online: true })
+    expect(onNew).not.toHaveBeenCalled()
+    expect(result.current.pending).toEqual([])
+  })
+  it('does not ring a silent tablet again after a short loss of the board', () => {
+    const silent = card({ freshness: 'silent', silentSeconds: 130 })
+    const { result, rerender, onNew } = setup([card({})])
+    rerender({ cards: [silent], ready: true })
+    act(() => result.current.dismiss(result.current.pending[0].key))
+    rerender({ cards: [silent], ready: true, online: false })
+    rerender({ cards: [silent], ready: true, online: true })
+    expect(onNew).toHaveBeenCalledOnce()
+    expect(result.current.pending).toEqual([])
   })
   it('drops a need from the banner once it is over', () => {
     const { result, rerender } = setup([card({})])

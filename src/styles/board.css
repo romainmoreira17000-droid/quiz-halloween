@@ -19,8 +19,22 @@
 .team-card-challenge { margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 20px; }
 .team-card-challenge b { font-variant-numeric: lining-nums; font-size: 24px; }
 .team-card-digits { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
-.team-card-digits li { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--bronze); }
-.team-card-digits li.found { background: var(--amber); }
+.team-card-digits li {
+  display: grid; place-items: center; width: 36px; height: 40px; border: 2px solid var(--bronze); border-radius: 8px;
+  font: 700 22px var(--text-font); font-variant-numeric: lining-nums; opacity: .7;
+}
+.team-card-digits li.found { background: var(--amber); color: var(--soot); opacity: 1; }
+.team-card-digits li[aria-current] { outline: 3px solid var(--wax); outline-offset: 2px; opacity: 1; }
+.card-hints { margin: 0; font-size: 18px; }
+.card-hints summary { cursor: pointer; color: #ffb199; }
+.card-hints ol { margin: 6px 0 0; padding-left: 22px; }
+.card-solution { display: grid; gap: 6px; justify-items: start; }
+.card-solution p { margin: 0; font-size: 20px; overflow-wrap: anywhere; }
+.card-solution b { color: var(--amber); font-variant-numeric: lining-nums; }
+.board .card-solution .ghost-button { min-height: 48px; font-size: 20px; }
+.team-card--alert { border-color: #d64533; animation: card-alert 1s ease-in-out infinite alternate; }
+@keyframes card-alert { to { box-shadow: 0 0 0 4px #d64533, 0 0 18px #d64533; } }
+@media (prefers-reduced-motion: reduce) { .team-card--alert { animation: none; box-shadow: 0 0 0 4px #d64533; } }
 .team-card-alerts { margin: 0; padding-left: 20px; font-size: 18px; color: #ffb199; font-variant-numeric: lining-nums; }
 .board-footer { display: grid; gap: 12px; justify-items: center; font-size: 18px; font-variant-numeric: lining-nums; }
 .board-confirm { display: grid; gap: 10px; justify-items: center; text-align: center; }

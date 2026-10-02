@@ -1,6 +1,6 @@
 /** @file Test mode (`?test`): an animator walks through every challenge up to the padlock without waiting. */
 import { test, expect } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières play challenges 1 to 5 in order, then the common final (6); answers of quiz.yaml.
 const CHALLENGES = [
@@ -13,6 +13,7 @@ test('with ?test, the skip button walks through the rotation up to the final', a
   await setUpTablet(page, 'Sorcières')
   await expect(page.getByText('Mode test')).toBeVisible()
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   const skip = page.getByRole('button', { name: 'Épreuve suivante' })
 
   // Challenge 1 is skipped without an answer: « Temps écoulé » still needs the animator code.
@@ -47,6 +48,7 @@ test('without ?test, there is no test mode', async ({ page }) => {
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: CHALLENGES[0][0] })).toBeVisible()
   await expect(page.getByText('Mode test')).toBeHidden()
   await expect(page.getByRole('button', { name: 'Épreuve suivante' })).toBeHidden()

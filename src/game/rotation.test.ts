@@ -1,5 +1,5 @@
 /** @file Tests for the rotation of the teams across the challenges. */
-import { challengeAt } from './rotation'
+import { challengeAt, nextChallenge } from './rotation'
 
 const SIX = [0, 1, 2, 3, 4, 5]
 
@@ -37,5 +37,16 @@ describe('challengeAt with a final challenge', () => {
   })
   it('plays only the final when it is the only challenge', () => {
     expect(challengeAt(3, 0, 1, 0)).toBe(0)
+  })
+})
+
+describe('nextChallenge', () => {
+  it('gives the challenge of the following slot', () => {
+    expect(nextChallenge(1, 0, 6, 5)).toBe(2)
+    // Before the final: everyone goes to the final.
+    expect(nextChallenge(1, 4, 6, 5)).toBe(5)
+  })
+  it('gives null after the last slot (the padlock comes next)', () => {
+    expect(nextChallenge(1, 5, 6, 5)).toBeNull()
   })
 })

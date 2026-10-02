@@ -1,6 +1,6 @@
 /** @file Weak wifi in the room: once loaded, a whole game (rotation, common final, padlock) plays without any network. */
 import { test, expect } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières rotate through challenges 1 to 5 of quiz.yaml, then play the final.
 const ROTATION = [
@@ -20,6 +20,7 @@ test('a whole game plays offline once the app was loaded', async ({ page, contex
 
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   const skip = page.getByRole('button', { name: 'Épreuve suivante' })
   for (const [title, answer] of ROTATION) {
     await expect(page.getByRole('heading', { name: title })).toBeVisible()

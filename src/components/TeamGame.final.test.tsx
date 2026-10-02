@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
 import { CELEBRATION_DELAY_MS, CELEBRATION_MS } from '../hooks/useCelebration'
 import { RESET_HOLD_MS } from './ResetButton'
+import { arriveIfAsked } from '../test/arrive'
 import { TeamGame } from './TeamGame'
 
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
@@ -18,9 +19,10 @@ const config: QuizConfig = {
   finalStep: 1,
   padlock: { order: [2, 1] },
 }
-const press = (name: string) => fireEvent.click(screen.getByRole('button', { name }))
+// Every tap and wait lands in the room at once: the way there is tested in TeamGame.travel.test.tsx.
+const press = (name: string) => { fireEvent.click(screen.getByRole('button', { name })); arriveIfAsked() }
 const type = (text: string) => { for (const char of text) press(char); press('Valider') }
-const wait = (ms: number) => act(() => vi.advanceTimersByTime(ms))
+const wait = (ms: number) => { act(() => vi.advanceTimersByTime(ms)); arriveIfAsked() }
 /** Long press on ↺, « Menu animateur », animator code typed in the window (the step screen has its own keypad). */
 const openMenu = () => {
   fireEvent.pointerDown(screen.getByRole('button', { name: 'Recommencer la partie (appui long)' }))

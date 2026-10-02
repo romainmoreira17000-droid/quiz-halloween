@@ -1,6 +1,6 @@
 /** @file The padlock recap and hint sit on a dark veil, so they stay readable on the photo backdrop. */
 import { test, expect, type Locator } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 // The Sorcières play challenges 1 to 6 in order; answers of quiz.yaml.
 const ANSWERS = ['6', '3', '8', '9', '9', '4']
@@ -17,6 +17,7 @@ test('the padlock recap and hint have a dark veil behind them', async ({ page })
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   for (const answer of ANSWERS) {
     await typeAnswer(page, answer)
     await expect(page.getByRole('status')).toHaveText(/^Chiffre trouvé/)

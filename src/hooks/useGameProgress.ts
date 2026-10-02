@@ -15,6 +15,8 @@ export interface GameProgress {
   start(): void
   /** Submits the answer of the entrance message; the right one starts the clock. */
   enter(text: string): void
+  /** « Nous sommes arrivés »: the group reached the room of `slot` (the one on screen), the riddle shows. */
+  arrive(slot: number): void
   /** Submits the answer typed for `challenge` (the one on screen); true when it earns the digit, so the caller plays the clack inside the tap. */
   answer(challenge: number, text: string): boolean
   /** Records the digit of a missed challenge, once an animator typed the code. */
@@ -63,6 +65,7 @@ export function useGameProgress(config: QuizConfig, teamIndex: number): GameProg
     state,
     start: () => dispatch({ type: 'start', now: Date.now() }),
     enter: (text) => dispatch({ type: 'enter', text, now: Date.now() }),
+    arrive: (slot) => dispatch({ type: 'arrive', slot, now: Date.now() }),
     answer: (challenge, text) => {
       const action = { type: 'answer', challenge, text, now: Date.now() } as const
       dispatch(action)

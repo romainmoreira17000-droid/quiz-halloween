@@ -1,4 +1,4 @@
-/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then a « Bravo ! », the earned digit, the story of the room, the waiting message and the time before the next challenge. */
+/** @file Challenge screen: instruction on a parchment menu (with its hint button), the cutaway lock, typed answer, then a « Bravo ! », the earned digit, the story of the room, the waiting message, the next challenge and the time before it. */
 import type { ReactNode } from 'react'
 import type { QuizStep } from '../config/types'
 import { formatClock } from '../game/time'
@@ -31,6 +31,8 @@ export interface StepScreenProps {
   hintsAvailable: number
   /** Seconds before the next hint, null when none is left to come. */
   secondsToNextHint: number | null
+  /** Title of the challenge of the next slot, announced once the digit is found; none before the padlock. */
+  nextTitle?: string
   /** Message shown once the digit is found (`message_attente`), none when absent. */
   waitingMessage?: string
   /** Called with the typed answer. */
@@ -43,7 +45,7 @@ export interface StepScreenProps {
  * @returns The step screen.
  */
 export function StepScreen(props: StepScreenProps) {
-  const { header, step, challenge, digits, wrongAttempts, secondsLeft, nextLabel, blockSecondsLeft, hintsAvailable, secondsToNextHint, waitingMessage, onSubmit, onCelebrationEnd } = props
+  const { header, step, challenge, digits, wrongAttempts, secondsLeft, nextLabel, blockSecondsLeft, hintsAvailable, secondsToNextHint, nextTitle, waitingMessage, onSubmit, onCelebrationEnd } = props
   const digit = digits[challenge]
   const solved = digit !== null
   const celebration = useCelebration(solved, onCelebrationEnd)
@@ -65,6 +67,7 @@ export function StepScreen(props: StepScreenProps) {
           <p className="found" role="status">Chiffre trouvé : <b>{digit}</b></p>
           {step.story && <p className="story">{step.story}</p>}
           {waitingMessage && <p className="waiting-message">{waitingMessage}</p>}
+          {nextTitle && <p className="next-step"><span>Prochaine épreuve :</span> <b>{nextTitle}</b></p>}
           {nextLabel && <p className="next-room">{nextLabel} {formatClock(secondsLeft)}</p>}
         </div>
       ) : (

@@ -21,3 +21,15 @@ export function challengeAt(teamIndex: number, slot: number, count: number, fina
   // Positions from the final on shift by one: the final is not part of the rotation.
   return position < finalStep ? position : position + 1
 }
+
+/**
+ * Challenge of the slot after `slot`, announced on the waiting screen.
+ * @param teamIndex 0-based team.
+ * @param slot 0-based slot on screen.
+ * @param count Number of challenges, final included.
+ * @param finalStep 0-based final challenge, if any.
+ * @returns 0-based challenge, or null after the last slot (the padlock comes next).
+ */
+export function nextChallenge(teamIndex: number, slot: number, count: number, finalStep?: number): number | null {
+  return slot + 1 < count ? challengeAt(teamIndex, slot + 1, count, finalStep) : null
+}

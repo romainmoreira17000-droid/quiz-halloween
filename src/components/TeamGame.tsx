@@ -1,13 +1,15 @@
 /** @file One team's game: the clock picks the challenge and the screen, drawn over its backdrop, with the reset icon on top. */
 import { useMemo, useState, type ReactNode } from 'react'
 import type { QuizConfig } from '../config/types'
+import { isOnTheWay } from '../game/arrival'
 import { backdropFor, type Backdrop } from '../game/backdrop'
 import { blockSecondsLeft } from '../game/block'
 import { quizFingerprint } from '../game/fingerprint'
 import { gamePhase, type GamePhase } from '../game/phase'
-import { secondsBeforeNextHint } from '../game/hints'
+import { hintsAvailable, secondsBeforeNextHint } from '../game/hints'
 import { waitingLabel } from '../game/messages'
-import { hintsAvailable, wrongAttemptsIn } from '../game/progress'
+import { wrongAttemptsIn } from '../game/progress'
+import { nextChallenge } from '../game/rotation'
 import { finalStory } from '../game/story'
 import { remainingSeconds, slotTiming } from '../game/time'
 import { useBoardSync } from '../hooks/useBoardSync'
@@ -28,6 +30,7 @@ import { StepScreen } from './StepScreen'
 import { TeamAnimatorMenu } from './TeamAnimatorMenu'
 import { TestModeControl } from './TestModeControl'
 import { TimeUpScreen } from './TimeUpScreen'
+import { TravelScreen } from './TravelScreen'
 import { VictoryScreen } from './VictoryScreen'
 
 /** Props of TeamGame. */
@@ -95,7 +98,7 @@ interface ScreenInput {
 
 /** Screen matching the phase. */
 function currentScreen({ config, teamIndex, progress, phase, now, hold }: ScreenInput): ReactNode {
-  const { state, start, enter, answer, giveDigit, unlock } = progress
+  const { state, start, enter, arrive, answer, giveDigit, unlock } = progress
   if (phase.kind === 'entrance' && config.entrance) {
     return <EntranceScreen entrance={config.entrance} wrongAttempts={wrongAttemptsIn(state, null)} onSubmit={enter} />
   }
@@ -145,6 +148,10 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
       )
     case 'challenge':
     case 'waiting': {
+      if (isOnTheWay(phase, state.arrivedSlot)) {
+        return <TravelScreen header={header} title={config.steps[phase.challenge].title} onArrive={() => arrive(phase.slot)} />
+      }
+      const next = nextChallenge(teamIndex, phase.slot, stepCount, config.finalStep)
       const submit = (text: string) => { if (answer(phase.challenge, text)) playPinSound() }
       // The screen clock lags up to one tick behind the tap: never show more than the configured block (01:01).
       const blocked = Math.min(blockSecondsLeft(state.blockedUntil, at), config.blockSeconds)
@@ -154,7 +161,7 @@ function currentScreen({ config, teamIndex, progress, phase, now, hold }: Screen
           digits={state.digits} wrongAttempts={wrongAttemptsIn(state, phase.slot)} secondsLeft={timing.secondsLeft}
           nextLabel={waitingLabel(phase.slot, stepCount, config.finalStep)} blockSecondsLeft={blocked}
           hintsAvailable={shown} secondsToNextHint={secondsBeforeNextHint(timing.secondsLeft, slotMinutes, config.hintTimes, shown)}
-          waitingMessage={config.waitingMessage} onSubmit={submit} />
+          nextTitle={next === null ? undefined : config.steps[next].title} waitingMessage={config.waitingMessage} onSubmit={submit} />
       )
     }
   }

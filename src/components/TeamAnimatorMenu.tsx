@@ -1,9 +1,10 @@
 /** @file Animator menu of the tablet's game: picks the actions that make sense on the screen shown now. */
 import type { QuizConfig } from '../config/types'
+import { isOnTheWay } from '../game/arrival'
 import { blockSecondsLeft } from '../game/block'
 import { padlockCode } from '../game/padlock'
 import type { GamePhase } from '../game/phase'
-import { hintsAvailable } from '../game/progress'
+import { hintsAvailable } from '../game/hints'
 import { syncStatusLabel, type SyncStatus } from '../game/syncStatus'
 import { timeOfDay } from '../game/startTime'
 import type { GameProgress } from '../hooks/useGameProgress'
@@ -46,12 +47,14 @@ export function TeamAnimatorMenu({ config, progress, phase, now, sync, onClose }
   const step = config.steps[challenge]
   const total = step.hints?.length ?? 0
   const shown = hintsAvailable(state, config, challenge, slot, now)
+  // On the way to the room the riddle is hidden: solving or a hint would land in a room nobody has entered yet.
+  const inRoom = !isOnTheWay(phase, state.arrivedSlot)
   return (
     <AnimatorMenu steps={config.steps} code={code} challengeTitle={step.title}
       // Sounds start inside the tap handler: tablets only allow sound started by a gesture.
-      onSolve={() => { if (progress.animatorSolve(challenge)) playPinSound() }}
+      onSolve={inRoom ? () => { if (progress.animatorSolve(challenge)) playPinSound() } : undefined}
       onUnblock={blockSecondsLeft(state.blockedUntil, now) > 0 ? progress.unblock : undefined}
-      nextHint={shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
+      nextHint={inRoom && shown < total ? { number: shown + 1, total, onShow: () => progress.showHint(challenge) } : undefined}
       onSkip={() => { if (progress.animatorSkip(challenge)) playPinSound() }}
       // There is no challenge after the final: the skip gives its digit and opens the padlock.
       skipTarget={challenge === config.finalStep ? 'au cadenas' : undefined}

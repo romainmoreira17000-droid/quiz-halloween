@@ -1,6 +1,6 @@
 /** @file Animator menu: from the reset icon, with the animator code, an animator helps a stuck group. */
 import { test, expect, type Page } from '@playwright/test'
-import { setUpTablet, typeAnswer } from './typing.js'
+import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 
 /** Long press on ↺, « Menu animateur », then the animator code of the quiz in the window. */
 async function openMenu(page: Page): Promise<void> {
@@ -20,6 +20,7 @@ test('an animator unblocks, shows the hint, solves the challenge and reads the a
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
 
   await typeAnswer(page, '99')
@@ -47,6 +48,7 @@ test('an animator moves the group on to the next challenge, giving the digit of 
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
 
   await openMenu(page)
@@ -63,6 +65,7 @@ test('an animator lines a late tablet up with the start time of the others', asy
   await page.goto('./')
   await setUpTablet(page, 'Sorcières')
   await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await arriveIfAsked(page)
   await expect(page.getByRole('heading', { name: 'La galerie des portraits' })).toBeVisible()
 
   // The other tablets started at 19:48: they are in slot 1, and this group missed its first challenge.

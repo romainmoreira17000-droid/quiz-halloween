@@ -74,3 +74,34 @@ test('a tablet without network plays on and tells the animator', async ({ page }
   await typeAnswer(page, '6')
   await expect(page.getByRole('status')).toHaveText('Chiffre trouvé : 6')
 })
+
+test('the board rings when a team runs out of time, and shows the solutions', async ({ page, context }) => {
+  const pushes: Push[] = []
+  await setUpWithCode(page, 'Sorcières', pushes)
+  await page.getByRole('button', { name: 'Commencer', exact: true }).click()
+  await expect.poll(() => pushes.at(-1)?.p_state.status).toBe('playing')
+  const last = pushes.at(-1)!
+  const board = await context.newPage()
+  await board.setViewportSize({ width: 360, height: 780 })
+  // First read: the team plays; every later read: the tablet started 16 min ago without the digit → « Temps écoulé ».
+  let reads = 0
+  await board.route(`${RPC}read_board`, (route) => {
+    if (route.request().method() === 'POST') reads += 1
+    const startedAt = reads > 1 ? Date.now() - 16 * 60_000 : Date.now() - 60_000
+    return reply(route, 200, {
+      server_now: Date.now(), teams: [{ team: 'Sorcières', fingerprint: last.p_fingerprint, state: { ...last.p_state, startedAt }, updated_at: Date.now() }],
+    })
+  })
+  await board.goto('./?animateur')
+  await board.getByRole('button', { name: 'Activer les alertes' }).click()
+  await expect(board.getByText(/Alertes activées/)).toBeVisible()
+  const banner = board.getByRole('list', { name: 'Alertes' })
+  await expect(banner).toContainText('Sorcières : Temps écoulé (La galerie des portraits)', { timeout: 15_000 })
+  await expect(board.getByRole('article', { name: 'Sorcières' })).toHaveClass(/team-card--alert/)
+  await banner.getByRole('button', { name: 'Vu' }).click()
+  await expect(banner).toBeHidden()
+  await board.getByText('Solutions (à ne pas montrer aux enfants)').click()
+  await expect(board.getByText('8 6 9 3 9 4')).toBeVisible()
+  const overflow = await board.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+  expect(overflow).toBeLessThanOrEqual(0)
+})

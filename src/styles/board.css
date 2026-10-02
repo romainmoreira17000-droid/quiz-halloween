@@ -5,7 +5,7 @@
 .board-header b { color: var(--amber); }
 .board-cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
 .team-card {
-  display: grid; gap: 8px; padding: 14px 16px; border: 2px solid var(--bronze); border-radius: 16px;
+  display: grid; gap: 8px; align-content: start; padding: 14px 16px; border: 2px solid var(--bronze); border-radius: 16px;
   background: rgb(26 18 12 / .92); text-align: left; min-width: 0;
 }
 .team-card--late { border-color: #e39b2d; }

@@ -1,9 +1,18 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-01 (comptine du cadenas plus difficile, mergée)
+Dernière mise à jour : 2026-10-02 (tableau animateur détaillé et alertes, #84)
 
 ## Sprint en cours
-Aucun. Comptine du cadenas final (#81, PR #82) mergée et déployée le 2026-10-01 : `cadenas.indice` réécrit par
+**Sprint A du tableau animateur** (#84, branche `feat/board-details-alerts`). **Soirée le 13 octobre** : tout doit être
+mergé et essayé sur les vraies tablettes et le téléphone (Android) vers le 10 octobre.
+Spec `docs/superpowers/specs/2026-10-02-board-details-alerts-design.md`, plan `docs/superpowers/plans/2026-10-02-board-details-alerts.md`.
+- [x] Tâches 1 à 7 : cartes (chiffres dans l'ordre de passage, solution masquée, indices lus), panneau Solutions, alertes
+  (Temps écoulé, tablette muette, 3 mauvaises réponses : son + vibration + bandeau « Vu » + carte rouge), « Activer les alertes »
+  (bip de test + écran gardé allumé), e2e, vérification visuelle 360 et 810 px, docs.
+- [ ] Relecture finale de la branche, puis PR vers `main` (Romain merge ; jamais pendant la soirée).
+- Sprint B (actions à distance : valider, indice, débloquer, passer) : seulement s'il reste le temps de l'essayer avant le 13.
+
+Précédent : comptine du cadenas final (#81, PR #82) mergée et déployée le 2026-10-01 : `cadenas.indice` réécrit par
 allusions (potier = cimetière, yeux peints = galerie, savants = toilettes, sous la table = addition, symboles = jackpot,
 monstres = finale), sans nom de salle (choix de Romain : l'ancienne nommait les salles, trop facile).
 
@@ -32,6 +41,10 @@ Code de soirée changé par Romain le 2026-10-01 (dans l'éditeur SQL), essai du
 - [x] Code animateur : 1717 (choix de Romain le 2026-10-01, #79).
 
 ## Prochaine action concrète
+Relecture finale de #84 puis PR. Après le merge : Romain ouvre `?animateur` sur son Android, touche « Activer les alertes »
+et vérifie le bip, la vibration et que l'écran ne se met pas en veille.
+
+Avant (toujours valable) :
 Site en ligne vérifié le 2026-10-01 (build `index-BnlkB8IJ.js` : « Les toilettes scientifiques » et récits présents). Sur une tablette déjà ouverte, le service worker sert d'abord l'ancien build puis se met à jour tout seul (`autoUpdate`) : ouvrir l'app avec le wifi et recharger une fois. Romain essaie la finale sur les tablettes (ouvrir l'app avec le wifi avant la soirée, la laisser ouverte, lancer toutes les tablettes ensemble).
 Ensuite : essai en vrai du suivi à distance (Supabase : projet `quiz-halloween`, ref `bnlkrsxjdjxkhqnqqgpz` ; avant la soirée,
 `check:board -- --full`).
@@ -42,6 +55,11 @@ Sprint 25 : Romain relit les consignes et merge la PR (le merge déploie : jamai
 **Ne pas déployer pendant la soirée** : le déploiement perd les parties en cours.
 
 ## Décisions prises (et pourquoi)
+- #84 (choix de Romain) : solutions sur les cartes (masquées) et dans un panneau ; alertes sur Temps écoulé, tablette muette
+  (2 min) et 3 mauvaises réponses (pas « saisie bloquée » : chaque mauvaise réponse bloque) ; téléphone Android (vibration).
+- #84 (conception) : rien ne sonne à l'ouverture du tableau (ce qui est déjà en cours est seulement rouge) ; pas d'alerte
+  « muette » si le tableau lui-même n'a pas lu depuis 15 s (téléphone sorti de veille ou sans réseau) ; aucune modification de
+  Supabase ni des tablettes (empreinte inchangée, parties en cours sans risque).
 - Sprint 25 (choix de Romain) : la finale a ses 3 indices dans l'app (mêmes horaires 8/10/13 min, sur toutes les tablettes
   à la fois), au lieu de les dire à voix haute ; les enfants tapent **4** (pavé) ; l'épreuve 3 s'appelle « Le laboratoire
   machiavélique » (la comptine garde « aux toilettes », c'est toujours la même salle).
@@ -253,9 +271,9 @@ npm run build        # build de production
 ```
 
 ## Environnement
-- Pas de backend.
+- Supabase (projet `quiz-halloween`) seulement pour le suivi à distance ; variables `VITE_SUPABASE_URL` /
+  `VITE_SUPABASE_ANON_KEY` (secrets GitHub pour le build). Sans elles, le jeu marche sans suivi.
 - Hébergement : GitHub Pages — `https://romainmoreira17000-droid.github.io/quiz-halloween/`
-- Variables nécessaires : aucune
 
 ## Pièges connus
 - Le hook `garde-fous` bloque tout commit sur `main` : tout passe par une branche + PR.

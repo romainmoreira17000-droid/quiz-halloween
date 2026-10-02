@@ -44,10 +44,11 @@ src/game/                  logique pure : time, answer (normalisation chiffres/m
                            restore (contrôle d'un état relu), block (blocage après mauvaise réponse),
                            skip + testMode (mode test : saut de créneau, activé par `?test`), startTime (heure de départ ↔ « hh:mm »),
                            suivi à distance : boardSnapshot (lecture de `read_board`), boardClock (horloge commune), boardCard
-                           (contenu d'une carte d'équipe), boardMode (`?animateur`), syncStatus, latestSender (envois un par un)
+                           (contenu d'une carte d'équipe), boardMode (`?animateur`), syncStatus, latestSender (envois un par un), boardAlerts (alertes du tableau)
 src/hooks/                 useNow (horloge qui avance), useTeam (équipe de la tablette), useGameProgress,
                            useCelebration (« Bravo ! » quand l'épreuve affichée passe à trouvée), useFinaleHold (finale gardée à l'écran pendant son « Bravo ! »),
-                           useBoardSync (envoi de l'état de la tablette), useBoard (relecture du tableau toutes les 5 s), useEveningCode
+                           useBoardSync (envoi de l'état de la tablette), useBoard (relecture du tableau toutes les 5 s), useBoardAlerts (bandeau et sonnerie), useWakeLock (écran
+                           allumé), useEveningCode
 src/components/            Game (porte : réglage de l'équipe), TeamGame (assembleur des écrans de jeu),
                            un composant par écran (TeamSetupScreen, TimeUpScreen, ...) + EntranceScreen,
                            AnswerInput, Keypad, LetterKeyboard, AnswerZone (zone de retour mauvaise
@@ -58,7 +59,8 @@ src/components/            Game (porte : réglage de l'équipe), TeamGame (assem
                            AnimatorMenu + TeamAnimatorMenu (menu animateur, actions possibles selon l'écran) + SkipNext (« Passer à l'épreuve suivante » avec confirmation) + StartTime (« Départ de la partie »),
                            CelebrationOverlay (plein écran « Bravo ! » + chiffre gagné), ...
 src/components/board/      tableau animateur à distance (`?animateur`) : BoardScreen (porte : code de soirée), BoardCodeForm,
-                           BoardView, BoardHeader, TeamCard, NewEvening (« Nouvelle soirée » avec confirmation)
+                           BoardView, BoardHeader, TeamCard (+ TeamDigits, CardSolution, CardHints), NewEvening (« Nouvelle soirée »
+                           avec confirmation), SolutionsPanel, AlertBanner, AlertToggle (« Activer les alertes »)
 src/components/lock/       cadenas Halloween en bronze : LockDefs (dégradés bronze, os, ciel, citrouille ; ids `lock-*`),
                            Ornaments (Bone, Skull, Cobweb, Keyhole), LockCrown (LockShackle + ailes et citrouille),
                            LockBanner (« HAPPY HALLOWEEN »), NightWindow (ciel, lune, sorcière, château), HangingGhost,
@@ -67,7 +69,7 @@ src/components/lock/       cadenas Halloween en bronze : LockDefs (dégradés br
 src/components/decor/      décors SVG en fond : HallBackdrop (grande salle : HallRoom, HallWindows,
                            HallFurniture, HallSpirits, Candle) et RestaurantFront (façade + RestaurantDoor)
 src/services/              sound (victoire + « clac » de goupille, synthétisés en Web Audio), savedGame, savedTeam et savedEveningCode (seuls accès au localStorage),
-                           supabaseClient + board (seuls accès à Supabase, appels coupés au bout de 10 s)
+                           supabaseClient + board (seuls accès à Supabase, appels coupés au bout de 10 s), notify (son + vibration de l'animateur)
 src/styles/                thème « Manoir à la bougie » : base, controls, screens, padlock, lock, decor, victory, reset, hint, test-mode, animator, celebration, story, board
 src/test/setup.ts          setup Vitest (matchers jest-dom, localStorage vidé après chaque test)
 e2e/                       parcours Playwright
@@ -235,6 +237,14 @@ La CI (`ci.yml`) tourne sur chaque PR : typecheck, tests, build, e2e.
   recalcule tout avec `gamePhase` sur l'horloge du serveur (`server_now`) et exige la même empreinte de quiz que le tableau
   (sinon « Version différente ») ; un état `home` = « Pas commencé ». Pas de `supabase gen types` (écart assumé) : trois
   fonctions seulement, réponses vérifiées à l'exécution par `parseBoard`.
+- **Tableau détaillé et alertes** (#84) : cases de chiffres dans l'ordre de passage (`track`, via `challengeAt`), solution de
+  l'épreuve en cours masquée (`CardSolution`, `key` = titre : se referme au changement d'épreuve), texte des indices vus, panneau
+  « Solutions » replié (code du cadenas par `padlockCode`). Alertes : Temps écoulé, tablette `silent`, 3 mauvaises réponses
+  (`ALERT_WRONG_ATTEMPTS`) ; une clé par besoin (`newAlerts` compare les clés : sonne une fois), **rien ne sonne au premier tableau**,
+  et pas d'alerte « muette » si le tableau n'a pas lu depuis 15 s (`BOARD_FRESH_MS` : sinon un téléphone sorti de veille ferait
+  sonner toutes les tablettes). Son + vibration seulement après « Activer les alertes » (geste, bip de test) ; Wake Lock redemandé
+  au retour sur la page. Bandeau en `aria-live` (pas `role="alert"`, déjà pris par l'échec de « Nouvelle soirée ») : en test,
+  `getByRole('list', { name: 'Alertes' })`. Wake Lock absent en Playwright headless → « Garde l'écran allumé ».
 - **Finale commune** (sprint 24, `finale: true` → `QuizConfig.finalStep`, index 0-based) : `challengeAt` fait tourner les
   autres épreuves puis donne la finale à tous au dernier créneau ; une seule finale (validateFinal), avec ses `indices` comme
   les autres (sprint 25 : mêmes horaires, toutes les tablettes en même temps) ; il faut

@@ -57,6 +57,13 @@ describe('StepScreen', () => {
     expect(container.querySelectorAll('.lock-pin')[1]).toHaveClass('lock-pin--falling')
     expect(screen.queryByRole('button', { name: '1' })).not.toBeInTheDocument()
   })
+  it('names the next challenge once the digit is found', () => {
+    const { rerender } = render(<StepScreen {...base} nextTitle="Le cimetière" />)
+    expect(screen.queryByText(/Prochaine épreuve/)).not.toBeInTheDocument()
+    rerender(<StepScreen {...base} digits={[4, 7, null, null, null, null]} nextTitle="Le cimetière" />)
+    expect(screen.getByText('Prochaine épreuve :')).toBeInTheDocument()
+    expect(screen.getByText('Le cimetière')).toBeInTheDocument()
+  })
   it('shows the waiting message once the digit is found', () => {
     render(<StepScreen {...base} digits={[4, 7, null, null, null, null]} waitingMessage="Goûtez les bonbons !" />)
     expect(screen.getByText('Goûtez les bonbons !')).toBeInTheDocument()

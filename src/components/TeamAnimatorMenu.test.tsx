@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import type { QuizConfig } from '../config/types'
 import { playPinSound } from '../services/sound'
 import { RESET_HOLD_MS } from './ResetButton'
+import { arriveIfAsked } from '../test/arrive'
 import { TeamGame } from './TeamGame'
 
 vi.mock('../services/sound', () => ({ playVictorySound: vi.fn(), playPinSound: vi.fn() }))
@@ -15,7 +16,8 @@ const config: QuizConfig = {
   ],
   padlock: { order: [2, 1] },
 }
-const press = (name: string) => fireEvent.click(screen.getByRole('button', { name }))
+// Every tap and wait lands in the room at once: the way there is tested in TeamGame.travel.test.tsx.
+const press = (name: string) => { fireEvent.click(screen.getByRole('button', { name })); arriveIfAsked() }
 const type = (text: string) => { for (const char of text) press(char); press('Valider') }
 /** Long press on ↺, « Menu animateur », animator code. */
 const openMenu = () => {

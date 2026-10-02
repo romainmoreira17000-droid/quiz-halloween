@@ -4,7 +4,7 @@ import type { TeamCardView } from '../../game/boardCard'
 import { TeamCard } from './TeamCard'
 
 const view = (over: Partial<TeamCardView>): TeamCardView => ({
-  team: 'Zombies', status: 'challenge', challengeTitle: 'La crypte', slotSecondsLeft: 252, found: [true, false, false],
+  team: 'Zombies', status: 'challenge', challengeTitle: 'La crypte', slotSecondsLeft: 252, found: [true, false, false], track: [], solution: null, hintTexts: [],
   blockedSeconds: 0, wrongAttempts: 0, hints: null, offsetMinutes: null, finishedAt: null, silentSeconds: 4, freshness: 'fresh', ...over,
 })
 

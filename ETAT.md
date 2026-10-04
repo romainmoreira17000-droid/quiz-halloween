@@ -1,11 +1,10 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-04 (expérience du ballon mergée et déployée)
+Dernière mise à jour : 2026-10-04 (consigne du trône remise, mergée et déployée)
 
 ## Sprint en cours
-**Toilettes scientifiques : consigne du trône remise** (#96, branche `fix/toilets-original-hook`) : Romain préfère
-l'accroche d'origine (trône, asphyxiés, dosage) ; les 3 indices du ballon et le récit du ballon restent. PR ouverte,
-tests verts (654 unitaires, layout e2e). Reste : merge par Romain.
+Aucun. **Consigne du trône remise** (#96, PR #97) mergée et déployée le 2026-10-04 : accroche d'origine des toilettes
+scientifiques (trône, asphyxiés, dosage) + indices et récit du ballon (#93). Réponse 9 et code du cadenas inchangés.
 
 ## Prochaine action concrète
 Romain essaie la nouvelle version sur une tablette (ouvrir l'appli avec le wifi, recharger une fois) : « Commencer »,

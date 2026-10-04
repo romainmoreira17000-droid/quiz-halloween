@@ -3,9 +3,9 @@
 Dernière mise à jour : 2026-10-04 (expérience du ballon mergée et déployée)
 
 ## Sprint en cours
-Aucun. **Toilettes scientifiques : expérience du ballon** (#93, PR #94) mergé et déployé le 2026-10-04 : nouvelle consigne
-(rien n'est nommé), 3 indices du plus vague à la solution, nouveau récit ; réponse 9 et code du cadenas inchangés.
-Plus tard : un message codé (sur papier, ou dans la consigne en ≈ 200 caractères au plus) pourra remplacer la consigne.
+**Toilettes scientifiques : consigne du trône remise** (#96, branche `fix/toilets-original-hook`) : Romain préfère
+l'accroche d'origine (trône, asphyxiés, dosage) ; les 3 indices du ballon et le récit du ballon restent. PR ouverte,
+tests verts (654 unitaires, layout e2e). Reste : merge par Romain.
 
 ## Prochaine action concrète
 Romain essaie la nouvelle version sur une tablette (ouvrir l'appli avec le wifi, recharger une fois) : « Commencer »,

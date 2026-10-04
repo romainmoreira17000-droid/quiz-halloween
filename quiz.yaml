@@ -157,10 +157,10 @@ etapes:
 
   # Salle des toilettes scientifiques. Matériel caché dans la salle : vinaigre, colorant,
   # bicarbonate, une bouteille et un ballon. Le ballon gonflé fait apparaître le 9.
-  # Rien n'est nommé dans la consigne : ce serait trop facile.
+  # La consigne garde l'accroche du trône ; seuls les indices guident vers l'expérience.
   - titre: "Les toilettes scientifiques"
     fond: "toilettes-scientifiques.webp"
-    consigne: "Les scientifiques ont caché le matériel d'une expérience dans les toilettes. Retrouvez-le et réussissez l'expérience : le chiffre apparaîtra tout seul !"
+    consigne: "Si vous ne voulez pas mourir asphyxiés, ne restez pas trop longtemps sur le trône. Soyez observateurs : derrière chaque scientifique se trouve le bon dosage. Tapez le chiffre trouvé."
     type_reponse: chiffres
     reponse: "9"
     chiffre: 9

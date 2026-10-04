@@ -155,19 +155,20 @@ etapes:
       - "Chaque souci a son symbole."
       - "Ouvrez les yeux, et réapprenez vos calculs mentaux."
 
-  # Salle des toilettes scientifiques. Doses derrière les scientifiques :
-  # 1 orange + 2 jaunes + 2 rouges + 3 verts + 1 bleu = 9.
+  # Salle des toilettes scientifiques. Matériel caché dans la salle : vinaigre, colorant,
+  # bicarbonate, une bouteille et un ballon. Le ballon gonflé fait apparaître le 9.
+  # Rien n'est nommé dans la consigne : ce serait trop facile.
   - titre: "Les toilettes scientifiques"
     fond: "toilettes-scientifiques.webp"
-    consigne: "Si vous ne voulez pas mourir asphyxiés, ne restez pas trop longtemps sur le trône. Soyez observateurs : derrière chaque scientifique se trouve le bon dosage. Tapez le chiffre trouvé."
+    consigne: "Les scientifiques ont caché le matériel d'une expérience dans les toilettes. Retrouvez-le et réussissez l'expérience : le chiffre apparaîtra tout seul !"
     type_reponse: chiffres
     reponse: "9"
     chiffre: 9
-    recit: "Les scientifiques ouvrent la fenêtre : vous avez survécu aux vapeurs ! Ils murmurent que les monstres du restaurant ne sont pas si méchants…"
+    recit: "La potion mousse, le ballon gonfle : expérience réussie ! Les scientifiques murmurent que les monstres du restaurant ne sont pas si méchants…"
     indices:
-      - "Soyez attentifs aux chiffres colorés."
-      - "Pour les doses, faites la correspondance entre couleur et numéro."
-      - "La solution sera l'addition des doses."
+      - "Trois ingrédients et deux objets sont cachés : fouillez tous les recoins."
+      - "Une potion qui mousse peut gonfler un ballon."
+      - "Vinaigre et colorant dans la bouteille, bicarbonate dans le ballon, puis accrochez le ballon au goulot et redressez-le."
 
   # Épreuve finale : tout le monde la joue ensemble au 6e créneau. Six des hôtes portent
   # une étiquette avec un code et une lettre : Q-U-A-T-R-E.

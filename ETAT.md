@@ -1,17 +1,13 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-04 (toilettes scientifiques : expérience du ballon, PR ouverte)
+Dernière mise à jour : 2026-10-04 (expérience du ballon mergée et déployée)
 
 ## Sprint en cours
-**Toilettes scientifiques : expérience du ballon** (#93, branche `feat/balloon-experiment`). Seul `quiz.yaml` change :
-consigne (rien n'est nommé, sinon trop facile), 3 indices du plus vague à la solution, récit. Réponse 9 et code du cadenas
-inchangés. Vérifié : validateur, typecheck, 654 tests unitaires, 34 e2e (écrans sans défilement), captures tablette.
-- [x] Issue, branche, textes, vérifications, PR ouverte.
-- [ ] Romain relit et merge la PR (le merge déploie ; jamais pendant la soirée).
-- Plus tard : un message codé (sur papier ou dans la consigne, ≈ 200 caractères au plus) pourra remplacer la consigne.
+Aucun. **Toilettes scientifiques : expérience du ballon** (#93, PR #94) mergé et déployé le 2026-10-04 : nouvelle consigne
+(rien n'est nommé), 3 indices du plus vague à la solution, nouveau récit ; réponse 9 et code du cadenas inchangés.
+Plus tard : un message codé (sur papier, ou dans la consigne en ≈ 200 caractères au plus) pourra remplacer la consigne.
 
 ## Prochaine action concrète
-Romain merge la PR du ballon. Puis, comme avant :
 Romain essaie la nouvelle version sur une tablette (ouvrir l'appli avec le wifi, recharger une fois) : « Commencer »,
 « Nous sommes arrivés », une bonne réponse, puis vérifier « Prochaine épreuve » et l'écran du créneau suivant (`?test`).
 Avant la soirée du 13 : `check:board -- --full` (Romain, avec son code), essai du réseau sur le lieu si possible.

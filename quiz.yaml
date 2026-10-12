@@ -143,7 +143,7 @@ etapes:
       - "La raison de sa mort vous donnera la réponse."
 
   # Salle des saveurs hantées. Solution : 7 − 5 + 7 = 9.
-  - titre: "Le jackpot funèbre"
+  - titre: "La machine « à sous » cis"
     fond: "saveurs-hantees.webp"
     consigne: "Rendez-vous devant la machine « à sous » cis. Devant chaque vitrail, accrochez bien votre trippe « Aïe ». Gare au remue-ménage : remue-méninges garanti, et l'opération sera savoureuse !"
     type_reponse: chiffres
@@ -191,14 +191,14 @@ cadenas:
   # Facultatif (par défaut : 1, 2, 3...). S'il est donné, il doit contenir
   # chaque numéro d'étape de 1 à nombre_etapes, une seule fois.
   # Ici, l'ordre du déroulé de la soirée : cimetière (3), galerie (1), toilettes
-  # scientifiques (5), addition (2), jackpot (4), invisible mais visible (6) → code 8 6 9 3 9 4.
+  # scientifiques (5), addition (2), machine à sous cis (4), invisible mais visible (6) → code 8 6 9 3 9 4.
   ordre: [3, 1, 5, 2, 4, 6]
 
   # Indice affiché près du cadenas. Facultatif, texte. Les retours à la ligne
   # sont gardés à l'écran (« |- » en YAML). La comptine donne l'ordre des salles
   # par allusions, sans les nommer (leurs titres sont déjà dans la liste au-dessus) :
   # potier = Palissy (cimetière), yeux peints = galerie, savants = toilettes
-  # scientifiques, sous la table = addition, symboles = jackpot, monstres = finale.
+  # scientifiques, sous la table = addition, symboles = machine à sous cis, monstres = finale.
   indice: |-
     Commence où dort un potier sous la pierre,
     puis où des yeux peints épient tes manières ;

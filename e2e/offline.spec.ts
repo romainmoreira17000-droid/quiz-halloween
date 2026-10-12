@@ -5,7 +5,7 @@ import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 // The Sorcières rotate through challenges 1 to 5 of quiz.yaml, then play the final.
 const ROTATION = [
   ['La galerie des portraits', '6'], ["L'addition", '3'], ['Le cimetière', '8'],
-  ['Le jackpot funèbre', '9'], ['Les toilettes scientifiques', '9'],
+  ['La machine « à sous » cis', '9'], ['Les toilettes scientifiques', '9'],
 ] as const
 // Padlock order 3, 1, 5, 2, 4, 6.
 const CODE = [8, 6, 9, 3, 9, 4]

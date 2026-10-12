@@ -1,13 +1,18 @@
 # État du projet — quiz-halloween
 
-Dernière mise à jour : 2026-10-04 (consigne du trône remise, mergée et déployée)
+Dernière mise à jour : 2026-10-12 (titre « La machine « à sous » cis », PR ouverte)
 
 ## Sprint en cours
-Aucun. **Consigne du trône remise** (#96, PR #97) mergée et déployée le 2026-10-04 : accroche d'origine des toilettes
-scientifiques (trône, asphyxiés, dosage) + indices et récit du ballon (#93). Réponse 9 et code du cadenas inchangés.
+**Titre de l'épreuve 4** (#99, branche `fix/slot-machine-title`) : « Le jackpot funèbre » devient « La machine « à sous » cis »
+(même écriture que la consigne). Réponse 9 et code du cadenas inchangés. Tests verts (654 unitaires, 34 e2e). PR ouverte,
+à merger par Romain **aujourd'hui** (soirée le 13) : l'empreinte du quiz change → après déploiement, ouvrir l'appli sur
+chaque tablette avec le wifi, recharger, régler à nouveau l'équipe.
+
+Précédent : **Consigne du trône remise** (#96, PR #97) mergée et déployée le 2026-10-04.
 
 ## Prochaine action concrète
-Romain essaie la nouvelle version sur une tablette (ouvrir l'appli avec le wifi, recharger une fois) : « Commencer »,
+Romain merge la PR du #99, puis recharge chaque tablette et règle son équipe.
+Ensuite : Romain essaie la nouvelle version sur une tablette (ouvrir l'appli avec le wifi, recharger une fois) : « Commencer »,
 « Nous sommes arrivés », une bonne réponse, puis vérifier « Prochaine épreuve » et l'écran du créneau suivant (`?test`).
 Avant la soirée du 13 : `check:board -- --full` (Romain, avec son code), essai du réseau sur le lieu si possible.
 Idée notée par la relecture, pas planifiée : afficher « En route vers … » sur le tableau animateur.

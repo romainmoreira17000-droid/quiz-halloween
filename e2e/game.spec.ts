@@ -5,7 +5,7 @@ import { arriveIfAsked, setUpTablet, typeAnswer } from './typing.js'
 // Real quiz.yaml, by challenge number: title, what the children type, digit earned.
 const CHALLENGES: Record<number, readonly [string, string, number]> = {
   1: ['La galerie des portraits', '6', 6], 2: ["L'addition", '3', 3], 3: ['Le cimetière', '8', 8],
-  4: ['Le jackpot funèbre', '9', 9], 5: ['Les toilettes scientifiques', '9', 9], 6: ['Invisible mais visible', '4', 4],
+  4: ['La machine « à sous » cis', '9', 9], 5: ['Les toilettes scientifiques', '9', 9], 6: ['Invisible mais visible', '4', 4],
 }
 const nextSlot = (page: Page) => page.clock.fastForward('15:00')
 
